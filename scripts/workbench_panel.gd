@@ -1,4 +1,5 @@
 extends PanelContainer
+const MenuTheme=preload("res://scripts/shop_theme.gd")
 signal action_requested(action: String)
 signal closed
 var summary: Label
@@ -10,12 +11,11 @@ var claim_button: Button
 var retry_button: Button
 var close_button: Button
 func _ready():
+	theme=MenuTheme.make_theme();theme.default_font_size=16
 	set_anchors_preset(Control.PRESET_CENTER);offset_left=-265;offset_right=265;offset_top=-220;offset_bottom=220
-	var style=StyleBoxFlat.new();style.bg_color=Color("182a29");style.border_color=Color("b89b61");style.set_border_width_all(2)
-	for edge in [SIDE_LEFT,SIDE_RIGHT,SIDE_TOP,SIDE_BOTTOM]:style.set_content_margin(edge,18)
-	add_theme_stylebox_override("panel",style)
+	add_theme_stylebox_override("panel",MenuTheme.frame("182622","a28b60",18))
 	var column=VBoxContainer.new();column.add_theme_constant_override("separation",12);add_child(column)
-	var title=Label.new();title.text="WORKBENCH / Warm lantern";title.add_theme_font_size_override("font_size",22);column.add_child(title)
+	var title=Label.new();title.text="WORKBENCH / Warm lantern";title.add_theme_font_size_override("font_size",22);title.add_theme_font_override("font",MenuTheme.heading_font());column.add_child(title)
 	summary=Label.new();summary.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;summary.custom_minimum_size=Vector2(490,130);column.add_child(summary)
 	feedback=Label.new();feedback.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;feedback.custom_minimum_size.y=45;column.add_child(feedback)
 	review_button=button(column,"Review recipe","review");confirm_button=button(column,"Confirm craft","start");cancel_button=button(column,"Cancel selection","cancel");claim_button=button(column,"Claim 1 lantern kit","claim");retry_button=button(column,"Retry paused save","retry")

@@ -4,9 +4,13 @@ An in-development Godot 4.6.3 settlement/survival RPG by Michael Onofre (blizz30
 
 ## Current snapshot
 
-This repository contains the editable game scripts, shaders, scene configuration, assets and pinned imported resources corresponding to **v0.100-r6**. The reviewed runtime PCK SHA-256 is `3bdea21772374a30e6f38b41e075e88b0c2e70502201520a6690def91cc3dd4c`.
+This repository contains the editable game scripts, shaders, scene configuration, assets and pinned imported resources corresponding to **v0.100-r7**. The reviewed runtime PCK SHA-256 is `896d37a95cc3fbff07ff4dab45aa27f664a5cb957d80e14c0f6f12fb227af9fa`.
 
 Current work includes the settlement hub, player housing/building, inventory/equipment, character creation and separate saves, traders, requests, fishing, menus and environmental systems. Several systems and visual assets remain provisional. This is a development snapshot, not a finished release.
+
+### r7 gameplay-menu update
+
+Adds Request Board/Workbench styling, journal filters and material shortfalls, shop match counts and Clear filters with hidden-selection protection, and cooking-test availability, tray/reset guidance, preparation steps and keyboard focus. Six UI scripts and their exact source-integrity hashes changed; no save-format, pricing, recipe, reward or transaction-rule changes. Focused r7 headless checks passed; broader combined and native Windows validation remain pending. The source-recovery checks below describe the r6 foundation, not a newly exported r7 build.
 
 ## Setup
 
@@ -21,7 +25,7 @@ Repeat step 3 after editor reimports. The restoration tool verifies every pinned
 
 ## Source recovery and rebuild limits
 
-This snapshot combines the exact r6 runtime scripts/data with retained raw authoring assets. Text scene/configuration files were recovered through Godot. The character preview GLB and six textures were recovered from current imported resources; original MPFB authoring controls are not recovered. Original private Blender authoring files and personal save files are not included.
+This snapshot combines the exact r7 runtime scripts/data with retained raw authoring assets. Text scene/configuration files were recovered through Godot. The character preview GLB and six textures were recovered from current imported resources; original MPFB authoring controls are not recovered. Original private Blender authoring files and personal save files are not included.
 
 `vendor/approved-runtime-imports` and `vendor/approved-import-metadata` preserve the approved imported asset bytes and remaps. Fresh raw imports alone do not reproduce every reviewed mesh fingerprint; the pinned resources are intentional build dependencies, not disposable caches. Editing those assets requires deliberate review and a new validated import. Do not replace guard fingerprints merely to make an altered asset pass. A raw-assets-only rebuild and final standalone export pipeline remain follow-up work. No byte-identical fresh export is claimed.
 

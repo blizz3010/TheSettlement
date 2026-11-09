@@ -1,4 +1,5 @@
 extends PanelContainer
+const MenuTheme=preload("res://scripts/shop_theme.gd")
 signal action_requested(action: String)
 signal closed
 var body:VBoxContainer
@@ -7,6 +8,7 @@ var action_button: Button
 var feedback_label: Label
 var current_action := "accept"
 func _ready():
+	theme=MenuTheme.make_theme();theme.default_font_size=16
 	name = "StarterRequestPanel"
 	set_anchors_preset(Control.PRESET_CENTER)
 	offset_left = -280
@@ -16,12 +18,7 @@ func _ready():
 	grow_horizontal = Control.GROW_DIRECTION_BOTH
 	grow_vertical = Control.GROW_DIRECTION_BOTH
 	custom_minimum_size = Vector2(560,490)
-	var style = StyleBoxFlat.new()
-	style.bg_color = Color("182a29")
-	style.border_color = Color("b89b61")
-	style.set_border_width_all(2)
-	style.set_content_margin_all(24)
-	add_theme_stylebox_override("panel",style)
+	add_theme_stylebox_override("panel",MenuTheme.frame("182622","a28b60",24))
 	var scroll=ScrollContainer.new();scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;add_child(scroll)
 	var column = VBoxContainer.new();body=column;column.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	column.add_theme_constant_override("separation",14)
@@ -29,6 +26,7 @@ func _ready():
 	var heading = Label.new()
 	heading.text = "REQUEST BOARD • Scroll for all requests"
 	heading.add_theme_font_size_override("font_size",22)
+	heading.add_theme_font_override("font",MenuTheme.heading_font())
 	column.add_child(heading)
 	details = Label.new()
 	details.custom_minimum_size.x = 510

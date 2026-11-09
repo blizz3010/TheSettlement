@@ -1,6 +1,6 @@
 extends RefCounted
 # Read-only projection. Never accepts/turns in quests, refreshes progression,
-# grants rewards, writes saves or infers numeric XP. NOT ENGINE VALIDATED.
+# grants rewards, writes saves or infers numeric XP.
 const RequestState = preload("res://scripts/request_state.gd")
 
 static func entries(request, onboarding, inventory,fishing=null) -> Array:
@@ -9,7 +9,9 @@ static func entries(request, onboarding, inventory,fishing=null) -> Array:
 	var delivery_lines: Array[String] = []
 	for item in RequestState.REQUIRED:
 		var title: String = "Timber" if item == "timber" else ("Metal scrap" if item == "metal" else String(item))
-		delivery_lines.append("%s: %d required / %d carried" % [title,RequestState.REQUIRED[item],inventory.amount("carried",item)])
+		var carried:int=inventory.amount("carried",item)
+		var needed:int=maxi(0,RequestState.REQUIRED[item]-carried)
+		delivery_lines.append("%s: %d / %d carried — %s" % [title,carried,RequestState.REQUIRED[item],"Ready" if needed==0 else "%d more needed"%needed])
 	result.append({"id":"courtyard_repairs","title":"Courtyard repairs","status":"Completed" if delivery_status == "completed" else ("Active" if delivery_status == "active" else "Available at board"),"objective":"Completed; reward received." if delivery_status == "completed" else "\n".join(delivery_lines),"reward":"%d settlement credits, once" % RequestState.REWARD,"where":"Physical request board by the fountain","note":"Only carried materials count. No daily reset or shared progress."})
 	var home_status: String = onboarding.status
 	var home_objective: String = "Build an enclosed, roofed 2×2 home with a door."

@@ -42,6 +42,8 @@ var _plot
 var _inventory
 var _rendering:=false
 var _category:String="All"
+var clear_filters:Button
+var result_count:Label
 func _ready():
 	name="ShopPanel"
 	theme=ShopTheme.make_theme()
@@ -60,7 +62,9 @@ func _ready():
 	tabs=HBoxContainer.new();column.add_child(tabs)
 	var filters=HBoxContainer.new();column.add_child(filters)
 	categories=OptionButton.new();categories.custom_minimum_size.x=140;categories.item_selected.connect(_category_selected);filters.add_child(categories)
-	search=LineEdit.new();search.placeholder_text="Search this shop";search.size_flags_horizontal=Control.SIZE_EXPAND_FILL;search.text_changed.connect(func(_text):_rebuild_list());filters.add_child(search)
+	search=LineEdit.new();search.placeholder_text="Search this shop";search.clear_button_enabled=true;search.size_flags_horizontal=Control.SIZE_EXPAND_FILL;search.text_changed.connect(func(_text):_rebuild_list());filters.add_child(search)
+	clear_filters=Button.new();clear_filters.text="Clear filters";clear_filters.tooltip_text="Show every item in this tab. Does not change your inventory.";clear_filters.pressed.connect(_clear_filters);filters.add_child(clear_filters)
+	result_count=Label.new();result_count.add_theme_color_override("font_color",Color("b8c7b6"));column.add_child(result_count)
 	body=BoxContainer.new();body.size_flags_vertical=Control.SIZE_EXPAND_FILL;body.add_theme_constant_override("separation",14);column.add_child(body)
 	category_buttons=VBoxContainer.new();category_buttons.custom_minimum_size.x=130;body.add_child(category_buttons)
 	list_section=VBoxContainer.new();list_section.size_flags_horizontal=Control.SIZE_EXPAND_FILL;list_section.size_flags_vertical=Control.SIZE_EXPAND_FILL;body.add_child(list_section)
@@ -134,9 +138,15 @@ func _choose_category(value:String):
 		if categories.get_item_text(index)==value:categories.select(index)
 	for button in category_buttons.get_children():button.button_pressed=button.text==value
 	_rebuild_list()
+func _clear_filters():
+	if not quote.is_empty():return
+	search.set_text("")
+	_choose_category("All")
+	search.grab_focus()
+
 func _rebuild_list():
 	if not is_instance_valid(items):return
-	for child in items.get_children():child.queue_free()
+	for child in items.get_children():items.remove_child(child);child.queue_free()
 	item_buttons={}
 	var found:int=0
 	var ordered=rows.duplicate()
@@ -159,6 +169,13 @@ func _rebuild_list():
 		var name_label=Label.new();name_label.text=str(row.name);name_label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;name_label.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;name_label.mouse_filter=Control.MOUSE_FILTER_IGNORE;line.add_child(name_label)
 		var cost=Label.new();cost.text=("Free" if row.get("price")==0 else str(row.get("price"))+" cr") if row.get("price")!=null else ("Known" if row.get("id")=="crafting_guide" else "Preview");cost.custom_minimum_size.x=80;cost.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT;cost.mouse_filter=Control.MOUSE_FILTER_IGNORE;line.add_child(cost)
 		var owned=Label.new();owned.text=str(row.get("owned",0));owned.custom_minimum_size.x=45;owned.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT;owned.mouse_filter=Control.MOUSE_FILTER_IGNORE;line.add_child(owned)
+	result_count.text="%d of %d items"%[found,rows.size()]
+	clear_filters.disabled=not quote.is_empty() or (search.text.is_empty() and _category=="All")
+	# A filtered-out selection must not leave an invisible purchase ready to review.
+	if quote.is_empty() and not selected_item.is_empty() and not item_buttons.has(selected_item):
+		selected_item=""
+		quantity.value=1
+	_update_summary()
 	if found==0:
 		var empty=Label.new();empty.text=str(shop_definition.get("sale_help","No eligible carried items. Stash, Lockbox, clothing and quest items are protected.")) if action=="sell" and rows.is_empty() else "No matching items. Clear search or choose another category.";empty.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;items.add_child(empty)
 func _select_item(item:String):
@@ -186,7 +203,8 @@ func _review_label(value:String) -> String:
 func _update_summary():
 	if _rendering or not is_instance_valid(quantity):return
 	var row=_selected_row();var reviewing=not quote.is_empty()
-	quantity.editable=not reviewing;search.editable=not reviewing;categories.disabled=reviewing
+	quantity.editable=not reviewing and not row.is_empty();search.editable=not reviewing;categories.disabled=reviewing
+	clear_filters.disabled=reviewing or (search.text.is_empty() and _category=="All")
 	for button in tab_buttons.values():button.disabled=reviewing
 	for button in category_buttons.get_children():button.disabled=reviewing
 	summary.get_child(0).get_node("MaximumQuantity").disabled=reviewing or row.is_empty() or not row.get("enabled",false)
