@@ -82,3 +82,48 @@ func _draw():
 
 	draw_arc(center,radius+3,0,TAU,128,Color("b19868"),1.5,true)
 	draw_arc(center,radius*.39,0,TAU,96,Color("8f7850"),1.0,true)
+
+# Read-only selection guidance. A preview never decides world placement, spends
+# materials, unlocks progression or changes the selected construction piece.
+func preview_kind(fallback: String) -> String:
+	return KINDS[hovered] if hovered >= 0 and hovered < KINDS.size() else fallback
+
+func piece_guidance(kind: String, inventory, plot, craft, level: int) -> String:
+	var text: String = {
+		"foundation":"Start your home with four adjacent foundations in a 2×2 square.",
+		"wall":"Close the outside edges of your home. Walls need a foundation or supported deck.",
+		"window_wall":"A closed wall with a window. Counts toward your home enclosure.",
+		"doorframe":"Leave a way in: add a doorframe, then install a separate Door. Keep its approach clear.",
+		"door":"Aim at an existing doorframe. A frame alone does not meet the starter-home door check.",
+		"ceiling":"Flat roof / upper deck. Needs wall or neighboring ceiling support. Cover all four starter-home cells.",
+		"stairs":"Needs two clear foundations and a supported landing beyond them. Keep stairs outside the starter 2×2 home.",
+		"railing":"Use an exposed upper-deck edge. Leave the stair arrival clear. Select from the Ground build level.",
+		"workbench":"One ground-floor workbench. Keep doorways and its front approach clear.",
+		"lantern":"Place a crafted lantern kit on a foundation or supported upper deck. Interact to toggle its light.",
+		"bed":"One ground-floor cosmetic bed. Every part needs foundation support. No sleep, healing or respawn.",
+		"pitched_roof":"Sloped terminal cover. Needs roof support; does not act as an upper-floor deck.",
+		"canvas_awning":"Canvas terminal cover. Needs roof support; does not act as an upper-floor deck."
+	}.get(kind, "Choose a piece to see its requirements.")
+	if kind == "workbench":
+		var cost: Dictionary = preload("res://scripts/crafting_service.gd").BENCH_COST
+		text += "\nCost: %d Timber + %d Metal scrap, carried." % [cost.timber, cost.metal]
+		if not plot.workbench.is_empty():
+			text += "\nWorkbench already placed."
+		else:
+			var missing: Array[String] = []
+			for item in ["timber","metal"]:
+				var need: int = maxi(0, int(cost[item])-inventory.amount("carried",item))
+				if need > 0: missing.append("%d %s" % [need,"Timber" if item == "timber" else "Metal scrap"])
+			text += "\nMaterials ready; placement still needs clearance." if missing.is_empty() else "\nStill need: "+" + ".join(missing)+". Stash does not count."
+	elif kind == "lantern":
+		var kits: int = inventory.amount("carried","lantern_kit")
+		text += "\nCost: 1 kit. Carried: %d." % kits
+		if kits == 0:
+			if craft.status == "ready": text += " Claim your finished kit at the workbench."
+			elif craft.status == "working": text += " A kit is in progress at the workbench."
+			else: text += " Craft one at the workbench first."
+	else:
+		text += "\nFree during prototype testing."
+	if level == 1 and kind in ["foundation","stairs","railing","workbench","bed"]:
+		text += "\nSwitch to Ground for this piece."
+	return text

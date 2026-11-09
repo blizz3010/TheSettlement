@@ -2689,10 +2689,9 @@ func cancel_home_build():
 	if is_instance_valid(prompt_panel):prompt_panel.hide()
 	message("Please visit your home")
 func build_menu_help()->String:
-	var text="BUILD • %s\nChoose a piece • %s closes this menu • %s rotates during placement"%[PIECE_NAMES[piece_kind],key_label("build"),key_label("rotate")]
-	text+="\nLeft click place • Right click remove • PageUp/Down: Ground / Upper"
-	if piece_kind=="workbench":text+="\nCost: 2 carried Timber + 1 Metal"
-	elif piece_kind=="lantern":text+="\nCost: 1 carried lantern kit"
+	var kind: String = build_wheel.preview_kind(piece_kind)
+	var text="BUILD • %s\n%s" % [PIECE_NAMES.get(kind,kind),build_wheel.piece_guidance(kind,inventory,state,craft,build_level)]
+	text+="\n\nArrows browse • Enter selects\n%s Back • %s Rotate when placing\nLeft click place • Right click remove\nPageUp/Down: Ground / Upper" % [key_label("build"),key_label("rotate")]
 	return text
 
 func tailor_accessible()->bool:
@@ -2787,7 +2786,7 @@ func open_quests():
 	if not world_initialized or modal_open() or moving_stash:return
 	build_mode=false
 	ghost.hide()
-	quest_journal.render(request,onboarding,inventory,key_label("quests"),options_panel.backend.quest_binding_notice(options_panel.current),fishing)
+	quest_journal.render(request,onboarding,inventory,key_label("quests"),options_panel.backend.quest_binding_notice(options_panel.current),fishing,state)
 	player.enabled=false
 	Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
 func close_quests():

@@ -32,8 +32,8 @@ func _ready():
 	hide()
 func line(parent:Node,text:String,size:int,color:Color):
 	var label=Label.new();label.text=text;label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;label.add_theme_font_size_override("font_size",size);label.add_theme_color_override("font_color",color);parent.add_child(label)
-func render(request,onboarding,inventory,key:String,notice:String="",fishing=null):
-	displayed_entries=JournalProjection.entries(request,onboarding,inventory,fishing)
+func render(request,onboarding,inventory,key:String,notice:String="",fishing=null,plot=null):
+	displayed_entries=JournalProjection.entries(request,onboarding,inventory,fishing,plot)
 	binding_note.text="%s / Esc closes  •  Read-only progress"%key
 	if not notice.is_empty():binding_note.text+="\n"+notice
 	selected_filter="All"

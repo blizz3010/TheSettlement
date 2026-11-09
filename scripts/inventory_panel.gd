@@ -15,6 +15,7 @@ const ITEM_NAMES = {"cooked_griddle_fish":"Griddle fish (display sample)", "clot
 const ITEM_HELP = {"cooked_griddle_fish":"Persistent display sample from ordinary fish. Carry, inspect or store it. Cannot be eaten or sold; no health, stamina, hunger or buffs.", "cloth_linen":"Tailoring ingredient. Use the tailor’s known patterns to make basic clothing.", "thread_spool":"Tailoring ingredient. Used with linen cloth at the tailor.", "fishing_pole":"Carry this pole, drag it to a hotbar slot, then select that slot before fishing at the marked bank.", "river_fish":"Ordinary river catch. Separate from the First catch quest fish. Trade at the Cookhouse or prepare a display sample at the nearby griddle. Eating is not available.", "timber":"Building and crafting material.", "stone":"Settlement building material.", "metal":"Metal used for workbenches and lanterns.", "lantern_kit":"Crafted lantern. Place through the building tools.", "stream_fish":"One starter-request catch. Carry to the physical board. No selling, food use or XP in this test."}
 var columns: HBoxContainer
 var description: Label
+var inspection: Label
 var feedback: Label
 var access_stash := false
 var allow_move_stash := false
@@ -61,7 +62,7 @@ func _ready():
 	var heading=HBoxContainer.new();box.add_child(heading)
 	var title=label("CHARACTER & STORAGE",28);title.size_flags_horizontal=Control.SIZE_EXPAND_FILL;heading.add_child(title)
 	var close=Button.new();close.text="×";close.tooltip_text="Close inventory";close.custom_minimum_size=Vector2(36,36);close.pressed.connect(func():closed.emit());heading.add_child(close)
-	description=label("Drag between containers • Click items to/from nearby Home Stash • Right click clothing to equip",14);box.add_child(description)
+	description=label("",14);description.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;box.add_child(description)
 	tabs=HBoxContainer.new();box.add_child(tabs)
 	var scroll=ScrollContainer.new();scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL;box.add_child(scroll)
 	var body=HBoxContainer.new();body.size_flags_horizontal=Control.SIZE_EXPAND_FILL;body.add_theme_constant_override("separation",16);scroll.add_child(body)
@@ -80,6 +81,7 @@ func _ready():
 	quick_access_editor.swap_requested.connect(func(source,destination,snapshot_revision):
 		if source is int and destination is int and source>=0 and source<6 and destination>=0 and destination<6 and current_inventory!=null and snapshot_revision==generation:quick_access_requested.emit(destination,current_inventory.hotbar_assignments[source],source,snapshot_revision)
 	)
+	inspection=label("Focus or point to an item to inspect it. Selecting does not change its transfer controls.",14);inspection.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;inspection.custom_minimum_size.y=36;box.add_child(inspection)
 	feedback=label("",14);feedback.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;feedback.custom_minimum_size.y=24;box.add_child(feedback)
 	hide()
 func cell_height() -> float:
@@ -102,6 +104,8 @@ func render(inventory, can_use_stash: bool, status := "", appearance: Dictionary
 	equipment_editor.render(inventory.hotbar_context(),generation,appearance)
 	quick_access_editor.render(inventory.hotbar_context(),inventory.hotbar_assignments,generation)
 	feedback.text=status
+	inspection.text="Focus or point to an item for its use and storage guidance."
+	description.text=("Home Stash in reach: click materials to transfer one unit; drag to choose a destination." if access_stash else "Away from Home Stash: carried items and Lockbox remain available; approach your chest for stash transfers.")+" Right-click carried clothing to equip."
 	for parent in [columns,tabs]:
 		for child in parent.get_children(): parent.remove_child(child);child.queue_free()
 	if access_stash and allow_move_stash:
@@ -117,7 +121,7 @@ func render(inventory, can_use_stash: bool, status := "", appearance: Dictionary
 		region.set_drag_forwarding(Callable(),can_drop_unit.bind(container),drop_unit.bind(container))
 		var meter=ProgressBar.new();meter.custom_minimum_size.y=4;meter.show_percentage=false;meter.max_value=inventory.capacity(container);meter.value=inventory.used(container);meter.mouse_filter=Control.MOUSE_FILTER_IGNORE
 		meter.add_theme_stylebox_override("background",frame("111716","343f39",0));meter.add_theme_stylebox_override("fill",frame("9a8055","c7ab76",0));column.add_child(meter)
-		column.add_child(label("8 prototype units • includes carried garments" if container=="carried" else ("24 item spaces • Base storage" if access_stash else "BASE ONLY • approach your storage chest"),12))
+		column.add_child(label("%d item spaces • includes carried garments"%inventory.capacity(container) if container=="carried" else ("%d item spaces • Base storage"%inventory.capacity(container) if access_stash else "BASE ONLY • approach your storage chest"),12))
 		var contents: Dictionary=inventory.container(container)
 		if selected_items[container].is_empty() or contents.get(selected_items[container],0)<=0:
 			selected_items[container]="timber"
@@ -144,9 +148,7 @@ func render(inventory, can_use_stash: bool, status := "", appearance: Dictionary
 			if not item.is_empty():
 				tile.icon=icon(item);tile.expand_icon=true;tile.add_theme_constant_override("icon_max_width",52)
 				tile.set_drag_forwarding(begin_unit_drag.bind(container,item,revision,tile),can_drop_unit.bind(container),drop_unit.bind(container))
-				tile.mouse_entered.connect(func():
-					if revision==generation:feedback.text=ITEM_NAMES[item]+" • "+ITEM_HELP[item]
-				)
+				bind_inspection(tile,ITEM_NAMES[item]+" • "+ITEM_HELP[item],revision)
 				tile.pressed.connect(func():
 					if revision==generation and not drag_in_progress:click_unit(container,item)
 				)
@@ -164,6 +166,7 @@ func render(inventory, can_use_stash: bool, status := "", appearance: Dictionary
 					)
 					tile.set_meta("garment_id",garment_id)
 					tile.tooltip_text=definition.display_name+" • 1 prototype unit\n"+("Click or drag to withdraw. Withdraw before equipping." if container=="stash" else ("Click or drag to Home Stash. Right click to equip." if access_stash else "Right click to equip. Drag to its equipment slot or hotbar."))
+					bind_inspection(tile,tile.tooltip_text,revision)
 					tile.pressed.connect(func():
 						if revision==generation and not drag_in_progress:
 							if access_stash:click_clothing(container,garment_id)
@@ -193,6 +196,7 @@ func render(inventory, can_use_stash: bool, status := "", appearance: Dictionary
 					slot.icon=icon(item);slot.expand_icon=true;slot.add_theme_constant_override("icon_max_width",42)
 				slot.disabled=item.is_empty() or inventory.used("carried")>=inventory.capacity("carried")
 				slot.tooltip_text=("Empty cell. " if item.is_empty() else ITEM_NAMES[item]+". ")+"One unit per cell. Take this exact cell to carried inventory. Protection is planned; raids are not implemented."
+				bind_inspection(slot,slot.tooltip_text,revision)
 				slot.pressed.connect(func():
 					if revision==generation and not drag_in_progress:slot_take_requested.emit(item,slot_index)
 				)
@@ -200,6 +204,12 @@ func render(inventory, can_use_stash: bool, status := "", appearance: Dictionary
 				cells.add_child(slot)
 			lockbox_area.add_child(label("Drag carried items into an empty cell. Withdraw clothing before equipping, dyeing or quick access.",12))
 	if not focus_key.is_empty():restore_focus.call_deferred(focus_key,revision)
+func bind_inspection(control:Control,text:String,revision:int):
+	var inspect=func():
+		if revision==generation and visible:inspection.text=text
+	control.mouse_entered.connect(inspect)
+	control.focus_entered.connect(inspect)
+
 func select_item(container: String, item: String):
 	if not selected_items.has(container) or not ITEM_NAMES.has(item):return
 	selected_items[container]=item

@@ -3,7 +3,7 @@ extends RefCounted
 # grants rewards, writes saves or infers numeric XP.
 const RequestState = preload("res://scripts/request_state.gd")
 
-static func entries(request, onboarding, inventory,fishing=null) -> Array:
+static func entries(request, onboarding, inventory,fishing=null,plot=null) -> Array:
 	var result: Array = []
 	var delivery_status: String = request.status
 	var delivery_lines: Array[String] = []
@@ -17,9 +17,11 @@ static func entries(request, onboarding, inventory,fishing=null) -> Array:
 	var home_objective: String = "Build an enclosed, roofed 2×2 home with a door."
 	if home_status == "move_active": home_objective = "Bring Home Stash inside your completed 2×2 home. Restore the enclosure first if needed."
 	elif home_status == "completed":
-		if onboarding.home_step == "bench_pending": home_objective = "Build a ground-floor workbench."
-		elif onboarding.home_step == "bed_pending": home_objective = "Place a cosmetic starter bed from the build wheel."
+		if onboarding.home_step == "bench_pending": home_objective = "Build a ground-floor workbench from the build wheel. Carry 2 Timber and 1 Metal scrap; keep its front approach clear."
+		elif onboarding.home_step == "bed_pending": home_objective = "Place a cosmetic starter bed from the build wheel. Keep its full foundation footprint, doorways and access clear. Free in this prototype; no sleep, healing or respawn."
 		else: home_objective = "Prototype Home milestones complete."
+	if plot!=null and home_status in ["house_pending","move_active"]:
+		home_objective+="\n\n"+onboarding.home_checklist(plot)
 	result.append({"id":"starter_home","title":"Your first Home","status":"Completed" if home_status == "completed" and onboarding.home_step == "complete" else "Active","objective":home_objective,"reward":"","where":"Your Home plot","note":"Home Stash MOVE is unlocked after the valid starter-home milestone; no extra item or credit reward."})
 	var clothing_step: String = onboarding.clothing_step
 	var outfit_done: bool = clothing_step in ["dye_active","complete"]

@@ -81,3 +81,33 @@ func completion_candidate(plot, source_record: Dictionary):
 	candidate.status = "completed"
 	candidate.refresh(plot)
 	return candidate
+
+# Read-only journal diagnosis, never used as placement or unlock authority.
+# Choose the most complete existing 2x2 anchor; keep deterministic tie ordering.
+func home_checklist(plot) -> String:
+	var anchors:Array=plot.cells.duplicate()
+	anchors.sort_custom(func(a,b):return a.x<b.x or (a.x==b.x and a.y<b.y))
+	if anchors.is_empty():return "Start with four connected foundation cells in a 2×2 square."
+	var best:Dictionary={};var best_score=-2147483648
+	for anchor in anchors:
+		var footprint=cells_for_anchor(anchor)
+		var foundations=0;var roofs=0;var walls=0;var doors=0;var obstructions=0
+		for cell in footprint:
+			if plot.allowed(cell) and plot.cells.has(cell):foundations+=1
+			if plot.ceiling_index(cell,0)>=0 and plot.ceiling_supported(cell,-1,0):roofs+=1
+			if plot.stair_index(cell)>=0 or plot.upper_reserved(cell):obstructions+=1
+			for side in range(4):
+				var wi=plot.wall_index(cell,side,0)
+				if footprint.has(cell+plot.stair_direction(side)):
+					if wi>=0:obstructions+=1
+				elif wi>=0 and plot.walls[wi].type in ["wall","window_wall","doorframe"]:
+					if plot.walls[wi].type!="doorframe" or plot.door_index(cell,side,0)>=0:walls+=1
+					if plot.walls[wi].type=="doorframe" and plot.door_index(cell,side,0)>=0:doors+=1
+		var score=foundations+roofs+walls+mini(doors,1)-obstructions
+		if score>best_score:
+			best_score=score;best={"anchor":anchor,"foundations":foundations,"roofs":roofs,"walls":walls,"doors":doors,"obstructions":obstructions}
+	var a:Vector2i=best.anchor
+	var lines=PackedStringArray(["Closest 2×2 at plot cell (%d, %d):"%[a.x,a.y],"Foundations: %d / 4 • Supported roof cells: %d / 4"%[best.foundations,best.roofs],"Closed outside edges: %d / 8 • Installed door: %s"%[best.walls,"yes" if best.doors>0 else "needed"]])
+	lines.append("Interior clear: yes" if best.obstructions==0 else "Remove interior partitions/stairs or upper-floor reservations from this 2×2.")
+	if valid_house_at(plot,a):lines.append("This footprint meets the house checks. Visit Home Stash for the MOVE step.")
+	return "\n".join(lines)
