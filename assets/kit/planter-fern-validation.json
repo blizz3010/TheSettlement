@@ -1,0 +1,26 @@
+{
+  "binary_integrity": "passed",
+  "finite_vertices": "passed",
+  "one_mesh_named_variant": "passed",
+  "embedded_resources": "passed",
+  "gltf_bounds_xyz": [
+    [
+      -0.662036120891571,
+      0,
+      -0.6301842927932739
+    ],
+    [
+      0.6452428698539734,
+      1.540573239326477,
+      0.6542598605155945
+    ]
+  ],
+  "gltf_dimensions_xyz": [
+    1.3072789907455444,
+    1.540573239326477,
+    1.2844441533088684
+  ],
+  "pot_fingerprint_identical": true,
+  "baseline_copy_identical_to_original": true,
+  "render_review": "Both front and overhead side-by-side renders visually inspected: variant has four visibly distinct compound fronds, narrow center spears, unchanged pot and palette. Labels legible; no clipping or disconnected plant geometry seen."
+}

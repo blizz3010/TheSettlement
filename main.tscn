@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/settlement.gd" id="1_yopch"]
+
+[node name="Settlement" type="Node3D" unique_id=508114022]
+script = ExtResource("1_yopch")

@@ -1,0 +1,3715 @@
+{
+  "seed": 103140,
+  "placements": [
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        -13.7725,
+        -0.05,
+        -13.8166
+      ],
+      "yaw": 3.842075341421591
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        -13.4965,
+        -0.05,
+        -13.6112
+      ],
+      "yaw": 6.120812460671314
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.2141,
+        -0.05,
+        -13.5717
+      ],
+      "yaw": 5.180137754371573
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.402,
+        -0.05,
+        -14.2141
+      ],
+      "yaw": 0.9631743712841664
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.8861,
+        -0.05,
+        -14.2582
+      ],
+      "yaw": 3.3510825610374653
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        -13.7033,
+        -0.05,
+        -13.4669
+      ],
+      "yaw": 6.193889980476542
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        -14.0321,
+        -0.05,
+        -13.9334
+      ],
+      "yaw": 2.797423537101438
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        -13.7545,
+        -0.05,
+        -16.0231
+      ],
+      "yaw": 1.8718083690584206
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        -13.5415,
+        -0.05,
+        -16.0099
+      ],
+      "yaw": 0.3233983847311711
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.364,
+        -0.05,
+        -15.7983
+      ],
+      "yaw": 3.231122121193342
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.5177,
+        -0.05,
+        -16.511
+      ],
+      "yaw": 5.193561948046387
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.9046,
+        -0.05,
+        -16.4014
+      ],
+      "yaw": 1.4840616528073813
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        -13.8725,
+        -0.05,
+        -15.6248
+      ],
+      "yaw": 0.6294339210997452
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        -14.2493,
+        -0.05,
+        -16.0705
+      ],
+      "yaw": 0.7722915420706873
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        -14.0551,
+        -0.05,
+        -18.3775
+      ],
+      "yaw": 4.9114211933106215
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        -13.6246,
+        -0.05,
+        -18.2912
+      ],
+      "yaw": 2.6121396094152596
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.317,
+        -0.05,
+        -18.1783
+      ],
+      "yaw": 3.4219437433179376
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.597,
+        -0.05,
+        -18.7304
+      ],
+      "yaw": 2.59076625650364
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.2007,
+        -0.05,
+        -18.7316
+      ],
+      "yaw": 2.908119084509128
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        -13.8328,
+        -0.05,
+        -17.8994
+      ],
+      "yaw": 4.768640112746269
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        -14.2531,
+        -0.05,
+        -18.4364
+      ],
+      "yaw": 4.220172702334976
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        -13.7386,
+        -0.05,
+        -20.6894
+      ],
+      "yaw": 5.274387151174373
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        -13.4945,
+        -0.05,
+        -20.6148
+      ],
+      "yaw": 3.269990311139376
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.2089,
+        -0.05,
+        -20.3751
+      ],
+      "yaw": 0.7968985408886416
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.3486,
+        -0.05,
+        -21.0992
+      ],
+      "yaw": 3.0316127286182635
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.9019,
+        -0.05,
+        -21.0815
+      ],
+      "yaw": 0.6272726578959881
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        -13.6829,
+        -0.05,
+        -20.2273
+      ],
+      "yaw": 2.149275176985176
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        -14.1227,
+        -0.05,
+        -20.7535
+      ],
+      "yaw": 0.6502438919304137
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        -13.9267,
+        -0.05,
+        -23.036
+      ],
+      "yaw": 0.09587602445346424
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        -13.5566,
+        -0.05,
+        -22.9748
+      ],
+      "yaw": 0.5033131340441085
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.2585,
+        -0.05,
+        -22.8086
+      ],
+      "yaw": 6.161400316293973
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.3821,
+        -0.05,
+        -23.2664
+      ],
+      "yaw": 0.6129997042571214
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.0031,
+        -0.05,
+        -23.4458
+      ],
+      "yaw": 5.240124462460772
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        -13.7766,
+        -0.05,
+        -22.5217
+      ],
+      "yaw": 6.020891434299879
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        -14.2845,
+        -0.05,
+        -23.0276
+      ],
+      "yaw": 3.413163693265264
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        -13.9988,
+        -0.05,
+        -25.362
+      ],
+      "yaw": 6.040678808676746
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        -13.7425,
+        -0.05,
+        -25.2105
+      ],
+      "yaw": 6.171939190930492
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.452,
+        -0.05,
+        -25.0331
+      ],
+      "yaw": 0.26994756721020247
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.6012,
+        -0.05,
+        -25.5215
+      ],
+      "yaw": 2.722632559533241
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.0909,
+        -0.05,
+        -25.6812
+      ],
+      "yaw": 2.8960308156792616
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        -13.8581,
+        -0.05,
+        -24.8586
+      ],
+      "yaw": 1.1272348817230982
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        -14.3232,
+        -0.05,
+        -25.438
+      ],
+      "yaw": 1.8896079992382562
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        -13.7852,
+        -0.05,
+        -27.5313
+      ],
+      "yaw": 4.850882536694375
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        -13.4837,
+        -0.05,
+        -27.3863
+      ],
+      "yaw": 3.708835055714272
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.0636,
+        -0.05,
+        -27.4699
+      ],
+      "yaw": 3.8623965184675684
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.246,
+        -0.05,
+        -27.8552
+      ],
+      "yaw": 5.557164209506909
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.9019,
+        -0.05,
+        -27.9822
+      ],
+      "yaw": 2.810073412715949
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        -13.5844,
+        -0.05,
+        -27.1391
+      ],
+      "yaw": 0.7916948989336036
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        -14.0138,
+        -0.05,
+        -27.6764
+      ],
+      "yaw": 2.149406157505434
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        -13.8116,
+        -0.05,
+        -29.853
+      ],
+      "yaw": 4.61320294015244
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        -13.525,
+        -0.05,
+        -29.8097
+      ],
+      "yaw": 4.792597459329444
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.326,
+        -0.05,
+        -29.5773
+      ],
+      "yaw": 5.3532827131767755
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.3652,
+        -0.05,
+        -30.2197
+      ],
+      "yaw": 0.8337892075354064
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.0029,
+        -0.05,
+        -30.3087
+      ],
+      "yaw": 3.3644812443113987
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        -13.8045,
+        -0.05,
+        -29.4628
+      ],
+      "yaw": 4.671797326456797
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        -14.2009,
+        -0.05,
+        -29.9736
+      ],
+      "yaw": 0.9627383896114793
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        -14.0305,
+        -0.05,
+        -32.0532
+      ],
+      "yaw": 2.1193767328369844
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        -13.7553,
+        -0.05,
+        -31.8958
+      ],
+      "yaw": 6.137416793252379
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.3862,
+        -0.05,
+        -31.8328
+      ],
+      "yaw": 6.0987876438455455
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -13.6096,
+        -0.05,
+        -32.3422
+      ],
+      "yaw": 3.405902977718057
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        -14.2029,
+        -0.05,
+        -32.392
+      ],
+      "yaw": 4.514664128577686
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        -13.983,
+        -0.05,
+        -31.6108
+      ],
+      "yaw": 0.9940741455226992
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        -14.3755,
+        -0.05,
+        -32.0175
+      ],
+      "yaw": 1.2691042931666827
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        13.7176,
+        -0.05,
+        -13.8747
+      ],
+      "yaw": 4.124484506835509
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        14.0441,
+        -0.05,
+        -13.7116
+      ],
+      "yaw": 0.8674287222269014
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.2165,
+        -0.05,
+        -13.5434
+      ],
+      "yaw": 5.448406261647644
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        14.1463,
+        -0.05,
+        -14.0204
+      ],
+      "yaw": 4.485134579182651
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.5804,
+        -0.05,
+        -14.2283
+      ],
+      "yaw": 1.8631869234219782
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        13.8048,
+        -0.05,
+        -13.4535
+      ],
+      "yaw": 0.7311883003809709
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        13.3275,
+        -0.05,
+        -13.8301
+      ],
+      "yaw": 2.5477156494121362
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        13.8142,
+        -0.05,
+        -16.0907
+      ],
+      "yaw": 3.857618031855603
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        14.0937,
+        -0.05,
+        -15.9871
+      ],
+      "yaw": 3.960355931827638
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.4138,
+        -0.05,
+        -15.8161
+      ],
+      "yaw": 5.785409927918949
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        14.2476,
+        -0.05,
+        -16.4888
+      ],
+      "yaw": 1.3357012406817113
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.595,
+        -0.05,
+        -16.505
+      ],
+      "yaw": 2.0707189669230206
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        13.8318,
+        -0.05,
+        -15.7007
+      ],
+      "yaw": 1.3504484396804508
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        13.4983,
+        -0.05,
+        -16.1517
+      ],
+      "yaw": 5.536654545961716
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        13.9772,
+        -0.05,
+        -18.4961
+      ],
+      "yaw": 0.8173275431636116
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        14.1234,
+        -0.05,
+        -18.3237
+      ],
+      "yaw": 4.154636709265625
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.5241,
+        -0.05,
+        -18.0729
+      ],
+      "yaw": 3.9187567064763136
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        14.2484,
+        -0.05,
+        -18.684
+      ],
+      "yaw": 6.075091840479867
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.9047,
+        -0.05,
+        -18.8189
+      ],
+      "yaw": 1.6629652577839211
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        14.0347,
+        -0.05,
+        -17.9003
+      ],
+      "yaw": 1.0465831933215795
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        13.5143,
+        -0.05,
+        -18.5403
+      ],
+      "yaw": 3.331947723743949
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        13.6972,
+        -0.05,
+        -20.6748
+      ],
+      "yaw": 4.692112798318568
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        13.9876,
+        -0.05,
+        -20.4821
+      ],
+      "yaw": 0.9899696219188532
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.2702,
+        -0.05,
+        -20.4027
+      ],
+      "yaw": 0.37488985320030077
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        14.0977,
+        -0.05,
+        -21.0831
+      ],
+      "yaw": 1.5590344423236209
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.5415,
+        -0.05,
+        -21.0876
+      ],
+      "yaw": 5.111086269414897
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        13.6887,
+        -0.05,
+        -20.2242
+      ],
+      "yaw": 3.0695242865788344
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        13.382,
+        -0.05,
+        -20.7402
+      ],
+      "yaw": 5.020565082959289
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        13.9279,
+        -0.05,
+        -22.9181
+      ],
+      "yaw": 4.048106548204797
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        14.0325,
+        -0.05,
+        -22.804
+      ],
+      "yaw": 4.047630157656522
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.3545,
+        -0.05,
+        -22.7708
+      ],
+      "yaw": 2.734061004662336
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        14.1454,
+        -0.05,
+        -23.2371
+      ],
+      "yaw": 3.076954297977921
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.6908,
+        -0.05,
+        -23.4484
+      ],
+      "yaw": 4.717520001438305
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        13.9171,
+        -0.05,
+        -22.5553
+      ],
+      "yaw": 3.0182764673172477
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        13.5388,
+        -0.05,
+        -23.0211
+      ],
+      "yaw": 0.8879984453665237
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        14.0368,
+        -0.05,
+        -25.25
+      ],
+      "yaw": 0.2175575477256205
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        14.2034,
+        -0.05,
+        -25.2384
+      ],
+      "yaw": 4.1782154117037695
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.5003,
+        -0.05,
+        -25.148
+      ],
+      "yaw": 0.0032993220546844795
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        14.2584,
+        -0.05,
+        -25.5867
+      ],
+      "yaw": 4.230243750879996
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.7321,
+        -0.05,
+        -25.5908
+      ],
+      "yaw": 0.11376325376078442
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        13.9626,
+        -0.05,
+        -24.781
+      ],
+      "yaw": 0.4561999558914061
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        13.5952,
+        -0.05,
+        -25.3089
+      ],
+      "yaw": 5.651026365559648
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        13.6749,
+        -0.05,
+        -27.625
+      ],
+      "yaw": 4.415753431226103
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        13.8794,
+        -0.05,
+        -27.4331
+      ],
+      "yaw": 4.057869978914167
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.2077,
+        -0.05,
+        -27.3144
+      ],
+      "yaw": 5.885572191937403
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        14.0985,
+        -0.05,
+        -27.8256
+      ],
+      "yaw": 3.761138743091
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.5278,
+        -0.05,
+        -28.037
+      ],
+      "yaw": 2.6830022430856446
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        13.7223,
+        -0.05,
+        -27.1008
+      ],
+      "yaw": 1.8745673490153885
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        13.3416,
+        -0.05,
+        -27.5564
+      ],
+      "yaw": 4.7550534006944245
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        13.8209,
+        -0.05,
+        -29.9711
+      ],
+      "yaw": 2.5113126426739356
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        13.9912,
+        -0.05,
+        -29.8703
+      ],
+      "yaw": 3.043500864475149
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.3658,
+        -0.05,
+        -29.5881
+      ],
+      "yaw": 5.77489866073555
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        14.2796,
+        -0.05,
+        -30.2726
+      ],
+      "yaw": 1.9418789197446233
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.6842,
+        -0.05,
+        -30.3061
+      ],
+      "yaw": 6.028509249801549
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        13.9356,
+        -0.05,
+        -29.3851
+      ],
+      "yaw": 4.585642025189732
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        13.3531,
+        -0.05,
+        -29.9794
+      ],
+      "yaw": 3.170876029504984
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-side",
+      "position": [
+        14.0561,
+        -0.05,
+        -31.9445
+      ],
+      "yaw": 5.276439232014917
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-side",
+      "position": [
+        14.3111,
+        -0.05,
+        -31.8883
+      ],
+      "yaw": 5.955507300727084
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.5682,
+        -0.05,
+        -31.7669
+      ],
+      "yaw": 2.08462080370392
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        14.3261,
+        -0.05,
+        -32.3647
+      ],
+      "yaw": 4.690007001670086
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-side",
+      "position": [
+        13.8844,
+        -0.05,
+        -32.4686
+      ],
+      "yaw": 5.620932360052396
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-side",
+      "position": [
+        13.9154,
+        -0.05,
+        -31.4953
+      ],
+      "yaw": 4.131949392546755
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-side",
+      "position": [
+        13.5277,
+        -0.05,
+        -32.0174
+      ],
+      "yaw": 4.159200304646604
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-rear",
+      "position": [
+        -10.9617,
+        -0.05,
+        -35.0978
+      ],
+      "yaw": 0.7821475826965343
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-rear",
+      "position": [
+        -10.6444,
+        -0.05,
+        -34.9417
+      ],
+      "yaw": 3.8199595006652043
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -11.4839,
+        -0.05,
+        -34.9383
+      ],
+      "yaw": 5.06621303104587
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -10.5675,
+        -0.05,
+        -35.5131
+      ],
+      "yaw": 4.4539632748072675
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -11.0543,
+        -0.05,
+        -35.5364
+      ],
+      "yaw": 4.5816888202398935
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-rear",
+      "position": [
+        -10.9843,
+        -0.05,
+        -34.7053
+      ],
+      "yaw": 3.722659961434777
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-rear",
+      "position": [
+        -11.3479,
+        -0.05,
+        -35.1233
+      ],
+      "yaw": 1.6432778870542644
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-rear",
+      "position": [
+        -8.5958,
+        -0.05,
+        -35.2488
+      ],
+      "yaw": 5.675664751444308
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-rear",
+      "position": [
+        -8.3035,
+        -0.05,
+        -35.2383
+      ],
+      "yaw": 6.228557761500783
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -9.0589,
+        -0.05,
+        -35.0645
+      ],
+      "yaw": 2.175905962334039
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -8.2793,
+        -0.05,
+        -35.6281
+      ],
+      "yaw": 2.2142029560408565
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -8.8461,
+        -0.05,
+        -35.7857
+      ],
+      "yaw": 0.6087567130725565
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-rear",
+      "position": [
+        -8.6426,
+        -0.05,
+        -34.9831
+      ],
+      "yaw": 3.3852949666732037
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-rear",
+      "position": [
+        -8.9237,
+        -0.05,
+        -35.3372
+      ],
+      "yaw": 5.035627683227733
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-rear",
+      "position": [
+        -6.1343,
+        -0.05,
+        -35.1814
+      ],
+      "yaw": 3.5094588538240457
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-rear",
+      "position": [
+        -5.9022,
+        -0.05,
+        -35.0833
+      ],
+      "yaw": 5.72329998541543
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -6.7493,
+        -0.05,
+        -34.8507
+      ],
+      "yaw": 3.7256463026553313
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -5.8622,
+        -0.05,
+        -35.4114
+      ],
+      "yaw": 4.92147601868779
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -6.2629,
+        -0.05,
+        -35.5697
+      ],
+      "yaw": 3.4499037655573286
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-rear",
+      "position": [
+        -6.1919,
+        -0.05,
+        -34.689
+      ],
+      "yaw": 6.269373969276538
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-rear",
+      "position": [
+        -6.6672,
+        -0.05,
+        -35.2773
+      ],
+      "yaw": 0.10061214091403332
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-rear",
+      "position": [
+        -3.8789,
+        -0.05,
+        -35.2764
+      ],
+      "yaw": 6.152973729969461
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-rear",
+      "position": [
+        -3.5264,
+        -0.05,
+        -35.1519
+      ],
+      "yaw": 1.4972828902765567
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -4.1594,
+        -0.05,
+        -35.1601
+      ],
+      "yaw": 1.2830989685072502
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -3.3592,
+        -0.05,
+        -35.6278
+      ],
+      "yaw": 3.343501962538158
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -3.9987,
+        -0.05,
+        -35.6134
+      ],
+      "yaw": 4.917607493899438
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-rear",
+      "position": [
+        -3.8445,
+        -0.05,
+        -34.8367
+      ],
+      "yaw": 4.827589377630136
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-rear",
+      "position": [
+        -4.2681,
+        -0.05,
+        -35.3439
+      ],
+      "yaw": 6.000040411385453
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-rear",
+      "position": [
+        -1.3715,
+        -0.05,
+        -35.0517
+      ],
+      "yaw": 2.8369332003561563
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-rear",
+      "position": [
+        -1.1906,
+        -0.05,
+        -35.1131
+      ],
+      "yaw": 3.4064180100945642
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -1.8885,
+        -0.05,
+        -34.9004
+      ],
+      "yaw": 1.230814632211379
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -1.0423,
+        -0.05,
+        -35.437
+      ],
+      "yaw": 5.019016776653716
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        -1.5884,
+        -0.05,
+        -35.5767
+      ],
+      "yaw": 1.3416277990541345
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-rear",
+      "position": [
+        -1.2611,
+        -0.05,
+        -34.6829
+      ],
+      "yaw": 0.23253821084570664
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-rear",
+      "position": [
+        -1.8305,
+        -0.05,
+        -35.2461
+      ],
+      "yaw": 5.1408780877307
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-rear",
+      "position": [
+        1.0765,
+        -0.05,
+        -35.2568
+      ],
+      "yaw": 1.2323952472278357
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-rear",
+      "position": [
+        1.3293,
+        -0.05,
+        -35.127
+      ],
+      "yaw": 1.548518872711582
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        0.58,
+        -0.05,
+        -35.1523
+      ],
+      "yaw": 6.186800769907213
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        1.3578,
+        -0.05,
+        -35.5483
+      ],
+      "yaw": 3.113759868144323
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        0.9218,
+        -0.05,
+        -35.7876
+      ],
+      "yaw": 3.7615904168765657
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-rear",
+      "position": [
+        1.0561,
+        -0.05,
+        -34.903
+      ],
+      "yaw": 0.3342716093760119
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-rear",
+      "position": [
+        0.7047,
+        -0.05,
+        -35.4465
+      ],
+      "yaw": 3.323402031880889
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-rear",
+      "position": [
+        3.4911,
+        -0.05,
+        -35.2431
+      ],
+      "yaw": 0.883743970268949
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-rear",
+      "position": [
+        3.7579,
+        -0.05,
+        -35.035
+      ],
+      "yaw": 0.09170929822534031
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        3.0168,
+        -0.05,
+        -34.9576
+      ],
+      "yaw": 4.321646710438582
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        3.7232,
+        -0.05,
+        -35.4256
+      ],
+      "yaw": 3.714773798614636
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        3.3244,
+        -0.05,
+        -35.5136
+      ],
+      "yaw": 3.5308966094386394
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-rear",
+      "position": [
+        3.4936,
+        -0.05,
+        -34.6548
+      ],
+      "yaw": 5.012314209350345
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-rear",
+      "position": [
+        2.9397,
+        -0.05,
+        -35.2551
+      ],
+      "yaw": 0.7255877844010176
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-rear",
+      "position": [
+        5.8563,
+        -0.05,
+        -35.2746
+      ],
+      "yaw": 4.47868597356322
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-rear",
+      "position": [
+        5.9698,
+        -0.05,
+        -35.244
+      ],
+      "yaw": 4.4583913593091795
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        5.4447,
+        -0.05,
+        -35.0874
+      ],
+      "yaw": 1.935633177801495
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        6.1248,
+        -0.05,
+        -35.6668
+      ],
+      "yaw": 0.2733896708767478
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        5.5991,
+        -0.05,
+        -35.6769
+      ],
+      "yaw": 0.5135912873883379
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-rear",
+      "position": [
+        5.762,
+        -0.05,
+        -34.901
+      ],
+      "yaw": 3.354735948370459
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-rear",
+      "position": [
+        5.5091,
+        -0.05,
+        -35.3651
+      ],
+      "yaw": 4.678664425856903
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-rear",
+      "position": [
+        8.253,
+        -0.05,
+        -35.2262
+      ],
+      "yaw": 1.1569530067101998
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-rear",
+      "position": [
+        8.3602,
+        -0.05,
+        -35.0259
+      ],
+      "yaw": 2.8434128666943987
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        7.6708,
+        -0.05,
+        -35.0171
+      ],
+      "yaw": 0.8743868628591551
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        8.6483,
+        -0.05,
+        -35.4203
+      ],
+      "yaw": 5.301066516867393
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        7.9647,
+        -0.05,
+        -35.435
+      ],
+      "yaw": 5.9613817184897355
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-rear",
+      "position": [
+        8.2455,
+        -0.05,
+        -34.8087
+      ],
+      "yaw": 2.0430810043975813
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-rear",
+      "position": [
+        7.8255,
+        -0.05,
+        -35.1279
+      ],
+      "yaw": 0.1569082213896213
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "hall-rear",
+      "position": [
+        10.5662,
+        -0.05,
+        -35.2532
+      ],
+      "yaw": 4.394486526491143
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "hall-rear",
+      "position": [
+        10.8398,
+        -0.05,
+        -35.2961
+      ],
+      "yaw": 1.4098897674625888
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        10.1077,
+        -0.05,
+        -35.0924
+      ],
+      "yaw": 3.9840794988711137
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        10.9965,
+        -0.05,
+        -35.6296
+      ],
+      "yaw": 4.339255047288098
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "hall-rear",
+      "position": [
+        10.4209,
+        -0.05,
+        -35.7348
+      ],
+      "yaw": 6.273699705893614
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "hall-rear",
+      "position": [
+        10.7414,
+        -0.05,
+        -34.9962
+      ],
+      "yaw": 4.138989205038593
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "hall-rear",
+      "position": [
+        10.1342,
+        -0.05,
+        -35.4276
+      ],
+      "yaw": 0.9133561175240787
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -17.9403,
+        -0.05,
+        6.2169
+      ],
+      "yaw": 1.7046526628574252
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -17.7772,
+        -0.05,
+        6.3127
+      ],
+      "yaw": 3.5022897562359674
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -18.5414,
+        -0.05,
+        6.4218
+      ],
+      "yaw": 1.3644425043773187
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -17.5262,
+        -0.05,
+        5.8004
+      ],
+      "yaw": 3.6060093974174015
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -18.1508,
+        -0.05,
+        5.8248
+      ],
+      "yaw": 6.17426984087201
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -18.0018,
+        -0.05,
+        6.5932
+      ],
+      "yaw": 4.288842702511959
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -18.4241,
+        -0.05,
+        6.1841
+      ],
+      "yaw": 2.3294614915879226
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -18.0354,
+        -0.05,
+        23.8369
+      ],
+      "yaw": 3.1085740756170845
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -17.8281,
+        -0.05,
+        23.9223
+      ],
+      "yaw": 5.846226370644349
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -18.3608,
+        -0.05,
+        24.0825
+      ],
+      "yaw": 5.732655625198227
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -17.5457,
+        -0.05,
+        23.6237
+      ],
+      "yaw": 0.4825775465518207
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -18.0702,
+        -0.05,
+        23.4868
+      ],
+      "yaw": 3.250227898102367
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -17.9707,
+        -0.05,
+        24.2137
+      ],
+      "yaw": 2.666402917441957
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -18.2849,
+        -0.05,
+        23.8178
+      ],
+      "yaw": 6.150985673100174
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -20.4659,
+        -0.05,
+        6.0576
+      ],
+      "yaw": 4.157929583442455
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -20.123,
+        -0.05,
+        6.3385
+      ],
+      "yaw": 6.021659008222205
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -20.9479,
+        -0.05,
+        6.3828
+      ],
+      "yaw": 3.8103846006165902
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -20.1002,
+        -0.05,
+        5.797
+      ],
+      "yaw": 2.0559981556907463
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -20.4562,
+        -0.05,
+        5.7705
+      ],
+      "yaw": 3.747418664051663
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -20.2548,
+        -0.05,
+        6.601
+      ],
+      "yaw": 5.0236900011948915
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -20.7055,
+        -0.05,
+        6.1881
+      ],
+      "yaw": 4.890053573650872
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -20.3949,
+        -0.05,
+        23.8547
+      ],
+      "yaw": 5.591168602614723
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -20.177,
+        -0.05,
+        24.0487
+      ],
+      "yaw": 4.261999219269577
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -20.8337,
+        -0.05,
+        24.0484
+      ],
+      "yaw": 0.5742697562368622
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -20.1089,
+        -0.05,
+        23.453
+      ],
+      "yaw": 3.917771089597804
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -20.5419,
+        -0.05,
+        23.4301
+      ],
+      "yaw": 2.511515257292927
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -20.285,
+        -0.05,
+        24.3613
+      ],
+      "yaw": 1.344338387912388
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -20.7265,
+        -0.05,
+        23.744
+      ],
+      "yaw": 1.0291724122227173
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -22.7217,
+        -0.05,
+        6.1601
+      ],
+      "yaw": 0.8402890688076337
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -22.5493,
+        -0.05,
+        6.1787
+      ],
+      "yaw": 1.7508440552284945
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -23.2677,
+        -0.05,
+        6.3476
+      ],
+      "yaw": 0.14767290740785918
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -22.4915,
+        -0.05,
+        5.8231
+      ],
+      "yaw": 1.9529839446316555
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -22.9735,
+        -0.05,
+        5.8252
+      ],
+      "yaw": 5.2246023853059045
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -22.7433,
+        -0.05,
+        6.6389
+      ],
+      "yaw": 2.5700430582636677
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -23.1219,
+        -0.05,
+        6.0458
+      ],
+      "yaw": 2.118792523279811
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -22.731,
+        -0.05,
+        23.8269
+      ],
+      "yaw": 4.469468306767078
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -22.5059,
+        -0.05,
+        23.949
+      ],
+      "yaw": 1.638249928045069
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -23.2595,
+        -0.05,
+        24.1329
+      ],
+      "yaw": 2.7234831593682776
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -22.4423,
+        -0.05,
+        23.5632
+      ],
+      "yaw": 3.308195713138054
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -22.8587,
+        -0.05,
+        23.5151
+      ],
+      "yaw": 1.6254775432809323
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -22.8161,
+        -0.05,
+        24.265
+      ],
+      "yaw": 4.659312414456409
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -23.2259,
+        -0.05,
+        23.7154
+      ],
+      "yaw": 0.2607008363837005
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -25.1976,
+        -0.05,
+        6.1919
+      ],
+      "yaw": 4.844785463313256
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -24.8661,
+        -0.05,
+        6.2555
+      ],
+      "yaw": 4.135330432352322
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -25.5562,
+        -0.05,
+        6.4309
+      ],
+      "yaw": 4.750679704151446
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -24.7646,
+        -0.05,
+        5.9151
+      ],
+      "yaw": 0.4398353455538374
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -25.3072,
+        -0.05,
+        5.7567
+      ],
+      "yaw": 0.10060242258639603
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -25.1318,
+        -0.05,
+        6.4899
+      ],
+      "yaw": 5.07220899608495
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -25.6137,
+        -0.05,
+        6.177
+      ],
+      "yaw": 2.921057923765806
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -25.1771,
+        -0.05,
+        23.7791
+      ],
+      "yaw": 6.01462028284919
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -25.0081,
+        -0.05,
+        23.9362
+      ],
+      "yaw": 3.363768501708255
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -25.5625,
+        -0.05,
+        24.0663
+      ],
+      "yaw": 1.399021737555024
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -24.8355,
+        -0.05,
+        23.4443
+      ],
+      "yaw": 3.9474894271392844
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -25.4229,
+        -0.05,
+        23.3978
+      ],
+      "yaw": 2.076267460154449
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -25.1115,
+        -0.05,
+        24.1932
+      ],
+      "yaw": 2.2029447511821267
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -25.538,
+        -0.05,
+        23.7991
+      ],
+      "yaw": 0.10991568091829976
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -27.6327,
+        -0.05,
+        6.0833
+      ],
+      "yaw": 2.9422795307203073
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -27.3848,
+        -0.05,
+        6.2502
+      ],
+      "yaw": 1.8846309757188822
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -27.9902,
+        -0.05,
+        6.4319
+      ],
+      "yaw": 2.5775286378063034
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -27.1769,
+        -0.05,
+        5.7429
+      ],
+      "yaw": 3.7764765489473215
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -27.7209,
+        -0.05,
+        5.7796
+      ],
+      "yaw": 5.501596811501576
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -27.5048,
+        -0.05,
+        6.5189
+      ],
+      "yaw": 5.228172460004795
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -27.9961,
+        -0.05,
+        6.0517
+      ],
+      "yaw": 2.7971501968053913
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -27.5991,
+        -0.05,
+        23.8721
+      ],
+      "yaw": 2.721705022277266
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -27.3642,
+        -0.05,
+        23.8887
+      ],
+      "yaw": 5.870676400175552
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -28.0934,
+        -0.05,
+        24.0836
+      ],
+      "yaw": 3.614094298997287
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -27.2184,
+        -0.05,
+        23.6134
+      ],
+      "yaw": 3.5915795182040995
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -27.7979,
+        -0.05,
+        23.3903
+      ],
+      "yaw": 2.340177924668417
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -27.5883,
+        -0.05,
+        24.2424
+      ],
+      "yaw": 3.8827441685408117
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -27.9039,
+        -0.05,
+        23.8622
+      ],
+      "yaw": 5.405660310898988
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -29.9668,
+        -0.05,
+        6.0535
+      ],
+      "yaw": 3.369864427645473
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -29.6799,
+        -0.05,
+        6.2859
+      ],
+      "yaw": 4.114053653694561
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -30.4476,
+        -0.05,
+        6.44
+      ],
+      "yaw": 0.6728791501164463
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -29.6687,
+        -0.05,
+        5.7692
+      ],
+      "yaw": 3.9357515764511537
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -30.1576,
+        -0.05,
+        5.8223
+      ],
+      "yaw": 0.1808363094241156
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -29.8975,
+        -0.05,
+        6.6609
+      ],
+      "yaw": 2.569479289917856
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -30.3549,
+        -0.05,
+        6.1034
+      ],
+      "yaw": 4.006811566271878
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-base",
+      "position": [
+        -30.0302,
+        -0.05,
+        23.9484
+      ],
+      "yaw": 0.42478627930841717
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-base",
+      "position": [
+        -29.7864,
+        -0.05,
+        23.9879
+      ],
+      "yaw": 4.781065508871651
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -30.5274,
+        -0.05,
+        24.1202
+      ],
+      "yaw": 0.6313036299458641
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -29.6111,
+        -0.05,
+        23.5556
+      ],
+      "yaw": 2.909811665885454
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-base",
+      "position": [
+        -30.2194,
+        -0.05,
+        23.5737
+      ],
+      "yaw": 3.841155738355556
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-base",
+      "position": [
+        -29.8782,
+        -0.05,
+        24.3093
+      ],
+      "yaw": 5.070927693225094
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-base",
+      "position": [
+        -30.4594,
+        -0.05,
+        23.7129
+      ],
+      "yaw": 4.306567032973771
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.7561,
+        -0.05,
+        8.9853
+      ],
+      "yaw": 5.680866355158525
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.6844,
+        -0.05,
+        9.0764
+      ],
+      "yaw": 2.390342176277153
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -33.3095,
+        -0.05,
+        9.3052
+      ],
+      "yaw": 5.499834853751133
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.5623,
+        -0.05,
+        8.6061
+      ],
+      "yaw": 6.208944991589214
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.9188,
+        -0.05,
+        8.7142
+      ],
+      "yaw": 1.0433177916297611
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-west",
+      "position": [
+        -32.8201,
+        -0.05,
+        9.3789
+      ],
+      "yaw": 2.9036960023656935
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-west",
+      "position": [
+        -33.2503,
+        -0.05,
+        8.9298
+      ],
+      "yaw": 1.8676138675784923
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.7844,
+        -0.05,
+        11.4421
+      ],
+      "yaw": 1.1191923763195393
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.5215,
+        -0.05,
+        11.6889
+      ],
+      "yaw": 5.228406629631658
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -33.2259,
+        -0.05,
+        11.7849
+      ],
+      "yaw": 3.7329078955922887
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.5073,
+        -0.05,
+        11.1184
+      ],
+      "yaw": 1.2553900098194628
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.9563,
+        -0.05,
+        11.2162
+      ],
+      "yaw": 1.2184597498469398
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-west",
+      "position": [
+        -32.7324,
+        -0.05,
+        11.9531
+      ],
+      "yaw": 3.3556818765323544
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-west",
+      "position": [
+        -33.2903,
+        -0.05,
+        11.4408
+      ],
+      "yaw": 2.588699953628937
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.9438,
+        -0.05,
+        14.0509
+      ],
+      "yaw": 1.0553795767130525
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.5228,
+        -0.05,
+        14.1093
+      ],
+      "yaw": 3.7022252099937765
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -33.3535,
+        -0.05,
+        14.1605
+      ],
+      "yaw": 1.1198190966003738
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.383,
+        -0.05,
+        13.6273
+      ],
+      "yaw": 4.288354946229688
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.9582,
+        -0.05,
+        13.612
+      ],
+      "yaw": 2.9508358183156242
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-west",
+      "position": [
+        -32.7792,
+        -0.05,
+        14.4769
+      ],
+      "yaw": 0.7669572051822658
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-west",
+      "position": [
+        -33.3116,
+        -0.05,
+        13.9192
+      ],
+      "yaw": 1.7671875850810066
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.7617,
+        -0.05,
+        16.4317
+      ],
+      "yaw": 4.505102677412991
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.5776,
+        -0.05,
+        16.7021
+      ],
+      "yaw": 6.037741609125152
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -33.2706,
+        -0.05,
+        16.7296
+      ],
+      "yaw": 5.890943502157427
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.3848,
+        -0.05,
+        16.1167
+      ],
+      "yaw": 5.416690479350197
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -33.0059,
+        -0.05,
+        16.1827
+      ],
+      "yaw": 1.5316378315637431
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-west",
+      "position": [
+        -32.7041,
+        -0.05,
+        16.9451
+      ],
+      "yaw": 1.3122160059222074
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-west",
+      "position": [
+        -33.2379,
+        -0.05,
+        16.36
+      ],
+      "yaw": 6.03641767883869
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.7769,
+        -0.05,
+        18.9006
+      ],
+      "yaw": 1.177597675407568
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.5246,
+        -0.05,
+        19.1558
+      ],
+      "yaw": 2.788388196783937
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -33.3205,
+        -0.05,
+        19.1696
+      ],
+      "yaw": 3.328071781427387
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.3949,
+        -0.05,
+        18.5959
+      ],
+      "yaw": 5.683232678010902
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -33.0357,
+        -0.05,
+        18.6099
+      ],
+      "yaw": 5.572719473582321
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-west",
+      "position": [
+        -32.8725,
+        -0.05,
+        19.329
+      ],
+      "yaw": 3.0381110801227873
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-west",
+      "position": [
+        -33.2748,
+        -0.05,
+        18.9545
+      ],
+      "yaw": 0.4162238064714037
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.7987,
+        -0.05,
+        21.5168
+      ],
+      "yaw": 2.124047060016621
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.5517,
+        -0.05,
+        21.6981
+      ],
+      "yaw": 0.27356828293274643
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -33.3774,
+        -0.05,
+        21.7542
+      ],
+      "yaw": 3.2422832020685486
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.5307,
+        -0.05,
+        21.1635
+      ],
+      "yaw": 0.785337055301605
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "terrace-west",
+      "position": [
+        -32.9192,
+        -0.05,
+        21.0684
+      ],
+      "yaw": 2.226651633746509
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "terrace-west",
+      "position": [
+        -32.7326,
+        -0.05,
+        21.9911
+      ],
+      "yaw": 0.6812998610071022
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "terrace-west",
+      "position": [
+        -33.2273,
+        -0.05,
+        21.4314
+      ],
+      "yaw": 1.9552449803665275
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "approach-edge",
+      "position": [
+        -14.8266,
+        -0.05,
+        9.9534
+      ],
+      "yaw": 4.671528154414898
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "approach-edge",
+      "position": [
+        -14.5964,
+        -0.05,
+        10.0945
+      ],
+      "yaw": 0.9245033867118527
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -15.3129,
+        -0.05,
+        10.2154
+      ],
+      "yaw": 4.764583237092248
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -14.4967,
+        -0.05,
+        9.5865
+      ],
+      "yaw": 0.8463514750327131
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -15.1127,
+        -0.05,
+        9.6528
+      ],
+      "yaw": 2.9295283633853733
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "approach-edge",
+      "position": [
+        -14.9333,
+        -0.05,
+        10.3865
+      ],
+      "yaw": 0.31038988763974057
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "approach-edge",
+      "position": [
+        -15.3,
+        -0.05,
+        9.8837
+      ],
+      "yaw": 5.813858102616181
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "approach-edge",
+      "position": [
+        -14.8076,
+        -0.05,
+        11.9583
+      ],
+      "yaw": 3.0443434622749024
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "approach-edge",
+      "position": [
+        -14.6817,
+        -0.05,
+        12.1807
+      ],
+      "yaw": 3.912215168513861
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -15.4481,
+        -0.05,
+        12.2878
+      ],
+      "yaw": 5.07151065557227
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -14.6185,
+        -0.05,
+        11.7192
+      ],
+      "yaw": 0.667558664456126
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -15.036,
+        -0.05,
+        11.547
+      ],
+      "yaw": 5.492052321531185
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "approach-edge",
+      "position": [
+        -14.9248,
+        -0.05,
+        12.4571
+      ],
+      "yaw": 3.758371256416859
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "approach-edge",
+      "position": [
+        -15.2309,
+        -0.05,
+        12.0416
+      ],
+      "yaw": 1.054267909910182
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "approach-edge",
+      "position": [
+        -14.9266,
+        -0.05,
+        17.358
+      ],
+      "yaw": 3.0231810792303193
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "approach-edge",
+      "position": [
+        -14.6046,
+        -0.05,
+        17.477
+      ],
+      "yaw": 0.5527672584097217
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -15.4181,
+        -0.05,
+        17.5584
+      ],
+      "yaw": 2.5404895639981264
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -14.6171,
+        -0.05,
+        17.0494
+      ],
+      "yaw": 0.32136463274043425
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -14.9828,
+        -0.05,
+        16.846
+      ],
+      "yaw": 0.5218278006888467
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "approach-edge",
+      "position": [
+        -14.9248,
+        -0.05,
+        17.7806
+      ],
+      "yaw": 3.5278174576959005
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "approach-edge",
+      "position": [
+        -15.3475,
+        -0.05,
+        17.3429
+      ],
+      "yaw": 5.479341137771383
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "approach-edge",
+      "position": [
+        -12.1305,
+        -0.05,
+        18.9149
+      ],
+      "yaw": 2.1055238976460626
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "approach-edge",
+      "position": [
+        -11.8593,
+        -0.05,
+        19.0481
+      ],
+      "yaw": 3.811475678915549
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -12.5788,
+        -0.05,
+        19.2387
+      ],
+      "yaw": 4.641077511873507
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -11.7411,
+        -0.05,
+        18.5898
+      ],
+      "yaw": 4.970476459746621
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -12.3416,
+        -0.05,
+        18.6113
+      ],
+      "yaw": 0.11322182950107118
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "approach-edge",
+      "position": [
+        -12.0358,
+        -0.05,
+        19.3871
+      ],
+      "yaw": 3.3059210261747265
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "approach-edge",
+      "position": [
+        -12.5744,
+        -0.05,
+        18.9983
+      ],
+      "yaw": 1.9977205782480187
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "approach-edge",
+      "position": [
+        -12.0539,
+        -0.05,
+        21.3706
+      ],
+      "yaw": 4.833721969297114
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "approach-edge",
+      "position": [
+        -11.7952,
+        -0.05,
+        21.5983
+      ],
+      "yaw": 2.948036406119262
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -12.483,
+        -0.05,
+        21.5389
+      ],
+      "yaw": 5.709091589280483
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -11.7934,
+        -0.05,
+        21.0363
+      ],
+      "yaw": 2.8513404248631167
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -12.3341,
+        -0.05,
+        21.025
+      ],
+      "yaw": 1.2465672821935856
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "approach-edge",
+      "position": [
+        -12.1252,
+        -0.05,
+        21.8403
+      ],
+      "yaw": 3.807259737339779
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "approach-edge",
+      "position": [
+        -12.5601,
+        -0.05,
+        21.3697
+      ],
+      "yaw": 3.580401958166029
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "approach-edge",
+      "position": [
+        -6.0919,
+        -0.05,
+        13.0204
+      ],
+      "yaw": 3.454544046920578
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "approach-edge",
+      "position": [
+        -5.7442,
+        -0.05,
+        13.1606
+      ],
+      "yaw": 2.0720836229934045
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -6.5246,
+        -0.05,
+        13.34
+      ],
+      "yaw": 5.670541418372281
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -5.8026,
+        -0.05,
+        12.7488
+      ],
+      "yaw": 0.25426296027567324
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -6.217,
+        -0.05,
+        12.691
+      ],
+      "yaw": 4.832596200305478
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "approach-edge",
+      "position": [
+        -5.9818,
+        -0.05,
+        13.599
+      ],
+      "yaw": 3.8306419519334862
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "approach-edge",
+      "position": [
+        -6.4152,
+        -0.05,
+        13.0325
+      ],
+      "yaw": 1.4154269241535646
+    },
+    {
+      "asset": "ground_shrub_a",
+      "zone": "approach-edge",
+      "position": [
+        -5.4921,
+        -0.05,
+        15.5315
+      ],
+      "yaw": 4.82205428855908
+    },
+    {
+      "asset": "ground_fern_a",
+      "zone": "approach-edge",
+      "position": [
+        -5.1572,
+        -0.05,
+        15.5316
+      ],
+      "yaw": 4.113038668644944
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -5.8632,
+        -0.05,
+        15.7083
+      ],
+      "yaw": 4.11522950392488
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -5.0694,
+        -0.05,
+        15.1067
+      ],
+      "yaw": 4.551430093673248
+    },
+    {
+      "asset": "ground_grass_a",
+      "zone": "approach-edge",
+      "position": [
+        -5.733,
+        -0.05,
+        15.1464
+      ],
+      "yaw": 1.7155786025876967
+    },
+    {
+      "asset": "ground_flowers_purple",
+      "zone": "approach-edge",
+      "position": [
+        -5.5148,
+        -0.05,
+        15.8962
+      ],
+      "yaw": 5.886126503119426
+    },
+    {
+      "asset": "ground_flowers_yellow",
+      "zone": "approach-edge",
+      "position": [
+        -5.8518,
+        -0.05,
+        15.4208
+      ],
+      "yaw": 0.13629414594056405
+    }
+  ]
+}

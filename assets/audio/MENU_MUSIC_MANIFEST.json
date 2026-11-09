@@ -1,0 +1,21 @@
+{
+  "file": "settlement_menu_calm.wav",
+  "description": "Original 48-second calm atmospheric science-fiction menu cue. Pure synthesized warm pads and sparse bell tones; Dm9/Bbmaj7/Fmaj9/Cadd9. No sampled audio.",
+  "license": "CC0-1.0 dedication for generated audio",
+  "generator": "assets/source/generate_menu_music.py",
+  "sample_rate": 24000,
+  "channels": 2,
+  "seconds": 48.0,
+  "peak": 0.28,
+  "rms_channels": [
+    0.08285801590855148,
+    0.07326365584318115
+  ],
+  "boundary_sample_step": [
+    0.009633922461008693,
+    0.0030355509834533168
+  ],
+  "analytic_period_closure_error": 1.363076318483536e-13,
+  "sha256": "c757ed3bd47a923ffd600c3af31160e87a8a6e6d3de416bf5e91b861c1d484e0",
+  "verification_limit": "Numerically checked; not human-auditioned or Windows hardware tested."
+}

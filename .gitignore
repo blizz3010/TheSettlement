@@ -1,0 +1,14 @@
+.godot/
+__pycache__/
+*.pyc
+*.log
+.env*
+*.exe
+*.pck
+assets/settlement_grass_v086/coverage.scn
+assets/settlement_grass_v086/coverage.scn
+assets/npc_coverage/Atlas-Static-Sleeve-Fit.glb
+assets/npc_coverage/ProvisionalStaff.glb
+assets/video/settlement_loading_intro.ogv
+assets/plaza_islands/composition.scn
+assets/plaza_islands/home_garden.scn

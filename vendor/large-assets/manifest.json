@@ -1,0 +1,118 @@
+[
+  {
+    "destination": "assets/settlement_grass_v086/coverage.scn",
+    "sha256": "01eac1210c35dcf45dd2ff2f1bcf4021fa4c3e994877ecc08747b71fc9ee48bb",
+    "parts": [
+      {
+        "path": "vendor/large-assets/asset00.part01",
+        "sha256": "664028fd942ddd7d0731acee89388a480989623bc8f1ea3970d1108e9b7994b6"
+      },
+      {
+        "path": "vendor/large-assets/asset00.part02",
+        "sha256": "d0063b605901c9b01a56feeac281faaec2deb639d5c75cbc8e168d211e9715ca"
+      },
+      {
+        "path": "vendor/large-assets/asset00.part03",
+        "sha256": "3844c51af938a3aa5358a7e862c594185663df7ae1a2b218093fbc0a445baae9"
+      },
+      {
+        "path": "vendor/large-assets/asset00.part04",
+        "sha256": "7fadae86d703886d2f4692affdc916ba57a98a5680552b9558380a86a27c1f13"
+      },
+      {
+        "path": "vendor/large-assets/asset00.part05",
+        "sha256": "575970423cf46dbf77fa4d75cac2a0b81e97fa86700ac1c5178f036562f61f97"
+      },
+      {
+        "path": "vendor/large-assets/asset00.part06",
+        "sha256": "7727d38656dd81462c3af80756d330f3df9e8b26bc4df46d77f95041361a4fdd"
+      },
+      {
+        "path": "vendor/large-assets/asset00.part07",
+        "sha256": "f0f348f0803b19075760aecf1806077d3b4513ba52962631b47f0d6fab5604ea"
+      }
+    ]
+  },
+  {
+    "destination": "assets/npc_coverage/Atlas-Static-Sleeve-Fit.glb",
+    "sha256": "4d73a8688b5840dacafaa6fbb188c57c21960d6cff3c63641a182ff86a93bbe4",
+    "parts": [
+      {
+        "path": "vendor/large-assets/asset01.part01",
+        "sha256": "8c11fffdc4275f77fd3befd1233a83233d00ca7fd42c936b934f1427166278dd"
+      },
+      {
+        "path": "vendor/large-assets/asset01.part02",
+        "sha256": "d8022f2803336419ca22e3b8e109c1ace5bbbf87aa3c0c273957bed1decf0656"
+      },
+      {
+        "path": "vendor/large-assets/asset01.part03",
+        "sha256": "756c3943bd15d45f6c53de84700522f9c660e2557e61cb7e9525f3e130a0bf07"
+      }
+    ]
+  },
+  {
+    "destination": "assets/npc_coverage/ProvisionalStaff.glb",
+    "sha256": "26f0a493bfc8ad4eb6750d1fbfbf7789ec400445302a19463f0355f380fce47e",
+    "parts": [
+      {
+        "path": "vendor/large-assets/asset02.part01",
+        "sha256": "e44e7c4dddceec2b19d5c17d573747f8eca53e5cecb984cb8b192dbab844646e"
+      },
+      {
+        "path": "vendor/large-assets/asset02.part02",
+        "sha256": "62282b80aae30e161ce86fa450c1a3846c785d5dda790e51ecdf3dfd58853cbd"
+      },
+      {
+        "path": "vendor/large-assets/asset02.part03",
+        "sha256": "a51985cd8f990892ea091421854785a7124231db8047394d113e8a58bfa909c9"
+      }
+    ]
+  },
+  {
+    "destination": "assets/video/settlement_loading_intro.ogv",
+    "sha256": "c692c3eeeb628c90b7af11771f58dbc1bb5ee6634ff613ce475cae899930eb16",
+    "parts": [
+      {
+        "path": "vendor/large-assets/asset03.part01",
+        "sha256": "e9b4eb92644ea41f9030430ec0771f30047780376ffc99c94a2cd39e08385ab0"
+      },
+      {
+        "path": "vendor/large-assets/asset03.part02",
+        "sha256": "5d37ca052f8080a9911d7a61bb7dd9cf8ee9f32a0e578bf16454ff6712c0db07"
+      }
+    ]
+  },
+  {
+    "destination": "assets/plaza_islands/composition.scn",
+    "sha256": "99bac48fe3642b5d19f929a74f0cb7b710f65b08a768a6cef160718cd8aaebc2",
+    "parts": [
+      {
+        "path": "vendor/large-assets/asset04.part01",
+        "sha256": "542b43dd45916a38255b367e013a9e9164a95ca5acb960398d8b00d74f462bee"
+      },
+      {
+        "path": "vendor/large-assets/asset04.part02",
+        "sha256": "8631aaee53e913e809df8f07391bf10320a0eb49e3b29eff69cf659949f1c5f1"
+      },
+      {
+        "path": "vendor/large-assets/asset04.part03",
+        "sha256": "9783193806639f5482b1d9d0f4df59f5d677da373fbaacfc23c5cb9bce0895ac"
+      }
+    ]
+  },
+  {
+    "destination": "assets/plaza_islands/home_garden.scn",
+    "sha256": "7ea5bac6c092996c28d97513760f451823f7cb0206529c218b8da752a3e1801c",
+    "parts": [
+      {
+        "path": "vendor/large-assets/asset05.part01",
+        "sha256": "d1e4bd40e60764b9ad2edb88b6191f9fe31ca749bf143d5c1f65bb3dc654c9d5"
+      },
+      {
+        "path": "vendor/large-assets/asset05.part02",
+        "sha256": "a26172dfdaed37eb9bcc0723a67c63a288bddd9028e146b98858206014dc98f4"
+      }
+    ]
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "status": "User explicitly selected Gemini valley clip for Play loading integration; isolated successor, pending engine/package verification",
+  "selected_utc": "2026-11-01T07:08:54Z",
+  "source_library_id": "private-library-reference-removed",
+  "source_native_file_id": "private-library-reference-removed",
+  "source_filename": "valley-loading-intro-original.mp4",
+  "source_sha256": "60e9abe4512b9ca7185c47bb20e1402a5663ad1f84c653c83872bbbdc8a0f46b",
+  "source_preserved_at": "loading-video-review-20261101/original/valley-loading-intro-original.mp4",
+  "derivative": "settlement_loading_intro.ogv",
+  "derivative_sha256": "c692c3eeeb628c90b7af11771f58dbc1bb5ee6634ff613ce475cae899930eb16",
+  "bytes": 13646751,
+  "format": "Ogg Theora",
+  "resolution": [
+    1280,
+    720
+  ],
+  "fps": 24,
+  "frames": 240,
+  "duration_seconds": 10.0,
+  "audio": "none; unassessed source AAC not used",
+  "conversion": "ffmpeg -v error -i original/valley-loading-intro-original.mp4 -map 0:v:0 -an -c:v libtheora -q:v 7 -pix_fmt yuv420p valley-loading-intro-SILENT-review-candidate.ogv",
+  "content": "Generated concept footage, not actual gameplay",
+  "framing_limits": [
+    "large forward/right camera movement",
+    "porch leaves frame",
+    "ship progressively clips at right",
+    "faint dome"
+  ],
+  "loading_contract": "Never require clip completion; transition on real world readiness. If clip ends first or is skipped/missing, retain still/status until ready."
+}

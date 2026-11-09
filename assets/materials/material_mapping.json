@@ -1,0 +1,47 @@
+{
+  "shader": "courtyard_surface.gdshader",
+  "tint_source": "Copy original imported StandardMaterial3D.albedo_color; it carries the revised GLB palette. Do not copy stale v0.1 material color.",
+  "matches": {
+    "Limestone_*": {
+      "metallic": 0.0,
+      "roughness": 0.86,
+      "variation": 0.18,
+      "grain_scale": 16,
+      "bump_strength": 0.025,
+      "patina": 0
+    },
+    "Weathered_Bronze": {
+      "metallic": 0.72,
+      "roughness": 0.52,
+      "variation": 0.16,
+      "grain_scale": 24,
+      "bump_strength": 0.018,
+      "patina": 0.2
+    },
+    "Polished_Bronze_Edges": {
+      "metallic": 0.75,
+      "roughness": 0.4,
+      "variation": 0.08,
+      "grain_scale": 28,
+      "bump_strength": 0.008,
+      "patina": 0.06
+    }
+  },
+  "engine_paving": {
+    "tint_srgb": [
+      0.46,
+      0.44,
+      0.38,
+      1
+    ],
+    "metallic": 0.0,
+    "roughness": 0.86,
+    "variation": 0.18,
+    "grain_scale": 16,
+    "bump_strength": 0.025,
+    "patina": 0.0,
+    "guidance": "Apply to courtyard paving only. Keep geometry and collision unchanged. Mild per-tile color multipliers 0.88 to 1.12 help break uniform grid; preserve grout. Avoid raising exposure to compensate for darker honest materials."
+  },
+  "unmodified": "Keep water, emission, foliage, soil and timber as imported PBR materials. Apply shader only to named stone/bronze surfaces. Reuse ShaderMaterial per source material rather than one per instance.",
+  "native_tuning": "Reduced contrast and derivative-attenuated fine noise after native Compatibility screenshot exposed camouflage-like aliasing."
+}

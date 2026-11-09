@@ -1,0 +1,69 @@
+{
+  "origin": "User-supplied procedural audio, listened to and approved by user. Source ZIP README asserts procedural synthesis; legal ownership not independently verified.",
+  "input_library_file_id": "private-library-reference-removed",
+  "input_zip_sha256": "1179f84ae049fbd07b594deb1a79593d0725416b6e729cd8b0c8f0fdcbdb1b75",
+  "source_bytes_unchanged": true,
+  "work_policy": "Four work loops included and activity-gated; no fabricated activity started.",
+  "files": [
+    {
+      "path": "assets/audio/approved_v098/ambience/inn_crowd_muffled.ogg",
+      "sha256": "6c931261320b48663a1d1647b60e29f6507a6f7b6580a470a3663c61db7c6155"
+    },
+    {
+      "path": "assets/audio/approved_v098/ambience/lake_water_lapping.ogg",
+      "sha256": "8988ec69ab6cfa07a3a611d54903355211e338c9748c5fcbc0d32830d2ce2b27"
+    },
+    {
+      "path": "assets/audio/approved_v098/music/settlement_day_loop.ogg",
+      "sha256": "10228fe2aaa9b1e8c80ba0993c5ca41f76328ed1b9160e8e94f999c2d9099645"
+    },
+    {
+      "path": "assets/audio/approved_v098/ui/button_click.wav",
+      "sha256": "84f7364eb1e0174230be88d2e7960f5f645ad3393d94b8bde3766fd72b7efa27"
+    },
+    {
+      "path": "assets/audio/approved_v098/ui/cancel.wav",
+      "sha256": "73cbb038ed40c473c2c928711b81c84165680630107b120258acf79673e37ae6"
+    },
+    {
+      "path": "assets/audio/approved_v098/ui/confirm_buy.wav",
+      "sha256": "3dfa5ab94b39fe7fad898bbf7af2f692a9a66bff87378ee41d92b0ccfd48b6b7"
+    },
+    {
+      "path": "assets/audio/approved_v098/ui/fish_bite.wav",
+      "sha256": "2fa13dacd9d441644f663fbc7efb5767b1a842492e5c3847af8caa600acd5499"
+    },
+    {
+      "path": "assets/audio/approved_v098/ui/item_pickup.wav",
+      "sha256": "cf80899207c118cdcfb0bba7d19884d22fdcdf5fe965a6d2471706a998c6eaf7"
+    },
+    {
+      "path": "assets/audio/approved_v098/ui/menu_close.wav",
+      "sha256": "a0e86fe640e35256d8aaffaed1defc2bd6159a149a6fd99ebe4feb841fb7eb73"
+    },
+    {
+      "path": "assets/audio/approved_v098/ui/menu_open.wav",
+      "sha256": "ea3c7ea486bf694591da43cf0f67d64d937f2d4553b42d3dbf97cdde9a1f8084"
+    },
+    {
+      "path": "assets/audio/approved_v098/ui/splash.wav",
+      "sha256": "9da5b3110fa532196c858d00991d773d1a1b6066fd285354cd1c49320d0e56e8"
+    },
+    {
+      "path": "assets/audio/approved_v098/work/coin_counting.ogg",
+      "sha256": "ae3e900c15edd513ae203e3c05999ec481c5e947a268d2df8fe71379458ebcf6"
+    },
+    {
+      "path": "assets/audio/approved_v098/work/griddle_sizzle.ogg",
+      "sha256": "cdcaa66bf395b5cf4f0da89999ad2a4a8c4e0470ffe6a0b94816bc2e72f50c92"
+    },
+    {
+      "path": "assets/audio/approved_v098/work/hammering.ogg",
+      "sha256": "e5f268a3a059a85a39c42baccc876734c281683ea0255c98ef56566306175ddc"
+    },
+    {
+      "path": "assets/audio/approved_v098/work/loom_sewing.ogg",
+      "sha256": "59c657ad5c4100d4a5042e6d442f16bcc3fc91e92ccd7f2bb0eda06c00710de3"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "name": "planter_fern_variant",
+  "units": "meters",
+  "gltf_axes": "Y-up, front +Z",
+  "origin": "ground centered",
+  "pot_geometry_identical": true,
+  "pot_material_names_and_palette_unchanged": true,
+  "existing_asset_unchanged": true,
+  "collision": "Reuse existing planter pot collision; foliage noncolliding",
+  "assets": {
+    "planter": {
+      "triangles": 6428,
+      "bounds_blender_xyz": [
+        [
+          -0.8149662613868713,
+          -0.668709933757782,
+          0.0
+        ],
+        [
+          0.7470420002937317,
+          0.6854729652404785,
+          1.6110471487045288
+        ]
+      ],
+      "dimensions_blender_xyz": [
+        1.562008261680603,
+        1.3541828989982605,
+        1.6110471487045288
+      ],
+      "materials": [
+        "Fern_Green",
+        "Limestone_1",
+        "Plum_Foliage",
+        "Rich_Soil",
+        "Teal_Foliage",
+        "Weathered_Bronze"
+      ],
+      "pot_fingerprint_sha256": "b1ebe65be525ce41ef70c4f555869c690e0c2d2f69b457d7d2966ab5e2761f47"
+    },
+    "planter_fern_variant": {
+      "triangles": 4556,
+      "bounds_blender_xyz": [
+        [
+          -0.662036120891571,
+          -0.6542598605155945,
+          0.0
+        ],
+        [
+          0.6452428698539734,
+          0.6301842927932739,
+          1.540573239326477
+        ]
+      ],
+      "dimensions_blender_xyz": [
+        1.3072789907455444,
+        1.2844441533088684,
+        1.540573239326477
+      ],
+      "materials": [
+        "Fern_Green",
+        "Limestone_1",
+        "Plum_Foliage",
+        "Rich_Soil",
+        "Teal_Foliage",
+        "Weathered_Bronze"
+      ],
+      "pot_fingerprint_sha256": "b1ebe65be525ce41ef70c4f555869c690e0c2d2f69b457d7d2966ab5e2761f47"
+    }
+  }
+}

@@ -1,0 +1,451 @@
+{
+  "units": "meters",
+  "gltf_axes": "Y-up; front +Z",
+  "source_axes": "Z-up; front -Y",
+  "origin": "ground-bottom, centered horizontal footprint (stairs/hall entry can protrude)",
+  "grid_m": 2,
+  "assets": {
+    "foundation": {
+      "file": "glb/foundation.glb",
+      "bounds_blender_xyz": [
+        [
+          -1.0,
+          -1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.18000000715255737
+        ]
+      ],
+      "dimensions_xyz": [
+        2.0,
+        2.0,
+        0.18000000715255737
+      ],
+      "triangles": 540,
+      "mesh_objects": 1,
+      "materials": [
+        "Limestone_0",
+        "Limestone_1",
+        "Limestone_2"
+      ],
+      "collision": "unchanged existing body; plant leaves non-colliding",
+      "triangles_before": 540,
+      "bounds_before_blender_xyz": [
+        [
+          -1.0,
+          -1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.18000000715255737
+        ]
+      ],
+      "dimensions_blender_xyz": [
+        2.0,
+        2.0,
+        0.18000000715255737
+      ],
+      "bounds_gltf_xyz": [
+        [
+          -1,
+          0,
+          -1
+        ],
+        [
+          1,
+          0.18000000715255737,
+          1
+        ]
+      ],
+      "dimensions_gltf_xyz": [
+        2,
+        0.18000000715255737,
+        2
+      ]
+    },
+    "fountain": {
+      "file": "glb/fountain.glb",
+      "bounds_blender_xyz": [
+        [
+          -2.5,
+          -2.5,
+          0.0
+        ],
+        [
+          2.5,
+          2.5,
+          3.930000066757202
+        ]
+      ],
+      "dimensions_xyz": [
+        5.0,
+        5.0,
+        3.930000066757202
+      ],
+      "triangles": 7800,
+      "mesh_objects": 1,
+      "materials": [
+        "Limestone_0",
+        "Limestone_1",
+        "Limestone_2",
+        "Limestone_3",
+        "Weathered_Bronze",
+        "Jade_Water",
+        "Polished_Bronze_Edges",
+        "Cyan_Luminous_Inlay",
+        "Forged_Dark_Metal"
+      ],
+      "collision": "unchanged existing body; plant leaves non-colliding",
+      "triangles_before": 7800,
+      "bounds_before_blender_xyz": [
+        [
+          -2.5,
+          -2.5,
+          0.0
+        ],
+        [
+          2.5,
+          2.5,
+          3.930000066757202
+        ]
+      ],
+      "dimensions_blender_xyz": [
+        5.0,
+        5.0,
+        3.930000066757202
+      ],
+      "bounds_gltf_xyz": [
+        [
+          -2.5,
+          0,
+          -2.5
+        ],
+        [
+          2.5,
+          3.930000066757202,
+          2.5
+        ]
+      ],
+      "dimensions_gltf_xyz": [
+        5.0,
+        3.930000066757202,
+        5.0
+      ]
+    },
+    "wall": {
+      "file": "glb/wall.glb",
+      "bounds_blender_xyz": [
+        [
+          -1.0049999952316284,
+          -0.14249999821186066,
+          0.0
+        ],
+        [
+          1.0049999952316284,
+          0.11500000208616257,
+          3.0
+        ]
+      ],
+      "dimensions_xyz": [
+        2.009999990463257,
+        0.2575000002980232,
+        3.0
+      ],
+      "triangles": 1844,
+      "mesh_objects": 1,
+      "materials": [
+        "Oiled_Timber_0",
+        "Oiled_Timber_1",
+        "Oiled_Timber_2",
+        "Polished_Bronze_Edges",
+        "Weathered_Bronze"
+      ],
+      "collision": "Use primitive boxes for structures; fountain cylinder radius 2.5 height 0.6; no foliage collision. Do not use full render mesh."
+    },
+    "window_wall": {
+      "file": "glb/window_wall.glb",
+      "bounds_blender_xyz": [
+        [
+          -1.0049999952316284,
+          -0.23000000417232513,
+          0.0
+        ],
+        [
+          1.0049999952316284,
+          0.1300000101327896,
+          3.0
+        ]
+      ],
+      "dimensions_xyz": [
+        2.009999990463257,
+        0.36000001430511475,
+        3.0
+      ],
+      "triangles": 1952,
+      "mesh_objects": 1,
+      "materials": [
+        "Limestone_2",
+        "Oiled_Timber_0",
+        "Oiled_Timber_2",
+        "Polished_Bronze_Edges",
+        "Weathered_Bronze"
+      ],
+      "collision": "Use primitive boxes for structures; fountain cylinder radius 2.5 height 0.6; no foliage collision. Do not use full render mesh."
+    },
+    "doorframe": {
+      "file": "glb/doorframe.glb",
+      "bounds_blender_xyz": [
+        [
+          -1.0049999952316284,
+          -0.14249999821186066,
+          0.0
+        ],
+        [
+          1.0049999952316284,
+          0.12999999523162842,
+          3.0
+        ]
+      ],
+      "dimensions_xyz": [
+        2.009999990463257,
+        0.2724999934434891,
+        3.0
+      ],
+      "triangles": 1412,
+      "mesh_objects": 1,
+      "materials": [
+        "Oiled_Timber_0",
+        "Polished_Bronze_Edges",
+        "Weathered_Bronze"
+      ],
+      "collision": "Use primitive boxes for structures; fountain cylinder radius 2.5 height 0.6; no foliage collision. Do not use full render mesh."
+    },
+    "lantern": {
+      "file": "glb/lantern.glb",
+      "bounds_blender_xyz": [
+        [
+          -0.17000000178813934,
+          -0.17000000178813934,
+          0.0
+        ],
+        [
+          0.17000000178813934,
+          0.17000000178813934,
+          0.8374999761581421
+        ]
+      ],
+      "dimensions_xyz": [
+        0.3400000035762787,
+        0.3400000035762787,
+        0.8374999761581421
+      ],
+      "triangles": 1080,
+      "mesh_objects": 1,
+      "materials": [
+        "Forged_Dark_Metal",
+        "Polished_Bronze_Edges",
+        "Warm_Lantern_Glass",
+        "Weathered_Bronze"
+      ],
+      "collision": "Use primitive boxes for structures; fountain cylinder radius 2.5 height 0.6; no foliage collision. Do not use full render mesh."
+    },
+    "planter": {
+      "file": "glb/planter.glb",
+      "bounds_blender_xyz": [
+        [
+          -0.8149662613868713,
+          -0.668709933757782,
+          0
+        ],
+        [
+          0.7470420002937317,
+          0.6854729652404785,
+          1.6110471487045288
+        ]
+      ],
+      "dimensions_xyz": [
+        1.562008261680603,
+        1.3541828989982605,
+        1.6110471487045288
+      ],
+      "triangles": 6428,
+      "mesh_objects": 1,
+      "materials": [
+        "Limestone_1",
+        "Weathered_Bronze",
+        "Rich_Soil",
+        "Plum_Foliage",
+        "Fern_Green",
+        "Teal_Foliage"
+      ],
+      "collision": "unchanged existing body; plant leaves non-colliding",
+      "triangles_before": 2392,
+      "bounds_before_blender_xyz": [
+        [
+          -0.6380777359008789,
+          -0.773023784160614,
+          0.0
+        ],
+        [
+          0.7288350462913513,
+          0.5021420121192932,
+          1.0617327690124512
+        ]
+      ],
+      "dimensions_blender_xyz": [
+        1.562008261680603,
+        1.3541828989982605,
+        1.6110471487045288
+      ],
+      "bounds_gltf_xyz": [
+        [
+          -0.8149662613868713,
+          0,
+          -0.6854729652404785
+        ],
+        [
+          0.7470420002937317,
+          1.6110471487045288,
+          0.668709933757782
+        ]
+      ],
+      "dimensions_gltf_xyz": [
+        1.562008261680603,
+        1.6110471487045288,
+        1.3541828989982605
+      ]
+    },
+    "canopy_stall": {
+      "file": "glb/canopy_stall.glb",
+      "bounds_blender_xyz": [
+        [
+          -2.006347417831421,
+          -1.506215214729309,
+          0.0
+        ],
+        [
+          2.006347417831421,
+          1.5062150955200195,
+          3.119999885559082
+        ]
+      ],
+      "dimensions_xyz": [
+        4.012694835662842,
+        3.0124303102493286,
+        3.119999885559082
+      ],
+      "triangles": 3684,
+      "mesh_objects": 1,
+      "materials": [
+        "Oiled_Timber_0",
+        "Oiled_Timber_1",
+        "Oiled_Timber_2",
+        "Polished_Bronze_Edges",
+        "Terracotta_Canvas",
+        "Weathered_Bronze"
+      ],
+      "collision": "Use primitive boxes for structures; fountain cylinder radius 2.5 height 0.6; no foliage collision. Do not use full render mesh."
+    },
+    "town_hall": {
+      "file": "glb/town_hall.glb",
+      "bounds_blender_xyz": [
+        [
+          -6.0,
+          -4.900000095367432,
+          0.0
+        ],
+        [
+          6.0,
+          4.0,
+          7.200000286102295
+        ]
+      ],
+      "dimensions_xyz": [
+        12.0,
+        8.900000095367432,
+        7.200000286102295
+      ],
+      "triangles": 14728,
+      "mesh_objects": 1,
+      "materials": [
+        "Ivory_Canvas",
+        "Limestone_0",
+        "Limestone_1",
+        "Limestone_2",
+        "Limestone_3",
+        "Oiled_Timber_0",
+        "Oiled_Timber_1",
+        "Oiled_Timber_2",
+        "Polished_Bronze_Edges",
+        "Terracotta_Canvas",
+        "Weathered_Bronze"
+      ],
+      "collision": "Use primitive boxes for structures; fountain cylinder radius 2.5 height 0.6; no foliage collision. Do not use full render mesh."
+    },
+    "vendor_desk": {
+      "file": "glb/vendor_desk.glb",
+      "bounds_blender_xyz": [
+        [
+          -1.5,
+          -0.675000011920929,
+          0.0
+        ],
+        [
+          1.5,
+          0.675000011920929,
+          1.2725000381469727
+        ]
+      ],
+      "dimensions_xyz": [
+        3.0,
+        1.350000023841858,
+        1.2725000381469727
+      ],
+      "triangles": 1620,
+      "mesh_objects": 1,
+      "materials": [
+        "Oiled_Timber_0",
+        "Oiled_Timber_1",
+        "Oiled_Timber_2",
+        "Teal_Foliage",
+        "Weathered_Bronze"
+      ],
+      "collision": "Use primitive boxes for structures; fountain cylinder radius 2.5 height 0.6; no foliage collision. Do not use full render mesh."
+    },
+    "stair": {
+      "file": "glb/stair.glb",
+      "bounds_blender_xyz": [
+        [
+          -1.0,
+          -1.0099999904632568,
+          0.0
+        ],
+        [
+          1.0,
+          1.0099999904632568,
+          1.0
+        ]
+      ],
+      "dimensions_xyz": [
+        2.0,
+        2.0199999809265137,
+        1.0
+      ],
+      "triangles": 540,
+      "mesh_objects": 1,
+      "materials": [
+        "Limestone_0",
+        "Limestone_1",
+        "Limestone_2",
+        "Limestone_3"
+      ],
+      "collision": "Use primitive boxes for structures; fountain cylinder radius 2.5 height 0.6; no foliage collision. Do not use full render mesh."
+    }
+  },
+  "courtyard_revision": "0.2; fountain, foundation, planter only; companion assets/materials shader and mapping"
+}

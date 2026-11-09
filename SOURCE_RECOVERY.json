@@ -1,0 +1,26 @@
+{
+  "version": "v0.100-r6",
+  "reviewed_pck_sha256": "3bdea21772374a30e6f38b41e075e88b0c2e70502201520a6690def91cc3dd4c",
+  "privacy_redactions": [
+    {
+      "path": "assets/video/loading_intro_provenance.json",
+      "before": "5c6e3fe32beb052f754bebe4c65b99e2d0ec0c331a38b5e40d373c30d231b6a8",
+      "after": "9654e7f5a96a061e9a6abe21e842eff8766b4ffbfea461fa9d3070d60310c512",
+      "reason": "Remove private Library reference IDs only"
+    },
+    {
+      "path": "assets/video/placeholder_provenance.json",
+      "before": "f34f967824e2ec67efe805b161d956b95216dec2b5faf58495c92166d257c6ee",
+      "after": "cb57450e4754dda5a49a5f69ef3007815fd26901ff2b65d13f855026741da192",
+      "reason": "Remove private Library reference IDs only"
+    },
+    {
+      "path": "assets/audio/approved_v098/PROVENANCE.json",
+      "before": "ac50e81eedbbb8d98352805dce6a834f1b077a076f890c3602009535f46b8f88",
+      "after": "b9d24f6cf5db4a4f4d53d293a4a6bca10342819e8ff66881ba7b436733ed9509",
+      "reason": "Remove private Library reference IDs only"
+    }
+  ],
+  "native_resource_pinning": true,
+  "raw_only_export_verified": false
+}

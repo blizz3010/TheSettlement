@@ -1,0 +1,18 @@
+{
+  "status": "user-approved temporary menu background",
+  "source_library_id": "private-library-reference-removed",
+  "source_filename": "gemini_generated_video_e90eb2ab.mp4",
+  "source_sha256": "29274771a2a4ac45c4ee101dd593c1eb4c638bda58af4101276107e5aac23820",
+  "converted_sha256": "7554a91fd17d2fc99dd53f96a41b68942e4686f59e664c4a46201bb78270f6ab",
+  "format": "Ogg Theora",
+  "resolution": [
+    1280,
+    720
+  ],
+  "fps": 24,
+  "duration_seconds": 10,
+  "audio": "removed from playback derivative; original unchanged",
+  "watermark": "preserved",
+  "known_limit": "person and atmosphere visibly reset at loop boundary",
+  "replacement": "replace settlement_menu_placeholder.ogv with licensed/approved Theora video; preserve16:9 or update aspect constant"
+}

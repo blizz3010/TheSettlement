@@ -1,0 +1,215 @@
+{
+  "origin": "Original deterministic synthesis by this project; no third-party samples. Source: assets/source/generate_audio.py",
+  "license": "CC0-1.0 dedication for these generated WAV assets; no attribution required.",
+  "sample_rate": 24000,
+  "assets": [
+    {
+      "file": "wind_rustle.wav",
+      "seconds": 24.0,
+      "peak": 0.1839927123163659,
+      "rms": 0.03320030585726717,
+      "sha256": "2e0ae67016e310b89c2f522b44f71bbb8f84601909dfb2343fb6acabda244488",
+      "loop": true
+    },
+    {
+      "file": "fountain.wav",
+      "seconds": 18.0,
+      "peak": 0.42409727598765146,
+      "rms": 0.08290166225238184,
+      "sha256": "24b5dfb71f27715038b2068092f18097e3ec74f1d416300a05afbd59037d57a0",
+      "loop": true
+    },
+    {
+      "file": "bird_0.wav",
+      "seconds": 2.0,
+      "peak": 0.08449554912311152,
+      "rms": 0.017925156903079043,
+      "sha256": "b66fb4a7f637013e3366068b7d793132a3966a0b7462d6f1da6ec91395b52a8a",
+      "loop": false
+    },
+    {
+      "file": "bird_1.wav",
+      "seconds": 2.0,
+      "peak": 0.08448346963611779,
+      "rms": 0.020698188326517902,
+      "sha256": "f9bdffd0c1490be9ac219ea3a94b814aff381ba9ef905daf536e07ceb3cac283",
+      "loop": false
+    },
+    {
+      "file": "bird_2.wav",
+      "seconds": 2.0,
+      "peak": 0.0844798066237991,
+      "rms": 0.01792515690307903,
+      "sha256": "c8956343bae7aa88f7d369b20f60190d8ede4b8c9e63065082cf1d0dc0c98cc0",
+      "loop": false
+    },
+    {
+      "file": "bird_3.wav",
+      "seconds": 2.0,
+      "peak": 0.0844164169697722,
+      "rms": 0.02069818832651786,
+      "sha256": "196f6f17893c2ab9ed9aec632c9ff3d509b9f45b35bba1c4a850ff6a7453f3b3",
+      "loop": false
+    },
+    {
+      "file": "step_stone_0.wav",
+      "seconds": 0.42,
+      "peak": 0.2426202916861898,
+      "rms": 0.014761880834246783,
+      "sha256": "3d1d4069e6da7cbe81ad8b835c3ed2423da194b354e2d58574265a906cd1c848",
+      "loop": false
+    },
+    {
+      "file": "step_stone_1.wav",
+      "seconds": 0.42,
+      "peak": 0.20272740278397328,
+      "rms": 0.0152952717620607,
+      "sha256": "453933addaadf4ac667710efc64f5edb566398b8d8f6e9dfa700a13529719bd9",
+      "loop": false
+    },
+    {
+      "file": "step_stone_2.wav",
+      "seconds": 0.42,
+      "peak": 0.230182253499127,
+      "rms": 0.015042258966760582,
+      "sha256": "cf671dbc87c45991c4d6d0c3791a9745cfce6d33a4337c4288e4af73a98f5c1c",
+      "loop": false
+    },
+    {
+      "file": "step_stone_3.wav",
+      "seconds": 0.42,
+      "peak": 0.20714013462451,
+      "rms": 0.015423350068354387,
+      "sha256": "3a9728ff5225bc982c8d3960e3bcfa9836c20ceeb8f5814d7a25a644e11c163a",
+      "loop": false
+    },
+    {
+      "file": "step_wood_0.wav",
+      "seconds": 0.42,
+      "peak": 0.21820973701940044,
+      "rms": 0.019924797431125876,
+      "sha256": "7f7d1e2b3d08991f2f927ec1495e8cb889af80bce4d38de51302f0e20d56d44f",
+      "loop": false
+    },
+    {
+      "file": "step_wood_1.wav",
+      "seconds": 0.42,
+      "peak": 0.21466156242917186,
+      "rms": 0.020763264420178777,
+      "sha256": "f89627ee976f80d754a2edfa3dff43a8cd81a0d08d24ea9e9456d304604f8ead",
+      "loop": false
+    },
+    {
+      "file": "step_wood_2.wav",
+      "seconds": 0.42,
+      "peak": 0.23462509851008465,
+      "rms": 0.02072421996568721,
+      "sha256": "fe0d813eb0ed099b3271572f2b294b30e77a4d4bb98ec9d407b3188e94284a77",
+      "loop": false
+    },
+    {
+      "file": "step_wood_3.wav",
+      "seconds": 0.42,
+      "peak": 0.23396604802938728,
+      "rms": 0.020344233047476293,
+      "sha256": "d12b6696549d77f0c68730058294f59abdec142efa60e61b8fb8aa8c83c77ab1",
+      "loop": false
+    },
+    {
+      "file": "step_metal_0.wav",
+      "seconds": 0.42,
+      "peak": 0.1616579627726761,
+      "rms": 0.014667242608916548,
+      "sha256": "0ac89fe3a06238035517fd0c957740a93f7408f223091b1dc82b161880cf2453",
+      "loop": false
+    },
+    {
+      "file": "step_metal_1.wav",
+      "seconds": 0.42,
+      "peak": 0.17342088840356598,
+      "rms": 0.014998476136451774,
+      "sha256": "09f3f6247c5ad956b00136205bbd2211575d5baaa077d719d5d1ae1243268f4e",
+      "loop": false
+    },
+    {
+      "file": "step_metal_2.wav",
+      "seconds": 0.42,
+      "peak": 0.18960951512720117,
+      "rms": 0.015427936278120273,
+      "sha256": "c45697f7e2e9e1161e2e654cffb287029bbdf4e72c7c5013263b5aafd669d71a",
+      "loop": false
+    },
+    {
+      "file": "step_metal_3.wav",
+      "seconds": 0.42,
+      "peak": 0.17212007233923604,
+      "rms": 0.015003222340593073,
+      "sha256": "213f79d24d2290a3b36d9ab9225f1e4534ebeb7732c1273310f5b0c1be0c2cd8",
+      "loop": false
+    },
+    {
+      "file": "step_grass_0.wav",
+      "seconds": 0.42,
+      "peak": 0.17904223361599084,
+      "rms": 0.019710259636863982,
+      "sha256": "8e2f13d3d299bbdd05113d777aee38cd6a93e28e75e54e3c7d4851c513a1a515",
+      "loop": false
+    },
+    {
+      "file": "step_grass_1.wav",
+      "seconds": 0.42,
+      "peak": 0.19170398319927787,
+      "rms": 0.02050179716504613,
+      "sha256": "7aae732c926f51e7d63a011af96eac95988a902a7435120aeba55959bd2a10c6",
+      "loop": false
+    },
+    {
+      "file": "step_grass_2.wav",
+      "seconds": 0.42,
+      "peak": 0.20425193791967208,
+      "rms": 0.019949480657303814,
+      "sha256": "81d7f44c6be9e748030576b069d37e60689496cd9d54c60776f82dcf7e747e15",
+      "loop": false
+    },
+    {
+      "file": "step_grass_3.wav",
+      "seconds": 0.42,
+      "peak": 0.25838645879360783,
+      "rms": 0.020129637601308283,
+      "sha256": "146985a790b2db7106e125afde55e21e0b0cf2fa6bf72759eb49a172e9475bc4",
+      "loop": false
+    },
+    {
+      "file": "step_dirt_0.wav",
+      "seconds": 0.42,
+      "peak": 0.14603568508259712,
+      "rms": 0.014823666094262949,
+      "sha256": "17711466b01bff013b4307663ecfbfeaaefb68cb1c8f91abdc421011cc572b7d",
+      "loop": false
+    },
+    {
+      "file": "step_dirt_1.wav",
+      "seconds": 0.42,
+      "peak": 0.15272020837357891,
+      "rms": 0.014882384835395947,
+      "sha256": "945b980abb381fccc26a8e0b62de3d9aba4e48f6d75294c09cadf5838b999770",
+      "loop": false
+    },
+    {
+      "file": "step_dirt_2.wav",
+      "seconds": 0.42,
+      "peak": 0.1781343999503059,
+      "rms": 0.015734341846639938,
+      "sha256": "0612560c47ef4a160278a5e512f4e2c4db79e66859ccbfb69e6a7f00012e583d",
+      "loop": false
+    },
+    {
+      "file": "step_dirt_3.wav",
+      "seconds": 0.42,
+      "peak": 0.16674903846409542,
+      "rms": 0.015451828470630865,
+      "sha256": "35410da4f29a72f6fd86790e9630b594503e862acd891aeda52af0dc293e4252",
+      "loop": false
+    }
+  ]
+}

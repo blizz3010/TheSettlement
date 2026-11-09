@@ -1,0 +1,654 @@
+[
+  {
+    "path": "models/Appearance-Proof_short02_diffuse.png.import",
+    "sha256": "40c9a49b3820dff4ca8e05266eed7682f5900372704eac65e2a9d54a1a4a7786"
+  },
+  {
+    "path": "models/Appearance-Proof_brown_eye.png.import",
+    "sha256": "439d8f78305a7054e66c3d0d452a681bfc109e9e02089ba5f54d3c8dc0194459"
+  },
+  {
+    "path": "models/Appearance-Proof_eyebrow009.png.import",
+    "sha256": "0392444c4724d5ad89dd2c9355ac65343a77c4dcd475eee9c6f3aa73e3e142bd"
+  },
+  {
+    "path": "models/Appearance-Proof_eyebrow001.png.import",
+    "sha256": "70d414c2e3caedfae24495e813b75508d19d3c90ca9650adc1ca7472f1dd52f1"
+  },
+  {
+    "path": "models/Appearance-Proof_bob01_diffuse.png.import",
+    "sha256": "1f0f00601f3b187b6ac958cd7cf44761fc44fa0cdcfc5be357ab4559736b2a7c"
+  },
+  {
+    "path": "models/Appearance-Proof.glb.import",
+    "sha256": "17f68339574cdeb53d68d05aa008b99f71c89f78826679eff9b29e75063f1611"
+  },
+  {
+    "path": "models/Appearance-Proof_blue_eye.png.import",
+    "sha256": "65c2a7857f6682166372fb9bcc79e12b789992fe87939bd9f68f5d02b0c86257"
+  },
+  {
+    "path": "assets/starter_bed.glb.import",
+    "sha256": "c1b9f04ca1d92117a36cfc45519155cef22527a7ef5774c7b640c657862f3a5a"
+  },
+  {
+    "path": "assets/npc_coverage/Atlas-Static-Sleeve-Fit_shoes02_diffuse.png.import",
+    "sha256": "7d20a47d2102330733c67e15ffaa2cdd0b6e71631e53d8ffdd71b6fe6769ca8a"
+  },
+  {
+    "path": "assets/npc_coverage/ProvisionalStaff_short02_diffuse.png.import",
+    "sha256": "ac12ab883190adba594d5a54313a7b9baac735c2179e2bc23a8780c76cae93b4"
+  },
+  {
+    "path": "assets/npc_coverage/Atlas-Static-Sleeve-Fit_middleage_lightskinned_male_diffuse.png.import",
+    "sha256": "34c09a3e8191df022341e6abaebe7871a43c2c1c729ca686dd6a04f51744e3a2"
+  },
+  {
+    "path": "assets/npc_coverage/ProvisionalStaff_brown_eye.png.import",
+    "sha256": "c7b2c8da6f96c48e40528452b50350be067657fb00730278c8e76fa7d8f215cf"
+  },
+  {
+    "path": "assets/npc_coverage/Atlas-Static-Sleeve-Fit.glb.import",
+    "sha256": "84f831a531b64fe9dd7b124f1860cbf65e8a9bb8b615fcc5b479bbd1a1985402"
+  },
+  {
+    "path": "assets/npc_coverage/Atlas-Static-Sleeve-Fit_male_worksuit01_diffuse.png.import",
+    "sha256": "0ce548eb20959344fa4a77c9acdf3ef85a2c2b7d7d34a7e24b71d09bb48a94d1"
+  },
+  {
+    "path": "assets/npc_coverage/Atlas-Static-Sleeve-Fit_brown_eye.png.import",
+    "sha256": "fb1261560147d2ac21306cc017b513f1af7fd0a559570e556e0613021b229f70"
+  },
+  {
+    "path": "assets/npc_coverage/ProvisionalStaff_shoes02_diffuse.png.import",
+    "sha256": "b319ae02b7f3003e755b8a12a34d51b63c10da8d06c03b497680b8b27ea02407"
+  },
+  {
+    "path": "assets/npc_coverage/Atlas-Static-Sleeve-Fit_short01_diffuse.png.import",
+    "sha256": "6adbb83bce9272cca6586a1f51ce719501604a2340fe52b93ab01b1826acb002"
+  },
+  {
+    "path": "assets/npc_coverage/ProvisionalStaff_middleage_lightskinned_male_diffuse2.png.import",
+    "sha256": "568fc44d8fb021b9a401dc4dcd1c261d50205bb5540c42b52afc0efaa1d3fe2a"
+  },
+  {
+    "path": "assets/npc_coverage/ProvisionalStaff_male_worksuit01_normal.png.import",
+    "sha256": "5af9e40ba61cdc71ee9efd9faa35eb9a3cadc12cb552d213eb5f740f7e781831"
+  },
+  {
+    "path": "assets/npc_coverage/Atlas-Static-Sleeve-Fit_eyebrow009.png.import",
+    "sha256": "bdba5f154536507d21849f8107826538e8dbbe1d9d47b90b190a92904638087d"
+  },
+  {
+    "path": "assets/npc_coverage/ProvisionalStaff.glb.import",
+    "sha256": "60f7b0d8090fc50a53dc929f814c40e6297de06ce44c2fb1eced1bf73cd0a2ac"
+  },
+  {
+    "path": "assets/npc_coverage/ProvisionalStaff_male_worksuit01_diffuse.png.import",
+    "sha256": "838e0cb3c458d39d5ff08e65fc76f0e0f39e5a406f00696a533504d2b2afb746"
+  },
+  {
+    "path": "assets/npc_coverage/ProvisionalStaff_eyebrow009.png.import",
+    "sha256": "1a2f466fa09609146c5f529ff7ac5703d0133520516d0d43dc1701685e185227"
+  },
+  {
+    "path": "assets/trader_display/stone_ore_tray.glb.import",
+    "sha256": "46af8224b5e21a9a5916db044848a99628d3358296cac5694f2b0e375aeccac9"
+  },
+  {
+    "path": "assets/trader_display/timber_bundle.glb.import",
+    "sha256": "94c1970ccc0e6eb6ddefe6a53f645e621fb51d0eaaeee4513b1b00b4d7785835"
+  },
+  {
+    "path": "assets/trader_display/scrap_display_rack.glb.import",
+    "sha256": "782a87b661501259a5919ce172f68809b7fdfbdaa45d8c17da9b9f30b95cc810"
+  },
+  {
+    "path": "assets/foliage_wind/border_shrub_b.glb.import",
+    "sha256": "54f6316694b0c0b1a96ae2d493fb6ebfea7138d4429c4f2753a5bfb60faaeb3f"
+  },
+  {
+    "path": "assets/foliage_wind/Low_Shrub_A.glb.import",
+    "sha256": "47bbeb2657ac84238051ce2af3ea1240e2a17e748f12cb1a8697c95cd3f15a36"
+  },
+  {
+    "path": "assets/foliage_wind/Broadleaf_Tree_A.glb.import",
+    "sha256": "d270bdb9a185c8d23d44c74922cfb7e79bb91e3b3a4c4157be43defedf50d62d"
+  },
+  {
+    "path": "assets/foliage_wind/border_shrub_a.glb.import",
+    "sha256": "52ab005dcac5c044f47ae6a61b50d52d989f36e400ab131951acf85bf8a0712e"
+  },
+  {
+    "path": "assets/foliage_wind/border_tree_a.glb.import",
+    "sha256": "b803ae10e595f48fe9948935652bee4bd953d884b0e0fab4b2a41b8bb8c9b00a"
+  },
+  {
+    "path": "assets/foliage_wind/border_tree_b.glb.import",
+    "sha256": "315b4f5f5e39a04a39e4ae4e6e780ef04910536cdf04d32a604af1040192e19a"
+  },
+  {
+    "path": "assets/foliage_wind/Low_Shrub_B.glb.import",
+    "sha256": "5097a6c4d2701a48800e3ad338ad2422658c4b490537960fd82af1218f5e0410"
+  },
+  {
+    "path": "assets/park_west/west_garden_fixed.glb.import",
+    "sha256": "25d162f60c9992a4c5d3cc37d185ddb262c950b7609cb7991f2a389e7dafe832"
+  },
+  {
+    "path": "assets/market_detail/dan_consignment.glb.import",
+    "sha256": "dcd719b5a14569b9d21c2748777b488f3b25fcf6f7945ae3279919f76b207732"
+  },
+  {
+    "path": "assets/market_detail/psy_field_vest.glb.import",
+    "sha256": "e45811ee8abccdd2d24f3efb3fb12aaddf2ffb3e201b76c12390f04007864368"
+  },
+  {
+    "path": "assets/market_detail/atlas_returns.glb.import",
+    "sha256": "ddcfb4d03dfb62794c0ddcf8569b4572b1f1196a0d270d252f043c3d17aea49c"
+  },
+  {
+    "path": "assets/market_detail/psy_visor_helmet.glb.import",
+    "sha256": "c0b17aed02a6dcdac250a2ddf7ad02a800c58132c39416cb80929471d9b2ac9e"
+  },
+  {
+    "path": "assets/market_detail/psy_expedition_pack.glb.import",
+    "sha256": "59a23cd42dbc3099e6b9f476ad65d7a6c4812fb3994e53627a065f6a6d275e17"
+  },
+  {
+    "path": "assets/park_layered/park_layered_fixed.glb.import",
+    "sha256": "baa0091bcb3fb76beb1fa40ec604516877fa059a06f356d322849f70c0d731bb"
+  },
+  {
+    "path": "assets/quaternius/Bark_NormalTree_Normal.png.import",
+    "sha256": "42f04a3e54a90a2c345c4a34dc2ee19433e715d9d78de09f767245bf62b162a9"
+  },
+  {
+    "path": "assets/quaternius/PathRocks_Diffuse.png.import",
+    "sha256": "89fb2a56e2cd65544b9b602ccfefe991c88bc62e240f0f93b8fbf9d27ff7b600"
+  },
+  {
+    "path": "assets/quaternius/Flowers.png.import",
+    "sha256": "ee7b35e33bf8caa372374de677fcdeae93bf6de466efa90a3b8fda15fcf58d21"
+  },
+  {
+    "path": "assets/quaternius/Clover_1.gltf.import",
+    "sha256": "381c07a5bc7ddf4009b61cc5ad53091d4ebc990db1bce16f320babe9a51812e4"
+  },
+  {
+    "path": "assets/quaternius/Fern_1.gltf.import",
+    "sha256": "75c0ee6141f607ba02ed983123be74a5bdeabab9d6a8c320dced8c7a9bc8fbf9"
+  },
+  {
+    "path": "assets/quaternius/Plant_1.gltf.import",
+    "sha256": "48083efb17f4dd1edfd9697338974511d0964898a2aeaff275543463958eaa8d"
+  },
+  {
+    "path": "assets/quaternius/CommonTree_3.gltf.import",
+    "sha256": "649b470832792eeed36aa3728a55cfe441e4afce2dd641f0ac5346b86b4f1e09"
+  },
+  {
+    "path": "assets/quaternius/Pebble_Round_1.gltf.import",
+    "sha256": "87541f43c5373333a63a28df2e8a47da1b9b58e6dd05b67610547f25a42fef71"
+  },
+  {
+    "path": "assets/quaternius/Grass.png.import",
+    "sha256": "55fd5d1820ab9f01bc1cab3c1fa9468c11b86cc7d76348c9c2f19df7476e2257"
+  },
+  {
+    "path": "assets/quaternius/Grass_Wispy_Short.gltf.import",
+    "sha256": "12e9f8b8ed1ac9b8dae900ccdbcd9b7ad7935481e9efcc1291f7fd92ab039939"
+  },
+  {
+    "path": "assets/quaternius/Leaves_NormalTree_C.png.import",
+    "sha256": "a16ecf77b29b2fc7ce824a2cff849b5f391c97ba47841a73c554b6fe5341b825"
+  },
+  {
+    "path": "assets/quaternius/Rock_Medium_1.gltf.import",
+    "sha256": "2ec63670dd74254823bf484544be6e6e7c46434ed8cd822acd1f75d9940cf6b9"
+  },
+  {
+    "path": "assets/quaternius/Bark_NormalTree.png.import",
+    "sha256": "d9e285553fb4e087ef5ec8d042e4d6cfe0790337d4435f974962ee64d6f1d50a"
+  },
+  {
+    "path": "assets/quaternius/Bush_Common_Flowers.gltf.import",
+    "sha256": "4f4c0e8a96dc51fbe5ea04614492010d55b23283d733c7588a6e4954cc1ed43e"
+  },
+  {
+    "path": "assets/quaternius/Leaves_TwistedTree_C.png.import",
+    "sha256": "cf8c8e80417489015d1fdc85ba811fe6b2a1027a123fbbd3b7ccddece1875810"
+  },
+  {
+    "path": "assets/quaternius/Flower_4_Group.gltf.import",
+    "sha256": "34c1daeb436f7d83bbb7c56e280fd2caa6ad056f2cc12470b30dc22c48405c00"
+  },
+  {
+    "path": "assets/quaternius/Rocks_Diffuse.png.import",
+    "sha256": "2badb86c691c4a7f90ee8967e6b80a971682ecbdd735f5d818d8205f9fc40f81"
+  },
+  {
+    "path": "assets/quaternius/Flower_3_Group.gltf.import",
+    "sha256": "da847a55ecfce680b9a4abea861668d081bf5056340ec6862778edd2003be5df"
+  },
+  {
+    "path": "assets/quaternius/Leaves.png.import",
+    "sha256": "dfab88b2a8b5f04d97e7364a871a5c68e7e28f06a9b25f0625d52be476e28cb4"
+  },
+  {
+    "path": "assets/quaternius/Bush_Common.gltf.import",
+    "sha256": "c7d7fb089759a24f5daee0244c32ea06a6ac8cd7bd5b0d4bb6bce57c411f9163"
+  },
+  {
+    "path": "assets/quaternius/CommonTree_1.gltf.import",
+    "sha256": "9ac8592456fa26584e9cdd141838a47a642ce45625c27da5adee24c2fc9a13e8"
+  },
+  {
+    "path": "assets/ui/inventory_timber.svg.import",
+    "sha256": "0fc1a9703de4e7fe48798d1570dca04a0ef0e67a66ac5911908095a32ba351c1"
+  },
+  {
+    "path": "assets/ui/settlement_crest.svg.import",
+    "sha256": "d3d37669a8b9eaed26bfa01a2beb616d491ba11a52b311e0f8f96a10b8610997"
+  },
+  {
+    "path": "assets/ui/settlement_crest.png.import",
+    "sha256": "b0710c3bc431de9f77236996efc26985f162f0c83d22df03692c9d937b607087"
+  },
+  {
+    "path": "assets/ui/inventory_stone.svg.import",
+    "sha256": "7400af41d785723a052fccceffbaf9c86cd2ad9297104d6d1d6ced4946e32467"
+  },
+  {
+    "path": "assets/ui/inventory_metal.svg.import",
+    "sha256": "cba3e667d8b7db3d9240e4837c517d020f2da46477270df2f0f94bf09b920985"
+  },
+  {
+    "path": "assets/ui/inventory_character_outline.svg.import",
+    "sha256": "f6973c08db68249a9dfb8ca06a8b726f80b0a9d4e495e4922a6851c6b1c46b4b"
+  },
+  {
+    "path": "assets/ui/inventory_lantern_kit.svg.import",
+    "sha256": "a1ff76b289a0b0a299b5cf3833ade1aca8fb610a4451e6bf8d8754ae3633d6b9"
+  },
+  {
+    "path": "assets/ui/inventory_stream_fish.svg.import",
+    "sha256": "811e38a7b8d9f9a0cd045f564a73232375d7b227cfb341b97a974b2302a0b47b"
+  },
+  {
+    "path": "assets/planting_dense/small_rock_group.glb.import",
+    "sha256": "042c98dc3f611bafd1da3f8525a5e5127d5760f796f00caf47ccaefa47f41503"
+  },
+  {
+    "path": "assets/planting_dense/flower_groundcover_mat.glb.import",
+    "sha256": "fb79788933322da1607f5fd283fc2e0006b7e612c44d6b6e584f32122c05dc42"
+  },
+  {
+    "path": "assets/planting_dense/compact_broadleaf_mound.glb.import",
+    "sha256": "9f61e45b76ff7941833845eda118e47599ca25e04cf375210195fac633080a17"
+  },
+  {
+    "path": "assets/kit/launchpad_ship.glb.import",
+    "sha256": "d861148c9b4dc537d3ca813ba52d0e3d61c34b27d0ed1219d04b364a704a5ffa"
+  },
+  {
+    "path": "assets/kit/doorframe.glb.import",
+    "sha256": "bd781f5ecbf0559498263efa05f1d4a63bc5c3fe38a4c8798350238b92d49d7f"
+  },
+  {
+    "path": "assets/kit/border_shrub_b.glb.import",
+    "sha256": "c30350a7df4bae7cacecca6c90b44a9e6a5664015a21b3d1bc3aa2af01fd3e5f"
+  },
+  {
+    "path": "assets/kit/wall.glb.import",
+    "sha256": "099129be250e8b4efb9649dcf69f1b6ba024b96de5dd7c96ca6ff0ad08cbb7fd"
+  },
+  {
+    "path": "assets/kit/fountain.glb.import",
+    "sha256": "81deef72889097b00de1dfcf45f4520d01b3cf27bf3f1e513519703087b134d9"
+  },
+  {
+    "path": "assets/kit/stair.glb.import",
+    "sha256": "da3f54a7c9ca25f1f055ddd9eb08ecf1fea1609fe65ce64b4f59e17cd87dcec4"
+  },
+  {
+    "path": "assets/kit/reference_low_shrub_b.glb.import",
+    "sha256": "ced1593aeb87cbfa4b6b9831400ea70df6ea6d343b1653028813bd13fafac7b3"
+  },
+  {
+    "path": "assets/kit/border_shrub_a.glb.import",
+    "sha256": "55baf41383e29bc232699bd5e6e0dfa6da699ff49040768795bacccd90793ad1"
+  },
+  {
+    "path": "assets/kit/border_tree_a.glb.import",
+    "sha256": "f2bf4957f8216be92a120c65bab484324a48896e436688aed881e144a9f50785"
+  },
+  {
+    "path": "assets/kit/foundation.glb.import",
+    "sha256": "b3f10a7d80e8730addc83a9b1f60defc67e20974d40e0043aa13bbac367bf065"
+  },
+  {
+    "path": "assets/kit/fountain_apron.glb.import",
+    "sha256": "e28c46fc4f73e9a7e54e4ec66a61c51e66a842816d711f4723aca1847538220d"
+  },
+  {
+    "path": "assets/kit/planter_fern_variant.glb.import",
+    "sha256": "a24ed5d8ebc193cf9070e3e6dccd7388df33e60de9e803bf943d0c10256d30dc"
+  },
+  {
+    "path": "assets/kit/trader_frontage.glb.import",
+    "sha256": "1a95ab2074b7accd90d0e1b9de337a84dc210c01430ca96e7594ba7e818ada6d"
+  },
+  {
+    "path": "assets/kit/reference_broadleaf_tree_a.glb.import",
+    "sha256": "ac3cf959c72aa851a7402a51a472ba3cb7051d6e2ad632ed110cf5943b0e30e6"
+  },
+  {
+    "path": "assets/kit/plaza_bench.glb.import",
+    "sha256": "3c133c1671624a0402946dc5caad0043fd6c38151d5153cce71a24241b98a75b"
+  },
+  {
+    "path": "assets/kit/border_tree_b.glb.import",
+    "sha256": "1f8514726874ed9c5d0ac879b9cb90425422ed29f579edc9fe2af1585d29a357"
+  },
+  {
+    "path": "assets/kit/reference_low_shrub_a.glb.import",
+    "sha256": "9a904c621d41b9fa32e66ad35b5fac0241412a2791298c9ec30d3630d6ce8bb3"
+  },
+  {
+    "path": "assets/kit/west_trader.glb.import",
+    "sha256": "b816702324e1e7b5d92778abb993d6736da0082bade51f28e60f117a0a5f26b7"
+  },
+  {
+    "path": "assets/kit/home_storage_chest.glb.import",
+    "sha256": "60f1d0411195f7acf4dcb8edc938c640912643aa83d35e061c358c53913af88f"
+  },
+  {
+    "path": "assets/kit/town_hall.glb.import",
+    "sha256": "d6616c92cf47009c0b4b82dbd491bd588ceab21fa672dd0f1f388d406bbd7147"
+  },
+  {
+    "path": "assets/kit/lantern.glb.import",
+    "sha256": "c9145be7ec590c51c8871ad7108c227b8d4434163651c3599d5904d6aadf9515"
+  },
+  {
+    "path": "assets/kit/vendor_desk.glb.import",
+    "sha256": "9d3275a038fe619964fad26fb2f16cf4badf82bb860eb6722928e175776bb3cd"
+  },
+  {
+    "path": "assets/kit/planter.glb.import",
+    "sha256": "2565c87150abdcbc1107bf1b1b0b708a311abf4f571a2ec0a359f1ac40ef6fd6"
+  },
+  {
+    "path": "assets/kit/canopy_stall.glb.import",
+    "sha256": "e0cbb5e7b53fd32a5be034e392da7fee1d889f94e004660a029cc05c32df6d88"
+  },
+  {
+    "path": "assets/kit/window_wall.glb.import",
+    "sha256": "aeb6bf2519791e2bacaf80a332cec6c13d24c768cc84df242f14484c3368b247"
+  },
+  {
+    "path": "assets/fonts/DejaVuSerif.ttf.import",
+    "sha256": "1196013c0b1a860ea4a32b8a9081b64d2f0409ce5c274f34f9ce1e75d3459840"
+  },
+  {
+    "path": "assets/traders_wip/Dan-PlacementStudy.glb.import",
+    "sha256": "e09111be00b0769126ac9893ed1a60e173952ddd3a0cb774b2fac8e5fce3f00a"
+  },
+  {
+    "path": "assets/traders_wip/Psy-PlacementStudy.glb.import",
+    "sha256": "189648b316ff0e90b2e438c9b0c08c5c5282a13df9cbd6f45803d4eed6507e64"
+  },
+  {
+    "path": "assets/groundcover/ground_grass_a.glb.import",
+    "sha256": "eff701a7d195a13c8d938a15998127be586c7c7490db2a0c3bffdc1f4722326d"
+  },
+  {
+    "path": "assets/groundcover/ground_flowers_purple.glb.import",
+    "sha256": "86be379c849af875d3698751e4ae0606eda9e42ad2ac472ee8c47b0a4935c518"
+  },
+  {
+    "path": "assets/groundcover/ground_flowers_yellow.glb.import",
+    "sha256": "e76a63c36da3057283cf8fed54686c5ef62ce65cfa544a6284508d3b9527b100"
+  },
+  {
+    "path": "assets/groundcover/ground_fern_a.glb.import",
+    "sha256": "884f17538497e7431a558c136b1c650fd3bb2cbeb2b7cd1c19d315a75dc43749"
+  },
+  {
+    "path": "assets/groundcover/ground_shrub_a.glb.import",
+    "sha256": "5b10cd72417a6e26c3e98f1699be41156ec5495879c189d563d4b82d1c784c40"
+  },
+  {
+    "path": "assets/wildlife/squirrel.glb.import",
+    "sha256": "18af3f40a376105982d5f2dacd3ac6ff9ac7d9032c90894510f3c1f4a55dfb0c"
+  },
+  {
+    "path": "assets/wildlife/songbird.glb.import",
+    "sha256": "91781ef83398a687b09260eced5b055c09537bd99060f5bf26696f1da3d542cf"
+  },
+  {
+    "path": "assets/audio/step_grass_2.wav.import",
+    "sha256": "55cbb249329f140cdb8cd3aecdb3621a097d2d975e31e973904783b04cb8cec7"
+  },
+  {
+    "path": "assets/audio/step_metal_1.wav.import",
+    "sha256": "d6308cf697af6ab547b384c5677ce4385ea33c27000f297477ea13834e6f36d9"
+  },
+  {
+    "path": "assets/audio/step_wood_0.wav.import",
+    "sha256": "f20a207269fc21f75df2d6c856b8af7bdf6999fdc586b25439d92403d01de640"
+  },
+  {
+    "path": "assets/audio/step_wood_2.wav.import",
+    "sha256": "44271b2d3cc7a058b6d00c66958feecd9df02041315796fd01591738ff4ac048"
+  },
+  {
+    "path": "assets/audio/step_stone_2.wav.import",
+    "sha256": "1cc1629737954207dbc03e60df5c7d8ddaef8a98a507a758a202acf4812228a8"
+  },
+  {
+    "path": "assets/audio/step_dirt_1.wav.import",
+    "sha256": "dffc5ee7ebacaaf060ec847027ca840379852167cae8b9254a4e77385e5591ba"
+  },
+  {
+    "path": "assets/audio/step_wood_3.wav.import",
+    "sha256": "fcf13e5aa641492268033c10fa9c0f62168162f15c924aa870c41cc84c3d23a9"
+  },
+  {
+    "path": "assets/audio/step_stone_1.wav.import",
+    "sha256": "9e438e537038ebf8ed03cb8ae67808633d96f4d602e2aaca0d294a84379da501"
+  },
+  {
+    "path": "assets/audio/step_stone_3.wav.import",
+    "sha256": "0619f9a9053b520f0c39aa3d8140c0fa213b78e0b1c227232e8e402c6b25d1f0"
+  },
+  {
+    "path": "assets/audio/wind_rustle.wav.import",
+    "sha256": "61c6071af5d57903ca0dd18b7ac75c5d1e153a1ae32c2ce994d1e5d28de6eb98"
+  },
+  {
+    "path": "assets/audio/bird_3.wav.import",
+    "sha256": "73b2d6111d91cf61f486bc8b5aaa3becd752f62512ce3fb1f9438aba4e76c394"
+  },
+  {
+    "path": "assets/audio/bird_2.wav.import",
+    "sha256": "f09120405a52b95f84d9f617640f03775037daf226ed323239cfe912568ab807"
+  },
+  {
+    "path": "assets/audio/step_grass_0.wav.import",
+    "sha256": "3b30a18233f05833710ab1abf4c7be95a008277ffc4cd3248e7b735feeb76511"
+  },
+  {
+    "path": "assets/audio/step_metal_0.wav.import",
+    "sha256": "e1c227cf0997527db4bbe06a3ba161c38ac1508012566f136a113019e759cb60"
+  },
+  {
+    "path": "assets/audio/step_metal_3.wav.import",
+    "sha256": "034e7120476c9c1eb32f0f672caa6a20df407626fca39b6c4f8d2318e2bac3f6"
+  },
+  {
+    "path": "assets/audio/step_dirt_2.wav.import",
+    "sha256": "eb6fadf439cb629478d8adb6f5593fa85d956761429eed95e0131862dda98733"
+  },
+  {
+    "path": "assets/audio/menu_first_snow.ogg.import",
+    "sha256": "26d76c454ca481f685832dab40f7c0dd827805f532e2b523ae0690d608f9cfaa"
+  },
+  {
+    "path": "assets/audio/step_grass_3.wav.import",
+    "sha256": "66d1bff40b6aadf65a1e8e630d479c3057af36b2f14a8a3f8c5542b4c56ed863"
+  },
+  {
+    "path": "assets/audio/bird_0.wav.import",
+    "sha256": "df7a94da9c9b285186ec7359ee9eb63c37931171d0a4abaaade93dfb84d1e983"
+  },
+  {
+    "path": "assets/audio/bird_1.wav.import",
+    "sha256": "c0d0115f4e25e45422a37e6a829e775fb5094ad4d5a3f615a0bcafb09092f3f5"
+  },
+  {
+    "path": "assets/audio/step_dirt_3.wav.import",
+    "sha256": "2e03baa09e367a2fcdc6ac0e7d932e4f1f10340d6cab6645fbfe11d0173ff7cd"
+  },
+  {
+    "path": "assets/audio/step_metal_2.wav.import",
+    "sha256": "3d4083f06748a3654ec700f202a639564b12bfbe076bdcc4c33c8f56be54dff6"
+  },
+  {
+    "path": "assets/audio/step_dirt_0.wav.import",
+    "sha256": "0fda7adcf7e1e9c453bd16085a4c5c3ebc575b68e069ee2dae56fb2409503224"
+  },
+  {
+    "path": "assets/audio/step_stone_0.wav.import",
+    "sha256": "0d03d7bccf6ec34c198861492f3c2d0b89228d8c665cb1cae3950358b834c1f9"
+  },
+  {
+    "path": "assets/audio/fountain.wav.import",
+    "sha256": "4a0da3f9e16ddc16cf75155dd626eca05d1ba92bdc9b4e1a674da1b9e4720610"
+  },
+  {
+    "path": "assets/audio/step_wood_1.wav.import",
+    "sha256": "70678ce349fe1ce964370d697363c0870a236a1d422112a5b9ea2414a5a295ba"
+  },
+  {
+    "path": "assets/audio/settlement_menu_calm.wav.import",
+    "sha256": "3ea43e8c410ec65e05b17bba0ab73c914911c62339ac6846347ec24f68cb8b4e"
+  },
+  {
+    "path": "assets/audio/step_grass_1.wav.import",
+    "sha256": "f810cd97b5f122d326aa494762ce77f02528c459f4842bd0f6c9ac8a3968da05"
+  },
+  {
+    "path": "assets/ui/build/bed.svg.import",
+    "sha256": "dc6545b6d35aa4b33503783b66fc59f6c53216cbb7d3125a5e55a010dfb65111"
+  },
+  {
+    "path": "assets/ui/build/door.svg.import",
+    "sha256": "fb8b36e7a4f701ba5b352ddc5701574c73aa5eefe11f153a5a0940b3aa2d3f0b"
+  },
+  {
+    "path": "assets/ui/build/foundation.svg.import",
+    "sha256": "694a670bd4b7bb16afde46eba6568efddd0a4a0d3fc6c1f4c7a512e55813b001"
+  },
+  {
+    "path": "assets/ui/build/doorframe.svg.import",
+    "sha256": "e7b4e958aee3f0279a3aaffe89ba73acc6626f0824a67f5e4dc5125950289b26"
+  },
+  {
+    "path": "assets/ui/build/workbench.svg.import",
+    "sha256": "9bf4401f04c65896c59f8544a5b01b539f1ad7a5b6106c79b3d00f7650a5d16d"
+  },
+  {
+    "path": "assets/ui/build/ceiling.svg.import",
+    "sha256": "b76632ebe7ecaab8467f359a66ed53abf0cc2ee1f70a76c4f9a808110fd5fe67"
+  },
+  {
+    "path": "assets/ui/build/window_wall.svg.import",
+    "sha256": "ad4f288de8b8c589891c1a740a5d99287704c52812cdfb8fd700911678786d90"
+  },
+  {
+    "path": "assets/ui/build/canvas_awning.svg.import",
+    "sha256": "7fedd06c42417cf0f896b976333ee25697d26ff820b7bf5363b09b9a0f146628"
+  },
+  {
+    "path": "assets/ui/build/wall.svg.import",
+    "sha256": "eb66aa9985a8a342a992e7579f37a9fce1df473a21f77b98e16f817aa68dc073"
+  },
+  {
+    "path": "assets/ui/build/stairs.svg.import",
+    "sha256": "11b22f9d919f6e1d5a9658b7662336ca4c0e4514bb5ffc90a0426dade96951c5"
+  },
+  {
+    "path": "assets/ui/build/pitched_roof.svg.import",
+    "sha256": "ea54e5aad8d578075e4b42d78d12f13368ba85a92c299336ceb6541bb6887e52"
+  },
+  {
+    "path": "assets/ui/build/railing.svg.import",
+    "sha256": "17b6f24ab54a13750bbc6277e380e903d220a26f6020e0727c69285d90f69d7c"
+  },
+  {
+    "path": "assets/ui/build/lantern.svg.import",
+    "sha256": "655abb017d4b7b9d1ae94165a570ede84a56f209f3c4dd0653d87390e2dd939b"
+  },
+  {
+    "path": "assets/audio/approved_v098/ambience/inn_crowd_muffled.ogg.import",
+    "sha256": "876254557547086c9b822247df88e6f21f3120ba70d6f454d830f2869c7a61ab"
+  },
+  {
+    "path": "assets/audio/approved_v098/ambience/lake_water_lapping.ogg.import",
+    "sha256": "792ef95329d2f3a8cd7830514ad8c94d71f2db46eab0513f72d62b7ce1893490"
+  },
+  {
+    "path": "assets/audio/approved_v098/work/griddle_sizzle.ogg.import",
+    "sha256": "15a5ce94074190280b07ef5a27afc14af38d7048d40051da76c2d3cebfc8a735"
+  },
+  {
+    "path": "assets/audio/approved_v098/work/coin_counting.ogg.import",
+    "sha256": "f658307e9a9830cf23f7b26ab0f59aeebc3eecac3bd2ba01b90a6749cd753248"
+  },
+  {
+    "path": "assets/audio/approved_v098/work/hammering.ogg.import",
+    "sha256": "a95bf73430d7ebc5c9d2675dfda2396da78028483f5dd8c40bd96ceb77d6e9e0"
+  },
+  {
+    "path": "assets/audio/approved_v098/work/loom_sewing.ogg.import",
+    "sha256": "b53d8fb4619fdceb9b1c74ce8d8e7955c4b72b8d37fcc391bc075b12be9982dc"
+  },
+  {
+    "path": "assets/audio/approved_v098/ui/button_click.wav.import",
+    "sha256": "50121691754f8a1e967c21d5ac6f73991e6ad366c4c60c2c23e1dcc87bb29ed2"
+  },
+  {
+    "path": "assets/audio/approved_v098/ui/menu_open.wav.import",
+    "sha256": "32fa6ddd0271b2f8a07bf56e1e123d2fcf4dd32fee1160515a3e3812a7d86ffd"
+  },
+  {
+    "path": "assets/audio/approved_v098/ui/fish_bite.wav.import",
+    "sha256": "e6ba655c326d8893df5b02651a653f02ead8851ba7cdf8be596f709b4ad7d040"
+  },
+  {
+    "path": "assets/audio/approved_v098/ui/item_pickup.wav.import",
+    "sha256": "9ce7cab8438da1dc8ebe7ee45e9ed946661168a2315277555c1eb1a0bf0dcb31"
+  },
+  {
+    "path": "assets/audio/approved_v098/ui/confirm_buy.wav.import",
+    "sha256": "7288817fec2dd09f03abd42f57df6f2e61a0753920c4edb5b4e2c49c45f57f39"
+  },
+  {
+    "path": "assets/audio/approved_v098/ui/cancel.wav.import",
+    "sha256": "e421ab8b2669a60c7a2fdf03adbb3b1527a423b369fce33862b0eec874dd5226"
+  },
+  {
+    "path": "assets/audio/approved_v098/ui/menu_close.wav.import",
+    "sha256": "4ac4847a656db447aa20e9acaaf3926fb90f77a791824a7f0739fb0b0455c6e1"
+  },
+  {
+    "path": "assets/audio/approved_v098/ui/splash.wav.import",
+    "sha256": "e19113666e64da94b59750102f831dad313c9aaaa275a9bb8195e488dddc0f7f"
+  },
+  {
+    "path": "assets/audio/approved_v098/music/settlement_day_loop.ogg.import",
+    "sha256": "f9169645298468d7ba72eab7db5a1810d52b1a0b5ab12d905db8323de928a34f"
+  }
+]

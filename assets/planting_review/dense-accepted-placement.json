@@ -1,0 +1,482 @@
+{
+  "placements": [
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner0",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.398670308518751,
+      "z": 19.385686071035344,
+      "yaw": 2.0331388840629585,
+      "scale": 1.0251569032325731
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner1",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.40563928653464,
+      "z": 22.2997301259737,
+      "yaw": 3.5859024896309504,
+      "scale": 0.9358512753590177
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner2",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.857364602714798,
+      "z": 24.895381236224004,
+      "yaw": 4.222920819507202,
+      "scale": 1.1175618566166179
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner0",
+      "asset": "compact_broadleaf_mound",
+      "x": 12.874628348913424,
+      "z": 19.554154025692736,
+      "yaw": 5.0062254309755785,
+      "scale": 0.9742715904001423
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner1",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.196915645289055,
+      "z": 21.749488137296197,
+      "yaw": 1.8452955494324954,
+      "scale": 0.936479696146077
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner2",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.607993343209174,
+      "z": 25.42718841788887,
+      "yaw": 0.00043681529718844883,
+      "scale": 1.0114675947810527
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner0",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.261404722414014,
+      "z": 18.848230350702863,
+      "yaw": 6.05623602360072,
+      "scale": 1.0803452957608721
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner1",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.83359848713268,
+      "z": 21.922788873281817,
+      "yaw": 3.020600857207447,
+      "scale": 1.0740278967883639
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner2",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.25430161243455,
+      "z": 24.77821174322163,
+      "yaw": 0.7439611921793149,
+      "scale": 0.9035452004968675
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner0",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.66927397466686,
+      "z": 19.981408367434923,
+      "yaw": 5.871430672810235,
+      "scale": 0.9888837527365566
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner1",
+      "asset": "compact_broadleaf_mound",
+      "x": 12.94244219801827,
+      "z": 22.59655206394188,
+      "yaw": 6.048115344339086,
+      "scale": 1.1091186183106345
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner2",
+      "asset": "compact_broadleaf_mound",
+      "x": 12.819910055047623,
+      "z": 25.168183590698312,
+      "yaw": 2.969366233353423,
+      "scale": 0.9774219757323201
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner0",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.873518814890469,
+      "z": 19.02472230231374,
+      "yaw": 2.942661603018555,
+      "scale": 0.9319814845563488
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner1",
+      "asset": "compact_broadleaf_mound",
+      "x": 14.129632465394891,
+      "z": 22.547707128543948,
+      "yaw": 3.704556803037224,
+      "scale": 1.1358027039706962
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner2",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.118282494263255,
+      "z": 25.801283823913295,
+      "yaw": 4.579543048935241,
+      "scale": 1.038382032750142
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner0",
+      "asset": "compact_broadleaf_mound",
+      "x": 13.109779774051628,
+      "z": 20.194544731376382,
+      "yaw": 0.12239233786205328,
+      "scale": 1.1246814895831612
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner1",
+      "asset": "compact_broadleaf_mound",
+      "x": 12.695006466599752,
+      "z": 22.07125927028536,
+      "yaw": 3.63323621901262,
+      "scale": 1.0129775311800457
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner0",
+      "asset": "flower_groundcover_mat",
+      "x": 12.648310496083809,
+      "z": 18.79611464460143,
+      "yaw": 1.9179774841583155,
+      "scale": 0.9134690894474586
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner1",
+      "asset": "flower_groundcover_mat",
+      "x": 13.429094293210206,
+      "z": 22.893994231188053,
+      "yaw": 4.933063753292251,
+      "scale": 0.9336385626177283
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner2",
+      "asset": "flower_groundcover_mat",
+      "x": 13.621511799441762,
+      "z": 24.328897585332832,
+      "yaw": 1.2058039858030292,
+      "scale": 1.0447265361345743
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner0",
+      "asset": "flower_groundcover_mat",
+      "x": 14.271487241548538,
+      "z": 19.595703529131754,
+      "yaw": 2.4953880449241095,
+      "scale": 0.9167184683755766
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner1",
+      "asset": "flower_groundcover_mat",
+      "x": 14.079699092621773,
+      "z": 21.35734448675302,
+      "yaw": 4.176936480428338,
+      "scale": 0.9682369888868819
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner2",
+      "asset": "flower_groundcover_mat",
+      "x": 14.08883946743492,
+      "z": 25.710988558666294,
+      "yaw": 4.6774905398605275,
+      "scale": 1.002180761711652
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner0",
+      "asset": "small_rock_group",
+      "x": 13.634149485144459,
+      "z": 18.474220950520188,
+      "yaw": 1.0264895744422586,
+      "scale": 0.9139400921067494
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner1",
+      "asset": "small_rock_group",
+      "x": 13.523251652776711,
+      "z": 21.391464031820128,
+      "yaw": 1.8409997667952576,
+      "scale": 1.047274770751242
+    },
+    {
+      "bed": "market_inner",
+      "cluster": "market_inner2",
+      "asset": "small_rock_group",
+      "x": 13.652869788707058,
+      "z": 25.93933450383191,
+      "yaw": 5.131214241917006,
+      "scale": 1.039386183589281
+    },
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast0",
+      "asset": "compact_broadleaf_mound",
+      "x": 5.662590647675471,
+      "z": 12.569860560444683,
+      "yaw": 0.40884540438146116,
+      "scale": 1.0811289122451924
+    },
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast1",
+      "asset": "compact_broadleaf_mound",
+      "x": 8.056151403389041,
+      "z": 12.08810509540152,
+      "yaw": 6.071393359741893,
+      "scale": 1.0097342863080891
+    },
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast1",
+      "asset": "compact_broadleaf_mound",
+      "x": 7.343035163696404,
+      "z": 12.264106501930929,
+      "yaw": 3.7372011546890103,
+      "scale": 0.901221634236043
+    },
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast0",
+      "asset": "compact_broadleaf_mound",
+      "x": 5.036452130627147,
+      "z": 12.338308252565378,
+      "yaw": 3.935984549833321,
+      "scale": 1.0132852131175973
+    },
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast1",
+      "asset": "compact_broadleaf_mound",
+      "x": 8.617011046194001,
+      "z": 11.797416741540811,
+      "yaw": 3.0984291114808116,
+      "scale": 0.974394485972241
+    },
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast0",
+      "asset": "compact_broadleaf_mound",
+      "x": 6.1378091840486775,
+      "z": 12.255964622020556,
+      "yaw": 2.578478710596474,
+      "scale": 1.1469013427628134
+    },
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast0",
+      "asset": "flower_groundcover_mat",
+      "x": 5.696698958615982,
+      "z": 13.163853971435323,
+      "yaw": 2.9937586024953653,
+      "scale": 0.9396154047966369
+    },
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast1",
+      "asset": "flower_groundcover_mat",
+      "x": 7.236574302953886,
+      "z": 11.683623095011907,
+      "yaw": 1.7699062984652079,
+      "scale": 0.9863184314008219
+    },
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast0",
+      "asset": "flower_groundcover_mat",
+      "x": 6.4873069188300345,
+      "z": 12.788024399841653,
+      "yaw": 3.3535636374263906,
+      "scale": 1.0302692477334205
+    },
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast0",
+      "asset": "small_rock_group",
+      "x": 5.164383322071024,
+      "z": 13.180367287749897,
+      "yaw": 5.459532438245232,
+      "scale": 0.9196184995994223
+    },
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast1",
+      "asset": "small_rock_group",
+      "x": 7.763652803925735,
+      "z": 12.544891973770767,
+      "yaw": 4.944723777408546,
+      "scale": 0.9681998138666583
+    },
+    {
+      "bed": "fountain_east",
+      "cluster": "fountain_east0",
+      "asset": "compact_broadleaf_mound",
+      "x": 11.276407874746257,
+      "z": 3.415605689115939,
+      "yaw": 5.198876362031646,
+      "scale": 0.9103188329276373
+    },
+    {
+      "bed": "fountain_east",
+      "cluster": "fountain_east1",
+      "asset": "compact_broadleaf_mound",
+      "x": 11.294314618725954,
+      "z": 6.414370896901512,
+      "yaw": 3.2831751811491183,
+      "scale": 1.101990213571614
+    },
+    {
+      "bed": "fountain_east",
+      "cluster": "fountain_east0",
+      "asset": "compact_broadleaf_mound",
+      "x": 11.344588885222459,
+      "z": 3.992197474530041,
+      "yaw": 2.4159741416577476,
+      "scale": 0.9209254902663984
+    },
+    {
+      "bed": "fountain_east",
+      "cluster": "fountain_east1",
+      "asset": "compact_broadleaf_mound",
+      "x": 11.596140539800672,
+      "z": 5.911301302677175,
+      "yaw": 2.6409729277779537,
+      "scale": 0.951595210488861
+    },
+    {
+      "bed": "fountain_east",
+      "cluster": "fountain_east0",
+      "asset": "compact_broadleaf_mound",
+      "x": 10.865482163270794,
+      "z": 4.319928576656476,
+      "yaw": 4.449758403681936,
+      "scale": 1.159860415028353
+    },
+    {
+      "bed": "fountain_east",
+      "cluster": "fountain_east1",
+      "asset": "compact_broadleaf_mound",
+      "x": 10.928452422043346,
+      "z": 5.914683384068376,
+      "yaw": 3.463204930894677,
+      "scale": 1.1197555470694232
+    },
+    {
+      "bed": "fountain_east",
+      "cluster": "fountain_east0",
+      "asset": "flower_groundcover_mat",
+      "x": 10.836055263229426,
+      "z": 2.880918748007037,
+      "yaw": 3.1366848796570923,
+      "scale": 0.9404592221070518
+    },
+    {
+      "bed": "fountain_east",
+      "cluster": "fountain_east1",
+      "asset": "flower_groundcover_mat",
+      "x": 11.920039713674512,
+      "z": 6.557960665519342,
+      "yaw": 0.8731902348088436,
+      "scale": 0.9978420129775583
+    },
+    {
+      "bed": "fountain_east",
+      "cluster": "fountain_east0",
+      "asset": "flower_groundcover_mat",
+      "x": 11.711930708031021,
+      "z": 4.453306747611136,
+      "yaw": 6.281411468594615,
+      "scale": 0.9985005776582874
+    },
+    {
+      "bed": "fountain_east",
+      "cluster": "fountain_east0",
+      "asset": "small_rock_group",
+      "x": 10.892275065165368,
+      "z": 3.8224789743963155,
+      "yaw": 0.14856233757941997,
+      "scale": 1.0338092600756135
+    }
+  ],
+  "method": "actual runtime exported polygons, full rotated mesh AABB+.50m shoulder and .08m existing foliage gap; clustered interiors, no old-union limit",
+  "stats": {
+    "market_inner": {
+      "counts": {
+        "compact_broadleaf_mound": 17,
+        "flower_groundcover_mat": 6,
+        "small_rock_group": 3
+      },
+      "roi": [
+        11,
+        16,
+        17,
+        29
+      ]
+    },
+    "fountain_southeast": {
+      "counts": {
+        "compact_broadleaf_mound": 7,
+        "flower_groundcover_mat": 3,
+        "small_rock_group": 2
+      },
+      "roi": [
+        2,
+        8,
+        12,
+        16
+      ]
+    },
+    "fountain_east": {
+      "counts": {
+        "compact_broadleaf_mound": 6,
+        "flower_groundcover_mat": 3,
+        "small_rock_group": 1
+      },
+      "roi": [
+        8,
+        1,
+        15,
+        10
+      ]
+    }
+  },
+  "proposal_count": 48,
+  "preflight_rejected": [
+    {
+      "bed": "fountain_southeast",
+      "cluster": "fountain_southeast0",
+      "at": [
+        5.653539709328314,
+        11.980784099463895
+      ],
+      "reason": "existing planting retained",
+      "source": "native readback, preserved original48proposal"
+    }
+  ]
+}

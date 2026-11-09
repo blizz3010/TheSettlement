@@ -1,0 +1,23 @@
+{
+  "original_sha256": "855a35d81441ec653ceb36b44dbdbd1f750b62a2b530d8ccf2f03172349f6ee8",
+  "sample_rate": 44100,
+  "duration": 171.09698412698413,
+  "peak": 0.7115630677534732,
+  "rms_channels": [
+    0.1121548680302095,
+    0.11644698199968377
+  ],
+  "boundary_sample_delta": [
+    0.0005400900999151075,
+    0.0022498836690861973
+  ],
+  "edit": "3-second equal-power outro/intro crossfade; -3dB asset gain; no musical rearrangement",
+  "runtime_gain_db": -12,
+  "title": "First Snow",
+  "artist": "HoliznaCC0",
+  "license": "CC0-1.0",
+  "source_page": "https://opengameart.org/content/lo-fi-and-chill-collection",
+  "source_download": "https://opengameart.org/sites/default/files/01_holiznacc0_-_first_snow.mp3.mp3",
+  "ogg_sha256": "5a3c07648f58219034995306dbc472bea4f559c61dbf55eaf2d9767e7ab5ab03",
+  "user_preferences_unchanged": true
+}

@@ -1,0 +1,192 @@
+{
+  "version": 1,
+  "asset_sha256": "81ab9e9f9d7f66378fb4e0e4726fd4ee3eed1242f064dac7b8cf85c3bf967aa7",
+  "groups": {
+    "FlushStoneEdge": {
+      "min": [
+        -21.7287540435791,
+        0.950841426849365,
+        -21.1738471984863
+      ],
+      "max": [
+        -20.8192310333252,
+        1.5238082408905,
+        -17.8219051361084
+      ],
+      "triangle_count": 62,
+      "mesh_count": 31
+    },
+    "front_flower_n": {
+      "min": [
+        -22.1180000305176,
+        1.10606396198273,
+        -21.3561325073242
+      ],
+      "max": [
+        -21.1216125488281,
+        1.55612587928772,
+        -20.3670215606689
+      ],
+      "triangle_count": 1832,
+      "mesh_count": 1
+    },
+    "front_flower_s": {
+      "min": [
+        -22.1679992675781,
+        1.2263650894165,
+        -18.6061325073242
+      ],
+      "max": [
+        -21.1716117858887,
+        1.64614403247833,
+        -17.6170215606689
+      ],
+      "triangle_count": 1832,
+      "mesh_count": 1
+    },
+    "middle_flower_n": {
+      "min": [
+        -22.4680004119873,
+        1.376873254776,
+        -20.306131362915
+      ],
+      "max": [
+        -21.4716129302979,
+        1.82690978050232,
+        -19.3170204162598
+      ],
+      "triangle_count": 1832,
+      "mesh_count": 1
+    },
+    "middle_flower_s": {
+      "min": [
+        -22.4680004119873,
+        1.46973955631256,
+        -19.4061317443848
+      ],
+      "max": [
+        -21.4716129302979,
+        1.89620661735535,
+        -18.4170207977295
+      ],
+      "triangle_count": 1832,
+      "mesh_count": 1
+    },
+    "middle_leaf_n": {
+      "min": [
+        -22.8318176269531,
+        1.56610786914825,
+        -20.3437881469727
+      ],
+      "max": [
+        -21.7521991729736,
+        2.22898387908936,
+        -19.2562103271484
+      ],
+      "triangle_count": 540,
+      "mesh_count": 1
+    },
+    "middle_leaf_s": {
+      "min": [
+        -22.7818183898926,
+        1.63801991939545,
+        -19.4937896728516
+      ],
+      "max": [
+        -21.7021999359131,
+        2.27980899810791,
+        -18.4062118530273
+      ],
+      "triangle_count": 540,
+      "mesh_count": 1
+    },
+    "north_back": {
+      "min": [
+        -23.2445774078369,
+        1.62091934680939,
+        -21.7726783752441
+      ],
+      "max": [
+        -21.752872467041,
+        2.42523956298828,
+        -20.2624626159668
+      ],
+      "triangle_count": 2568,
+      "mesh_count": 1
+    },
+    "north_shoulder": {
+      "min": [
+        -22.4998569488525,
+        1.30682575702667,
+        -22.4725761413574
+      ],
+      "max": [
+        -21.2102088928223,
+        2.05129218101501,
+        -21.3516483306885
+      ],
+      "triangle_count": 2568,
+      "mesh_count": 1
+    },
+    "south_back": {
+      "min": [
+        -23.1165084838867,
+        1.69151747226715,
+        -18.6361961364746
+      ],
+      "max": [
+        -21.6835670471191,
+        2.51870250701904,
+        -17.3907203674316
+      ],
+      "triangle_count": 2568,
+      "mesh_count": 1
+    },
+    "south_shoulder": {
+      "min": [
+        -22.6151180267334,
+        1.3546427488327,
+        -17.9404106140137
+      ],
+      "max": [
+        -21.2725849151611,
+        2.07853078842163,
+        -16.5812168121338
+      ],
+      "triangle_count": 2568,
+      "mesh_count": 1
+    }
+  },
+  "triangles": 18742,
+  "source_scripts": {
+    "scripts/intentional_planting_pockets.gd": "365733a053d481911f932723f03066127cc881d150778c4ffab7932de49eb178",
+    "scripts/local_terrain_layers.gd": "676b3f97dc4e18e551b457ae60c573a2a3d4f31df7e345f49496431c7159b52a",
+    "scripts/park_hall.gd": "4d61f047939813808c7ff3614b0ece7fd5abcfd99969db26b8faacff65760d18",
+    "scripts/park_hall_grade.gd": "abb56f07cf14478defe21b8a1e453b68b9845e6f2d7d1d35f47324780f6b117a",
+    "scripts/rook_shop.gd": "4fe00bd1623b62a8aecdaee2c7f25612d2a160adad618af42721f6377ecf86f2",
+    "scripts/seat_interaction.gd": "becfbdc3996083c10295cf2843029c7438f6ab3ee6de5aca4a1c732c6c4a9f09",
+    "scripts/settlement_terrain.gd": "da2a118c9bbff65d3456768076fd50469bfe6a5c63409731a4711a1dffd3eb88",
+    "scripts/natural_border.gd": "7ab1ecffe9130de482321dc40e916e9a228566b74ff4a0bd0814efca44303a94",
+    "scripts/park_layered_visuals.gd": "51d8dbe6f9f4dd579f54dfe07f5283809e6daedeb096aaf22aa9ff6770b74159"
+  },
+  "retained_shrub": {
+    "batch_buffer_sha": "8b91e33c0c8b4d80eb9f586bef895b0781990e9028cb5d7b80d9ba9fc6e862a9",
+    "bounds": [
+      -24.7301139831543,
+      -22.1729869842529,
+      -22.021448135376,
+      -19.2337913513184
+    ],
+    "instance": 7,
+    "mesh_faces_sha": "6f66c765923d71267bc05916d1530bf8b68db0a44c85c7dcce34dfa0ded97db9",
+    "ok": true,
+    "path": "NaturalBorder/border_shrub_b",
+    "source_asset_sha": "766e29cd197bbc8283cb88d7b6d885065d29132342b00e8b252c709fd05438b1",
+    "source_script_sha": "7ab1ecffe9130de482321dc40e916e9a228566b74ff4a0bd0814efca44303a94",
+    "transform_sha": "ee4b7d63c2e93cfc4ea104ee165d3049eca307f524ccb60eebfabb047b21ead7",
+    "world_transform": "[X: (1.889057, 0.0, -0.106296), Y: (0.0, 1.892045, 0.0), Z: (0.106296, 0.0, 1.889057), O: (-23.28425, 1.971835, -20.96867)]"
+  },
+  "shader_sha256": "54c5451f612d1d1e2d7a7495b5dc4e3a864404e39e68f214fb1fccd463c36437",
+  "source_handoff_sha256": "fbd65f4b44c01fd9ad9069642ba8248caad1a031629e2a2d8c533693b531ada3",
+  "source_fingerprint_sha256": "c78f2f25e3ebe7ea304c6a1ff312c90927914434942de764fb6147244fdd2b2c"
+}

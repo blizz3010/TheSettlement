@@ -1,0 +1,157 @@
+{
+  "front": "-Z",
+  "bounds": [
+    -0.8,
+    0,
+    -0.3,
+    0.8,
+    0.84,
+    0.3
+  ],
+  "members": [
+    {
+      "name": "Seat_slat_0",
+      "position": [
+        0,
+        0.46,
+        -0.17
+      ],
+      "size": [
+        1.6,
+        0.08,
+        0.16
+      ]
+    },
+    {
+      "name": "Seat_slat_1",
+      "position": [
+        0,
+        0.46,
+        0
+      ],
+      "size": [
+        1.6,
+        0.08,
+        0.16
+      ]
+    },
+    {
+      "name": "Seat_slat_2",
+      "position": [
+        0,
+        0.46,
+        0.17
+      ],
+      "size": [
+        1.6,
+        0.08,
+        0.16
+      ]
+    },
+    {
+      "name": "Low_back_slat_0",
+      "position": [
+        0,
+        0.64,
+        0.26
+      ],
+      "size": [
+        1.6,
+        0.12,
+        0.08
+      ]
+    },
+    {
+      "name": "Low_back_slat_1",
+      "position": [
+        0,
+        0.78,
+        0.26
+      ],
+      "size": [
+        1.6,
+        0.12,
+        0.08
+      ]
+    },
+    {
+      "name": "Rear_bronze_upright",
+      "position": [
+        -0.68,
+        0.42,
+        0.26
+      ],
+      "size": [
+        0.08,
+        0.84,
+        0.08
+      ]
+    },
+    {
+      "name": "Front_bronze_leg",
+      "position": [
+        -0.68,
+        0.21,
+        -0.22
+      ],
+      "size": [
+        0.08,
+        0.42,
+        0.08
+      ]
+    },
+    {
+      "name": "Seat_bronze_support",
+      "position": [
+        -0.68,
+        0.39,
+        0
+      ],
+      "size": [
+        0.08,
+        0.06,
+        0.52
+      ]
+    },
+    {
+      "name": "Rear_bronze_upright",
+      "position": [
+        0.68,
+        0.42,
+        0.26
+      ],
+      "size": [
+        0.08,
+        0.84,
+        0.08
+      ]
+    },
+    {
+      "name": "Front_bronze_leg",
+      "position": [
+        0.68,
+        0.21,
+        -0.22
+      ],
+      "size": [
+        0.08,
+        0.42,
+        0.08
+      ]
+    },
+    {
+      "name": "Seat_bronze_support",
+      "position": [
+        0.68,
+        0.39,
+        0
+      ],
+      "size": [
+        0.08,
+        0.06,
+        0.52
+      ]
+    }
+  ],
+  "scope": "Original timber/bronze decorative bench, no interaction"
+}

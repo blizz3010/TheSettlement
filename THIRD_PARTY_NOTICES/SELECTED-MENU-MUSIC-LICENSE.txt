@@ -1,0 +1,14 @@
+MENU MUSIC: First Snow — HoliznaCC0
+Source: https://opengameart.org/content/lo-fi-and-chill-collection
+Author/submitting creator: Holizna (OpenGameArt account /users/holizna).
+Creator license excerpt: "This music is public domain Cc0, so use it how you want!"
+Creator corroboration: https://holiznacc0.bandcamp.com/track/first-snow
+Creator profile excerpt: "I am dedicating my archive of music to the creative commons via CC0."
+CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
+CC0 permits copying, modification and redistribution, including commercial game use; no attribution condition. This voluntary credit is retained for provenance.
+Downloaded from the creator's public OpenGameArt media link:
+https://opengameart.org/sites/default/files/01_holiznacc0_-_first_snow.mp3.mp3
+Acquired 2026-10-31. No purchase, account login or private data transfer.
+Changes: -3dB asset gain and 3-second equal-power end/start overlap, Vorbis encoding. Title fixed playback baseline -12dB; user Master/Music preferences unchanged. Existing fade/stop on Play preserved.
+Genre/instrumental metadata corroboration: https://freemusicarchive.org/genre/Instrumental/?d=1&page=48&pageSize=200&search-genre=Instrumental&sort=track
+Listening limit: not personally/human-auditioned in this environment. Instrumental/lo-fi classification relies on published music-library metadata, not a claim of full-track listening.

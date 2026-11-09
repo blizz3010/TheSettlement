@@ -1,0 +1,35 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Settlement • First Playable"
+run/main_scene="res://title_menu.tscn"
+config/features=PackedStringArray("4.6", "GL Compatibility")
+boot_splash/bg_color=Color(0.09, 0.11, 0.11, 1)
+boot_splash/image="res://assets/ui/settlement_crest.png"
+config/icon="res://assets/ui/settlement_crest.svg"
+config/windows_native_icon="res://assets/ui/settlement_crest.ico"
+boot_splash/scale=false
+
+[display]
+
+window/size/viewport_width=1440
+window/size/viewport_height=900
+window/stretch/mode="canvas_items"
+
+[environment]
+
+defaults/default_clear_color=Color(0.32, 0.51, 0.59, 1)
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+anti_aliasing/quality/msaa_3d=2

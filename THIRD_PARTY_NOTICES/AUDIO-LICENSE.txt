@@ -1,0 +1,3 @@
+Original procedural audio assets created for Settlement Prototype. No third-party recordings or samples.
+The author dedicates these generated audio assets to the public domain under CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
+Source generator: assets/source/generate_audio.py. This first pass is synthesized, not a field recording.

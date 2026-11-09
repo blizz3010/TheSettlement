@@ -1,0 +1,3 @@
+Original procedural musical composition and synthesis created for Settlement Prototype. No third-party samples, recordings or melodies used.
+Generated WAV dedicated to public domain under CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
+Source generator: assets/source/generate_menu_music.py.
