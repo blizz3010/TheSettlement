@@ -31,6 +31,12 @@ See [recovered-source setup notes](RECOVERED-SOURCE-SETUP.md) for the read-only 
 
 Repeat step 3 after editor reimports. The restoration tool verifies every pinned resource hash before installing it; it does not disable geometry or foliage guards. On Linux set `XDG_DATA_HOME`, `XDG_CONFIG_HOME` and `XDG_CACHE_HOME` to separate disposable directories for development. Windows production saves use `%APPDATA%/Godot/app_userdata/Settlement • First Playable`; back them up before testing and do not run two builds against them together.
 
+## Pinned r8 source packaging
+
+A new snapshot-specific packaging path can build a PCK directly from this restored public r8 source without the older runtime packs or an editor import. It preserves all existing guard bytes and pinned resources. See [recovered r8 packaging](RECOVERED-R8-PACKAGING.md) for commands, the exact source allowlist and verification limits.
+
+Two independent builds produced identical bytes, and a headless title-start smoke exited 0 with the existing shutdown resource warning. This is packaging verification, not a new Windows release or a full gameplay pass. It still depends on pinned imported resources and does not produce a standalone executable.
+
 ## Source recovery and rebuild limits
 
 This snapshot combines the exact r8 runtime scripts/data with retained raw authoring assets. Text scene/configuration files were recovered through Godot. The character preview GLB and six textures were recovered from current imported resources; original MPFB authoring controls are not recovered. Original private Blender authoring files and personal save files are not included.
