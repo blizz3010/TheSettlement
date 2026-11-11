@@ -87,16 +87,22 @@ func verify_map(path:String,saltflat:bool):
 	var seen:Dictionary={}
 	for target in targets:
 		var body=target.node;var kind:String=target.poi.lock;seen[kind]=true
-		var art=body.get_node("FieldSupplyArt");var stand=body.get_parent().get_node("FieldSupplyStand");var stand_art=stand.get_node("SupplyStandArt")
+		var annex=not saltflat and target.poi.id=="bunker"
+		var art=body.get_node("FieldSupplyArt");var stand=body.get_parent().get_node_or_null("FieldSupplyStand");var stand_art=stand.get_node("SupplyStandArt") if stand else null
 		var label=target.poi.id
-		check(body.position.is_equal_approx(Vector3(-9,0.9,7)),"Original pickup target centre "+label)
+		check(body.position.is_equal_approx(Vector3(14.8,5.197,-4.4) if annex else Vector3(-9,0.9,7)),"Original pickup target centre "+label)
 		check(body.get_child(0).shape.size.is_equal_approx(Vector3(0.7,0.12,0.5)),"Original generous pickup collider "+label)
-		check(stand.position.is_equal_approx(Vector3(-9,0.43,7)) and stand.get_child(0).shape.size.is_equal_approx(Vector3(1.4,0.8,1.0)),"Original stand collision envelope "+label)
-		check(body.get_children().size()==2 and stand.get_children().size()==2,"Only one visual tree and original shape per body "+label)
+		if not annex:check(stand.position.is_equal_approx(Vector3(-9,0.43,7)) and stand.get_child(0).shape.size.is_equal_approx(Vector3(1.4,0.8,1.0)),"Original stand collision envelope "+label)
+		check(body.get_children().size()==2 and (annex or stand.get_children().size()==2),"Only one visual tree and original shape per body "+label)
 		check(body.get_meta("supply_kind")==kind,"Pickup matches original credential semantics "+label)
 		check(bounds(art).size.is_equal_approx(EXPECTED[kind].size),"Correct credential mesh in actual map "+label)
-		check(is_equal_approx(art.global_position.y-stand_art.global_position.y,0.792),"Pickup sits on inset 0.792 m deck "+label)
-		check(is_equal_approx(stand_art.position.y,-0.4) and stand_art.basis.is_equal_approx(Basis.IDENTITY),"Stand aligned to original ground/envelope "+label)
+		if not annex:check(is_equal_approx(art.global_position.y-stand_art.global_position.y,0.792),"Pickup sits on inset 0.792 m deck "+label)
+		if not annex:check(is_equal_approx(stand_art.position.y,-0.4) and stand_art.basis.is_equal_approx(Basis.IDENTITY),"Stand aligned to original ground/envelope "+label)
+		if annex:
+			check(stand==null,"Annex uses supplied pedestal without overlapping generic stand")
+			var q=PhysicsRayQueryParameters3D.create(body.global_position+Vector3.UP*.1,body.global_position-Vector3.UP*.4,1,[body.get_rid()])
+			var deck=scene.get_world_3d().direct_space_state.intersect_ray(q)
+			check(not deck.is_empty() and absf(deck.position.y-art.global_position.y)<.002,"Annex card rests on supplied pedestal triangles")
 		check(body.visible and art.is_visible_in_tree() and not body.get_meta("collected",false),"Fresh pickup present "+label)
 		var fields=body.get_parent().find_children("*","Label3D",false,false).filter(func(n):return n.text=="FIELD SUPPLIES")
 		check(fields.size()==1,"Original field-supplies world label remains "+label)
@@ -128,7 +134,7 @@ func verify_map(path:String,saltflat:bool):
 		check(scene._nearest_target().get("node")!=body,"Consumed target cannot be selected again "+label)
 		await physics_frame;await physics_frame
 		check(body.get_child(0).disabled,"Consumed pickup collision disabled safely "+label)
-		check(stand.visible and stand_art.is_visible_in_tree() and not stand.get_child(0).disabled,"Stand remains visible and solid "+label)
+		if not annex:check(stand.visible and stand_art.is_visible_in_tree() and not stand.get_child(0).disabled,"Stand remains visible and solid "+label)
 		var snapshot=state_snapshot(scene.raid_state);scene.toast.text="repeat sentinel"
 		for repeat in 3:scene._interact(target)
 		check(state_snapshot(scene.raid_state)==snapshot and scene.toast.text=="repeat sentinel","Stale/repeated interaction is idempotent "+label)

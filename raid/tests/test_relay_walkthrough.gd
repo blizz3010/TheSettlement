@@ -80,6 +80,15 @@ func visit_poi(poi: Dictionary):
 	# Each visit starts at its existing trail forecourt. No repositioning within a visit.
 	var forecourt := origin + Vector2(0, 18 if poi.id in ["camp", "substation"] else 24)
 	await place(forecourt)
+	if poi.id=="bunker":
+		var result=await preload("res://raid/tests/annex_walk_driver.gd").visit(scene)
+		check(result.ok,"Annex continuous public entry, both stairs, card gate/cache and return: "+str(result))
+		check(scene.raid_state.held.has("bunker_card"),"Annex physical keycard collected")
+		check(scene.raid_state.unlocked.get("bunker",false) and not scene.door_nodes.bunker.visible,"Annex physical upper gate unlocked")
+		check(scene.raid_state.searched.get("bunker",0) in [4,5],"Annex original quality band searched")
+		check(not scene.raid_state.search_cache(poi).ok,"Annex repeated search cannot reroll")
+		poi_results.append({"id":poi.id,"traversed":result.ok})
+		return
 	var reached := true
 	if poi.lock != "":
 		reached = await walk_to(origin + Vector2(-9, 9), poi.id + " field supplies") and reached

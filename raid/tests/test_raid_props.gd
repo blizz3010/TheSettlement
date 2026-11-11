@@ -53,6 +53,8 @@ func verify_map(path:String,saltflat:bool):
 		var body=target.node;var art=body.get_node("CacheArt")
 		if saltflat and target.poi.id=="obsidian":
 			check(scene.get_node("obsidian").to_local(body.global_position).is_equal_approx(Vector3(0,9,-10.5)),"Archive cache target in upper vault POI-local frame")
+		elif not saltflat and target.poi.id=="bunker":
+			check(scene.get_node("bunker").to_local(body.global_position).is_equal_approx(Vector3(13,4.7,-8.2)),"Annex cache in upper secure room")
 		else:
 			check(body.position.is_equal_approx(Vector3(0,0.5,-3 if target.poi.lock=="puzzle" else -1)),"Cache target centre preserved "+target.poi.id)
 		check(body.get_child(0) is CollisionShape3D and body.get_child(0).shape.size==Vector3(1.5,1,1),"Cache collider preserved "+target.poi.id)

@@ -120,6 +120,9 @@ func _target(kind:String,node:Node3D,poi:Dictionary,extra:Dictionary={}):
 	var data={"kind":kind,"node":node,"poi":poi};data.merge(extra);targets.append(data)
 func _build_poi(poi:Dictionary):
 	var root=Node3D.new();root.name=poi.id;root.position=Vector3(poi.at.x,generator.height_at(poi.at),poi.at.y);add_child(root)
+	if poi.id=="bunker":
+		preload("res://raid/scripts/research_annex.gd").new().build(self,root,poi)
+		return
 	_label(root,poi.name.to_upper(),Vector3(0,5.7,7),poi.theme,40)
 	var wall=poi.theme.darkened(0.38)
 	# Reusable traversable room with an actual clear doorway, not a solid box.

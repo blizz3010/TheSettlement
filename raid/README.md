@@ -10,6 +10,8 @@ that package's launch instructions. It is not a fresh Windows export or Windows 
 ## What is built
 
 See [raid wayfinding](WAYFINDING-UPDATE.md) for session-only map pins, compass guidance and Archive floor/stair cues.
+See [Research Annex](RESEARCH-ANNEX-UPDATE.md) for the supplied two-level woodland
+building, production-controller tests and existing keycard/cache integration.
 
 Relay Ridge remains the woodland first map. Cinder Basin adds a separate salt-flat
 and basalt biome with six new POIs, a solar array, kiln, archive and valve puzzle.
@@ -46,7 +48,8 @@ Relay Ridge details:
   not every off-trail location or every possible designer change.
 - Six fixed POI layouts with distinct landmark blockouts: Survey Camp, West
   Substation, Relay Tower, Research Annex, Salvage Yard and Weather Station.
-  These buildings and props use simple development geometry, not final artwork.
+  Research Annex uses the supplied two-level architecture; the other sites retain
+  their previously documented development geometry and landmark art.
 - Connected perimeter and cross-map trails. Important trails use forecourts and
   go around building/prop footprints instead of running through locked buildings.
   Two extraction beacons have separate approaches and marked 4 m zones. Confirm

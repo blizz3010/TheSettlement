@@ -1,0 +1,14 @@
+{
+  "research_annex_final_b_renders.zip": {
+    "sha256": "a00296d91280fffadea7c68a16851516356502562f9b256a5e84db0d68b61237",
+    "bytes": 15607310
+  },
+  "research_annex_final_b_textures.zip": {
+    "sha256": "5aaa748eb8662eec9777d4779427212e9d514bbeaf85ef23bd9587627d402cc8",
+    "bytes": 15480275
+  },
+  "research_annex_final_b_models.zip": {
+    "sha256": "643577289f3ee3949c24db05ea06f4146782c38e8ab7dca0de0a8ac60022164b",
+    "bytes": 13380243
+  }
+}

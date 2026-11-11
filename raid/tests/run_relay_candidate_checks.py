@@ -14,6 +14,8 @@ import tempfile
 
 PROJECT = Path(__file__).resolve().parents[2]
 TESTS = [
+    ("test_research_annex", "RESEARCH_ANNEX_TESTS "),
+    ("test_research_annex_asset", "RESEARCH_ANNEX_ASSET_TESTS "),
     ("test_raid_wayfinding", "RAID_WAYFINDING_TESTS "),
     ("test_obsidian_archive", "OBSIDIAN_ARCHIVE_TESTS "),
     ("test_obsidian_independent", "OBSIDIAN_INDEPENDENT_TESTS "),
