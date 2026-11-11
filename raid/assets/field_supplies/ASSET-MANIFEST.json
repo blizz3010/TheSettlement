@@ -1,0 +1,119 @@
+{
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "source": "User-uploaded field_supplies_pack.zip",
+  "uploaded_scripts_executed": false,
+  "blend_files_opened": false,
+  "archive_sha256": "6cc3cdc2a8c56b85f1ec66f440a4085d49ae522c60bd9a50afbcc1e690cfeaac",
+  "assets": [
+    {
+      "source": "raid/assets/field_supplies/access_card_saltflat.glb",
+      "sha256": "82eccbc935d88237dead52ed50bda9845c5020a5bbce472f004dc02b5850c3e3",
+      "size_bytes": 11716,
+      "import_metadata": "raid/assets/field_supplies/access_card_saltflat.glb.import",
+      "import_metadata_sha256": "6ed9986f689b0684ce77ed3a44181b5fa0d45d220e7145b9485eb8011fe62ae5",
+      "imported_scene": ".godot/imported/access_card_saltflat.glb-65f4a33d23ec5b2a4ea803e9f1a1900b.scn",
+      "imported_scene_sha256": "f12662c6b60a9c2d295a66af08da3453ebb7014caff9036c73946866927f9631",
+      "import_cache": ".godot/imported/access_card_saltflat.glb-65f4a33d23ec5b2a4ea803e9f1a1900b.md5",
+      "import_cache_sha256": "ed023bf36da2284766327730de5b9870875de5f2eb62be976016461cc04c733c"
+    },
+    {
+      "source": "raid/assets/field_supplies/access_card_woodland.glb",
+      "sha256": "d53d11b3f1ff10d09cdf25a9c49780c3d8e3d670dda05e8ce93f3ba24abf94a5",
+      "size_bytes": 11720,
+      "import_metadata": "raid/assets/field_supplies/access_card_woodland.glb.import",
+      "import_metadata_sha256": "0f47ebf1418f95bb5fdd92467711142e852e323c5bc991f27a7bd17b255d613b",
+      "imported_scene": ".godot/imported/access_card_woodland.glb-45ab64b9f64c76855ee624f8426d38dc.scn",
+      "imported_scene_sha256": "47f709118b1efa9d467c227fa2bde0704ca27d277b5b8dbc068fd7a589a2733b",
+      "import_cache": ".godot/imported/access_card_woodland.glb-45ab64b9f64c76855ee624f8426d38dc.md5",
+      "import_cache_sha256": "1dbe01724e5b1a4e9b1ef6edab71461585751a29ca1387853ec1796b3baf54e5"
+    },
+    {
+      "source": "raid/assets/field_supplies/clipboard_saltflat.glb",
+      "sha256": "f267be8585babbe39a881972ef96c5e2110c857fa4da00bdacca7def4bfefc74",
+      "size_bytes": 19836,
+      "import_metadata": "raid/assets/field_supplies/clipboard_saltflat.glb.import",
+      "import_metadata_sha256": "040fb081efe373ffe9588313934f89fc00ba993e94ca3fad34694b17e710557b",
+      "imported_scene": ".godot/imported/clipboard_saltflat.glb-4add020d2aad247f1e964aaf449c4d93.scn",
+      "imported_scene_sha256": "40e9be98e2768c3f5de900af47b879c183da7604dc9a49ac20af5b8d30f86920",
+      "import_cache": ".godot/imported/clipboard_saltflat.glb-4add020d2aad247f1e964aaf449c4d93.md5",
+      "import_cache_sha256": "4ef2dce5bc63c7432ca8070a92768a2d3130422fcbc0c9f9d897fe6215059c76"
+    },
+    {
+      "source": "raid/assets/field_supplies/clipboard_woodland.glb",
+      "sha256": "638e7281bda8d84b7e24af41cab849e832f910e57ded35f9273159b9784e3899",
+      "size_bytes": 19836,
+      "import_metadata": "raid/assets/field_supplies/clipboard_woodland.glb.import",
+      "import_metadata_sha256": "e33d3a16b27bb15da5324fbc0fb04a1655d5cb700686ad5f566c696a51c8db6d",
+      "imported_scene": ".godot/imported/clipboard_woodland.glb-8169e64ae079ed54260e70d2a56443f9.scn",
+      "imported_scene_sha256": "6599fc8c181e14446a7adeeda9cd674e6b2a2f311f62511966ad4ba051777527",
+      "import_cache": ".godot/imported/clipboard_woodland.glb-8169e64ae079ed54260e70d2a56443f9.md5",
+      "import_cache_sha256": "240ffb11ceb8e263e431425a01c6d1bbaa4403d73f85f9b0c6047b9f3d00a0f6"
+    },
+    {
+      "source": "raid/assets/field_supplies/maintenance_key_saltflat.glb",
+      "sha256": "7f74c794bcf88a22d43a5bed040cb941a8db803686d787b2f957e594c46b6d8f",
+      "size_bytes": 18200,
+      "import_metadata": "raid/assets/field_supplies/maintenance_key_saltflat.glb.import",
+      "import_metadata_sha256": "072ad78ebd42e4201cbc7147f24adbb7ce21c63bd36cc6cf6cf14623a9a56fd7",
+      "imported_scene": ".godot/imported/maintenance_key_saltflat.glb-96f13d5fc7d32d0ee3c8e491c6776f27.scn",
+      "imported_scene_sha256": "c913e2759d4346902ded25ef69a3df59c8247f53afbb1de216c772ec80239134",
+      "import_cache": ".godot/imported/maintenance_key_saltflat.glb-96f13d5fc7d32d0ee3c8e491c6776f27.md5",
+      "import_cache_sha256": "d60a9c520967b08d105d839d9e49039b4b420db2f346710efa5d1ca460305df8"
+    },
+    {
+      "source": "raid/assets/field_supplies/maintenance_key_woodland.glb",
+      "sha256": "be2b7f869d09ca0df0a9c98a0b0881e4caedcb80145d295ec60098275bc5a817",
+      "size_bytes": 18200,
+      "import_metadata": "raid/assets/field_supplies/maintenance_key_woodland.glb.import",
+      "import_metadata_sha256": "d4d81329a560a58051aa2feecaabb49cb2ee1376b2841a1104df9e8b42bb7523",
+      "imported_scene": ".godot/imported/maintenance_key_woodland.glb-c36c870368dcb68af87d328d0f0392be.scn",
+      "imported_scene_sha256": "2aa76a4b54295760d669f0fcd5817cd3880620240920c56d497f6a37fb0f32d5",
+      "import_cache": ".godot/imported/maintenance_key_woodland.glb-c36c870368dcb68af87d328d0f0392be.md5",
+      "import_cache_sha256": "16620dcc58eaa0670b5d748e649a03aff594e155ea8fb5e135246e5c1e1f33e6"
+    },
+    {
+      "source": "raid/assets/field_supplies/maintenance_logbook_saltflat.glb",
+      "sha256": "0f9dbed17b15f5031d952c8c83e06cd9217f587e5753c2a38547a3608c5c0944",
+      "size_bytes": 14432,
+      "import_metadata": "raid/assets/field_supplies/maintenance_logbook_saltflat.glb.import",
+      "import_metadata_sha256": "1172b03dc910cf4ef6e891decbf227c4a418bcfb6103da8f697bc30993ef873b",
+      "imported_scene": ".godot/imported/maintenance_logbook_saltflat.glb-b482a34dbb036044f1cb2aa7e4d14b45.scn",
+      "imported_scene_sha256": "d1feafff7746d33e8562302ca4dcd4881267b62ba6986a4f4da91474ec932dc4",
+      "import_cache": ".godot/imported/maintenance_logbook_saltflat.glb-b482a34dbb036044f1cb2aa7e4d14b45.md5",
+      "import_cache_sha256": "d70f81e801cdb049637060fb96296583bba02f88a954001ff6ad36aa9b74ec7a"
+    },
+    {
+      "source": "raid/assets/field_supplies/maintenance_logbook_woodland.glb",
+      "sha256": "8c64a29d76c9a9cbb13a0760aad1d55a697840e90bc7849117c03de1fda46300",
+      "size_bytes": 14436,
+      "import_metadata": "raid/assets/field_supplies/maintenance_logbook_woodland.glb.import",
+      "import_metadata_sha256": "ad12a08fdd91332aded3837d10a748f89d34df76568b2962be4c8d884de03959",
+      "imported_scene": ".godot/imported/maintenance_logbook_woodland.glb-f2dbba59baa68e2fac316e44c7188cc1.scn",
+      "imported_scene_sha256": "1515e06fc35c222a5c72ed15257d978d96196c0b0bdcfe3b9a8d2730849f95ed",
+      "import_cache": ".godot/imported/maintenance_logbook_woodland.glb-f2dbba59baa68e2fac316e44c7188cc1.md5",
+      "import_cache_sha256": "8bda7e5e7b5bf9d7abebb4ee5eda56c99b9a4c1d397951374483c8f47d560a62"
+    },
+    {
+      "source": "raid/assets/field_supplies/supply_stand_saltflat.glb",
+      "sha256": "39de1ad935ed014c291c7576aceac5ec2b8ff796a18b0b86c37b715915ce0506",
+      "size_bytes": 33336,
+      "import_metadata": "raid/assets/field_supplies/supply_stand_saltflat.glb.import",
+      "import_metadata_sha256": "8e78e039fe0cb32ad0897082f0d89904748f5d7c99d7387411160aa811ddfef3",
+      "imported_scene": ".godot/imported/supply_stand_saltflat.glb-c31391cdfbd6cffb9767eafa361ac4a2.scn",
+      "imported_scene_sha256": "324d93ad3b82b2abc270e27990d691c585f45343a973e41e51b4f99f7395918b",
+      "import_cache": ".godot/imported/supply_stand_saltflat.glb-c31391cdfbd6cffb9767eafa361ac4a2.md5",
+      "import_cache_sha256": "251d5b42f19b5263e09e7bd568b9f2616b2bd057fa72630dc8f6b34763cb9e8e"
+    },
+    {
+      "source": "raid/assets/field_supplies/supply_stand_woodland.glb",
+      "sha256": "5b532144b13107e23476bc96c9512ca8d67e86a4597e99511f9279cfbbb01386",
+      "size_bytes": 33336,
+      "import_metadata": "raid/assets/field_supplies/supply_stand_woodland.glb.import",
+      "import_metadata_sha256": "08beb307001943ca04b6c86e0797c9c435744116e8705e6b3f5de845862f6d5a",
+      "imported_scene": ".godot/imported/supply_stand_woodland.glb-4a20d4cca846b4fe3756afefdfd0f56c.scn",
+      "imported_scene_sha256": "47937d735ab94d65706528cd40ce95390f0bd045c90cccee1c991f94cdd6c090",
+      "import_cache": ".godot/imported/supply_stand_woodland.glb-4a20d4cca846b4fe3756afefdfd0f56c.md5",
+      "import_cache_sha256": "051eb4ca17dee20bf54cf539fd1f65774556ef1b1b5aacfca82faa55c1ee504b"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "format": "Original mono PCM16 44100 Hz WAV",
+  "files": [
+    {
+      "file": "key_unlock.wav",
+      "bytes": 88806,
+      "sha256": "5aafb64102239bf14aa149694070900b4fad04bb931f872aff937bb5fd41fc51",
+      "source": "User-supplied raid audio, November 10, 2026"
+    },
+    {
+      "file": "keycard_accepted.wav",
+      "bytes": 87442,
+      "sha256": "29382d76c4c4b55f3ed72002f4a50795d4119425ce335d5e17f270c16f7be823",
+      "source": "User-supplied raid audio, November 10, 2026"
+    },
+    {
+      "file": "access_denied.wav",
+      "bytes": 80628,
+      "sha256": "42aa598236e2bb429f1793f97da1ada7da7f79878855e124bca46d324772d13e",
+      "source": "User-supplied raid audio, November 10, 2026"
+    },
+    {
+      "file": "keypad_press.wav",
+      "bytes": 8688,
+      "sha256": "2a8c2cadb22acd21b240f464a93c0ac0b89e74ba15975b66b1b135da42d6f401",
+      "source": "User-supplied raid audio, November 10, 2026"
+    },
+    {
+      "file": "heavy_door_open.wav",
+      "bytes": 310372,
+      "sha256": "33c6e55c8d403d44dfeca6cb1198572a236d23de70e5b5dd2bcb233507b3ac33",
+      "source": "User-supplied raid audio, November 10, 2026"
+    },
+    {
+      "file": "relay_switch_click.wav",
+      "bytes": 21620,
+      "sha256": "ee171f93f5001cee881162c2c829c4247f1a34600dde47e58cc92d88084a0a12",
+      "source": "User-supplied raid audio, November 10, 2026"
+    },
+    {
+      "file": "puzzle_solved.wav",
+      "bytes": 191262,
+      "sha256": "ca4323e2123de5bd956d9159bd445e9820c6b3dfc5761d556c9e9b784afc5144",
+      "source": "User-supplied raid audio, November 10, 2026"
+    },
+    {
+      "file": "beacon_activation.wav",
+      "bytes": 144350,
+      "sha256": "83130e59abe65a6356c472e35caad3ad823c329a5ce2058a11062fd2d07a8b40",
+      "source": "User-supplied raid audio, November 10, 2026"
+    },
+    {
+      "file": "beacon_countdown_pulse.wav",
+      "bytes": 15884,
+      "sha256": "e24c21df284549ef1c038618ed5cdaf0d209019e8368a3937b28ecf55c6b733d",
+      "source": "User-supplied raid audio, November 10, 2026"
+    },
+    {
+      "file": "beacon_cancel.wav",
+      "bytes": 88374,
+      "sha256": "943b76234e211739d2219a2160c2e813375269938b79daf70a61fa009978a7c5",
+      "source": "User-supplied raid audio, November 10, 2026"
+    },
+    {
+      "file": "beacon_complete.wav",
+      "bytes": 174380,
+      "sha256": "98b7ae9c83cc8daf9e05c96d37bd52ce9737a4ade51d9cf9f82f7452981916c7",
+      "source": "User-supplied raid audio, November 10, 2026"
+    },
+    {
+      "file": "valve_turn_stop_1.wav",
+      "bytes": 130304,
+      "sha256": "1063d67287fa6a3113481d85c6d985d0c6f77992dce3e6560b6c035156415ec8",
+      "source": "User-supplied Cinder valve audio, November 10, 2026"
+    },
+    {
+      "file": "valve_turn_stop_2.wav",
+      "bytes": 116026,
+      "sha256": "9bb0bff720837e4187e93612f9c6f72f82c5d7923772cf2028c944a705025088",
+      "source": "User-supplied Cinder valve audio, November 10, 2026"
+    },
+    {
+      "file": "valve_turn_stop_3.wav",
+      "bytes": 123586,
+      "sha256": "2245a959c1b2ddda98d4bda7deeaaa69b5e8c90ce7d61c9904b5b3b3a82e07e1",
+      "source": "User-supplied Cinder valve audio, November 10, 2026"
+    }
+  ],
+  "rights": "User-supplied assets. No independent rights verification or blanket license inferred."
+}

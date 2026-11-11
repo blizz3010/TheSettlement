@@ -1,0 +1,1127 @@
+{
+  "checkpoint_date": "2026-11-11",
+  "base_commit": "61fcd11304e27b93937c0d3feba73cebc4bc80e6",
+  "source_snapshot": "Raid wayfinding candidate after Obsidian Archive v2.1",
+  "game_source_files": 184,
+  "files": [
+    {
+      "path": "raid/CARGO-SCENERY-UPDATE.md",
+      "size": 6078,
+      "sha256": "2e652e8a96da211bf7af777cf6351714d4d33f12827c20d313699ba5cfd0a627",
+      "sha": "1185c3b9e7617a17a0ee341cd5a340b21e781786"
+    },
+    {
+      "path": "raid/CINDER-BASIN.md",
+      "size": 9633,
+      "sha256": "3cca06b973851a348ee3fdd416b86f0205c86d9792b5f3e14d8a4a229d5df35c",
+      "sha": "2c9ac82f5caad13ab2801e3c93b1a6e830312c3b"
+    },
+    {
+      "path": "raid/FIELD-SUPPLIES-UPDATE.md",
+      "size": 5280,
+      "sha256": "b1db8ef121752677be3fed448dacfa2fb29713d99c38d726e7fbfbebafc83f62",
+      "sha": "5777212d463c7c974d0bb5dd4e25c3da7d8da8c9"
+    },
+    {
+      "path": "raid/GLASSKILN-UPDATE.md",
+      "size": 3858,
+      "sha256": "0c46f04f801940cfe59c2dbfe327662b8e4237b8184bb992ca230345fd169dd0",
+      "sha": "8713ce13e61777488e87b174b67be2f043b8a069"
+    },
+    {
+      "path": "raid/LANDMARK-UPDATE.md",
+      "size": 3368,
+      "sha256": "74ddfaf6e808a26e85a962feebc5ba6dffa2f102d363273ea5ae014e71f45d84",
+      "sha": "b95062e0c060bc6a6c416b02e0fa69ecdfffceb6"
+    },
+    {
+      "path": "raid/OBSIDIAN-ARCHIVE-UPDATE.md",
+      "size": 3271,
+      "sha256": "d046586884fa96b4dede6cf5946e50f89f460d79df7eac47e61f784ed56f796f",
+      "sha": "37f3c12366caef7c1524623e14ca21431919856b"
+    },
+    {
+      "path": "raid/PROPS-UPDATE.md",
+      "size": 5211,
+      "sha256": "0e2d857b0b2a565ee1bd583473a8bb2c2de354b76418954cc39106c92b67077d",
+      "sha": "29afc4fe70ecb9cc204e6c812a2e002cf05bd4af"
+    },
+    {
+      "path": "raid/PUZZLE-CONTROLS-UPDATE.md",
+      "size": 5192,
+      "sha256": "d7e077148b58e888438b94cf69776bdd8b59d3718ecc5b5d3818f21b9092e0f8",
+      "sha": "9e32ebad6b9cd6cef900a3e26f4a60a1021e88cf"
+    },
+    {
+      "path": "raid/README.md",
+      "size": 13403,
+      "sha256": "17c1d64ba261e83b210ba8661f374a390b9717afcbf6feb7f610210b0b51546d",
+      "sha": "891c501f9db9cf9eadd6baab0af889d6f23bbbc5"
+    },
+    {
+      "path": "raid/SHIP-INTEGRATION.md",
+      "size": 8377,
+      "sha256": "13e6618b8b38d3eccc703ac0384d0955ec46915ea85de6686e06aee552e20829",
+      "sha": "eae2c1ff43b42ae520a6579cb6eebb1a38e23c91"
+    },
+    {
+      "path": "raid/UI-SAFETY-UPDATE.md",
+      "size": 2312,
+      "sha256": "875ecf07fd5d2d99033e3164ba8df31c5b8b381e0ba0c2d5764189ea742e2f57",
+      "sha": "d6b6c8a37df6f0047c853e994387ef07e60de59a"
+    },
+    {
+      "path": "raid/VEGETATION-UPDATE.md",
+      "size": 3964,
+      "sha256": "c9374d094efbabede5324ba0f03769fd3b2e772969cfa522a87616ec86e9feeb",
+      "sha": "5403c8093ad661d2f37535e2d2dab6fe4454ef25"
+    },
+    {
+      "path": "raid/WAYFINDING-UPDATE.md",
+      "size": 2860,
+      "sha256": "790f472e21226303c6d19076f8160bee4162e5b8efbf80c80059da0438227cbf",
+      "sha": "4cf470348e909b2da20f17f4436375aaa82d7660"
+    },
+    {
+      "path": "raid/assets/cargo/ASSET-MANIFEST.json",
+      "size": 6579,
+      "sha256": "b4a5b57d161da33ca3a1f5cbd74c2cb44d57b6788c12590d8a110f2162ae764f",
+      "sha": "c4a9eb4ed0bd87cae7a4e5c4986c55b690cb41fb"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_container_dented_olive.glb",
+      "size": 202832,
+      "sha256": "f3152720ec2327bdaf13c3548c2d8cea0e9628441c80a2ac591ca5968057addc",
+      "sha": "9be3ceab0c6624f9c5ed36703759ed48c8618c9d"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_container_dented_olive.glb.import",
+      "size": 1109,
+      "sha256": "4bdd47d94fc02a4b96d84cd64b0a27d8afd56349f13731e2f3d1d6d7501ca1f9",
+      "sha": "abd5446c39290d0617e66a4c2a714fbca1a74835"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_container_dented_sand.glb",
+      "size": 202828,
+      "sha256": "2d2894c69a3e3fadb4ad34c58c84737d8289f2cc764bbea52771b27dd06d34a2",
+      "sha": "6f80edaebfe8af9a1d18a56f4f5ed3cb1cc63263"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_container_dented_sand.glb.import",
+      "size": 1106,
+      "sha256": "11e901730de72683765d39dad5562c54e304e989ef126cc8c1f60ea0dce2c857",
+      "sha": "090f6e3bd35f8f6e92a99fb2f5fe06e33d126bb4"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_container_intact_olive.glb",
+      "size": 199952,
+      "sha256": "0e73ec648498d5881954b85d9fb5d86616422ab317689c611efb80f84872cb4c",
+      "sha": "d09d22ce2a551496bf1936f3e0dc2e55fa1cdf8b"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_container_intact_olive.glb.import",
+      "size": 1110,
+      "sha256": "f5286972824b6a812d3975299741dd1a3d9689608c1c95a4781556fe656b70e1",
+      "sha": "14ff808661abc657102207b7aead113867ee2a31"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_container_intact_sand.glb",
+      "size": 199948,
+      "sha256": "556866a963d2998dbfde04b8568a1377604664b914f662220efd7895e3eae7eb",
+      "sha": "6f0a3b4cb2520f8d468c7f6091b1cdcf621c3c03"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_container_intact_sand.glb.import",
+      "size": 1106,
+      "sha256": "711fc4854cad90ebc08073acc81ea14f91df96b474a11f31c24eec7a66c40f1f",
+      "sha": "918c3ef66abeb08bb619481a5368b8e8e3104d3d"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_stack_large_olive.glb",
+      "size": 161892,
+      "sha256": "07fc70412620a74c7a7bbb214e760d9365d0f16b5e7bdd35c57efcc9a6d79695",
+      "sha": "69ba617515c9447efe1f49ec17074430c36051cb"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_stack_large_olive.glb.import",
+      "size": 1095,
+      "sha256": "2bc6982c171ac6faf5b514cc158d450cf2a25d4614bf1f8cc72e5f3cf4be167c",
+      "sha": "6ded4ca8a43b69b5ce508537fca4f0b0e17f428a"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_stack_large_sand.glb",
+      "size": 161884,
+      "sha256": "745e4e64c8fb9d03d72c72986057cac00b6e30bebcd37df1ee3fb7911e5193ed",
+      "sha": "0af0fc1b3b7b48a9013a0d17a6b172813391979b"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_stack_large_sand.glb.import",
+      "size": 1092,
+      "sha256": "f78945a62e7025c657e994effc76fd75b8badeea47700a545baadf20818ba5cf",
+      "sha": "d541fc727ad7cf5b89eab8169dceba43e6f6a660"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_stack_pallet_olive.glb",
+      "size": 81780,
+      "sha256": "9489ccb8d3bda5526c84f3d0ad78eeaeed82f93fa7dba34ecd9171ef257dcd03",
+      "sha": "e3381cc5db89c2de25e0eef15005faa6cf665e41"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_stack_pallet_olive.glb.import",
+      "size": 1098,
+      "sha256": "df2d58d3c0a6cd3d512ad2ad3944f0e40eb0acea70f3f008f001299144c1976f",
+      "sha": "59de54c0dad3359a1b9e7aee70df8b19315b6560"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_stack_pallet_sand.glb",
+      "size": 81776,
+      "sha256": "a5cb49462a80f5950b613a38dc495abe9055872cbce832d68789c251fd3dcc9f",
+      "sha": "47da3c210b2c563443f3b5843ebe6db828382d3c"
+    },
+    {
+      "path": "raid/assets/cargo/cargo_stack_pallet_sand.glb.import",
+      "size": 1095,
+      "sha256": "d7e6e87f3f9646f211dc823b5b717eb99a7994df741d647f520bc7ba5f2839c2",
+      "sha": "5647985f89f7fb975add4a8cf9905e9ff9dc24f6"
+    },
+    {
+      "path": "raid/assets/field_supplies/ASSET-MANIFEST.json",
+      "size": 8216,
+      "sha256": "9e5f0058020171eeff8e972faa7502f4ca49fd9b889f676a9afd6eb87daa581b",
+      "sha": "752124d8dced319c55086faad2ebc84a65f49739"
+    },
+    {
+      "path": "raid/assets/field_supplies/access_card_saltflat.glb",
+      "size": 11716,
+      "sha256": "82eccbc935d88237dead52ed50bda9845c5020a5bbce472f004dc02b5850c3e3",
+      "sha": "5bfeeb62aabff46913d1780148b02fbf4ded3b30"
+    },
+    {
+      "path": "raid/assets/field_supplies/access_card_saltflat.glb.import",
+      "size": 1093,
+      "sha256": "6ed9986f689b0684ce77ed3a44181b5fa0d45d220e7145b9485eb8011fe62ae5",
+      "sha": "9dc785ba7087e77c9ba57e6d4016ec732f2d1842"
+    },
+    {
+      "path": "raid/assets/field_supplies/access_card_woodland.glb",
+      "size": 11720,
+      "sha256": "d53d11b3f1ff10d09cdf25a9c49780c3d8e3d670dda05e8ce93f3ba24abf94a5",
+      "sha": "9163dcea2761055bda980d8f6a5ed9aaaef8edd0"
+    },
+    {
+      "path": "raid/assets/field_supplies/access_card_woodland.glb.import",
+      "size": 1095,
+      "sha256": "0f47ebf1418f95bb5fdd92467711142e852e323c5bc991f27a7bd17b255d613b",
+      "sha": "2e6d811b9bad6edc21e8979fa08181f5b653610b"
+    },
+    {
+      "path": "raid/assets/field_supplies/clipboard_saltflat.glb",
+      "size": 19836,
+      "sha256": "f267be8585babbe39a881972ef96c5e2110c857fa4da00bdacca7def4bfefc74",
+      "sha": "ab1ff51cdd9e906abd99a8835d659bb3b4e98490"
+    },
+    {
+      "path": "raid/assets/field_supplies/clipboard_saltflat.glb.import",
+      "size": 1089,
+      "sha256": "040fb081efe373ffe9588313934f89fc00ba993e94ca3fad34694b17e710557b",
+      "sha": "a68382c0ce9c603b3982fad7d61eec87eefe5d1c"
+    },
+    {
+      "path": "raid/assets/field_supplies/clipboard_woodland.glb",
+      "size": 19836,
+      "sha256": "638e7281bda8d84b7e24af41cab849e832f910e57ded35f9273159b9784e3899",
+      "sha": "e5e9b49ec3a6869dd226f7dea16be9a2d5456773"
+    },
+    {
+      "path": "raid/assets/field_supplies/clipboard_woodland.glb.import",
+      "size": 1089,
+      "sha256": "e33d3a16b27bb15da5324fbc0fb04a1655d5cb700686ad5f566c696a51c8db6d",
+      "sha": "d5fb4c30e4720928db97153579ebf47f3138c27d"
+    },
+    {
+      "path": "raid/assets/field_supplies/maintenance_key_saltflat.glb",
+      "size": 18200,
+      "sha256": "7f74c794bcf88a22d43a5bed040cb941a8db803686d787b2f957e594c46b6d8f",
+      "sha": "fd442ee1ab68ba1b7b4dfdd0a2384e16a3dba606"
+    },
+    {
+      "path": "raid/assets/field_supplies/maintenance_key_saltflat.glb.import",
+      "size": 1107,
+      "sha256": "072ad78ebd42e4201cbc7147f24adbb7ce21c63bd36cc6cf6cf14623a9a56fd7",
+      "sha": "8ec4aa4cfedf788078ad9b622ab1feb276944add"
+    },
+    {
+      "path": "raid/assets/field_supplies/maintenance_key_woodland.glb",
+      "size": 18200,
+      "sha256": "be2b7f869d09ca0df0a9c98a0b0881e4caedcb80145d295ec60098275bc5a817",
+      "sha": "95b5fc31c35056d29465c0627eabe52b9d9a3a3a"
+    },
+    {
+      "path": "raid/assets/field_supplies/maintenance_key_woodland.glb.import",
+      "size": 1106,
+      "sha256": "d4d81329a560a58051aa2feecaabb49cb2ee1376b2841a1104df9e8b42bb7523",
+      "sha": "f1ff72cad15eee8b5c880747d4301cec851ff05a"
+    },
+    {
+      "path": "raid/assets/field_supplies/maintenance_logbook_saltflat.glb",
+      "size": 14432,
+      "sha256": "0f9dbed17b15f5031d952c8c83e06cd9217f587e5753c2a38547a3608c5c0944",
+      "sha": "3e8abfb5107f814fdac5b90fe01420af2fbbed96"
+    },
+    {
+      "path": "raid/assets/field_supplies/maintenance_logbook_saltflat.glb.import",
+      "size": 1119,
+      "sha256": "1172b03dc910cf4ef6e891decbf227c4a418bcfb6103da8f697bc30993ef873b",
+      "sha": "e694fba58c5071c40b73e9edb998e8e5b2be94d9"
+    },
+    {
+      "path": "raid/assets/field_supplies/maintenance_logbook_woodland.glb",
+      "size": 14436,
+      "sha256": "8c64a29d76c9a9cbb13a0760aad1d55a697840e90bc7849117c03de1fda46300",
+      "sha": "3a53ec7b44177d9a24dc83bf2e28842888c39cc9"
+    },
+    {
+      "path": "raid/assets/field_supplies/maintenance_logbook_woodland.glb.import",
+      "size": 1119,
+      "sha256": "ad12a08fdd91332aded3837d10a748f89d34df76568b2962be4c8d884de03959",
+      "sha": "717621f2b58fd59828c41f1786958e1f74c881f0"
+    },
+    {
+      "path": "raid/assets/field_supplies/supply_stand_saltflat.glb",
+      "size": 33336,
+      "sha256": "39de1ad935ed014c291c7576aceac5ec2b8ff796a18b0b86c37b715915ce0506",
+      "sha": "7830142b62b1aec15be0d6ce1eae0e979b536ac0"
+    },
+    {
+      "path": "raid/assets/field_supplies/supply_stand_saltflat.glb.import",
+      "size": 1098,
+      "sha256": "8e78e039fe0cb32ad0897082f0d89904748f5d7c99d7387411160aa811ddfef3",
+      "sha": "6d76074c09d5f8161756c178d0ef58cbd908c98f"
+    },
+    {
+      "path": "raid/assets/field_supplies/supply_stand_woodland.glb",
+      "size": 33336,
+      "sha256": "5b532144b13107e23476bc96c9512ca8d67e86a4597e99511f9279cfbbb01386",
+      "sha": "f5ed7ccf29067ef9ab4c61c2c22daeb0da9edbfa"
+    },
+    {
+      "path": "raid/assets/field_supplies/supply_stand_woodland.glb.import",
+      "size": 1097,
+      "sha256": "08beb307001943ca04b6c86e0797c9c435744116e8705e6b3f5de845862f6d5a",
+      "sha": "50ec4c0e615eb6c5aabcabe6f76ef12a10187227"
+    },
+    {
+      "path": "raid/assets/obsidian/ASSET-MANIFEST.json",
+      "size": 476,
+      "sha256": "34e60f121cde8678ec54d26aa29a6d81221566b80c3e6948c9fe08adf5c5bef6",
+      "sha": "ef74cd92d27baa7e4d4afe178e6663e44ca678b4"
+    },
+    {
+      "path": "raid/assets/obsidian/obsidian_archive_v21.glb",
+      "size": 3114812,
+      "sha256": "754d7b98a3277bfff6d0fad511af44c9f0e751786e446ecbe970f1e574ad0b48",
+      "sha": "07c2b531fe63c0d7a92aaf1cfc83ef61e4b35604"
+    },
+    {
+      "path": "raid/assets/obsidian/obsidian_archive_v21.glb.import",
+      "size": 1087,
+      "sha256": "7010fdcc2ae1761039864e375f38395c49b125f83ee24adb76e335fc7330858b",
+      "sha": "bc0e4c4e44518a18491163cd0268a70d89c98f22"
+    },
+    {
+      "path": "raid/assets/props/ASSET-MANIFEST.json",
+      "size": 3488,
+      "sha256": "a6af457a16a1d522098881ba438eee0a28eb81855d870cf80eb248f0866ed79b",
+      "sha": "cfe76d86b01e07c6ae6316833a9195a8dddb4d18"
+    },
+    {
+      "path": "raid/assets/props/extraction_beacon_saltflat.glb",
+      "size": 77440,
+      "sha256": "c1725d4d64c117ab0fcfd10b1320d66e483ffd1fb013350c0fc8dccf242c9966",
+      "sha": "2b2ff4519cf7a1a9772192917ed91c800e250350"
+    },
+    {
+      "path": "raid/assets/props/extraction_beacon_saltflat.glb.import",
+      "size": 1101,
+      "sha256": "87ef8a5b96c30a0e741186a2197be176affd8c01562e3b21fe8611508aa3b043",
+      "sha": "eb17eec25d81ae55ce53bc2bd00c00bc4d069ec4"
+    },
+    {
+      "path": "raid/assets/props/extraction_beacon_woodland.glb",
+      "size": 77440,
+      "sha256": "c0d7658fd0024f53e2534f097f87857811c5fa89b289ec0c57dcc492cce95a33",
+      "sha": "d7525566a696c24843169778035a599f44ec7c50"
+    },
+    {
+      "path": "raid/assets/props/extraction_beacon_woodland.glb.import",
+      "size": 1102,
+      "sha256": "2cd35593996ed0b39b506e9d1e152a949696151e417673cfda8e49b825c37186",
+      "sha": "98d7bdf9ab998f4671843c4db45307bcecd8b6ff"
+    },
+    {
+      "path": "raid/assets/props/loot_cache_saltflat.glb",
+      "size": 45072,
+      "sha256": "e65676b52c3073709d067281d89efbb87b68c4edc62225777759658e155626bd",
+      "sha": "1868e86f1cd9ace88259ac283742c1e347647077"
+    },
+    {
+      "path": "raid/assets/props/loot_cache_saltflat.glb.import",
+      "size": 1081,
+      "sha256": "9c6d3ee76b21107f37630f4d51c35dac2f177286eea3e158f4c8b6b9463298d1",
+      "sha": "d9e57166babd8eb11f9391b28ae40973aa067dc3"
+    },
+    {
+      "path": "raid/assets/props/loot_cache_woodland.glb",
+      "size": 45072,
+      "sha256": "a073268199cebfd2b3418c87ed0a375cede97a0ad288ea54f1252e5022f6e93c",
+      "sha": "cb63ac505375e073caf920262c67325339dee25c"
+    },
+    {
+      "path": "raid/assets/props/loot_cache_woodland.glb.import",
+      "size": 1081,
+      "sha256": "9e080e84e17c931e18252c8bb5fef333698efbf7250513bd0764e7f69326136c",
+      "sha": "e4cccf5e98cbb38c921ec6e33c41cc939273355b"
+    },
+    {
+      "path": "raid/assets/puzzle_controls/ASSET-MANIFEST.json",
+      "size": 2019,
+      "sha256": "a883002e7969415d949eb33b6fe46802c6a262f394726b0b900d64f4600af895",
+      "sha": "1fe31fa6691c6ba754165c4ad79a3ea71715ed3d"
+    },
+    {
+      "path": "raid/assets/puzzle_controls/relay_lever_weather_station.glb",
+      "size": 58344,
+      "sha256": "cfb1b37e24fd21762485b65253403dd3666ba06137ad184ae738eef3d299af31",
+      "sha": "38b56311e675625efa4bcff8897068dc34287cf6"
+    },
+    {
+      "path": "raid/assets/puzzle_controls/relay_lever_weather_station.glb.import",
+      "size": 1117,
+      "sha256": "be73798491fef06ac06f2712774daf851e35a4b283d18916339f105782c4b580",
+      "sha": "3d59140399fd37d7f2356f1745f5b32cdb2a658f"
+    },
+    {
+      "path": "raid/assets/puzzle_controls/valve_echo_cistern.glb",
+      "size": 83048,
+      "sha256": "2bc1021c85e6dc04ac25cd80e2c97a3c50e33b7b89820a0fac795b29bd46c0cb",
+      "sha": "7aad90df4ca99b3385e8b397e8831bd4b0f7b51f"
+    },
+    {
+      "path": "raid/assets/puzzle_controls/valve_echo_cistern.glb.import",
+      "size": 1090,
+      "sha256": "60f67d4ac60e7474d3dab87730fce3c3a7de965c944744d2af6f41b7ef4e4d56",
+      "sha": "8999ac878dee875497fd4bef02bc98b3f4f7949b"
+    },
+    {
+      "path": "raid/audio/README.md",
+      "size": 2628,
+      "sha256": "c7e5fdf651cfe87444b95fee500da38484b7a4eb5776ec63ec17eacf488b0d33",
+      "sha": "8fc52c4836d48446c595e236f85814a467d69be1"
+    },
+    {
+      "path": "raid/audio/SOURCE-PROVENANCE.json",
+      "size": 3256,
+      "sha256": "cf692a081e2d11c84329126ecef6146b1916cf42a70efe94d430f7857f70d7fd",
+      "sha": "864697145184824ee24465d8cc73160600604e18"
+    },
+    {
+      "path": "raid/audio/access_denied.wav",
+      "size": 80628,
+      "sha256": "42aa598236e2bb429f1793f97da1ada7da7f79878855e124bca46d324772d13e",
+      "sha": "f3af0ca4a064f6f5e593652c72c1cd5f3880f450"
+    },
+    {
+      "path": "raid/audio/access_denied.wav.import",
+      "size": 508,
+      "sha256": "d978e86c535b2bd54092fd7b688b6d03b4995f920134ec1d779f9d5d9b746155",
+      "sha": "fce69c9ee8a825365a68984a3546033886560d19"
+    },
+    {
+      "path": "raid/audio/beacon_activation.wav",
+      "size": 144350,
+      "sha256": "83130e59abe65a6356c472e35caad3ad823c329a5ce2058a11062fd2d07a8b40",
+      "sha": "d2cd7afaad225727abbe06ad1f9fa3d1bd053a0d"
+    },
+    {
+      "path": "raid/audio/beacon_activation.wav.import",
+      "size": 519,
+      "sha256": "f2505929f5bc1a4fa97ed1a7e7b8771ddc5010839d4be5e051d9a309e7123bf4",
+      "sha": "b0a8bd3adc995f0263ca7b897dd708fa5ed42e09"
+    },
+    {
+      "path": "raid/audio/beacon_cancel.wav",
+      "size": 88374,
+      "sha256": "943b76234e211739d2219a2160c2e813375269938b79daf70a61fa009978a7c5",
+      "sha": "9a0050658321c029858065a2534ccdc48fd52789"
+    },
+    {
+      "path": "raid/audio/beacon_cancel.wav.import",
+      "size": 507,
+      "sha256": "cef40c34dc92e284235ab82d3f4e6c18a706682851a4f672300c321c570534c7",
+      "sha": "447b9ec1bf79bc03178c5cd9a9e25255494687ab"
+    },
+    {
+      "path": "raid/audio/beacon_complete.wav",
+      "size": 174380,
+      "sha256": "98b7ae9c83cc8daf9e05c96d37bd52ce9737a4ade51d9cf9f82f7452981916c7",
+      "sha": "155b10acaadf20afab53855911595f5c882ed471"
+    },
+    {
+      "path": "raid/audio/beacon_complete.wav.import",
+      "size": 514,
+      "sha256": "8451cf11fa9ed898feac9c91019721e8a4ffb9a8ef04d1e7409f3af5f492445a",
+      "sha": "87d6baa6e3ef7505f87faf36cfdca2947a8cb65a"
+    },
+    {
+      "path": "raid/audio/beacon_countdown_pulse.wav",
+      "size": 15884,
+      "sha256": "e24c21df284549ef1c038618ed5cdaf0d209019e8368a3937b28ecf55c6b733d",
+      "sha": "4ab2629da44485b0c328c44b3c82661ceb0072a6"
+    },
+    {
+      "path": "raid/audio/beacon_countdown_pulse.wav.import",
+      "size": 535,
+      "sha256": "88a048e5450c6b95c24b90b5131cb1ee7ac67645b842d279b8fd4e735848fa5d",
+      "sha": "01028c3acfd2f138e3d9300a3db5f43a2b4b7d7e"
+    },
+    {
+      "path": "raid/audio/heavy_door_open.wav",
+      "size": 310372,
+      "sha256": "33c6e55c8d403d44dfeca6cb1198572a236d23de70e5b5dd2bcb233507b3ac33",
+      "sha": "2a9588d69f489e2befdfdb98f742efdef3ecae30"
+    },
+    {
+      "path": "raid/audio/heavy_door_open.wav.import",
+      "size": 513,
+      "sha256": "d582634122ad6b97a030e3c31204a1247c4b170435eca127bbe041d401108df3",
+      "sha": "027fc274d0833b79ccc5bf2dba22b96243c32771"
+    },
+    {
+      "path": "raid/audio/key_unlock.wav",
+      "size": 88806,
+      "sha256": "5aafb64102239bf14aa149694070900b4fad04bb931f872aff937bb5fd41fc51",
+      "sha": "d47a7b1212606b225264b46da609232b9139d190"
+    },
+    {
+      "path": "raid/audio/key_unlock.wav.import",
+      "size": 499,
+      "sha256": "880093d5c4bc5b23dd6afd59c625f8c6ca3c4f87600d0375fdec5a6c4520d7a1",
+      "sha": "1358221fdb8e1f00ed618c4bc2ea4e68b4c28849"
+    },
+    {
+      "path": "raid/audio/keycard_accepted.wav",
+      "size": 87442,
+      "sha256": "29382d76c4c4b55f3ed72002f4a50795d4119425ce335d5e17f270c16f7be823",
+      "sha": "e1113e4ab167b94839f0da659e68b961764932ee"
+    },
+    {
+      "path": "raid/audio/keycard_accepted.wav.import",
+      "size": 517,
+      "sha256": "12e0ff79a1ebf12191bb9d28852683816606d374de9986bc8fec9bc4817d937b",
+      "sha": "3df624b2853656a2c450e5f2b6e9ba506c57a7c4"
+    },
+    {
+      "path": "raid/audio/keypad_press.wav",
+      "size": 8688,
+      "sha256": "2a8c2cadb22acd21b240f464a93c0ac0b89e74ba15975b66b1b135da42d6f401",
+      "sha": "9a3cf88359b44f9b5fe4b7a5c72a1c513a44decb"
+    },
+    {
+      "path": "raid/audio/keypad_press.wav.import",
+      "size": 505,
+      "sha256": "98e6e536390746175b86e2a395e5c7e27e4f13f8afcbcd31dd1460b3bf577e39",
+      "sha": "36fa7a4e39d9f44388199fdc33928896c7875b91"
+    },
+    {
+      "path": "raid/audio/puzzle_solved.wav",
+      "size": 191262,
+      "sha256": "ca4323e2123de5bd956d9159bd445e9820c6b3dfc5761d556c9e9b784afc5144",
+      "sha": "5104110d11d882a751e7ec8f0a168c490ddd64f5"
+    },
+    {
+      "path": "raid/audio/puzzle_solved.wav.import",
+      "size": 508,
+      "sha256": "9fbb5bff5142efc57a5380564d6c7a4d55ce79a26742a50a717fff8e3f466f3e",
+      "sha": "622ca09d7cbab46a7819c9285713c1448147fa9c"
+    },
+    {
+      "path": "raid/audio/relay_switch_click.wav",
+      "size": 21620,
+      "sha256": "ee171f93f5001cee881162c2c829c4247f1a34600dde47e58cc92d88084a0a12",
+      "sha": "e8edbd5a3788a8fd24341821564251621837c5a0"
+    },
+    {
+      "path": "raid/audio/relay_switch_click.wav.import",
+      "size": 523,
+      "sha256": "2d083a408b7e1b887c26d0c4c650b2ff3f617fd797c1134393499dc68f4a9c2f",
+      "sha": "12e867e3dd6ca29b00b0b7e949414e83e78a4b9d"
+    },
+    {
+      "path": "raid/audio/valve_turn_stop_1.wav",
+      "size": 130304,
+      "sha256": "1063d67287fa6a3113481d85c6d985d0c6f77992dce3e6560b6c035156415ec8",
+      "sha": "06e34c6f7066e0ba33dc7b9978544c58eb708693"
+    },
+    {
+      "path": "raid/audio/valve_turn_stop_1.wav.import",
+      "size": 519,
+      "sha256": "dde6404e5883cd9ad7bcc3a91343687cf09f98230f85312ee2269bec83de423b",
+      "sha": "b6ae36a8b740d2a5fe4d1d46cee5636142ac1877"
+    },
+    {
+      "path": "raid/audio/valve_turn_stop_2.wav",
+      "size": 116026,
+      "sha256": "9bb0bff720837e4187e93612f9c6f72f82c5d7923772cf2028c944a705025088",
+      "sha": "8a55d408f28fcdf6408add08073a6b62a013adeb"
+    },
+    {
+      "path": "raid/audio/valve_turn_stop_2.wav.import",
+      "size": 520,
+      "sha256": "73864f3c06ca89b4d78a7f9868825d3f95813db1c415965623a6cf87664991ec",
+      "sha": "18066c514c11e41723e2b7c6ed6808c689982e27"
+    },
+    {
+      "path": "raid/audio/valve_turn_stop_3.wav",
+      "size": 123586,
+      "sha256": "2245a959c1b2ddda98d4bda7deeaaa69b5e8c90ce7d61c9904b5b3b3a82e07e1",
+      "sha": "e2614c464584487f6d9a1a83d2c1f052baf1ad1c"
+    },
+    {
+      "path": "raid/audio/valve_turn_stop_3.wav.import",
+      "size": 520,
+      "sha256": "b0b4be2b313cb0010a5f784b5787f27b27445a67b03795a6f41d900cdb9ffc7a",
+      "sha": "796f3d005cb3f0df4469b845370cd526517716b4"
+    },
+    {
+      "path": "raid/cinder_basin.tscn",
+      "size": 282,
+      "sha256": "746cdb6c30db7f20cf04e41375e967639d23a63022008ae4a1c293fc1d1b3ec6",
+      "sha": "0505890df15883f53db38e2054899020545d962d"
+    },
+    {
+      "path": "raid/cinder_settings.tres",
+      "size": 308,
+      "sha256": "3e411a4622629f5aa13516fcc52f8f10ff0560b4df39273bcd1f2e183bbe5de4",
+      "sha": "e03558e188dcf56b21363c9923d79caf94d9f174"
+    },
+    {
+      "path": "raid/relay_ridge.tscn",
+      "size": 278,
+      "sha256": "452baedb3652412b80bfe580f0b4003fc3a43b01f1c23e331a8dc0e17e3fc869",
+      "sha": "12820b1a51952556d0c82b7f9588e96dc3ce4cba"
+    },
+    {
+      "path": "raid/relay_settings.tres",
+      "size": 306,
+      "sha256": "53cabfe929201fcde87bd2fb2fafd90807101ec31beb5b52fe19f5d4a0f06a24",
+      "sha": "48f505c3cae1967fb3d1e547d27d533630114938"
+    },
+    {
+      "path": "raid/scripts/archive_wayfinding.gd",
+      "size": 2740,
+      "sha256": "20094f7dd2110730e43f7308cff8880e9697b9da737484d021478da25ae219d3",
+      "sha": "e743fd52149ec98ca50b0a0383a3dc6b1793c6aa"
+    },
+    {
+      "path": "raid/scripts/biome_foliage.gd",
+      "size": 4246,
+      "sha256": "8da3c5c53709f5774b79cecf4930d47173e5fd15ffda00356450fd8c3a23b30c",
+      "sha": "7d3e40a033ec9e765ac47ff2b723989f87ab035b"
+    },
+    {
+      "path": "raid/scripts/cargo_scenery.gd",
+      "size": 1235,
+      "sha256": "758e4c945e3c44e6cb90193842b8e864dc2c68995a951df4137d5d34c2da8434",
+      "sha": "13025e709795de8278ad0269c69165e1ad5fe042"
+    },
+    {
+      "path": "raid/scripts/cinder_config.gd",
+      "size": 2953,
+      "sha256": "9a576ce520cecd0e37be8f74b540205bd7e8fe53d74081e2585e60ef42f94407",
+      "sha": "3ceaf26ab5f4683c19882f8e151eb95fa2ab5dd1"
+    },
+    {
+      "path": "raid/scripts/cinder_foliage.gd",
+      "size": 241,
+      "sha256": "75f4dea55751d5a6ca30789fef0ae26887d242243a059da46eb85cc93eea8574",
+      "sha": "112bf254d23b5b7d24bfe4cf79565aefa1803e00"
+    },
+    {
+      "path": "raid/scripts/cinder_generator.gd",
+      "size": 1770,
+      "sha256": "cc1623f75bef724cd4439efb408599245940d7eb9758a82fd09975f747fce4ff",
+      "sha": "dae77278b7e2b9e5aedfd2407f6d2920c43dffd3"
+    },
+    {
+      "path": "raid/scripts/cinder_landmarks.gd",
+      "size": 6449,
+      "sha256": "5127ffdadbf64dcca9d996756bdce6ae553cf29d2a0252b2498efb89b674fd0f",
+      "sha": "7ce0d39fea12adcf215b5e370c946dabbcfbac1f"
+    },
+    {
+      "path": "raid/scripts/cinder_state.gd",
+      "size": 900,
+      "sha256": "7a62708688fa2d24029d9ae9500695e6eab89eec964e4645f62d1624cd149f0d",
+      "sha": "019d7424d8dd63a369838b121c3ebd7da783a009"
+    },
+    {
+      "path": "raid/scripts/cinder_world.gd",
+      "size": 6571,
+      "sha256": "90aeb7c9ea32700df0d0a3b47171c07d795a18acc3115c24a4e44d59b633988a",
+      "sha": "7bec14244bf85a9dc5daeda9a39eca7b279ac2b1"
+    },
+    {
+      "path": "raid/scripts/field_supplies.gd",
+      "size": 1973,
+      "sha256": "c95d35de5e31c7ac0b6f1348ffe7ac055efef691ca38edf23fccf1527d5f3342",
+      "sha": "e86d2dccdf84ef38b31a9b75af3b083703526b86"
+    },
+    {
+      "path": "raid/scripts/glasskiln_campus.gd",
+      "size": 7491,
+      "sha256": "eef2f4b4cdece3d10b92300b39ab624013438ccaf29d5867a09d55071ef23450",
+      "sha": "0cb813c3645bffb0cc8b47db9405fb3b797648fd"
+    },
+    {
+      "path": "raid/scripts/obsidian_archive.gd",
+      "size": 2024,
+      "sha256": "c158744e89c0424af835192c25fc2c8e49b9cba21da65725c4b0066eb7dfd3d1",
+      "sha": "dea3f979d34a157ad6b96b562def9df322ebb450"
+    },
+    {
+      "path": "raid/scripts/obsidian_archive.gd.uid",
+      "size": 20,
+      "sha256": "f4d32659d1cba78fafeda24a979c722f21d2e926d800c1cdcf0c757ab4c8629a",
+      "sha": "a7e4f2d25e6f95a10c11a4acd4868dd9fea8d00c"
+    },
+    {
+      "path": "raid/scripts/puzzle_controls.gd",
+      "size": 2637,
+      "sha256": "935a9e566672463286ab7e8b3cfc1f5c7ffcdf3f8fcc804bd6ab405231b24c89",
+      "sha": "db3681326a7d17214887dcad28edb9c1c4bd31ef"
+    },
+    {
+      "path": "raid/scripts/raid_audio.gd",
+      "size": 2966,
+      "sha256": "752b12a1427ccc02dc7559dedeb2b891525b04a097a99f68781f4c02f27bbab1",
+      "sha": "932c0ccea07f426e5c4a423a14812e3c6a7ea120"
+    },
+    {
+      "path": "raid/scripts/raid_catalog.gd",
+      "size": 1007,
+      "sha256": "62eed52e1824f236c3cd53dba791c48e6b42d78f4581c31cc186a20987929401",
+      "sha": "b1d21612b76dc406f2bf23cde08362629de8520c"
+    },
+    {
+      "path": "raid/scripts/raid_map.gd",
+      "size": 6587,
+      "sha256": "95c207375bd80d3e89d3dc10a0c47623f464038df08cd8361d29a8990ac8b84a",
+      "sha": "3d18099f00ec2b909971ced55ef13e820fb938ad"
+    },
+    {
+      "path": "raid/scripts/raid_map.gd.uid",
+      "size": 19,
+      "sha256": "502182a6fc31e11c4e4ba490fee5cdb4039dee1d9a916c4c4579f7e362aa406a",
+      "sha": "cba27fbadcf32a1f16cf7fad5a3d8fe9bd27b5de"
+    },
+    {
+      "path": "raid/scripts/raid_props.gd",
+      "size": 2367,
+      "sha256": "441e6c2006d41591178f01b7556de76978f7ff4611259cf0fc12990ff079df1a",
+      "sha": "7c15fc9bb25aeb58c75261e09433f69e5c0885ea"
+    },
+    {
+      "path": "raid/scripts/raid_state.gd",
+      "size": 3411,
+      "sha256": "16afb9ab5dd0d85adc176abb6013d72970465dbd490cf899a94f8fd270dc6cd9",
+      "sha": "7fb2294c396e9afd8d46be761370b3530750792d"
+    },
+    {
+      "path": "raid/scripts/raid_state.gd.uid",
+      "size": 20,
+      "sha256": "3f5d22e5f2e9d75c9ab8ce0181bcff48a818b39b1049716ef4a78549b4a741db",
+      "sha": "a336f3a4b258f83592ab2a3e12e20bc619147426"
+    },
+    {
+      "path": "raid/scripts/raid_world.gd",
+      "size": 32557,
+      "sha256": "419d775c4667d795e90ce8c0113e7154950d9da010964b9f5b832329534673e4",
+      "sha": "8fc7b606b32faa84995890acca940f342682691c"
+    },
+    {
+      "path": "raid/scripts/raid_world.gd.uid",
+      "size": 20,
+      "sha256": "18b4fe6a2497074d6a0008d7293a7aa63f0a0421210be0a3573d0e62c895c5b6",
+      "sha": "ffeb7354656e18c3144d68fe870f3ac90b4826d9"
+    },
+    {
+      "path": "raid/scripts/relay_config.gd",
+      "size": 2663,
+      "sha256": "1ac1a94177d8fc582747c23503f5accdfb4ff9f4a71b699821e92da86d9bd08b",
+      "sha": "33ba29b8e99bb9ad7d0f702e5b8db96030f32d3c"
+    },
+    {
+      "path": "raid/scripts/relay_config.gd.uid",
+      "size": 20,
+      "sha256": "710f8cb120064fcc9071f78c2a549c4167c4183176411887f3fafed4273288a1",
+      "sha": "80a28a344e226c32457742070d6e24cf0dc85fea"
+    },
+    {
+      "path": "raid/scripts/relay_foliage.gd",
+      "size": 242,
+      "sha256": "0c4a8ac9e70294d7152b5ab584d498a597ba269e57240952bc440b948b9e46c3",
+      "sha": "5448b93daf7550413e0d90c1708b2f5a81ef3e25"
+    },
+    {
+      "path": "raid/scripts/relay_foliage.gd.uid",
+      "size": 20,
+      "sha256": "948579481c2571b60e57c978bdd220f085e114312b5a8a2ec2980c1dbee223b1",
+      "sha": "090cd7ccac61117c1dbdc5f9c3e92e05698b7baf"
+    },
+    {
+      "path": "raid/scripts/relay_generator.gd",
+      "size": 6945,
+      "sha256": "6c2c303fa073836e38bb98a53b22cc6fdfbb31434d461fdfb3160154b19bdf87",
+      "sha": "1bbb8f2bfb6ad87fdfbe1cfc6b99b661815676a3"
+    },
+    {
+      "path": "raid/scripts/relay_generator.gd.uid",
+      "size": 19,
+      "sha256": "6fe0d517a9f52365c3beb900698897bd5fee0f46b0b9174935c44ada211df396",
+      "sha": "af1f9cb5c85b21752067700c57ce940c15a28fea"
+    },
+    {
+      "path": "raid/scripts/relay_landmark.gd",
+      "size": 7004,
+      "sha256": "eb3d9fba13e733252c93371c0676a8eb97f05bf689ccad74a42713ebf183c772",
+      "sha": "f5cf1459c4ecac815b5b95a8164cdf9b668e40ea"
+    },
+    {
+      "path": "raid/scripts/ship_contract.gd",
+      "size": 593,
+      "sha256": "d0af82293f9a66a0f1e56291b0d2b3569943fe12d03d9fb705d154a5dc2883af",
+      "sha": "ccca639a1482a75298228697ee050f14972c080a"
+    },
+    {
+      "path": "raid/scripts/ship_contract.gd.uid",
+      "size": 20,
+      "sha256": "faba4b6fc52b2f7a47b2bc6f82b9497ede09ea9e7f91e42e31a6e674ae1a89b0",
+      "sha": "c871274eb0c088e29bca830d830af97d0edcc8ea"
+    },
+    {
+      "path": "raid/scripts/ship_raid_selection.gd",
+      "size": 4142,
+      "sha256": "16e28d60c53a2190181d638a895e09095009795ba9255ee3c42727d542e78148",
+      "sha": "4df401cb008e81656b3d7b62b9ca1be9afe35bfb"
+    },
+    {
+      "path": "raid/scripts/ship_settlement_preview.gd",
+      "size": 7201,
+      "sha256": "83ddb29bca5c907e390c7947fe63b4de461cf507c57789c460af0673ddf7af1a",
+      "sha": "80940dca1d506b8989c6dded46ce35036c9ef650"
+    },
+    {
+      "path": "raid/scripts/ship_settlement_preview.gd.uid",
+      "size": 20,
+      "sha256": "01e08179e47a3f9c58ad758c22d1318554e9ae2578baf7bdbb3285df96b73add",
+      "sha": "750341693432604478c675087629a645a80660f0"
+    },
+    {
+      "path": "raid/scripts/ship_title_preview.gd",
+      "size": 1447,
+      "sha256": "c9dbc678d8a1d3244c4ed256d88f3f5d9f662781ff209eaef69bd3bd49b5a42d",
+      "sha": "0bbbaff3d7e51d674b7e7467d21339536ee2c4a7"
+    },
+    {
+      "path": "raid/scripts/ship_title_preview.gd.uid",
+      "size": 20,
+      "sha256": "db21db6a70441d81a656bc0899bc1a6b68435731f3cec2eb4165a80746339269",
+      "sha": "8951d2e19ac8e4a85a038fe9c0ad0fcf8546bbfd"
+    },
+    {
+      "path": "raid/scripts/ship_transition.gd",
+      "size": 3208,
+      "sha256": "f0436f1e90de4e7187542551edc19922e474d13cef8a0c6720b53d0fb828a8a6",
+      "sha": "9cf16f5c76af4e9557280759b5164d8e738246e4"
+    },
+    {
+      "path": "raid/scripts/ship_transition.gd.uid",
+      "size": 20,
+      "sha256": "2fd0042f332144df1a85660eaa65ee951bb9d9f949ee7cff2b033e1cb412ad84",
+      "sha": "7995447b1f003c47f7bbc2719ba0423ea8ffdd8f"
+    },
+    {
+      "path": "raid/scripts/vegetation_meshes.gd",
+      "size": 10666,
+      "sha256": "1f3844b17a0aaf55e858bd91b2aab0bf7f5fad81d805dfe155ea7832d56558a6",
+      "sha": "82257d8f4cb719a31e4c473f50640e2a2b48b128"
+    },
+    {
+      "path": "raid/ship_settlement_preview.tscn",
+      "size": 189,
+      "sha256": "6c03038dd6afe44493e86018886b1482f1a86ff3fba798d394ba02375407e4d3",
+      "sha": "d0ca27b245405ae36b0f9f07e28460d0061744fa"
+    },
+    {
+      "path": "raid/ship_title_preview.tscn",
+      "size": 304,
+      "sha256": "c3a46eac146e53d037fbb405749fc02dfeb0c7b9723f8b3cd4f6afd36de7ef92",
+      "sha": "ea4dcbb4e5787287c5f6d311bd16af69cf7b3b06"
+    },
+    {
+      "path": "raid/tests/audio_shutdown.gd",
+      "size": 408,
+      "sha256": "ed8c3724e92ecb6b75b9fcfc2f8b244fe64b9d80f8728be8a70ff578e81098d6",
+      "sha": "fa9ecf59b1bfdda2adfbab081a6ba947055cc089"
+    },
+    {
+      "path": "raid/tests/export_cinder_layout.gd",
+      "size": 1027,
+      "sha256": "59ca0837156d64ca702092885b693e6903cb3a93fa50b28c2b65c5da1b0d5591",
+      "sha": "877fc91d7336827dc91227338ab4422094e24084"
+    },
+    {
+      "path": "raid/tests/export_layout.gd",
+      "size": 1018,
+      "sha256": "6fe09614795269667fb07836e9c1c104b071c475919c5c4a14694609bdf5a699",
+      "sha": "c1ad6aa75638174b74737f31163a05caa85425b0"
+    },
+    {
+      "path": "raid/tests/obsidian_routes.json",
+      "size": 18664,
+      "sha256": "608b8f12a815631cddb4e4e44fee7277e5cd69bb6b82c580e7a7c7cc1233b9b5",
+      "sha": "1c208b7e3257775bfc86cf3e041c9ad0bc8fb3bd"
+    },
+    {
+      "path": "raid/tests/obsidian_walk_driver.gd",
+      "size": 3045,
+      "sha256": "31c0bfa3f754ee9021516aef9a599aff1e0a4ce5dbd15969c7f109b1d70b4ac9",
+      "sha": "59c8887c47f49d9828e2ba69e21f20e6eeafde94"
+    },
+    {
+      "path": "raid/tests/run_cinder_seed_matrix.sh",
+      "size": 1621,
+      "sha256": "b846f5b3815c0b7a83813b7352fa50068f86f0d4f8fec0ccd2954528abc39ce5",
+      "sha": "99a9e456d78352122a53d180a18240b453aa098b"
+    },
+    {
+      "path": "raid/tests/run_relay_candidate_checks.py",
+      "size": 5573,
+      "sha256": "c989cebbac2ccaa69ec115c32fdde6a07e380dde3ea3fb50e99fef596aace5a5",
+      "sha": "6b0300afef443cae5d39d606636a5c16dcb2e09a"
+    },
+    {
+      "path": "raid/tests/run_relay_seed_matrix.sh",
+      "size": 1615,
+      "sha256": "4d13e12fea6b12d4703ace629834e1de6029ac7ab2577848ce0d5ad58045cf4e",
+      "sha": "04fcb357ef2391fb20d60bce33643200a5058787"
+    },
+    {
+      "path": "raid/tests/test_biome_vegetation.gd",
+      "size": 8508,
+      "sha256": "bf8a7f9f0794851344a424a4e3b728dc5d454242c880a05a63c14d612f03e2ab",
+      "sha": "1346afcb049eb4425b2575dac51bd8c5c3c2d292"
+    },
+    {
+      "path": "raid/tests/test_cargo_scenery.gd",
+      "size": 9264,
+      "sha256": "a2a9afe3d3ea4316b989e9f2e63b927f517431827d34cd10a7dfb2dfbdf2bb16",
+      "sha": "441fcf54d49f10b17c6a4da25d495a3cf5ecc5b8"
+    },
+    {
+      "path": "raid/tests/test_cinder_contracts.gd",
+      "size": 5258,
+      "sha256": "50acfa0f653ad9bf8e3450a33af24b95514c6ac722f6d9c801ce3c001012ffcb",
+      "sha": "41cb3fb2dd6d671bf42691f2c1783ffc5f0b879b"
+    },
+    {
+      "path": "raid/tests/test_cinder_extraction.gd",
+      "size": 9924,
+      "sha256": "45118753745d05c6f0bd18d7e4809ebdfc80a0fb25605aa35339f89f008987a0",
+      "sha": "b3c514bff392a0239431ee4239dea85609fccc5a"
+    },
+    {
+      "path": "raid/tests/test_cinder_extraction_schedule.gd",
+      "size": 3808,
+      "sha256": "7b5353f5af1a30d892449bfa97fc7b0909da164f6c5f45c7d0785f738377f8cb",
+      "sha": "c8cfd5333dce8859a45075db3e637b1ca48106ad"
+    },
+    {
+      "path": "raid/tests/test_cinder_landmarks.gd",
+      "size": 7128,
+      "sha256": "9e05b88078c5c8a50da55628c97040456c839750f8cd182d58a8fccc904f9a3d",
+      "sha": "207f05d5da9f9ff40bc810f76f61c30feb62606b"
+    },
+    {
+      "path": "raid/tests/test_cinder_readiness.gd",
+      "size": 3284,
+      "sha256": "7f5e9555a2863384b17cd0308195916bba48e9053398b4742dc6aa59a9d2fc36",
+      "sha": "c04fedf567cc0df2fce90caf27557a4ba8732ae1"
+    },
+    {
+      "path": "raid/tests/test_cinder_scene.gd",
+      "size": 4961,
+      "sha256": "148b9b43ce840a6ec30ec1e168a8a3535e53d7825673f1d9d6678f53c00a77e7",
+      "sha": "b7ad12397eb49a66c1431ed3d5a06cd3b102289a"
+    },
+    {
+      "path": "raid/tests/test_cinder_seed_matrix.gd",
+      "size": 15395,
+      "sha256": "d40786929da60ae6be1ec33cdf562afb3b62adc5e9249b36ef93f4df16e5368e",
+      "sha": "17d0b1f1faa4090178b2070245c361442d8dd17e"
+    },
+    {
+      "path": "raid/tests/test_cinder_walkthrough.gd",
+      "size": 9600,
+      "sha256": "7ae6245724bf98580061977cceaeb9e3784171323e8f8906337cafc27981c08e",
+      "sha": "84e6d80100b0baab5cd86d10a5fca6073f4fa8b3"
+    },
+    {
+      "path": "raid/tests/test_field_supplies.gd",
+      "size": 12110,
+      "sha256": "31d8290c153f06307dac27e6aafb8699b3d5437f96980d6de7a1051a775093ee",
+      "sha": "af30e5b95b7dfd18a260d106e66051cf1ff6cc33"
+    },
+    {
+      "path": "raid/tests/test_glasskiln_campus.gd",
+      "size": 6159,
+      "sha256": "e90e2e5fe4f72b6c080ac65dfc86c35039752b59dc333041ffccd03f9121c664",
+      "sha": "1f8b6cd55127de234709df2f4f286c42f1ad6370"
+    },
+    {
+      "path": "raid/tests/test_obsidian_archive.gd",
+      "size": 2782,
+      "sha256": "4a50407a0220cae3d9a2d53dd246d3bb97b8ee1334dd4f5226e13f78ff16c35d",
+      "sha": "c786f70cf4ac2765619b7c3b4adf11e344df2948"
+    },
+    {
+      "path": "raid/tests/test_obsidian_independent.gd",
+      "size": 6294,
+      "sha256": "df66499536099c8bc4acbd000997b502e1ef2e150a8d778e98ae54dbb5d2d3e7",
+      "sha": "2118d94016f15c1f9daf4226c4768b3e8ab9f7d7"
+    },
+    {
+      "path": "raid/tests/test_puzzle_controls.gd",
+      "size": 13295,
+      "sha256": "d14cd513402f1c9786aa31029c08cb9b2850907e7bcb707719d0dcbc22adc3d2",
+      "sha": "1ff5c62ddf6c2662ddf1ef066cea3eb6d2d2e891"
+    },
+    {
+      "path": "raid/tests/test_raid_audio.gd",
+      "size": 11266,
+      "sha256": "34e7a6072800be6437da91d196b4040bba4deac70b368a1383ab7e4e6cadbcce",
+      "sha": "c56d98102ce1ff2ce68d866cee776015537d52b3"
+    },
+    {
+      "path": "raid/tests/test_raid_props.gd",
+      "size": 7235,
+      "sha256": "95947804a6edd9fe66c09e132b490ca03649dcdaa9a6fccd3cdc589e95430b45",
+      "sha": "8e43f5e43387b417f6eb5c2d35dfe9ff6d7bdcc5"
+    },
+    {
+      "path": "raid/tests/test_raid_ui_lifecycle.gd",
+      "size": 7112,
+      "sha256": "ca92f64128741d228c8f1e4400656f5e215bd95d980d1bf98a1acdbaf48865b9",
+      "sha": "0350c157e10335fc680b1eaeccb7a450322e1ab0"
+    },
+    {
+      "path": "raid/tests/test_raid_wayfinding.gd",
+      "size": 11371,
+      "sha256": "4fdc70524e79fd770cda053cd3c985c4c56ec79c2636cf043fa00f35b72679a2",
+      "sha": "dfa08bab0462bd9239ff73fe601345c26e941a3b"
+    },
+    {
+      "path": "raid/tests/test_relay_contracts.gd",
+      "size": 4617,
+      "sha256": "5d0e0bd1ab42560f4388992710ddecd3a9d156b2b75863a6e794662e48eee049",
+      "sha": "10dfd507dba6c9d5d02aea05b7214c7641b1524d"
+    },
+    {
+      "path": "raid/tests/test_relay_extraction.gd",
+      "size": 9889,
+      "sha256": "9bd89d95d4839fe5e2fd729aa6ac6fae8f99f050b8f93f6ecf2124a652b8cb35",
+      "sha": "28566c7410d3864f33750fc443f1113151ae77dc"
+    },
+    {
+      "path": "raid/tests/test_relay_extraction_schedule.gd",
+      "size": 3802,
+      "sha256": "399f30bc5140dc71e9ee2e0042839e469314d89baa7a59afe3969985c6889ebf",
+      "sha": "5f49008fd946d43dde118d7b196d365853d67227"
+    },
+    {
+      "path": "raid/tests/test_relay_landmark.gd",
+      "size": 3907,
+      "sha256": "698494623409888fc292548b50402524b623affb11ce2a17b1922957c18c6efa",
+      "sha": "24a44c9abdaf5c79adabc2d0619cb03672f75689"
+    },
+    {
+      "path": "raid/tests/test_relay_readiness.gd",
+      "size": 3279,
+      "sha256": "e2e8f1234a798fa12bc6b8325db072c4cbfe839cdec4edf2ac258a014e2ac892",
+      "sha": "59da9c79afc63638bb704c3124643a1af2cdb5bb"
+    },
+    {
+      "path": "raid/tests/test_relay_scene.gd",
+      "size": 4709,
+      "sha256": "a228f87a9c80806b6103c3419dee9fd44e8d736343dbce92e4cfc9d7df1c6094",
+      "sha": "8bcce5ff31eb1295993e384f18f6f6c23674fb4c"
+    },
+    {
+      "path": "raid/tests/test_relay_seed_matrix.gd",
+      "size": 14803,
+      "sha256": "06f0859133e27a31465fae61369c42c5b431ecbb1076ec9c03612df1799d3258",
+      "sha": "50aedfc2e2d7d5c51311e789950bd29b9dd589d1"
+    },
+    {
+      "path": "raid/tests/test_relay_walkthrough.gd",
+      "size": 9078,
+      "sha256": "b4bff8f1f5a930bcd81bfd886d11864ecae9a17efa128b411dbf70d2302d8bdb",
+      "sha": "9efbe791f01ce8fb17f8eb6f5554d461f687f6d0"
+    },
+    {
+      "path": "raid/tests/test_ship_contract.gd",
+      "size": 1859,
+      "sha256": "51fe414ff5f0b9d16d511cfaa29453f87363a0422f7bd1a87879bdae286954b6",
+      "sha": "a6b40bf76ea5c9771ce95995a582bef9dec5f820"
+    },
+    {
+      "path": "raid/tests/test_ship_contract.gd.uid",
+      "size": 20,
+      "sha256": "d5efcd97c669c4d93257d039681d5da4561a98cbbe98ab074752b57b8066d8a9",
+      "sha": "4d7ec085dd0d2d629a8f168ca2c9a99fa734236d"
+    },
+    {
+      "path": "raid/tests/test_ship_flow.gd",
+      "size": 3527,
+      "sha256": "1d2a82c0a0eafc88041d8ac15fed958ee231fbc0b33f4f5ef054712589819617",
+      "sha": "07b0bb5291fa86207918b049a53aee1e4349696b"
+    },
+    {
+      "path": "raid/tests/test_ship_flow.gd.uid",
+      "size": 19,
+      "sha256": "c55b5b601bb9884a96024e28bfe2ca6583289d66a16657b4bbb40c97cc896f2a",
+      "sha": "1a7c96aca109634c663d25c7dc0663d364ec344c"
+    },
+    {
+      "path": "raid/tests/test_ship_selection.gd",
+      "size": 12369,
+      "sha256": "c062edcb1c9690ecf76b14c4d43494565ca4286d3ccc22dde53d7489eb42687c",
+      "sha": "000d34337576a63342200f9e93afd19b76573cb9"
+    }
+  ],
+  "verification": {
+    "headless_engine": "4.6.3.stable.official.7d41c59c4",
+    "checks": 3462,
+    "suites": 40,
+    "all_final_source_suites_pass": true,
+    "initial_aggregate_pass": false,
+    "ship_flow_retry": "Initial process exited -9 without a script error. One isolated retry passed 14 checks without source changes.",
+    "new_gameplay_tests_during_backup": false,
+    "source_matches_verified_checkpoint": true,
+    "native_input_acceptance": false,
+    "rendered_acceptance": false,
+    "windows_acceptance": false,
+    "performance_acceptance": false,
+    "production_save_acceptance": false
+  }
+}

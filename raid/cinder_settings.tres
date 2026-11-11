@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="" load_steps=2 format=3]
+[ext_resource type="Script" path="res://raid/scripts/cinder_config.gd" id="1"]
+[resource]
+script = ExtResource("1")
+map_seed = 611204
+terrain_amplitude = 3.2
+tree_density = 0.24
+grass_density = 0.14
+shrub_density = 0.16
+rock_density = 0.42
