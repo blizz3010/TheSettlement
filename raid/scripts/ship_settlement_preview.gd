@@ -147,3 +147,7 @@ func _depart_ship_preview():
 	host.call_deferred("open_raid")
 	get_parent().remove_child(self)
 	queue_free()
+
+func activate_loaded_world():
+	super.activate_loaded_world()
+	preload("res://raid/scripts/settlement_visuals_style_test.gd").apply(self)
