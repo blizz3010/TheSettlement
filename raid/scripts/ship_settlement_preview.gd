@@ -32,6 +32,11 @@ func ship_can_embark() -> bool:
 	if tailor_accessible() or supplies_accessible() or Seats.target(self, player) != null or fishing_accessible(): return false
 	if is_instance_valid(cooking_test) and (cooking_test.vendor_accessible() or cooking_test.accessible()): return false
 	if is_instance_valid(fishing_trader) and fishing_trader.accessible(): return false
+	return ship_has_boarding_support()
+
+func ship_has_boarding_support() -> bool:
+	# The unchanged physical predicate is separate so real collision/controller
+	# checks do not need to bypass headless mouse capture or the startup gates.
 	var ship = get_node_or_null("LaunchpadShip")
 	if ship == null or not ShipContract.in_zone(ship.to_local(player.global_position)): return false
 	# Require actual pad support and clear line to the boarding point, not just radius.
@@ -130,12 +135,15 @@ func _notification(what):
 		_close_ship_selection(false)
 
 func _depart_ship_preview():
-	if not ship_contract.busy: return
+	if not ship_contract.busy or not is_inside_tree() or is_queued_for_deletion(): return
 	var host = load("res://raid/scripts/ship_transition.gd").new()
 	host.binding = ship_contract.binding.duplicate(true)
 	host.raid_id = ship_selected_raid_id
 	get_tree().root.add_child(host)
 	get_tree().current_scene = host
-	# Free, rather than hide/detach: no old notifications, camera, UI or audio survive.
+	# Bare free() is not resolved as a self method by the Windows export parser.
+	# Exit the tree immediately, so old physics, UI, focus handlers and audio are
+	# gone before the raid opens. Queue destruction through the bound Node API.
 	host.call_deferred("open_raid")
-	free()
+	get_parent().remove_child(self)
+	queue_free()

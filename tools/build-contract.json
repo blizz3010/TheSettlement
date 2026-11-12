@@ -1,0 +1,47 @@
+{
+  "godot": "4.6.3",
+  "required_json": [
+    "assets/audio/MANIFEST.json",
+    "assets/audio/MENU_FIRST_SNOW_MANIFEST.json",
+    "assets/audio/MENU_MUSIC_MANIFEST.json",
+    "assets/groundcover/placement.json",
+    "assets/groundcover/walkway-placement.json",
+    "assets/kit/home-storage-chest-manifest.json",
+    "assets/kit/manifest.json",
+    "assets/kit/planter-fern-manifest.json",
+    "assets/kit/planter-fern-validation.json",
+    "assets/materials/material_mapping.json",
+    "assets/planting_review/dense-accepted-placement.json",
+    "assets/planting_review/verified-native-foliage.json",
+    "assets/source/launchpad_ship/collision_geometry.json",
+    "assets/source/plaza_bench_v019/manifest.json",
+    "assets/video/loading_intro_provenance.json",
+    "assets/video/placeholder_provenance.json",
+    "assets/park_layered/binding.json",
+    "assets/park_west/binding.json"
+  ],
+  "excluded_unloaded_provenance": [
+    {
+      "source": "res://assets/source/shuttle_successor/original_runtime.glb",
+      "raw_sha256": "63cc4c724200d31f402097701fb86cf5a98638b4b028ca2cd2656b8fc3467758",
+      "reason": "unloaded developer reproduction input; absent from all runtime scripts and delivered PCK"
+    },
+    {
+      "source": "res://assets/source/shuttle_successor/favored_study3_runtime.glb",
+      "raw_sha256": "d5a79d2992594cc908c1e28b512d926f4cdc352ed7e1a314c98d18d371ec63e6",
+      "reason": "unloaded developer reproduction input; absent from all runtime scripts and delivered PCK"
+    }
+  ],
+  "source_guards": 207,
+  "runtime_GLB_count": 57,
+  "runtime_script_count": 135,
+  "expected_mask_sha256": "aa6f6d641d1369b1e558bdf0dd3dbc4b67f6f3fbb278fc7c08ff8a65cade512c",
+  "rule": "Never blindly rehash changed runtime/assets; obtain a new native mask authority review. Clean import/export must pass portable native gate.",
+  "baseline_release_pck_sha256": "1fd72cca7445e8a633052d65acfe4307dab890bfb7ac2f984179deb1c4ec45c1",
+  "runtime_png_guards": 13,
+  "runtime_shader_guards": 1,
+  "scope": "Unreleased next visual candidate; bounded clean reconstruction pending",
+  "expected_park_polygons_sha256": "52f26dd3f897d12a7edfd9b82b1d89e4cdf16095bec59fd913430970c7988172",
+  "tested_release_pck_sha256": "301560e7bb3ab1724e49ab0ff9b7724e5e68f2531cb4a7dad3190a12519399f4",
+  "expected_west_bounds_sha256": "9aa08134fc3a7f59b0bf442a17c3f99909308480fb9b1f0d340802a28d3b4d95"
+}

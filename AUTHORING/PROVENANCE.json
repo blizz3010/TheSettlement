@@ -1,0 +1,17 @@
+{
+  "staff": {
+    "runtime_glb": "assets/npc_coverage/ProvisionalStaff.glb",
+    "sha256": "26f0a493bfc8ad4eb6750d1fbfbf7789ec400445302a19463f0355f380fce47e",
+    "authoring_blend_sha256": "a2c6ccd4940ebf86c6281f32963ebd3f286ca167af80d95412de6f846f9f65ce",
+    "prior_reexport_byte_identical": true,
+    "private_blend_included": false,
+    "reason": "Contains private executor file metadata; exact self-contained GLB is retained as editable mesh/skin/animation source"
+  },
+  "atlas": {
+    "runtime_glb": "assets/npc_coverage/Atlas-Static-Sleeve-Fit.glb",
+    "sha256": "4d73a8688b5840dacafaa6fbb188c57c21960d6cff3c63641a182ff86a93bbe4",
+    "reproduction": "AUTHORING/Atlas/exact-glb-review/replay_static_fit.py",
+    "historical_divergent_blend_included": false
+  },
+  "license": "CC0-ASSET-LICENSE.md applies to installed MPFB system art used for these models. MPFB addon code is GPL and is not distributed here."
+}

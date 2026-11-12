@@ -1,9 +1,15 @@
 # Optional ship → raid review adapter
 
-This is an additive, unshipped candidate for the recovered Godot **4.6.3 r8**
+This is an additive review candidate for the recovered Godot **4.6.3 r8**
 project. The normal title/main scenes, production scripts, source-integrity
 hashes, assets, foliage surveys, save schema and exact pinned r8 exporter are
 unchanged. Do not include this in, or weaken, the exact-r8 build contract.
+
+The later combined Windows review package already includes this ship route as
+its default title and an explicit Launch-Ship-Selector.cmd entry. Its direct map
+launchers bypass the ship. Source default startup remains unchanged. See
+[current ship-flow update](SHIP-FLOW-UPDATE.md) for new real-geometry/live-map
+checks and the loading-cancellation fix; this source update is not yet packaged.
 
 ## Opt-in entry
 

@@ -1,0 +1,20 @@
+{
+  "status": "BOUNDED_CLEAN_REBUILD_PASS_NOT_RELEASED",
+  "tested_pck_sha256": "301560e7bb3ab1724e49ab0ff9b7724e5e68f2531cb4a7dad3190a12519399f4",
+  "rebuilt_pck_sha256": "58ffaac3ea11bcf52ccccf94b5f9c419a68be7d72c43cf40c4419ce8617d7892",
+  "source_files": 564,
+  "required_json": 18,
+  "imports": 120,
+  "raw_guards": 207,
+  "packed_guards": 277,
+  "import_export_repack_native_exit": 0,
+  "native_scope": "Exact frozen original506/1177 and original20 polygons; west10plant groups and62edge triangles/clearance;47plant buffers,cooking cylinder,route/contact,5coverage actor identities/Hall services,Save21/Inv8/Fishing1 and disposal. No fixture authority/cache injection.",
+  "limits": [
+    "Does not repeat full31 interaction suite on rebuilt imported bytes",
+    "Windows and performance untested",
+    "Warm shader-only native profile; fresh saves/config",
+    "Two GL texture teardown warnings retained",
+    "Private Blender authoring files omitted"
+  ],
+  "baseline_and_overlay_hashes_after_import_exact": true
+}

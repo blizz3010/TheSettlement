@@ -12,6 +12,7 @@ var generator
 var raid_state
 var player:CharacterBody3D
 var ready_for_play:=false
+var preparation_physics_ticks:=0
 var build_result:Dictionary={}
 var targets:Array=[]
 var door_nodes:Dictionary={}
@@ -72,8 +73,20 @@ func _ready():
 	var game_settings=preload("res://scripts/game_settings.gd").new();game_settings.apply(game_settings.load_settings(),player,get_viewport())
 	raid_audio=preload("res://raid/scripts/raid_audio.gd").new();raid_audio.name="RaidAudio";add_child(raid_audio)
 	_build_ui()
-	await get_tree().physics_frame
-	await get_tree().physics_frame
+	# Node-bound one-shot callbacks disappear when a loading raid is freed.
+	# A suspended _ready coroutine retains its Variant stack on cancellation in
+	# Godot 4.6.3. Keep the same two-physics-tick collision barrier without it.
+	preparation_physics_ticks=2
+	get_tree().physics_frame.connect(_prepare_after_physics_tick,CONNECT_ONE_SHOT)
+
+func _prepare_after_physics_tick():
+	preparation_physics_ticks-=1
+	if preparation_physics_ticks>0:
+		get_tree().physics_frame.connect(_prepare_after_physics_tick,CONNECT_ONE_SHOT)
+		return
+	_complete_preparation()
+
+func _complete_preparation():
 	var ray=PhysicsRayQueryParameters3D.create(player.global_position+Vector3.UP*2,player.global_position-Vector3.UP*2);ray.exclude=[player.get_rid()]
 	var ground=get_world_3d().direct_space_state.intersect_ray(ray)
 	if ground.is_empty():_fail_generation("Landing collision unavailable.");return

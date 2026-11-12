@@ -9,6 +9,10 @@ that package's launch instructions. It is not a fresh Windows export or Windows 
 
 ## What is built
 
+See [ship flow acceptance](SHIP-FLOW-UPDATE.md) for the real ramp/controller and
+live-map transition tests, cancelled-load cleanup fix, and remaining native
+title/ship/save-return acceptance.
+
 See [raid wayfinding](WAYFINDING-UPDATE.md) for session-only map pins, compass guidance and Archive floor/stair cues.
 See [Research Annex](RESEARCH-ANNEX-UPDATE.md) for the supplied two-level woodland
 building, production-controller tests and existing keycard/cache integration.
