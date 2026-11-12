@@ -5,10 +5,18 @@ var return_binding: Dictionary = {}
 func _ready():
 	world_path = "res://raid/ship_settlement_preview.tscn"
 	super._ready()
+	if not return_binding.is_empty():
+		# Extraction already saved a binding. Skip the title card and go straight
+		# into the official settlement load (same startup gates as a fresh Play).
+		if is_instance_valid(menu): menu.hide()
+		if is_instance_valid(status): status.hide()
+		if is_instance_valid(video): video.hide()
+		if is_instance_valid(play_button): play_button.hide()
+		call_deferred("_continue_after_preview")
+		return
 	status.text = "SHIP RAID PREVIEW • Isolated test saves only • No persistent raid loot"
 	status.show()
 	_layout()
-	if not return_binding.is_empty(): call_deferred("_continue_after_preview")
 
 func _continue_after_preview():
 	characters.rules = CharacterRules.data()

@@ -87,6 +87,9 @@ func _restore_title():
 	if is_instance_valid(raid):
 		raid.free()
 		raid = null
+	# Return still uses the official title startup so character bind, scenery
+	# gates and Town Hall login stay intact. ship_title_preview hides its card
+	# when return_binding is set and auto-launches the settlement preview.
 	var title = load("res://raid/ship_title_preview.tscn").instantiate()
 	title.return_binding = binding.duplicate(true)
 	get_tree().root.add_child(title)

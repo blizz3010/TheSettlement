@@ -184,6 +184,12 @@ func run():
 	final_selector.deploy_button.pressed.emit()
 	world._unhandled_input(key(KEY_G))
 	await process_frame
+	check(is_instance_valid(world.ship_takeoff) and world.ship_takeoff.playing and world.ship_takeoff.raid_id == "cinder_basin", "Confirmed deploy starts the Cinder Basin takeoff cutscene")
+	world.ship_takeoff.request_skip()
+	for _i in 45:
+		await process_frame
+		if world.departures >= 1:
+			break
 	check(world.saves == 2 and world.departures == 1 and world.ship_contract.busy, "Explicit deploy commits once despite repeated confirmation/input")
 	check(world.ship_selected_raid_id == "cinder_basin", "Confirmed second map ID is retained for transition")
 	check(world.ship_contract.binding.slot == "slot_1" and world.ship_contract.binding.appearance.nested.value == 2, "Departure retains the current exact character binding")
