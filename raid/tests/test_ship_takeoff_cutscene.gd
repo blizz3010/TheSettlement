@@ -191,6 +191,27 @@ func run():
 	var look_dir: Vector3 = -hud_cut.camera.global_transform.basis.z
 	var to_ship: Vector3 = (late_origin + Vector3(0, 2.4, 0) - cam_pos)
 	check(to_ship.length() > 1.0 and look_dir.dot(to_ship.normalized()) > 0.9, "Late camera still aims at the climbing ship")
+
+	# The live settlement ship is Art under LaunchpadShip; the pad must stay put.
+	var dock_world = Node3D.new()
+	root.add_child(dock_world)
+	var dock = Node3D.new()
+	dock.name = "LaunchpadShip"
+	dock.position = Vector3(22, 0, -16)
+	dock_world.add_child(dock)
+	var art = Node3D.new()
+	art.name = "Art"
+	dock.add_child(art)
+	var dock_cut = Cutscene.new()
+	dock_world.add_child(dock_cut)
+	dock_cut.begin(dock_world)
+	await process_frame
+	dock_cut._update_ship(0.85)
+	check(art.global_position.y > 15.0 and is_equal_approx(dock.global_position.y, 0.0), "Shuttle art climbs while the pad stays on the ground")
+	dock_cut.request_skip()
+	check(await wait_until(func(): return not dock_cut.playing, 45), "Pad-lift fixture skip completes")
+	dock_world.free()
+
 	hud_cut.request_skip()
 	check(await wait_until(func(): return not hud_cut.playing, 45), "HUD fixture skip completes")
 	check(hud_root.visible == true, "Gameplay HUD is restored after the cutscene")

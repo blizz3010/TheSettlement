@@ -30,6 +30,7 @@ var shimmer: GPUParticles3D
 var skip_label: Label
 var hidden_hud: Control
 var hud_was_visible := true
+var lift_rig: Node3D
 
 func duration() -> float:
 	return DURATION
@@ -46,6 +47,7 @@ func begin(world: Node) -> void:
 	elapsed = 0.0
 	set_process(true)
 	set_process_unhandled_input(true)
+	_ensure_lift_rig()
 	_capture_camera()
 	_build_camera()
 	_build_fade()
@@ -121,9 +123,17 @@ func _build_camera() -> void:
 		add_child(camera)
 	_update_camera(0.0)
 
-func _ship_origin() -> Vector3:
+func _climb_body() -> Node3D:
+	if is_instance_valid(lift_rig):
+		return lift_rig
 	if is_instance_valid(ship):
-		return ship.global_position
+		return ship
+	return null
+
+func _ship_origin() -> Vector3:
+	var body := _climb_body()
+	if body != null:
+		return body.global_position
 	return Vector3(22, 0, -16)
 
 func _update_camera(t: float) -> void:
@@ -157,17 +167,38 @@ func _lift_height(t: float) -> float:
 		climb = u * u * (28.0 + u * 16.0)
 	return spool * 0.35 + climb
 
+func _ensure_lift_rig() -> void:
+	# LaunchpadShip owns both the pad and the shuttle. Lift only the shuttle
+	# (Art + construction details) so the pad stays on the ground.
+	if is_instance_valid(lift_rig) or not is_instance_valid(ship):
+		return
+	var art := ship.get_node_or_null("Art") as Node3D
+	if art == null:
+		return
+	lift_rig = Node3D.new()
+	lift_rig.name = "TakeoffRig"
+	ship.add_child(lift_rig)
+	for path in ["Art", "ShipConstructionV096"]:
+		var node := ship.get_node_or_null(path) as Node3D
+		if node == null:
+			continue
+		var saved := node.global_transform
+		ship.remove_child(node)
+		lift_rig.add_child(node)
+		node.global_transform = saved
+
 func _update_ship(t: float) -> void:
-	if not is_instance_valid(ship):
+	var body := _climb_body()
+	if body == null:
 		return
 	if ship_home == Transform3D():
-		ship_home = ship.global_transform
-	var lifted = ship_home
+		ship_home = body.global_transform
+	var lifted := ship_home
 	lifted.origin.y += _lift_height(t)
 	# Slight nose-up as it leaves the pad.
-	var tilt = clampf((t - 0.25) * 0.18, 0.0, 0.12)
+	var tilt := clampf((t - 0.25) * 0.18, 0.0, 0.12)
 	lifted.basis = ship_home.basis.rotated(ship_home.basis.x, -tilt)
-	ship.global_transform = lifted
+	body.global_transform = lifted
 
 func _update_fx(t: float) -> void:
 	var ignite = clampf((t - 0.04) / 0.18, 0.0, 1.0)
@@ -197,7 +228,10 @@ func _update_fx(t: float) -> void:
 func _build_effects() -> void:
 	effects = Node3D.new()
 	effects.name = "TakeoffEffects"
-	if is_instance_valid(ship):
+	var climb := _climb_body()
+	if climb != null:
+		climb.add_child(effects)
+	elif is_instance_valid(ship):
 		ship.add_child(effects)
 	else:
 		add_child(effects)
@@ -256,6 +290,11 @@ func _build_effects() -> void:
 	dust.draw_pass_1 = dust_pass
 	dust.emitting = false
 	effects.add_child(dust)
+	if is_instance_valid(ship) and is_instance_valid(lift_rig):
+		var dust_xform := dust.global_transform
+		effects.remove_child(dust)
+		ship.add_child(dust)
+		dust.global_transform = dust_xform
 	shimmer = GPUParticles3D.new()
 	shimmer.name = "HeatShimmer"
 	shimmer.position = Vector3(0, 0.4, 0)
