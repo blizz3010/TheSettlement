@@ -12,7 +12,8 @@ const ShipTakeoff = preload("res://raid/scripts/ship_takeoff_cutscene.gd")
 var ship_takeoff: Node
 
 func modal_open(include_cooking:bool=true,include_fishing_trader:bool=true,include_preview_traders:bool=true) -> bool:
-	return is_instance_valid(ship_selection) or super.modal_open(include_cooking, include_fishing_trader, include_preview_traders)
+	# Hide gameplay HUD (minimap, vitals, hotbar) for the duration of takeoff.
+	return is_instance_valid(ship_selection) or is_instance_valid(ship_takeoff) or super.modal_open(include_cooking, include_fishing_trader, include_preview_traders)
 
 func _process(delta):
 	if ship_contract.busy or is_instance_valid(ship_takeoff): return

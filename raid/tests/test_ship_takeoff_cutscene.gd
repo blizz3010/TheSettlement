@@ -10,6 +10,10 @@ class FakePlayer:
 	extends CharacterBody3D
 	var enabled := true
 
+class HudHost:
+	extends Node3D
+	var hud_root: Control
+
 class TestSettlement:
 	extends "res://raid/scripts/ship_settlement_preview.gd"
 	var allowed := true
@@ -164,6 +168,34 @@ func run():
 	var budget = int(Cutscene.DURATION * 60.0) + 30
 	check(await wait_until(func(): return int(play_result.count) >= 1, budget), "Unskipped cutscene reaches its natural end")
 	check(int(play_result.count) == 1 and not play_result.skipped and cutscene.elapsed >= Cutscene.DURATION - 0.08, "Full play reports unskipped completion at the contract duration")
+
+	# HUD hide + late chase: ship stays the look target in the last ~2 seconds.
+	var hud_world = HudHost.new()
+	root.add_child(hud_world)
+	var hud_ship = Node3D.new()
+	hud_ship.name = "LaunchpadShip"
+	hud_world.add_child(hud_ship)
+	var hud_root = Control.new()
+	hud_root.name = "HUDRoot"
+	hud_world.hud_root = hud_root
+	hud_world.add_child(hud_root)
+	var hud_cut = Cutscene.new()
+	hud_world.add_child(hud_cut)
+	hud_cut.begin(hud_world)
+	await process_frame
+	check(hud_root.visible == false, "Gameplay HUD is hidden while the cutscene plays")
+	hud_cut._update_ship(0.85)
+	hud_cut._update_camera(0.85)
+	var late_origin: Vector3 = hud_ship.global_position
+	var cam_pos: Vector3 = hud_cut.camera.global_position
+	var look_dir: Vector3 = -hud_cut.camera.global_transform.basis.z
+	var to_ship: Vector3 = (late_origin + Vector3(0, 2.4, 0) - cam_pos)
+	check(to_ship.length() > 1.0 and look_dir.dot(to_ship.normalized()) > 0.9, "Late camera still aims at the climbing ship")
+	hud_cut.request_skip()
+	check(await wait_until(func(): return not hud_cut.playing, 45), "HUD fixture skip completes")
+	check(hud_root.visible == true, "Gameplay HUD is restored after the cutscene")
+	hud_world.free()
+
 	var host = TestHost.new()
 	host.raid_id = "cinder_basin"
 	root.add_child(host)

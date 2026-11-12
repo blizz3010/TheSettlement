@@ -28,6 +28,8 @@ var thrust: Array = []
 var dust: GPUParticles3D
 var shimmer: GPUParticles3D
 var skip_label: Label
+var hidden_hud: Control
+var hud_was_visible := true
 
 func duration() -> float:
 	return DURATION
@@ -55,6 +57,7 @@ func begin(world: Node) -> void:
 			player.set("enabled", false)
 			if player is CharacterBody3D:
 				player.velocity = Vector3.ZERO
+	_hide_gameplay_hud()
 
 func request_skip() -> void:
 	if not playing or skipped:
@@ -126,16 +129,24 @@ func _ship_origin() -> Vector3:
 func _update_camera(t: float) -> void:
 	if not is_instance_valid(camera):
 		return
-	var origin = _ship_origin()
-	var lift = _lift_height(t)
-	# Start on the boarding side, then pull back and up as the ship climbs.
-	var yaw = 0.55 + t * 0.85
-	var radius = 13.0 + t * 9.0
-	var height = 3.4 + lift * 0.45 + t * 8.5
-	var pos = origin + Vector3(sin(yaw) * radius, height, cos(yaw) * radius)
+	# Origin already includes the ship's current lift. Do not add lift again
+	# to the look target — that pointed the late camera into empty sky.
+	var origin := _ship_origin()
+	# Boarding-side orbit, then a chase in the last ~2s so the hull stays in frame.
+	var yaw := 0.55 + t * 0.65
+	var radius := 13.0 + t * 6.0
+	var height := 3.6 + t * 3.2
+	var chase := smoothstep(0.70, 0.90, t)
+	yaw = lerpf(yaw, 0.35, chase)
+	radius = lerpf(radius, 14.5, chase)
+	height = lerpf(height, 1.8, chase)
+	var pos := origin + Vector3(sin(yaw) * radius, height, cos(yaw) * radius)
+	pos += Vector3(4.0, 0.0, 0.0) * chase
+	camera.fov = lerpf(55.0, 50.0, chase)
 	camera.global_position = pos
-	var look = origin + Vector3(0.0, 3.2 + lift, 0.0)
-	camera.look_at(look, Vector3.UP)
+	var look := origin + Vector3(0.0, lerpf(3.2, 2.4, chase), 0.0)
+	if pos.distance_squared_to(look) > 0.0001:
+		camera.look_at(look, Vector3.UP)
 
 func _lift_height(t: float) -> float:
 	# Engines spool, then a smooth climb.
@@ -312,7 +323,7 @@ func _build_fade() -> void:
 	fade_rect.mouse_filter = Control.MOUSE_FILTER_STOP
 	fade_layer.add_child(fade_rect)
 	skip_label = Label.new()
-	skip_label.text = "Esc  ·  Space  ·  Click  to skip"
+	skip_label.text = "Esc · Space · Click to skip"
 	skip_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	skip_label.anchor_left = 0
 	skip_label.anchor_right = 1
@@ -344,6 +355,7 @@ func _complete() -> void:
 	set_process(false)
 	set_process_unhandled_input(false)
 	_stop_audio()
+	_restore_gameplay_hud()
 	if is_instance_valid(camera):
 		camera.current = false
 	if is_instance_valid(previous_camera):
@@ -364,5 +376,21 @@ func _stop_audio() -> void:
 	audio.free()
 	audio = null
 
+func _hide_gameplay_hud() -> void:
+	# The skip hint lives on this cutscene's CanvasLayer, not hud_root.
+	if not is_instance_valid(host):
+		return
+	var root: Variant = host.get("hud_root")
+	if root is Control:
+		hidden_hud = root
+		hud_was_visible = root.visible
+		root.visible = false
+
+func _restore_gameplay_hud() -> void:
+	if is_instance_valid(hidden_hud):
+		hidden_hud.visible = hud_was_visible
+	hidden_hud = null
+
 func _exit_tree() -> void:
+	_restore_gameplay_hud()
 	_stop_audio()
