@@ -7,6 +7,7 @@ func _ready():
 	super._ready()
 	status.text = "SHIP RAID PREVIEW • Isolated test saves only • No persistent raid loot"
 	status.show()
+	_layout()
 	if not return_binding.is_empty(): call_deferred("_continue_after_preview")
 
 func _continue_after_preview():
