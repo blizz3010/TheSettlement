@@ -1,25 +1,15 @@
 extends RefCounted
-## Contained mid-stylized dressing around the hideout terrace foot and stair approach.
-## Reuses existing settlement foliage assets. Does not plant on the 12x12 build turf.
-## Hooked from the unpinned ship_settlement_preview adapter only.
+## Mid-stylized hideout-approach style test, v2.
+## Makes the everyday view of the bare retaining walls and stair approach
+## obviously dressed: ivy and hanging plants on the wall faces, planters,
+## a layered paving-to-turf border, fuller trees framing the stairs, and
+## a few props. The 12x12 build turf, stairs and approach path stay clear.
+## Hooked from raid/scripts/ship_settlement_preview.gd only.
+## Procedural meshes are generated here because the kit foliage reads too
+## low-poly / lollipop-like for a mid-stylized judgment.
 
 const ROOT_NAME := "SettlementVisualsStyleTest"
-const TURF_MIN := Vector2(-30.0, 9.0)
-const TURF_MAX := Vector2(-18.0, 21.0)
-const PATH_CLEAR := 1.15
-
-const ASSETS := {
-	"grass": "res://assets/groundcover/ground_grass_a.glb",
-	"fern": "res://assets/groundcover/ground_fern_a.glb",
-	"shrub": "res://assets/groundcover/ground_shrub_a.glb",
-	"flower_p": "res://assets/groundcover/ground_flowers_purple.glb",
-	"flower_y": "res://assets/groundcover/ground_flowers_yellow.glb",
-	"mound": "res://assets/planting_dense/compact_broadleaf_mound.glb",
-	"rock": "res://assets/planting_dense/small_rock_group.glb",
-	"tree": "res://assets/kit/reference_broadleaf_tree_a.glb",
-	"shrub_kit_a": "res://assets/kit/reference_low_shrub_a.glb",
-	"shrub_kit_b": "res://assets/kit/reference_low_shrub_b.glb"
-}
+const SEED := 20261113
 
 static func apply(world: Node3D) -> Node3D:
 	if world.has_node(ROOT_NAME):
@@ -27,364 +17,866 @@ static func apply(world: Node3D) -> Node3D:
 	var root := Node3D.new()
 	root.name = ROOT_NAME
 	root.set_meta("visual_only", true)
-	root.set_meta("style_test", "hideout_terrace_foot")
+	root.set_meta("style_test", "hideout_approach_v2")
 	world.add_child(root)
-	var templates := _load_templates()
 	var rng := RandomNumberGenerator.new()
-	rng.seed = 20261112
-	var space: PhysicsDirectSpaceState3D = world.get_world_3d().direct_space_state
-	var placements: Dictionary = {}
-	for key in templates.keys():
-		placements[key] = []
-	# Foot bands around the 16x16 retaining wall, plus stair-approach shoulders.
-	_scatter_band(placements, rng, space, world, "south_foot", Vector2(-31.2, 5.55), Vector2(-16.6, 6.95), 78)
-	_scatter_band(placements, rng, space, world, "north_foot", Vector2(-31.2, 23.15), Vector2(-16.6, 24.55), 70)
-	_scatter_band(placements, rng, space, world, "west_foot", Vector2(-33.15, 7.4), Vector2(-32.15, 22.6), 64)
-	_scatter_band(placements, rng, space, world, "east_south", Vector2(-16.15, 7.3), Vector2(-14.85, 13.15), 36)
-	_scatter_band(placements, rng, space, world, "east_north", Vector2(-16.15, 16.85), Vector2(-14.85, 22.7), 36)
-	_scatter_band(placements, rng, space, world, "approach_s", Vector2(-11.6, 10.4), Vector2(-8.4, 13.6), 28)
-	_scatter_band(placements, rng, space, world, "approach_n", Vector2(-11.6, 16.4), Vector2(-8.4, 19.4), 26)
-	_instance_batches(root, templates, placements)
-	_add_feature_trees(root, templates, space, world)
-	_add_wall_vines(root)
-	_add_local_light(root)
-	_record_budget(root)
-	print("SETTLEMENT_VISUALS_STYLE_TEST ", root.get_meta("budget"))
+	rng.seed = SEED
+	var mats := _materials()
+	var meshes := _meshes()
+	_add_wall_ivy(root, rng, mats, meshes)
+	_add_hanging_plants(root, rng, mats, meshes)
+	_add_planters(root, rng, mats, meshes)
+	_add_verge(root, rng, mats, meshes)
+	_add_trees(root, rng, mats)
+	_add_props(root, mats)
+	_add_lights(root)
+	var budget := _budget(root)
+	root.set_meta("budget", budget)
+	print("settlement_visuals_style_test v2 budget ", budget)
 	return root
 
-static func _load_templates() -> Dictionary:
+
+static func _materials() -> Dictionary:
 	var out := {}
-	for key in ASSETS.keys():
-		var path: String = ASSETS[key]
-		if not ResourceLoader.exists(path):
-			continue
-		var packed = load(path)
-		if packed == null:
-			continue
-		var inst: Node = packed.instantiate()
-		var meshes: Array = inst.find_children("*", "MeshInstance3D", true, false)
-		if meshes.is_empty():
-			inst.free()
-			continue
-		var mesh: Mesh = meshes[0].mesh
-		var mat: Material = meshes[0].material_override
-		if mat == null and mesh != null and mesh.get_surface_count() > 0:
-			mat = mesh.surface_get_material(0)
-		out[key] = {"mesh": mesh, "material": mat}
-		inst.free()
+	out["leaf_mat"] = _mat(Color(1, 1, 1), 0.86, true)
+	out["petal_mat"] = _mat(Color(1, 1, 1), 0.72, true)
+	out["stem_mat"] = _mat(Color(0.33, 0.42, 0.18), 0.9, false)
+	out["vine_stem"] = _mat(Color(0.28, 0.22, 0.12), 0.92, false)
+	out["wood"] = _mat(Color(0.45, 0.30, 0.16), 0.78, false)
+	out["wood_dark"] = _mat(Color(0.28, 0.17, 0.10), 0.84, false)
+	out["wood_light"] = _mat(Color(0.58, 0.42, 0.26), 0.74, false)
+	out["stone"] = _mat(Color(0.62, 0.56, 0.44), 0.88, false)
+	out["stone_warm"] = _mat(Color(0.70, 0.62, 0.48), 0.86, false)
+	out["soil"] = _mat(Color(0.22, 0.15, 0.10), 0.95, false)
+	out["bronze"] = _mat(Color(0.42, 0.28, 0.12), 0.45, false, 0.55)
+	out["trunk"] = _mat(Color(0.34, 0.23, 0.14), 0.88, false)
+	out["trunk_dark"] = _mat(Color(0.24, 0.16, 0.10), 0.9, false)
+	out["canopy_a"] = _mat(Color(0.22, 0.42, 0.16), 0.78, false)
+	out["canopy_b"] = _mat(Color(0.30, 0.50, 0.18), 0.74, false)
+	out["canopy_c"] = _mat(Color(0.40, 0.56, 0.20), 0.72, false)
+	out["canopy_d"] = _mat(Color(0.28, 0.38, 0.16), 0.8, false)
+	out["glass"] = _emissive(Color(1.0, 0.82, 0.48), Color(1.0, 0.72, 0.32), 2.4)
+	out["ink"] = _mat(Color(0.93, 0.87, 0.70), 0.55, false)
 	return out
 
-static func _ground_at(space: PhysicsDirectSpaceState3D, xz: Vector2, exclude: Array = []) -> Dictionary:
-	var from := Vector3(xz.x, 14.0, xz.y)
-	var to := Vector3(xz.x, -4.0, xz.y)
-	var q := PhysicsRayQueryParameters3D.create(from, to)
-	q.exclude = exclude
-	var hit := space.intersect_ray(q)
-	if hit.is_empty():
-		return {}
-	if hit.normal.y < 0.55:
-		return {}
-	return hit
 
-static func _on_build_turf(xz: Vector2, y: float) -> bool:
-	# Raised turf and a small inward margin. Ground-level foot planting is allowed.
-	if y < 2.4:
-		return false
-	return xz.x >= TURF_MIN.x and xz.x <= TURF_MAX.x and xz.y >= TURF_MIN.y and xz.y <= TURF_MAX.y
+static func _mat(color: Color, roughness: float, vertex_color: bool, metallic: float = 0.0) -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.albedo_color = color
+	m.roughness = roughness
+	m.metallic = metallic
+	m.vertex_color_use_as_albedo = vertex_color
+	m.specular_mode = BaseMaterial3D.SPECULAR_DISABLED
+	return m
 
-static func _on_stairs_or_path(xz: Vector2) -> bool:
-	# Authored stair volume and the stone approach path.
-	# Lower and upper flights run near x[-8.3, -16] at z=15, width ~3.2 m.
-	if absf(xz.y - 15.0) < 1.75 and xz.x > -16.4 and xz.x < -7.9:
+
+static func _emissive(albedo: Color, emission: Color, energy: float) -> StandardMaterial3D:
+	var m := _mat(albedo, 0.35, false)
+	m.emission_enabled = true
+	m.emission = emission
+	m.emission_energy_multiplier = energy
+	return m
+
+
+static func _meshes() -> Dictionary:
+	return {
+		"leaf": _leaf_mesh(),
+		"grass": _grass_tuft_mesh(),
+		"fern": _fern_mesh(),
+		"flower_head": _flower_head_mesh()
+	}
+
+
+static func _add_wall_ivy(root: Node3D, rng: RandomNumberGenerator, mats: Dictionary, meshes: Dictionary) -> void:
+	# Leave ivy in front of the retaining stone courses (outer east face ~ -15.93).
+	# "Your Home" plaque sits at (-15.91, 2.38, 10.40), 1.85 x 0.48 — keep a window.
+	var leaves: Array[Transform3D] = []
+	var colors: Array[Color] = []
+	var stems: Array[Transform3D] = []
+	# East face, south of the stairs — the everyday hero wall.
+	_ivy_panel(leaves, colors, stems, rng, -15.80, 0.10, 2.95, 7.20, 13.28, Vector3.RIGHT, true)
+	# East face, short strip north of the stairs before the stash porch.
+	_ivy_panel(leaves, colors, stems, rng, -15.80, 0.10, 2.95, 16.72, 17.95, Vector3.RIGHT, false)
+	# South face, from the SE corner west along the approach.
+	_ivy_panel(leaves, colors, stems, rng, 6.82, 0.10, 2.95, -24.4, -16.15, Vector3.FORWARD * -1.0, false, true)
+	# Porch east face, lighter (elevated cameras see it).
+	_ivy_panel(leaves, colors, stems, rng, -12.82, 0.10, 2.95, 18.15, 21.85, Vector3.RIGHT, false)
+	_spawn_colored(root, "IvyLeaves", meshes["leaf"], mats["leaf_mat"], leaves, colors, true)
+	_spawn_plain(root, "IvyStems", _stem_box(), mats["vine_stem"], stems, false)
+
+
+static func _ivy_panel(
+		leaves: Array[Transform3D],
+		colors: Array[Color],
+		stems: Array[Transform3D],
+		rng: RandomNumberGenerator,
+		face: float,
+		y0: float,
+		y1: float,
+		a0: float,
+		a1: float,
+		outward: Vector3,
+		keep_sign_window: bool,
+		south_face: bool = false
+	) -> void:
+	outward = outward.normalized()
+	# Climbing cover.
+	var z := a0
+	while z < a1:
+		var y := y0
+		while y < y1:
+			var jitter_a := rng.randf_range(-0.07, 0.07)
+			var jitter_y := rng.randf_range(-0.05, 0.05)
+			var a := z + jitter_a
+			var yy := y + jitter_y
+			if a < a0 or a > a1 or yy < y0 or yy > y1:
+				y += 0.17
+				continue
+			var p := _face_point(face, yy, a, south_face) + outward * rng.randf_range(0.00, 0.07)
+			if keep_sign_window and _in_home_sign(p):
+				y += 0.17
+				continue
+			if rng.randf() < 0.12:
+				y += 0.17
+				continue
+			_push_leaf(leaves, colors, rng, p, outward, 0.22, 0.34)
+			if rng.randf() < 0.18:
+				stems.append(_stem_xform(p - outward * 0.02, outward, 0.22, 0.028))
+			y += 0.17
+		z += 0.19
+	# Hanging curtains from the coping.
+	var strand_a := a0 + 0.12
+	while strand_a < a1:
+		if rng.randf() < 0.12:
+			strand_a += rng.randf_range(0.28, 0.42)
+			continue
+		var length := rng.randf_range(1.35, 2.45)
+		var steps := 10
+		for i in range(steps):
+			var t := float(i) / float(steps - 1)
+			var yy := y1 - 0.04 - t * length
+			if yy < y0 + 0.05:
+				break
+			var sway := sin(strand_a * 2.1 + t * 3.4) * 0.10
+			var p := _face_point(face, yy, strand_a + sway, south_face)
+			p += outward * (0.04 + t * 0.16)
+			if keep_sign_window and _in_home_sign(p):
+				continue
+			_push_leaf(leaves, colors, rng, p, outward, 0.24, 0.36)
+		strand_a += rng.randf_range(0.26, 0.40)
+
+
+static func _face_point(face: float, y: float, a: float, south_face: bool) -> Vector3:
+	if south_face:
+		return Vector3(a, y, face)
+	return Vector3(face, y, a)
+
+
+static func _in_home_sign(p: Vector3) -> bool:
+	return p.x >= -16.15 and p.x <= -15.55 and p.z >= 9.36 and p.z <= 11.44 and p.y >= 2.06 and p.y <= 2.78
+
+
+static func _push_leaf(
+		leaves: Array[Transform3D],
+		colors: Array[Color],
+		rng: RandomNumberGenerator,
+		p: Vector3,
+		outward: Vector3,
+		min_s: float,
+		max_s: float
+	) -> void:
+	if outward.length_squared() < 0.0001:
+		outward = Vector3.RIGHT
+	else:
+		outward = outward.normalized()
+	var up := Vector3.UP.rotated(outward, rng.randf_range(-0.7, 0.7))
+	if absf(up.dot(outward)) > 0.92:
+		up = Vector3.UP
+	var basis := Basis.looking_at(outward, up)
+	basis = basis.rotated(outward, rng.randf_range(-0.55, 0.55))
+	var tilt_axis: Vector3 = basis.x.normalized()
+	basis = basis.rotated(tilt_axis, rng.randf_range(-0.45, 0.45))
+	var s := rng.randf_range(min_s, max_s)
+	basis = basis.scaled(Vector3(s, s, s * 0.55))
+	leaves.append(Transform3D(basis, p))
+	colors.append(_leaf_color(rng))
+
+
+static func _leaf_color(rng: RandomNumberGenerator) -> Color:
+	var palette := [
+		Color(0.20, 0.38, 0.14),
+		Color(0.26, 0.48, 0.16),
+		Color(0.34, 0.54, 0.18),
+		Color(0.44, 0.60, 0.20),
+		Color(0.30, 0.42, 0.16),
+		Color(0.50, 0.58, 0.22),
+		Color(0.46, 0.36, 0.14)
+	]
+	var c: Color = palette[rng.randi_range(0, palette.size() - 1)]
+	c.r = clampf(c.r + rng.randf_range(-0.03, 0.03), 0.08, 0.7)
+	c.g = clampf(c.g + rng.randf_range(-0.03, 0.04), 0.18, 0.72)
+	return c
+
+
+static func _add_hanging_plants(root: Node3D, rng: RandomNumberGenerator, mats: Dictionary, meshes: Dictionary) -> void:
+	# Baskets hang off the east coping, outside the top rail and off the 12x12 turf.
+	var spots: Array[Vector3] = [
+		Vector3(-15.88, 2.92, 8.15),
+		Vector3(-15.88, 2.92, 9.15),
+		Vector3(-15.88, 2.92, 12.15),
+		Vector3(-15.88, 2.92, 12.95),
+		Vector3(-15.88, 2.92, 17.25),
+		Vector3(-18.4, 2.92, 6.88),
+		Vector3(-20.8, 2.92, 6.88)
+	]
+	var leaves: Array[Transform3D] = []
+	var colors: Array[Color] = []
+	var i := 0
+	for p in spots:
+		var holder := Node3D.new()
+		holder.name = "HangingBasket%02d" % i
+		holder.position = p
+		root.add_child(holder)
+		_box(holder, "Rim", Vector3(0, 0.04, 0), Vector3(0.36, 0.08, 0.28), mats["wood"], false)
+		_box(holder, "Bowl", Vector3(0, -0.05, 0), Vector3(0.30, 0.12, 0.24), mats["wood_dark"], false)
+		_box(holder, "Soil", Vector3(0, 0.07, 0), Vector3(0.28, 0.04, 0.22), mats["soil"], false)
+		var outward := Vector3.RIGHT if p.z > 7.3 else Vector3(0, 0, -1)
+		# Burst at the lip.
+		for _j in range(16):
+			var lip: Vector3 = p + Vector3(rng.randf_range(-0.12, 0.12), rng.randf_range(0.02, 0.16), rng.randf_range(-0.10, 0.10))
+			_push_leaf(leaves, colors, rng, lip, outward + Vector3(0, 0.4, 0), 0.18, 0.28)
+		# Long trailers draping down the wall.
+		var trailers := rng.randi_range(5, 7)
+		for t in range(trailers):
+			var length := rng.randf_range(1.1, 2.0)
+			var ox := rng.randf_range(-0.10, 0.10)
+			var oz := rng.randf_range(-0.10, 0.10)
+			var steps := 9
+			for s in range(steps):
+				var u := float(s) / float(steps - 1)
+				var q: Vector3 = p + outward * (0.06 + u * 0.14) + Vector3(ox, -u * length, oz)
+				q.x += sin(u * 4.0 + t) * 0.06
+				_push_leaf(leaves, colors, rng, q, outward, 0.20, 0.32)
+		i += 1
+	_spawn_colored(root, "HangingLeaves", meshes["leaf"], mats["leaf_mat"], leaves, colors, true)
+
+
+static func _add_planters(root: Node3D, rng: RandomNumberGenerator, mats: Dictionary, meshes: Dictionary) -> void:
+	# Along the east wall base, both sides of the stairs, and the south wall foot.
+	# Positions stay off the approach path and stair mouth.
+	var specs := [
+		{"at": Vector3(-15.42, 0.22, 8.05), "size": Vector3(0.42, 0.44, 1.20), "yaw": 0.0},
+		{"at": Vector3(-15.42, 0.22, 10.40), "size": Vector3(0.42, 0.44, 1.40), "yaw": 0.0},
+		{"at": Vector3(-15.42, 0.22, 12.22), "size": Vector3(0.42, 0.44, 1.05), "yaw": 0.0},
+		{"at": Vector3(-15.42, 0.22, 17.20), "size": Vector3(0.42, 0.44, 0.95), "yaw": 0.0},
+		{"at": Vector3(-18.55, 0.22, 6.48), "size": Vector3(1.25, 0.44, 0.42), "yaw": 0.0},
+		{"at": Vector3(-21.40, 0.22, 6.48), "size": Vector3(1.20, 0.44, 0.42), "yaw": 0.0}
+	]
+	var tufts: Array[Transform3D] = []
+	var tuft_colors: Array[Color] = []
+	var ferns: Array[Transform3D] = []
+	var fern_colors: Array[Color] = []
+	var flowers: Array[Transform3D] = []
+	var flower_colors: Array[Color] = []
+	var i := 0
+	for spec in specs:
+		var at: Vector3 = spec["at"]
+		var size: Vector3 = spec["size"]
+		var holder := Node3D.new()
+		holder.name = "Planter%02d" % i
+		holder.position = at
+		root.add_child(holder)
+		_box(holder, "Box", Vector3(0, 0, 0), size, mats["stone"], true, "stone")
+		_box(holder, "Cap", Vector3(0, size.y * 0.5 + 0.025, 0), Vector3(size.x + 0.05, 0.05, size.z + 0.05), mats["wood"], false)
+		_box(holder, "Soil", Vector3(0, size.y * 0.5 + 0.01, 0), Vector3(size.x - 0.08, 0.06, size.z - 0.08), mats["soil"], false)
+		var long_axis := Vector3(0, 0, 1) if size.z >= size.x else Vector3(1, 0, 0)
+		var long := maxf(size.x, size.z)
+		var count := 5
+		for k in range(count):
+			var u := (float(k) / float(count - 1) - 0.5) * (long - 0.25)
+			var p := at + long_axis * u + Vector3(0, size.y * 0.5 + 0.08, 0)
+			p += Vector3(rng.randf_range(-0.05, 0.05), 0, rng.randf_range(-0.05, 0.05))
+			if k % 2 == 0:
+				ferns.append(_plant_xform(p, rng, 0.85, 1.15))
+				fern_colors.append(_leaf_color(rng))
+			else:
+				tufts.append(_plant_xform(p, rng, 0.9, 1.2))
+				tuft_colors.append(_grass_color(rng))
+			if rng.randf() < 0.85:
+				var fp := p + Vector3(rng.randf_range(-0.12, 0.12), 0.02, rng.randf_range(-0.12, 0.12))
+				flowers.append(_plant_xform(fp, rng, 0.85, 1.2))
+				flower_colors.append(_flower_color(rng, k))
+			# A little overflow down the face.
+			if rng.randf() < 0.7:
+				var over := p + Vector3(0.16 if at.x > -16.5 else 0.0, -0.18, 0.16 if at.z < 7.0 else 0.0)
+				tufts.append(_plant_xform(over, rng, 0.7, 1.0))
+				tuft_colors.append(_grass_color(rng))
+		i += 1
+	_spawn_colored(root, "PlanterGrass", meshes["grass"], mats["leaf_mat"], tufts, tuft_colors, false)
+	_spawn_colored(root, "PlanterFerns", meshes["fern"], mats["leaf_mat"], ferns, fern_colors, false)
+	_spawn_colored(root, "PlanterFlowers", meshes["flower_head"], mats["petal_mat"], flowers, flower_colors, false)
+	_spawn_plain(root, "PlanterFlowerStems", _flower_stem_mesh(), mats["stem_mat"], flowers, false)
+
+
+static func _add_verge(root: Node3D, rng: RandomNumberGenerator, mats: Dictionary, meshes: Dictionary) -> void:
+	var tufts: Array[Transform3D] = []
+	var tuft_colors: Array[Color] = []
+	var ferns: Array[Transform3D] = []
+	var fern_colors: Array[Color] = []
+	var flowers: Array[Transform3D] = []
+	var flower_colors: Array[Color] = []
+	# Where paving meets turf, south of the stairs along the east wall foot.
+	_scatter_rect(tufts, tuft_colors, ferns, fern_colors, flowers, flower_colors, rng,
+		Rect2(Vector2(-15.15, 7.25), Vector2(3.4, 5.95)), 70, 22, 36)
+	# South wall foot, west of the SE corner.
+	_scatter_rect(tufts, tuft_colors, ferns, fern_colors, flowers, flower_colors, rng,
+		Rect2(Vector2(-23.6, 6.15), Vector2(7.3, 0.85)), 40, 14, 22)
+	# South shoulder of the stair / path (west of the paving, south of the rail).
+	_scatter_rect(tufts, tuft_colors, ferns, fern_colors, flowers, flower_colors, rng,
+		Rect2(Vector2(-11.6, 11.15), Vector2(3.1, 2.05)), 28, 10, 16)
+	# North shoulder of the stair, east of the stash porch.
+	_scatter_rect(tufts, tuft_colors, ferns, fern_colors, flowers, flower_colors, rng,
+		Rect2(Vector2(-12.4, 16.75), Vector2(3.6, 1.35)), 18, 7, 10)
+	_spawn_colored(root, "VergeGrass", meshes["grass"], mats["leaf_mat"], tufts, tuft_colors, false)
+	_spawn_colored(root, "VergeFerns", meshes["fern"], mats["leaf_mat"], ferns, fern_colors, false)
+	_spawn_colored(root, "VergeFlowers", meshes["flower_head"], mats["petal_mat"], flowers, flower_colors, false)
+	_spawn_plain(root, "VergeFlowerStems", _flower_stem_mesh(), mats["stem_mat"], flowers, false)
+
+
+static func _scatter_rect(
+		tufts: Array[Transform3D],
+		tuft_colors: Array[Color],
+		ferns: Array[Transform3D],
+		fern_colors: Array[Color],
+		flowers: Array[Transform3D],
+		flower_colors: Array[Color],
+		rng: RandomNumberGenerator,
+		rect: Rect2,
+		n_grass: int,
+		n_fern: int,
+		n_flower: int
+	) -> void:
+	for i in range(n_grass):
+		var p := _rand_in(rect, rng)
+		if _blocked(p):
+			continue
+		p.y = 0.0
+		tufts.append(_plant_xform(p, rng, 0.85, 1.35))
+		tuft_colors.append(_grass_color(rng))
+	for i in range(n_fern):
+		var p := _rand_in(rect, rng)
+		if _blocked(p):
+			continue
+		p.y = 0.0
+		ferns.append(_plant_xform(p, rng, 0.9, 1.25))
+		fern_colors.append(_leaf_color(rng))
+	for i in range(n_flower):
+		var p := _rand_in(rect, rng)
+		if _blocked(p):
+			continue
+		p.y = 0.02
+		flowers.append(_plant_xform(p, rng, 0.9, 1.3))
+		flower_colors.append(_flower_color(rng, i))
+
+
+static func _rand_in(rect: Rect2, rng: RandomNumberGenerator) -> Vector3:
+	return Vector3(
+		rng.randf_range(rect.position.x, rect.position.x + rect.size.x),
+		0.0,
+		rng.randf_range(rect.position.y, rect.position.y + rect.size.y)
+	)
+
+
+static func _blocked(p: Vector3) -> bool:
+	# 12x12 build turf on top of the terrace.
+	if p.x >= -30.0 and p.x <= -18.0 and p.z >= 9.0 and p.z <= 21.0 and p.y > 2.4:
 		return true
-	# Mid landing around (-12.14, 15)
-	if xz.distance_to(Vector2(-12.14, 15.0)) < 1.5:
+	# Interior of the retaining volume (don't bury plants in the wall).
+	if p.x <= -16.05 and p.x >= -32.0 and p.z >= 7.02 and p.z <= 22.98 and p.y < 2.9:
 		return true
-	# Approach path samples from hideout_terrace.gd: (-5,7), (-7,10), (-8.28,15)
-	if _dist_segment(xz, Vector2(-5.0, 7.0), Vector2(-7.0, 10.0)) < PATH_CLEAR:
+	# Stairs, including rails' inner volume.
+	if p.x >= -16.2 and p.x <= -8.15 and p.z >= 13.32 and p.z <= 16.68:
 		return true
-	if _dist_segment(xz, Vector2(-7.0, 10.0), Vector2(-8.28, 15.0)) < PATH_CLEAR:
+	# Final approach slab (x -8.28..-5.68, z 10.0..16.6).
+	if p.x >= -8.35 and p.x <= -5.60 and p.z >= 9.95 and p.z <= 16.65:
 		return true
-	# West trader apron / paving near (-7, 2)
-	if xz.distance_to(Vector2(-7.0, 2.0)) < 3.4:
+	# First approach path, ~2.6 m wide from (-5, 7) to (-7, 10).
+	var a := Vector3(-5.0, 0, 7.0)
+	var b := Vector3(-7.0, 0, 10.0)
+	if _dist_to_segment(Vector3(p.x, 0, p.z), a, b) < 1.4:
 		return true
 	return false
 
-static func _dist_segment(p: Vector2, a: Vector2, b: Vector2) -> float:
+
+static func _dist_to_segment(p: Vector3, a: Vector3, b: Vector3) -> float:
 	var ab := b - a
-	var t := 0.0 if ab.length_squared() < 0.0001 else clampf((p - a).dot(ab) / ab.length_squared(), 0.0, 1.0)
+	var t := clampf(((p - a).dot(ab)) / ab.length_squared(), 0.0, 1.0)
 	return p.distance_to(a + ab * t)
 
-static func _scatter_band(placements: Dictionary, rng: RandomNumberGenerator, space: PhysicsDirectSpaceState3D, world: Node3D, _label: String, mn: Vector2, mx: Vector2, count: int) -> void:
-	var exclude: Array = []
-	if is_instance_valid(world.get("player")):
-		exclude.append(world.player.get_rid())
-	var accepted := 0
-	var attempts := 0
-	while accepted < count and attempts < count * 8:
-		attempts += 1
-		var xz := Vector2(rng.randf_range(mn.x, mx.x), rng.randf_range(mn.y, mx.y))
-		if _on_stairs_or_path(xz):
-			continue
-		var hit := _ground_at(space, xz, exclude)
-		if hit.is_empty():
-			continue
-		var y: float = hit.position.y
-		if _on_build_turf(xz, y):
-			continue
-		# Keep plants on the lower grade around the terrace, not up on the cap.
-		if y > 1.15:
-			continue
-		var roll := rng.randf()
-		var key := "grass"
-		var scale := rng.randf_range(0.85, 1.25)
-		if roll < 0.42:
-			key = "grass"
-			scale = rng.randf_range(0.9, 1.45)
-		elif roll < 0.62:
-			key = "fern"
-			scale = rng.randf_range(0.75, 1.15)
-		elif roll < 0.76:
-			key = "flower_p" if rng.randf() < 0.55 else "flower_y"
-			scale = rng.randf_range(0.8, 1.2)
-		elif roll < 0.90:
-			key = "shrub"
-			scale = rng.randf_range(0.85, 1.2)
-		elif roll < 0.96:
-			key = "mound"
-			scale = rng.randf_range(0.7, 1.05)
-		else:
-			key = "rock"
-			scale = rng.randf_range(0.7, 1.1)
-		if not placements.has(key):
-			continue
-		var yaw := rng.randf_range(0.0, TAU)
-		var basis := Basis(Vector3.UP, yaw).scaled(Vector3.ONE * scale)
-		# Sit slightly into the ground so roots don't float on uneven grade.
-		var origin := Vector3(xz.x, y - 0.02, xz.y)
-		placements[key].append(Transform3D(basis, origin))
-		accepted += 1
 
-static func _tinted(base: Material, tint: Color) -> Material:
-	if base == null:
-		var mat := StandardMaterial3D.new()
-		mat.albedo_color = tint
-		mat.roughness = 0.88
-		mat.specular_mode = BaseMaterial3D.SPECULAR_DISABLED
-		return mat
-	var mat: Material = base.duplicate()
-	if mat is StandardMaterial3D:
-		var std := mat as StandardMaterial3D
-		std.albedo_color = std.albedo_color * tint
-		std.roughness = clampf(std.roughness * 0.98 + 0.02, 0.55, 0.95)
-	elif mat is ShaderMaterial:
-		# Many foliage shaders expose albedo/color; leave the shader, add a modest instance tint via next_pass when possible.
-		pass
-	return mat
+static func _add_trees(root: Node3D, rng: RandomNumberGenerator, mats: Dictionary) -> void:
+	# A couple of fuller-canopy trees framing the stair flight, off the path.
+	_make_tree(root, "FrameTreeSouth", Vector3(-13.55, 0, 8.05), rng, mats, 5.6, 0.08)
+	_make_tree(root, "FrameTreeNorth", Vector3(-11.55, 0, 18.20), rng, mats, 6.1, -0.06)
 
-static func _instance_batches(root: Node3D, templates: Dictionary, placements: Dictionary) -> void:
-	# Two or three slight tints per plant type for mid-stylized color variation.
-	var tints := {
-		"grass": [Color(0.92, 1.02, 0.78), Color(0.78, 0.95, 0.62), Color(0.62, 0.82, 0.48)],
-		"fern": [Color(0.85, 1.0, 0.8), Color(0.7, 0.88, 0.6)],
-		"shrub": [Color(0.9, 0.98, 0.75), Color(0.72, 0.86, 0.58)],
-		"flower_p": [Color(1, 1, 1), Color(0.92, 0.88, 1.05)],
-		"flower_y": [Color(1, 1, 1), Color(1.05, 0.96, 0.8)],
-		"mound": [Color(0.88, 1.0, 0.72), Color(0.7, 0.86, 0.55)],
-		"rock": [Color(1, 1, 1), Color(0.9, 0.88, 0.82)]
-	}
-	for key in placements.keys():
-		var list: Array = placements[key]
-		if list.is_empty() or not templates.has(key):
-			continue
-		var pal: Array = tints.get(key, [Color.WHITE])
-		var buckets: Array = []
-		for _i in pal.size():
-			buckets.append([])
-		for i in list.size():
-			buckets[i % pal.size()].append(list[i])
-		for b in buckets.size():
-			var group: Array = buckets[b]
-			if group.is_empty():
-				continue
-			var mm := MultiMesh.new()
-			mm.transform_format = MultiMesh.TRANSFORM_3D
-			mm.mesh = templates[key].mesh
-			mm.instance_count = group.size()
-			for i in group.size():
-				mm.set_instance_transform(i, group[i])
-			var batch := MultiMeshInstance3D.new()
-			batch.name = "StyleTest_%s_%d" % [key, b]
-			batch.multimesh = mm
-			batch.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-			batch.material_override = _tinted(templates[key].material, pal[b])
-			batch.set_meta("source_transforms", group)
-			root.add_child(batch)
 
-static func _add_feature_trees(root: Node3D, templates: Dictionary, space: PhysicsDirectSpaceState3D, world: Node3D) -> void:
-	# Fuller mid-stylized silhouettes: a real kit tree plus stacked mound crowns.
-	var spots: Array = [
-		{"at": Vector2(-20.6, 5.15), "yaw": 0.4, "scale": 1.08},
-		{"at": Vector2(-31.4, 20.6), "yaw": 2.3, "scale": 0.96},
-		{"at": Vector2(-15.35, 21.8), "yaw": 5.1, "scale": 0.88}
+static func _make_tree(parent: Node3D, n: String, at: Vector3, rng: RandomNumberGenerator, mats: Dictionary, height: float, lean: float) -> void:
+	var tree := Node3D.new()
+	tree.name = n
+	tree.position = at
+	tree.rotation.z = lean
+	parent.add_child(tree)
+	# Tapered trunk in two tones, with a couple of mid branches.
+	_cylinder(tree, "TrunkBase", Vector3(0, 0.45, 0), 0.16, 0.22, 0.90, mats["trunk_dark"], true)
+	_cylinder(tree, "TrunkMid", Vector3(0.02, 1.55, 0.01), 0.10, 0.16, 1.40, mats["trunk"], false)
+	_cylinder(tree, "TrunkTop", Vector3(0.05, 2.55, -0.02), 0.06, 0.10, 0.85, mats["trunk"], false)
+	_cylinder(tree, "BranchA", Vector3(0.35, 2.15, 0.10), 0.03, 0.055, 0.85, mats["trunk"], false).rotation = Vector3(0.4, 0.6, 1.05)
+	_cylinder(tree, "BranchB", Vector3(-0.25, 2.35, -0.15), 0.028, 0.05, 0.70, mats["trunk"], false).rotation = Vector3(-0.3, -0.4, -0.95)
+	_cylinder(tree, "BranchC", Vector3(0.10, 2.70, 0.25), 0.024, 0.045, 0.60, mats["trunk"], false).rotation = Vector3(0.8, 0.2, 0.2)
+	# Irregular multi-lobe canopy — mid-stylized, not a lollipop.
+	var lobes := [
+		{"p": Vector3(0.05, height - 1.15, 0.0), "s": Vector3(1.85, 1.45, 1.75), "m": "canopy_b"},
+		{"p": Vector3(0.85, height - 1.55, 0.45), "s": Vector3(1.25, 1.05, 1.20), "m": "canopy_c"},
+		{"p": Vector3(-0.75, height - 1.45, 0.55), "s": Vector3(1.20, 1.10, 1.15), "m": "canopy_a"},
+		{"p": Vector3(-0.35, height - 1.70, -0.80), "s": Vector3(1.15, 1.00, 1.10), "m": "canopy_d"},
+		{"p": Vector3(0.55, height - 0.70, -0.35), "s": Vector3(1.10, 0.90, 1.05), "m": "canopy_c"},
+		{"p": Vector3(0.15, height - 2.15, 0.70), "s": Vector3(1.00, 0.85, 0.95), "m": "canopy_a"},
+		{"p": Vector3(-0.90, height - 2.00, -0.20), "s": Vector3(0.95, 0.80, 0.90), "m": "canopy_d"},
+		{"p": Vector3(0.70, height - 2.05, -0.55), "s": Vector3(0.90, 0.75, 0.85), "m": "canopy_b"}
 	]
-	var exclude: Array = []
-	if is_instance_valid(world.get("player")):
-		exclude.append(world.player.get_rid())
-	var crowns := [
-		Vector3(-0.85, 3.35, 0.2),
-		Vector3(0.9, 3.55, 0.45),
-		Vector3(0.1, 4.25, -0.2),
-		Vector3(-0.4, 3.7, -0.95),
-		Vector3(0.35, 3.2, 1.0)
+	var i := 0
+	for lobe in lobes:
+		var s: Vector3 = lobe["s"] * rng.randf_range(0.92, 1.08)
+		_sphere(tree, "Lobe%02d" % i, lobe["p"], s, mats[lobe["m"]], false)
+		i += 1
+
+
+static func _add_props(root: Node3D, mats: Dictionary) -> void:
+	# Crates at the SE corner, lantern by the south stair rail, bench in the
+	# grass court, and a small post sign at the path shoulder.
+	var crates := Node3D.new()
+	crates.name = "CrateStack"
+	crates.position = Vector3(-15.10, 0, 7.35)
+	root.add_child(crates)
+	_box(crates, "CrateA", Vector3(0, 0.28, 0), Vector3(0.52, 0.56, 0.46), mats["wood"], true, "wood")
+	_box(crates, "CrateABand", Vector3(0, 0.28, 0), Vector3(0.54, 0.06, 0.48), mats["wood_dark"], false)
+	_box(crates, "CrateB", Vector3(0.46, 0.22, 0.12), Vector3(0.40, 0.44, 0.38), mats["wood_light"], true, "wood")
+	_box(crates, "CrateBBand", Vector3(0.46, 0.22, 0.12), Vector3(0.42, 0.05, 0.40), mats["wood_dark"], false)
+	_box(crates, "CrateC", Vector3(0.12, 0.66, 0.06), Vector3(0.34, 0.24, 0.32), mats["wood"], true, "wood")
+
+	var lamp := Node3D.new()
+	lamp.name = "LanternPost"
+	lamp.position = Vector3(-10.15, 0, 12.68)
+	root.add_child(lamp)
+	_cylinder(lamp, "Post", Vector3(0, 1.05, 0), 0.045, 0.055, 2.10, mats["wood_dark"], true, "wood")
+	_box(lamp, "Arm", Vector3(0.18, 2.08, 0), Vector3(0.36, 0.05, 0.05), mats["wood_dark"], false)
+	_box(lamp, "Cap", Vector3(0.34, 2.22, 0), Vector3(0.26, 0.05, 0.26), mats["bronze"], false)
+	_box(lamp, "Cage", Vector3(0.34, 2.02, 0), Vector3(0.20, 0.28, 0.20), mats["bronze"], false)
+	_box(lamp, "Glass", Vector3(0.34, 2.02, 0), Vector3(0.16, 0.22, 0.16), mats["glass"], false)
+	var light := OmniLight3D.new()
+	light.name = "LanternGlow"
+	light.position = Vector3(0.34, 2.02, 0)
+	light.light_color = Color(1.0, 0.78, 0.48)
+	light.light_energy = 1.35
+	light.omni_range = 5.5
+	light.shadow_enabled = false
+	lamp.add_child(light)
+
+	var bench := Node3D.new()
+	bench.name = "GardenBench"
+	bench.position = Vector3(-13.10, 0, 9.55)
+	bench.rotation.y = -0.55
+	root.add_child(bench)
+	_box(bench, "Seat", Vector3(0, 0.42, 0), Vector3(1.36, 0.07, 0.42), mats["wood_light"], true, "wood")
+	_box(bench, "SeatGap", Vector3(0, 0.445, 0.0), Vector3(1.30, 0.01, 0.08), mats["wood"], false)
+	_box(bench, "Back", Vector3(0, 0.78, -0.18), Vector3(1.36, 0.36, 0.06), mats["wood"], false)
+	_box(bench, "BackRail", Vector3(0, 0.98, -0.18), Vector3(1.40, 0.05, 0.07), mats["wood_dark"], false)
+	_box(bench, "LegL", Vector3(-0.58, 0.21, 0), Vector3(0.08, 0.42, 0.36), mats["wood_dark"], true, "wood")
+	_box(bench, "LegR", Vector3(0.58, 0.21, 0), Vector3(0.08, 0.42, 0.36), mats["wood_dark"], true, "wood")
+
+	var sign := Node3D.new()
+	sign.name = "HomePlotSign"
+	sign.position = Vector3(-9.20, 0, 12.22)
+	sign.rotation.y = -2.0
+	root.add_child(sign)
+	_cylinder(sign, "Post", Vector3(0, 0.55, 0), 0.035, 0.04, 1.10, mats["wood_dark"], true, "wood")
+	_box(sign, "Board", Vector3(0, 1.12, 0.03), Vector3(0.62, 0.32, 0.05), mats["wood"], false)
+	_box(sign, "Edge", Vector3(0, 1.12, 0.05), Vector3(0.66, 0.04, 0.03), mats["bronze"], false)
+	var label := Label3D.new()
+	label.name = "Caption"
+	label.text = "Home plot"
+	label.font_size = 52
+	label.pixel_size = 0.0032
+	label.modulate = Color("#ecddae")
+	label.outline_modulate = Color(0.18, 0.12, 0.06, 0.9)
+	label.outline_size = 6
+	label.position = Vector3(0, 1.12, 0.07)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	sign.add_child(label)
+
+
+static func _add_lights(root: Node3D) -> void:
+	# Short-range warm fills so the hero wall and planters read in shadow.
+	# No shadows, tight range, so out-of-patch cameras stay unchanged.
+	var wall := OmniLight3D.new()
+	wall.name = "WallFill"
+	wall.position = Vector3(-14.6, 1.85, 10.5)
+	wall.light_color = Color(1.0, 0.86, 0.68)
+	wall.light_energy = 0.70
+	wall.omni_range = 6.5
+	wall.shadow_enabled = false
+	root.add_child(wall)
+	var south := OmniLight3D.new()
+	south.name = "SouthFill"
+	south.position = Vector3(-18.5, 1.6, 7.4)
+	south.light_color = Color(1.0, 0.88, 0.70)
+	south.light_energy = 0.45
+	south.omni_range = 5.0
+	south.shadow_enabled = false
+	root.add_child(south)
+
+
+static func _plant_xform(p: Vector3, rng: RandomNumberGenerator, min_s: float, max_s: float) -> Transform3D:
+	var yaw := rng.randf_range(0.0, TAU)
+	var s := rng.randf_range(min_s, max_s)
+	var basis := Basis.from_euler(Vector3(rng.randf_range(-0.08, 0.08), yaw, rng.randf_range(-0.08, 0.08)))
+	basis = basis.scaled(Vector3(s, s * rng.randf_range(0.9, 1.15), s))
+	return Transform3D(basis, p)
+
+
+static func _grass_color(rng: RandomNumberGenerator) -> Color:
+	var palette := [
+		Color(0.28, 0.50, 0.16),
+		Color(0.36, 0.56, 0.18),
+		Color(0.44, 0.62, 0.20),
+		Color(0.24, 0.42, 0.14),
+		Color(0.50, 0.64, 0.22)
 	]
-	for i in spots.size():
-		var spec: Dictionary = spots[i]
-		var hit := _ground_at(space, spec.at, exclude)
-		if hit.is_empty() or _on_build_turf(spec.at, hit.position.y) or _on_stairs_or_path(spec.at):
-			continue
-		var holder := Node3D.new()
-		holder.name = "StyleTestTree%d" % i
-		holder.position = Vector3(spec.at.x, hit.position.y, spec.at.y)
-		holder.rotation.y = spec.yaw
-		holder.scale = Vector3.ONE * float(spec.scale)
-		root.add_child(holder)
-		if templates.has("tree"):
-			var trunk := MeshInstance3D.new()
-			trunk.name = "Broadleaf"
-			trunk.mesh = templates["tree"].mesh
-			trunk.material_override = templates["tree"].material
-			trunk.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-			holder.add_child(trunk)
-		if templates.has("mound"):
-			for c in crowns.size():
-				var leaf := MeshInstance3D.new()
-				leaf.name = "FullerCrown%02d" % c
-				leaf.mesh = templates["mound"].mesh
-				leaf.material_override = _tinted(templates["mound"].material, Color(0.86, 1.02, 0.7) if c % 2 == 0 else Color(0.68, 0.86, 0.52))
-				leaf.position = crowns[c]
-				leaf.scale = Vector3(1.7, 2.35, 1.7)
-				leaf.rotation.y = c * 1.55
-				leaf.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-				holder.add_child(leaf)
-		# Nearby mid shrubs for a clustered read.
-		if templates.has("shrub_kit_a"):
-			for s in 2:
-				var bush := MeshInstance3D.new()
-				bush.name = "Understory%d" % s
-				bush.mesh = templates["shrub_kit_a" if s == 0 else "shrub_kit_b"].mesh if templates.has("shrub_kit_b") else templates["shrub_kit_a"].mesh
-				bush.material_override = templates["shrub_kit_a"].material
-				bush.position = Vector3(-1.1 + s * 1.9, 0.0, 0.7 - s * 1.15)
-				bush.scale = Vector3.ONE * (0.95 + s * 0.12)
-				bush.rotation.y = s * 1.7
-				bush.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-				holder.add_child(bush)
+	return palette[rng.randi_range(0, palette.size() - 1)]
+
+
+static func _flower_color(rng: RandomNumberGenerator, i: int) -> Color:
+	var palette := [
+		Color(0.72, 0.30, 0.62),
+		Color(0.86, 0.68, 0.20),
+		Color(0.88, 0.42, 0.50),
+		Color(0.92, 0.88, 0.78),
+		Color(0.55, 0.38, 0.78),
+		Color(0.90, 0.55, 0.22)
+	]
+	var c: Color = palette[(i + rng.randi_range(0, 2)) % palette.size()]
+	c.r = clampf(c.r + rng.randf_range(-0.05, 0.05), 0.3, 1.0)
+	c.g = clampf(c.g + rng.randf_range(-0.05, 0.05), 0.15, 1.0)
+	c.b = clampf(c.b + rng.randf_range(-0.05, 0.05), 0.1, 1.0)
+	return c
+
+
+static func _spawn_colored(
+		root: Node3D,
+		n: String,
+		mesh: Mesh,
+		mat: Material,
+		xforms: Array[Transform3D],
+		colors: Array[Color],
+		cast_shadow: bool
+	) -> void:
+	if xforms.is_empty():
+		return
+	var mm := MultiMesh.new()
+	mm.transform_format = MultiMesh.TRANSFORM_3D
+	mm.use_colors = true
+	mm.mesh = mesh
+	mm.instance_count = xforms.size()
+	for i in range(xforms.size()):
+		mm.set_instance_transform(i, xforms[i])
+		mm.set_instance_color(i, colors[i] if i < colors.size() else Color(0.3, 0.5, 0.18))
+	var inst := MultiMeshInstance3D.new()
+	inst.name = n
+	inst.multimesh = mm
+	inst.material_override = mat
+	inst.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if cast_shadow else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(inst)
+
+
+static func _spawn_plain(root: Node3D, n: String, mesh: Mesh, mat: Material, xforms: Array[Transform3D], cast_shadow: bool) -> void:
+	if xforms.is_empty():
+		return
+	var mm := MultiMesh.new()
+	mm.transform_format = MultiMesh.TRANSFORM_3D
+	mm.mesh = mesh
+	mm.instance_count = xforms.size()
+	for i in range(xforms.size()):
+		mm.set_instance_transform(i, xforms[i])
+	var inst := MultiMeshInstance3D.new()
+	inst.name = n
+	inst.multimesh = mm
+	inst.material_override = mat
+	inst.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if cast_shadow else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(inst)
+
+
+static func _box(parent: Node3D, n: String, pos: Vector3, size: Vector3, mat: Material, solid: bool, surface: String = "stone") -> Node3D:
+	var node := Node3D.new()
+	node.name = n
+	node.position = pos
+	parent.add_child(node)
+	var mi := MeshInstance3D.new()
+	var mesh := BoxMesh.new()
+	mesh.size = size
+	mi.mesh = mesh
+	mi.material_override = mat
+	node.add_child(mi)
+	if solid:
 		var body := StaticBody3D.new()
-		body.name = "TrunkCollision"
-		body.position = Vector3(0, 1.2, 0)
-		var shape := CollisionShape3D.new()
-		var cyl := CylinderShape3D.new()
-		cyl.radius = 0.42
-		cyl.height = 2.4
-		shape.shape = cyl
-		body.add_child(shape)
-		holder.add_child(body)
+		body.set_meta("audio_surface", surface)
+		var col := CollisionShape3D.new()
+		var sh := BoxShape3D.new()
+		sh.size = size
+		col.shape = sh
+		body.add_child(col)
+		node.add_child(body)
+	return node
 
-static func _add_wall_vines(root: Node3D) -> void:
-	# Painterly vine clusters on the blank retaining faces, not a realistic ivy sim.
+
+static func _cylinder(
+		parent: Node3D,
+		n: String,
+		pos: Vector3,
+		r_top: float,
+		r_bottom: float,
+		height: float,
+		mat: Material,
+		solid: bool,
+		surface: String = "wood"
+	) -> Node3D:
+	var node := Node3D.new()
+	node.name = n
+	node.position = pos
+	parent.add_child(node)
+	var mi := MeshInstance3D.new()
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = r_top
+	mesh.bottom_radius = r_bottom
+	mesh.height = height
+	mesh.radial_segments = 10
+	mesh.rings = 1
+	mi.mesh = mesh
+	mi.material_override = mat
+	node.add_child(mi)
+	if solid:
+		var body := StaticBody3D.new()
+		body.set_meta("audio_surface", surface)
+		var col := CollisionShape3D.new()
+		var sh := CylinderShape3D.new()
+		sh.radius = maxf(r_top, r_bottom)
+		sh.height = height
+		col.shape = sh
+		body.add_child(col)
+		node.add_child(body)
+	return node
+
+
+static func _sphere(parent: Node3D, n: String, pos: Vector3, scale: Vector3, mat: Material, solid: bool) -> Node3D:
+	var node := Node3D.new()
+	node.name = n
+	node.position = pos
+	parent.add_child(node)
+	var mi := MeshInstance3D.new()
+	var mesh := SphereMesh.new()
+	mesh.radius = 0.5
+	mesh.height = 1.0
+	mesh.radial_segments = 12
+	mesh.rings = 8
+	mi.mesh = mesh
+	mi.material_override = mat
+	mi.scale = scale
+	node.add_child(mi)
+	if solid:
+		var body := StaticBody3D.new()
+		var col := CollisionShape3D.new()
+		var sh := SphereShape3D.new()
+		sh.radius = 0.5
+		col.shape = sh
+		col.scale = scale
+		body.add_child(col)
+		node.add_child(body)
+	return node
+
+
+static func _stem_xform(p: Vector3, outward: Vector3, length: float, radius: float) -> Transform3D:
+	var basis := Basis.looking_at(outward, Vector3.UP)
+	basis = basis.scaled(Vector3(radius, length, radius))
+	return Transform3D(basis, p + Vector3(0, length * 0.5, 0))
+
+
+static func _stem_box() -> Mesh:
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3(1, 1, 1)
+	return mesh
+
+
+static func _leaf_mesh() -> ArrayMesh:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	# East face (toward the stairs) and a strip of the south face.
-	_vine_panel(st, Vector3(-16.02, 0.35, 11.2), Vector3(0, 0, 1), 3.4, 2.55, 9)
-	_vine_panel(st, Vector3(-16.02, 0.45, 18.8), Vector3(0, 0, 1), 3.2, 2.45, 8)
-	_vine_panel(st, Vector3(-21.5, 0.3, 6.99), Vector3(1, 0, 0), 4.2, 2.4, 10)
+	# Asymmetric teardrop in XY, slight midrib thickness along Z.
+	var pts := PackedVector3Array([
+		Vector3(0, 0.55, 0.01),
+		Vector3(0.22, 0.18, 0.01),
+		Vector3(0.16, -0.12, 0.01),
+		Vector3(0.0, -0.42, 0.01),
+		Vector3(-0.14, -0.10, 0.01),
+		Vector3(-0.20, 0.20, 0.01),
+		Vector3(0.0, 0.08, 0.03)
+	])
+	var tris := PackedInt32Array([0, 1, 6, 1, 2, 6, 2, 3, 6, 3, 4, 6, 4, 5, 6, 5, 0, 6])
+	for i in range(0, tris.size(), 3):
+		_add_tri(st, pts[tris[i]], pts[tris[i + 1]], pts[tris[i + 2]], Color.WHITE)
+		# Backface so leaves read from both sides under OpenGL3.
+		_add_tri(st, pts[tris[i]], pts[tris[i + 2]], pts[tris[i + 1]], Color.WHITE)
 	st.generate_normals()
-	var mesh := MeshInstance3D.new()
-	mesh.name = "RetainingVines"
-	mesh.mesh = st.commit()
-	var mat := StandardMaterial3D.new()
-	mat.vertex_color_use_as_albedo = true
-	mat.roughness = 0.9
-	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
-	mat.specular_mode = BaseMaterial3D.SPECULAR_DISABLED
-	mesh.material_override = mat
-	mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	root.add_child(mesh)
+	return st.commit()
 
-static func _vine_panel(st: SurfaceTool, origin: Vector3, along: Vector3, width: float, height: float, strands: int) -> void:
-	var tangent := along.normalized()
-	var out := Vector3(-tangent.z, 0, tangent.x)
-	for i in strands:
-		var u := (float(i) + 0.35) / float(strands)
-		var xoff := (u - 0.5) * width
-		var length := height * (0.55 + fmod(u * 7.13, 0.45))
-		var base := origin + tangent * xoff
-		var tip := base + Vector3(0, length, 0) + out * 0.04
-		# Stem
-		_box(st, (base + tip) * 0.5, Vector3(0.025, length, 0.025), Color(0.33, 0.42, 0.28), Basis.IDENTITY)
-		var leaves := 5 + int(u * 3.0)
-		for L in leaves:
-			var t := (float(L) + 0.4) / float(leaves)
-			var p: Vector3 = base.lerp(tip, t) + out * 0.03
-			var side := 1.0 if (L + i) % 2 == 0 else -1.0
-			var tip_leaf := p + tangent * (side * 0.16) + Vector3(0, 0.04, 0) + out * 0.05
-			var col := Color(0.38, 0.52, 0.30) if L % 2 == 0 else Color(0.48, 0.62, 0.34)
-			_triangle(st, p, p + Vector3(0, 0.07, 0) + tangent * (side * 0.05), tip_leaf, col)
-			_triangle(st, p, tip_leaf, p + tangent * (side * 0.04) - Vector3(0, 0.03, 0), col.darkened(0.08))
 
-static func _triangle(st: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, tint: Color) -> void:
-	for p in [a, b, c]:
-		st.set_color(tint)
-		st.add_vertex(p)
+static func _grass_tuft_mesh() -> ArrayMesh:
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 17
+	for i in range(11):
+		var yaw := float(i) / 11.0 * TAU + rng.randf_range(-0.15, 0.15)
+		var h := rng.randf_range(0.22, 0.48)
+		var lean := rng.randf_range(0.05, 0.22)
+		var w := rng.randf_range(0.018, 0.032)
+		var dir := Vector3(cos(yaw), 0, sin(yaw))
+		var base := dir * rng.randf_range(0.01, 0.05)
+		var mid := base + dir * lean * 0.45 + Vector3(0, h * 0.55, 0)
+		var tip := base + dir * lean + Vector3(0, h, 0)
+		var side := dir.cross(Vector3.UP).normalized()
+		var c := Color(1, 1, 1)
+		# Two-segment blade, tapered.
+		_add_tri(st, base + side * w, mid + side * w * 0.7, mid - side * w * 0.7, c)
+		_add_tri(st, base + side * w, mid - side * w * 0.7, base - side * w, c)
+		_add_tri(st, mid + side * w * 0.7, tip, mid - side * w * 0.7, c)
+		# Backfaces.
+		_add_tri(st, base + side * w, mid - side * w * 0.7, mid + side * w * 0.7, c)
+		_add_tri(st, base + side * w, base - side * w, mid - side * w * 0.7, c)
+		_add_tri(st, mid + side * w * 0.7, mid - side * w * 0.7, tip, c)
+	st.generate_normals()
+	return st.commit()
 
-static func _box(st: SurfaceTool, p: Vector3, size: Vector3, tint: Color, basis: Basis) -> void:
-	var box := BoxMesh.new()
-	box.size = size
-	for v in box.get_faces():
-		st.set_color(tint)
-		st.add_vertex(p + basis * v)
 
-static func _add_local_light(root: Node3D) -> void:
-	# Cheap warm fill so the new planting and the blank wall read less flat. Short range only.
-	for spec in [
-		{"name": "StairWarmFill", "pos": Vector3(-12.2, 2.35, 15.0), "energy": 0.35, "range": 6.5},
-		{"name": "SouthWallFill", "pos": Vector3(-22.0, 1.8, 8.2), "energy": 0.22, "range": 5.5}
-	]:
-		var light := OmniLight3D.new()
-		light.name = spec.name
-		light.position = spec.pos
-		light.light_color = Color(1.0, 0.78, 0.52)
-		light.light_energy = spec.energy
-		light.omni_range = spec.range
-		light.shadow_enabled = false
-		root.add_child(light)
+static func _fern_mesh() -> ArrayMesh:
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var c := Color.WHITE
+	for f in range(6):
+		var yaw := float(f) / 6.0 * TAU
+		var dir := Vector3(cos(yaw), 0, sin(yaw))
+		var side := dir.cross(Vector3.UP).normalized()
+		var length := 0.55 if f % 2 == 0 else 0.42
+		var segments := 7
+		for s in range(segments):
+			var u := float(s) / float(segments)
+			var arch := Vector3(0, 0.18 + u * 0.22 - u * u * 0.25, 0)
+			var p := dir * (u * length) + arch
+			var leaflet := (1.0 - u) * 0.16 + 0.04
+			var tip := p + side * leaflet + Vector3(0, 0.01, 0)
+			var tip2 := p - side * leaflet + Vector3(0, 0.01, 0)
+			var mid := p + dir * 0.03 + Vector3(0, 0.02, 0)
+			_add_tri(st, p, mid, tip, c)
+			_add_tri(st, p, tip, mid, c)
+			_add_tri(st, p, mid, tip2, c)
+			_add_tri(st, p, tip2, mid, c)
+	st.generate_normals()
+	return st.commit()
 
-static func _record_budget(root: Node3D) -> void:
+
+
+static func _flower_stem_mesh() -> ArrayMesh:
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var c := Color(0.32, 0.48, 0.18)
+	for k in range(2):
+		var base := Vector3(k * 0.05 - 0.02, 0, k * 0.04)
+		var tip := base + Vector3(k * 0.03, 0.28 + k * 0.05, 0)
+		var side := Vector3(0.012, 0, 0)
+		_add_tri(st, base + side, tip + side, tip - side, c)
+		_add_tri(st, base + side, tip - side, base - side, c)
+		_add_tri(st, base + side, tip - side, tip + side, c)
+		_add_tri(st, base + side, base - side, tip - side, c)
+	st.generate_normals()
+	return st.commit()
+
+
+static func _flower_head_mesh() -> ArrayMesh:
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var white := Color.WHITE
+	# Petal clusters sit at stem height; green stems are a separate mesh.
+	for k in range(2):
+		var tip := Vector3(k * 0.05 - 0.02, 0.28 + k * 0.05, k * 0.04) + Vector3(k * 0.03, 0, 0)
+		# Five petals around the tip. Vertex color on petals is white so
+		# MultiMesh instance colors can tint them.
+		for i in range(5):
+			var ang := float(i) / 5.0 * TAU
+			var radial := Vector3(cos(ang), 0.15, sin(ang)) * 0.09
+			var petal_tip := tip + radial + Vector3(0, 0.04, 0)
+			var a := tip + Vector3(cos(ang - 0.4) * 0.03, 0.01, sin(ang - 0.4) * 0.03)
+			var b := tip + Vector3(cos(ang + 0.4) * 0.03, 0.01, sin(ang + 0.4) * 0.03)
+			_add_tri(st, a, petal_tip, b, white)
+			_add_tri(st, a, b, petal_tip, white)
+		# Center disc, slightly golden — will also pick up instance tint.
+		_add_tri(st, tip + Vector3(0.02, 0.02, 0), tip + Vector3(0, 0.03, 0.02), tip + Vector3(-0.02, 0.02, 0), white)
+		_add_tri(st, tip + Vector3(-0.02, 0.02, 0), tip + Vector3(0, 0.03, -0.02), tip + Vector3(0.02, 0.02, 0), white)
+	st.generate_normals()
+	return st.commit()
+
+
+static func _add_tri(st: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, color: Color) -> void:
+	var n: Vector3 = (b - a).cross(c - a)
+	if n.length_squared() < 0.0000001:
+		return
+	n = n.normalized()
+	st.set_color(color)
+	st.set_normal(n)
+	st.add_vertex(a)
+	st.set_color(color)
+	st.set_normal(n)
+	st.add_vertex(b)
+	st.set_color(color)
+	st.set_normal(n)
+	st.add_vertex(c)
+
+
+static func _budget(root: Node3D) -> Dictionary:
 	var triangles := 0
 	var meshes := 0
 	var instances := 0
-	for node in root.find_children("*", "GeometryInstance3D", true, false):
+	var lights := 0
+	for node in root.find_children("*", "MeshInstance3D", true, false):
 		meshes += 1
-		if node is MultiMeshInstance3D and node.multimesh:
-			instances += node.multimesh.instance_count
-			var mesh: Mesh = node.multimesh.mesh
-			if mesh:
-				triangles += _mesh_tris(mesh) * node.multimesh.instance_count
-		elif node is MeshInstance3D and node.mesh:
-			instances += 1
-			triangles += _mesh_tris(node.mesh)
-	var lights := root.find_children("*", "Light3D", true, false).size()
-	root.set_meta("budget", {"triangles": triangles, "meshes": meshes, "instances": instances, "lights": lights})
+		var mesh: Mesh = node.mesh
+		if mesh:
+			for s in range(mesh.get_surface_count()):
+				triangles += _mesh_tris(mesh)
+	for node in root.find_children("*", "MultiMeshInstance3D", true, false):
+		meshes += 1
+		var mm: MultiMesh = node.multimesh
+		if mm and mm.mesh:
+			instances += mm.instance_count
+			triangles += _mesh_tris(mm.mesh) * mm.instance_count
+	for _node in root.find_children("*", "Light3D", true, false):
+		lights += 1
+	return {"triangles": triangles, "meshes": meshes, "instances": instances, "lights": lights}
+
 
 static func _mesh_tris(mesh: Mesh) -> int:
 	var total := 0
-	for i in mesh.get_surface_count():
-		var arr = mesh.surface_get_arrays(i)
-		var indices = arr[Mesh.ARRAY_INDEX] if arr.size() > Mesh.ARRAY_INDEX else null
-		if indices:
-			total += indices.size() / 3
-		else:
-			var verts = arr[Mesh.ARRAY_VERTEX]
-			if verts:
-				total += verts.size() / 3
+	for s in range(mesh.get_surface_count()):
+		var arrays := mesh.surface_get_arrays(s)
+		if arrays.size() > Mesh.ARRAY_INDEX and arrays[Mesh.ARRAY_INDEX] != null:
+			total += int(arrays[Mesh.ARRAY_INDEX].size() / 3)
+		elif arrays.size() > Mesh.ARRAY_VERTEX and arrays[Mesh.ARRAY_VERTEX] != null:
+			total += int(arrays[Mesh.ARRAY_VERTEX].size() / 3)
 	return total
