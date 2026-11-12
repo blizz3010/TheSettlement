@@ -1,0 +1,5 @@
+# Keep foliage-authority license texts as LF so Windows checkouts
+# hash the same bytes the native foliage pins record.
+assets/plaza_islands/STAYATHOMEDEV-LICENSE.txt text eol=lf
+assets/quaternius/License_Standard.txt text eol=lf
+THIRD_PARTY_NOTICES/STAYATHOMEDEV-LICENSE.txt text eol=lf

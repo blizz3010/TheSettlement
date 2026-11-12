@@ -155,7 +155,7 @@ const ASSET_HASHES={
  "assets/quaternius/Leaves_NormalTree_C.png.import": "a16ecf77b29b2fc7ce824a2cff849b5f391c97ba47841a73c554b6fe5341b825",
  "assets/quaternius/Leaves_TwistedTree_C.png": "0e459b56b14c0e81b1b7cf3d1e8c6f0bb71790eb6c46bb02a76a922d8df646ea",
  "assets/quaternius/Leaves_TwistedTree_C.png.import": "cf8c8e80417489015d1fdc85ba811fe6b2a1027a123fbbd3b7ccddece1875810",
- "assets/quaternius/License_Standard.txt": "120710e542c3ebaf83856c4eb55b4a1e680593b39302eba7fdc5d942dfe78c58",
+ "assets/quaternius/License_Standard.txt": "b7a9351ca5f22ca91178b292748892e521515a6e98189dbfcd32a9cefeabe5ef",
  "assets/quaternius/PathRocks_Diffuse.png": "85a04abb2c136fee53b376daf3b7d7f96fdf3966de0258dff6fe2b24da792b23",
  "assets/quaternius/PathRocks_Diffuse.png.import": "89fb2a56e2cd65544b9b602ccfefe991c88bc62e240f0f93b8fbf9d27ff7b600",
  "assets/quaternius/Pebble_Round_1.bin": "f3dacef3243ccaaad7df2beb5c72574a38fb3eae45357e1b5e2b40200d51c375",

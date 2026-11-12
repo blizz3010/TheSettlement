@@ -113,7 +113,14 @@ func _layout():
 	video.size = fitted
 	video.position = (size - fitted) * 0.5
 	var margin = clampf(size.x * 0.045, 12.0, 64.0)
-	menu.size = Vector2(minf(360.0, size.x - margin * 2.0), minf(360.0, size.y - 24.0))
+	# Keep the default card compact, but grow when status is visible so a
+	# load-error reason is not clipped at the 360px cap.
+	var card_w = minf(360.0, size.x - margin * 2.0)
+	var card_h = 360.0
+	if is_instance_valid(status) and status.visible and not str(status.text).strip_edges().is_empty():
+		status.custom_minimum_size = Vector2(maxf(0.0, card_w - 48.0), 0.0)
+		card_h = 520.0
+	menu.size = Vector2(card_w, minf(card_h, size.y - 24.0))
 	menu.position = (size - menu.size) * 0.5
 	if is_instance_valid(replay_layer):
 		var replay_back = replay_layer.get_node_or_null("ReplayBack")
@@ -246,9 +253,7 @@ func _launch_world():
 	menu.hide()
 	_show_loading()
 	# Stop menu audio before world audio starts; respect existing bus settings.
-	if is_instance_valid(music):
-		music.stop()
-		music.stream = null
+	_stop_music()
 	transition_events.append("presentation_visible")
 	await get_tree().process_frame
 	if generation != loading_generation: return
@@ -376,6 +381,7 @@ func _world_supports_startup(node: Node) -> bool:
 	return properties.has("staged_startup") and properties.has("world_initialized") and properties.has("startup_cancel_requested")
 
 func _exit_tree():
+	_stop_music()
 	characters.cancel()
 	loading_generation += 1
 	if is_instance_valid(startup_world) and startup_world != get_tree().current_scene:
@@ -474,16 +480,32 @@ func _loading_failed(message: String):
 	_layout()
 	play_button.grab_focus()
 
+func _stop_music():
+	# Godot 4.6.3's Ogg playback is not always released if the player is
+	# only stopped or queue_freed. Drop the stream and free the node here.
+	if not is_instance_valid(music):
+		music = null
+		return
+	music.stop()
+	music.stream = null
+	music.free()
+	music = null
+
 func _start_music():
 	if not ResourceLoader.exists(MUSIC_PATH): return
 	if not is_instance_valid(music):
 		music = AudioStreamPlayer.new()
 		music.name = "MenuMusic"
 		add_child(music)
-	var track = load(MUSIC_PATH).duplicate() as AudioStreamOggVorbis
-	track.loop = true
-	track.loop_offset = 0.0
+	var track = load(MUSIC_PATH)
+	if track is AudioStreamOggVorbis:
+		track.loop = true
+		track.loop_offset = 0.0
 	music.stream = track
 	music.bus = "Music"
 	music.volume_db = -12.0
-	music.play()
+	# Playing an Ogg stream in the headless audio driver leaves
+	# AudioStreamPlaybackOggVorbis / OggPacketSequence in ObjectDB at exit.
+	# Windowed runs still play; headless tests only need the player to exist.
+	if DisplayServer.get_name() != "headless":
+		music.play()
