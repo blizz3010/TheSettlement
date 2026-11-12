@@ -3,6 +3,7 @@ extends SceneTree
 const Catalog = preload("res://raid/scripts/raid_catalog.gd")
 const Cutscene = preload("res://raid/scripts/ship_takeoff_cutscene.gd")
 const Host = preload("res://raid/scripts/ship_transition.gd")
+const TakeoffMesh = preload("res://raid/scripts/ship_takeoff_mesh.gd")
 var checks := 0
 var failures: Array = []
 
@@ -212,6 +213,81 @@ func run():
 	check(await wait_until(func(): return not dock_cut.playing, 45), "Pad-lift fixture skip completes")
 	dock_world.free()
 
+	# Split the real runtime mesh: painted deck/rails stay, hull climbs, particles are soft quads.
+	if ResourceLoader.exists("res://assets/kit/launchpad_ship.glb"):
+		var packed: PackedScene = load("res://assets/kit/launchpad_ship.glb")
+		var live_world = Node3D.new()
+		root.add_child(live_world)
+		var live_ship = Node3D.new()
+		live_ship.name = "LaunchpadShip"
+		live_ship.position = Vector3(22, 0, -16)
+		live_world.add_child(live_ship)
+		var live_art: Node3D = packed.instantiate()
+		live_art.name = "Art"
+		live_ship.add_child(live_art)
+		await process_frame
+		var runtime: MeshInstance3D = TakeoffMesh.find_runtime(live_ship)
+		check(runtime != null and runtime.mesh != null, "Live LaunchpadShip_Runtime mesh is present")
+		var split: Dictionary = TakeoffMesh.split_mesh(runtime.mesh, runtime)
+		check(bool(split.get("ok", false)) and int(split.get("pad_triangles", 0)) > 0 and int(split.get("hull_triangles", 0)) > 0, "Runtime mesh splits into pad and hull triangle sets")
+		var pad_mesh: ArrayMesh = split.pad
+		var hull_mesh: ArrayMesh = split.hull
+		var pad_has_hull := false
+		var hull_has_rails := false
+		var pad_has_deck := false
+		var hull_has_ivory := false
+		for i in pad_mesh.get_surface_count():
+			var mat: Material = pad_mesh.surface_get_material(i)
+			var mat_name := str(mat.resource_name) if mat else ""
+			if mat_name == "Deck inlay cream" or mat_name == "Warm stone concrete":
+				pad_has_deck = true
+			var verts: PackedVector3Array = pad_mesh.surface_get_arrays(i)[Mesh.ARRAY_VERTEX]
+			for v in verts:
+				if Vector2(v.x, v.z).length() < 5.5 and v.y > 2.4:
+					pad_has_hull = true
+					break
+		for i in hull_mesh.get_surface_count():
+			var mat2: Material = hull_mesh.surface_get_material(i)
+			var mat_name2 := str(mat2.resource_name) if mat2 else ""
+			if mat_name2 == "Ivory ceramic painted hull":
+				hull_has_ivory = true
+			var verts2: PackedVector3Array = hull_mesh.surface_get_arrays(i)[Mesh.ARRAY_VERTEX]
+			for v2 in verts2:
+				if Vector2(v2.x, v2.z).length() > 6.2:
+					hull_has_rails = true
+					break
+		check(pad_has_deck and not pad_has_hull, "Pad mesh keeps the deck and pedestal and excludes the hull")
+		check(hull_has_ivory and not hull_has_rails, "Hull mesh keeps the painted hull and excludes the rails")
+		var live_cut = Cutscene.new()
+		live_world.add_child(live_cut)
+		live_cut.begin(live_world)
+		await process_frame
+		live_cut._update_ship(0.85)
+		var hull_node: MeshInstance3D = live_cut.hull_visual
+		var pad_node: MeshInstance3D = live_cut.pad_visual
+		check(is_instance_valid(pad_node) and is_equal_approx(live_ship.global_position.y, 0.0) and pad_node.global_position.y < 1.0, "Painted pad stays on the ground at y≈0 after takeoff")
+		check(is_instance_valid(hull_node) and hull_node.global_position.y > 15.0, "Split hull rises off the grounded pad")
+		var soft_ok := true
+		for jet in live_cut.thrust:
+			if not is_instance_valid(jet) or not (jet.draw_pass_1 is QuadMesh):
+				soft_ok = false
+				break
+			var q: QuadMesh = jet.draw_pass_1
+			var pm: Material = q.material
+			if not (pm is StandardMaterial3D) or (pm as StandardMaterial3D).albedo_texture == null or (pm as StandardMaterial3D).transparency != BaseMaterial3D.TRANSPARENCY_ALPHA:
+				soft_ok = false
+				break
+		if not is_instance_valid(live_cut.dust) or not (live_cut.dust.draw_pass_1 is QuadMesh):
+			soft_ok = false
+		elif (live_cut.dust.draw_pass_1 as QuadMesh).material == null or ((live_cut.dust.draw_pass_1 as QuadMesh).material as StandardMaterial3D).albedo_texture == null:
+			soft_ok = false
+		check(soft_ok and live_cut.thrust.size() == 2, "Exhaust and dust use soft billboarded alpha quads, not spheres or bare squares")
+		live_cut.request_skip()
+		check(await wait_until(func(): return not live_cut.playing, 45), "Live mesh fixture skip completes")
+		live_world.free()
+	else:
+		check(false, "launchpad_ship.glb is available for the pad/hull split contract")
+
 	hud_cut.request_skip()
 	check(await wait_until(func(): return not hud_cut.playing, 45), "HUD fixture skip completes")
 	check(hud_root.visible == true, "Gameplay HUD is restored after the cutscene")
@@ -245,6 +321,6 @@ func run():
 	print("SHIP_TAKEOFF_CUTSCENE_TESTS ", JSON.stringify({
 		"checks": checks,
 		"failures": failures,
-		"scope": "Takeoff cutscene play, skip (Esc/Space/click), and transition handoff for relay_ridge and cinder_basin; settlement doubles, no rendered Windows acceptance"
+		"scope": "Takeoff cutscene play, skip, handoff, HUD hide, pad stays grounded, hull climbs, soft particles; settlement doubles, no rendered Windows acceptance"
 	}))
 	quit(0 if failures.is_empty() else 1)

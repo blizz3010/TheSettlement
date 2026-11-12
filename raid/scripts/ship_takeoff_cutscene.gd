@@ -1,5 +1,6 @@
 extends Node
 ## In-engine takeoff using the live settlement ship. Skippable; always hands off.
+const TakeoffMesh = preload("res://raid/scripts/ship_takeoff_mesh.gd")
 signal finished(raid_id: String, skipped: bool)
 
 const DURATION := 8.0
@@ -31,6 +32,9 @@ var skip_label: Label
 var hidden_hud: Control
 var hud_was_visible := true
 var lift_rig: Node3D
+var hull_visual: MeshInstance3D
+var pad_visual: MeshInstance3D
+var soft_particle_texture: Texture2D
 
 func duration() -> float:
 	return DURATION
@@ -168,8 +172,9 @@ func _lift_height(t: float) -> float:
 	return spool * 0.35 + climb
 
 func _ensure_lift_rig() -> void:
-	# LaunchpadShip owns both the pad and the shuttle. Lift only the shuttle
-	# (Art + construction details) so the pad stays on the ground.
+	# LaunchpadShip's runtime mesh includes pad and hull. Split at runtime so
+	# only the hull climbs; the painted deck, rails and pedestal stay put.
+	# Art is not reparented when a runtime mesh can be split.
 	if is_instance_valid(lift_rig) or not is_instance_valid(ship):
 		return
 	var art := ship.get_node_or_null("Art") as Node3D
@@ -178,14 +183,20 @@ func _ensure_lift_rig() -> void:
 	lift_rig = Node3D.new()
 	lift_rig.name = "TakeoffRig"
 	ship.add_child(lift_rig)
-	for path in ["Art", "ShipConstructionV096"]:
-		var node := ship.get_node_or_null(path) as Node3D
-		if node == null:
-			continue
-		var saved := node.global_transform
-		ship.remove_child(node)
-		lift_rig.add_child(node)
-		node.global_transform = saved
+	hull_visual = TakeoffMesh.attach_hull_and_ground_pad(ship, lift_rig)
+	pad_visual = TakeoffMesh.find_runtime(ship)
+	var construction := ship.get_node_or_null("ShipConstructionV096") as Node3D
+	if construction != null:
+		var saved := construction.global_transform
+		ship.remove_child(construction)
+		lift_rig.add_child(construction)
+		construction.global_transform = saved
+	# Fixtures without a runtime mesh still lift the Art node as a whole.
+	if hull_visual == null:
+		var saved_art := art.global_transform
+		ship.remove_child(art)
+		lift_rig.add_child(art)
+		art.global_transform = saved_art
 
 func _update_ship(t: float) -> void:
 	var body := _climb_body()
@@ -240,19 +251,10 @@ func _build_effects() -> void:
 		var at: Vector3 = NOZZLES[i]
 		var glow = MeshInstance3D.new()
 		glow.name = "EngineGlow%d" % i
-		var sphere = SphereMesh.new()
-		sphere.radius = 0.38
-		sphere.height = 0.76
-		glow.mesh = sphere
-		var mat = StandardMaterial3D.new()
-		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-		mat.albedo_color = Color(1.0, 0.55, 0.18, 0.3)
-		mat.emission_enabled = true
-		mat.emission = Color(1.0, 0.48, 0.12)
-		mat.emission_energy_multiplier = 0.4
-		glow.material_override = mat
+		var glow_quad = QuadMesh.new()
+		glow_quad.size = Vector2(1.15, 1.15)
+		glow.mesh = glow_quad
+		glow.material_override = _soft_sprite_material(Color(1.0, 0.55, 0.18, 0.35), 1.6, true)
 		glow.position = at
 		effects.add_child(glow)
 		glow_meshes.append(glow)
@@ -271,23 +273,18 @@ func _build_effects() -> void:
 		jet.lifetime = 0.45
 		jet.visibility_aabb = AABB(Vector3(-4, -4, -4), Vector3(16, 8, 8))
 		jet.process_material = _thrust_material()
-		var jet_mesh = SphereMesh.new()
-		jet_mesh.radius = 0.11
-		jet_mesh.height = 0.22
-		jet.draw_pass_1 = jet_mesh
+		jet.draw_pass_1 = _soft_particle_quad(Vector2(0.55, 0.7), Color(1.0, 0.62, 0.22, 0.85), 2.2, true)
 		jet.emitting = false
 		effects.add_child(jet)
 		thrust.append(jet)
 	dust = GPUParticles3D.new()
 	dust.name = "PadDust"
-	dust.position = Vector3(0, 0.12, 0)
+	dust.position = Vector3(0, 1.22, 0)
 	dust.amount = 96
 	dust.lifetime = 1.35
 	dust.visibility_aabb = AABB(Vector3(-12, -1, -12), Vector3(24, 8, 24))
 	dust.process_material = _dust_material()
-	var dust_pass = QuadMesh.new()
-	dust_pass.size = Vector2(0.55, 0.55)
-	dust.draw_pass_1 = dust_pass
+	dust.draw_pass_1 = _soft_particle_quad(Vector2(1.15, 1.15), Color(0.62, 0.55, 0.42, 0.5), 0.0, false)
 	dust.emitting = false
 	effects.add_child(dust)
 	if is_instance_valid(ship) and is_instance_valid(lift_rig):
@@ -302,53 +299,108 @@ func _build_effects() -> void:
 	shimmer.lifetime = 1.1
 	shimmer.visibility_aabb = AABB(Vector3(-6, -1, -6), Vector3(12, 14, 12))
 	shimmer.process_material = _shimmer_material()
-	var haze = QuadMesh.new()
-	haze.size = Vector2(0.9, 1.4)
-	shimmer.draw_pass_1 = haze
+	shimmer.draw_pass_1 = _soft_particle_quad(Vector2(0.9, 1.3), Color(1.0, 0.78, 0.45, 0.16), 0.4, true)
 	shimmer.emitting = false
 	effects.add_child(shimmer)
+
+func _radial_particle_texture() -> Texture2D:
+	if is_instance_valid(soft_particle_texture):
+		return soft_particle_texture
+	var img := Image.create(64, 64, false, Image.FORMAT_RGBA8)
+	var mid := 31.5
+	for y in 64:
+		for x in 64:
+			var d := Vector2(float(x) - mid, float(y) - mid).length() / mid
+			var a := clampf(1.0 - d, 0.0, 1.0)
+			a = a * a * (3.0 - 2.0 * a)
+			img.set_pixel(x, y, Color(1.0, 1.0, 1.0, a))
+	soft_particle_texture = ImageTexture.create_from_image(img)
+	return soft_particle_texture
+
+func _soft_sprite_material(color: Color, energy: float, additive: bool) -> StandardMaterial3D:
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD if additive else BaseMaterial3D.BLEND_MODE_MIX
+	mat.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+	mat.vertex_color_use_as_albedo = true
+	mat.albedo_color = color
+	mat.albedo_texture = _radial_particle_texture()
+	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR
+	if energy > 0.0:
+		mat.emission_enabled = true
+		mat.emission = Color(color.r, color.g, color.b)
+		mat.emission_energy_multiplier = energy
+		mat.emission_texture = _radial_particle_texture()
+	return mat
+
+func _soft_particle_quad(size: Vector2, color: Color, energy: float, additive: bool) -> QuadMesh:
+	var quad := QuadMesh.new()
+	quad.size = size
+	quad.material = _soft_sprite_material(color, energy, additive)
+	return quad
+
+func _fade_ramp(peak: Color, tail: Color) -> GradientTexture1D:
+	var grad := Gradient.new()
+	grad.offsets = PackedFloat32Array([0.0, 0.12, 0.55, 1.0])
+	grad.colors = PackedColorArray([
+		Color(peak.r, peak.g, peak.b, 0.0),
+		peak,
+		Color(tail.r, tail.g, tail.b, tail.a * 0.55),
+		Color(tail.r, tail.g, tail.b, 0.0)
+	])
+	var ramp := GradientTexture1D.new()
+	ramp.gradient = grad
+	ramp.width = 128
+	return ramp
 
 func _thrust_material() -> ParticleProcessMaterial:
 	var mat = ParticleProcessMaterial.new()
 	mat.direction = Vector3(0, 1, 0)
-	mat.spread = 11.0
-	mat.initial_velocity_min = 8.0
-	mat.initial_velocity_max = 16.0
+	mat.spread = 9.0
+	mat.initial_velocity_min = 6.5
+	mat.initial_velocity_max = 12.0
 	mat.gravity = Vector3.ZERO
-	mat.scale_min = 0.35
-	mat.scale_max = 1.1
-	mat.color = Color(1.0, 0.62, 0.22, 0.9)
-	mat.damping_min = 1.0
-	mat.damping_max = 3.0
+	mat.scale_min = 0.7
+	mat.scale_max = 1.6
+	mat.color = Color(1.0, 0.62, 0.22, 1.0)
+	mat.color_ramp = _fade_ramp(Color(1.0, 0.72, 0.28, 0.95), Color(1.0, 0.35, 0.08, 0.4))
+	mat.damping_min = 1.2
+	mat.damping_max = 3.4
 	return mat
 
 func _dust_material() -> ParticleProcessMaterial:
 	var mat = ParticleProcessMaterial.new()
 	mat.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_RING
-	mat.emission_ring_radius = 4.4
-	mat.emission_ring_inner_radius = 1.2
-	mat.emission_ring_height = 0.1
+	mat.emission_ring_radius = 5.2
+	mat.emission_ring_inner_radius = 1.6
+	mat.emission_ring_height = 0.08
 	mat.emission_ring_axis = Vector3.UP
 	mat.direction = Vector3(0, 1, 0)
-	mat.spread = 50.0
-	mat.initial_velocity_min = 0.6
-	mat.initial_velocity_max = 2.8
-	mat.gravity = Vector3(0, -0.4, 0)
-	mat.scale_min = 0.7
-	mat.scale_max = 1.8
-	mat.color = Color(0.62, 0.55, 0.42, 0.45)
+	mat.spread = 70.0
+	mat.initial_velocity_min = 0.4
+	mat.initial_velocity_max = 1.6
+	mat.gravity = Vector3(0, -0.25, 0)
+	mat.scale_min = 1.0
+	mat.scale_max = 2.2
+	mat.color = Color(0.62, 0.55, 0.42, 1.0)
+	mat.color_ramp = _fade_ramp(Color(0.66, 0.58, 0.45, 0.55), Color(0.5, 0.46, 0.38, 0.2))
+	mat.damping_min = 0.8
+	mat.damping_max = 2.0
 	return mat
 
 func _shimmer_material() -> ParticleProcessMaterial:
 	var mat = ParticleProcessMaterial.new()
 	mat.direction = Vector3(0, 1, 0)
 	mat.spread = 18.0
-	mat.initial_velocity_min = 1.2
-	mat.initial_velocity_max = 3.4
+	mat.initial_velocity_min = 1.0
+	mat.initial_velocity_max = 2.6
 	mat.gravity = Vector3.ZERO
-	mat.scale_min = 0.8
+	mat.scale_min = 0.9
 	mat.scale_max = 1.8
-	mat.color = Color(1.0, 0.78, 0.45, 0.18)
+	mat.color = Color(1.0, 0.78, 0.45, 1.0)
+	mat.color_ramp = _fade_ramp(Color(1.0, 0.78, 0.45, 0.18), Color(1.0, 0.65, 0.3, 0.04))
 	return mat
 
 func _build_fade() -> void:
