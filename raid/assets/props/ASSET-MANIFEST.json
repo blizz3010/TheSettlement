@@ -1,0 +1,55 @@
+{
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "source": "User-supplied loot_cache.zip and extraction_beacon.zip",
+  "scripts_executed": false,
+  "archive_sha256": {
+    "loot_cache.zip": "97859bdd557de104ecdef26be99720d57f3e5bdda6345054f59eeb388be0b9f8",
+    "extraction_beacon.zip": "ad69153948576e8f595ada3d01cd2cb579006d1bab296761e59cc31c7e4b1f9f"
+  },
+  "assets": [
+    {
+      "source": "raid/assets/props/extraction_beacon_saltflat.glb",
+      "sha256": "c1725d4d64c117ab0fcfd10b1320d66e483ffd1fb013350c0fc8dccf242c9966",
+      "import_metadata": "raid/assets/props/extraction_beacon_saltflat.glb.import",
+      "import_metadata_sha256": "87ef8a5b96c30a0e741186a2197be176affd8c01562e3b21fe8611508aa3b043",
+      "imported_scene": ".godot/imported/extraction_beacon_saltflat.glb-e855d0b088aba7d027c8d6fd911af6b2.scn",
+      "imported_scene_sha256": "ddb4175ecf6123d8e4db8543e607ff6c7015f148dd3de86d3ae0e2571527faf6",
+      "size_bytes": 77440,
+      "import_cache": ".godot/imported/extraction_beacon_saltflat.glb-e855d0b088aba7d027c8d6fd911af6b2.md5",
+      "import_cache_sha256": "6c586a0f7fc41480f96354f82aa46b5685d0cf5524fcd468bde61762b6465c12"
+    },
+    {
+      "source": "raid/assets/props/extraction_beacon_woodland.glb",
+      "sha256": "c0d7658fd0024f53e2534f097f87857811c5fa89b289ec0c57dcc492cce95a33",
+      "import_metadata": "raid/assets/props/extraction_beacon_woodland.glb.import",
+      "import_metadata_sha256": "2cd35593996ed0b39b506e9d1e152a949696151e417673cfda8e49b825c37186",
+      "imported_scene": ".godot/imported/extraction_beacon_woodland.glb-1144d4abc68bf2fb2fbea2cb8c2238a0.scn",
+      "imported_scene_sha256": "f740624f6d235cfc58ed500b61ae54d3c3457948c2230554e6ca3541c9986f75",
+      "size_bytes": 77440,
+      "import_cache": ".godot/imported/extraction_beacon_woodland.glb-1144d4abc68bf2fb2fbea2cb8c2238a0.md5",
+      "import_cache_sha256": "d6a14ea3d3c3caba72d8d3bec8a54c143c93579adf39d219b3e5312110a47b57"
+    },
+    {
+      "source": "raid/assets/props/loot_cache_saltflat.glb",
+      "sha256": "e65676b52c3073709d067281d89efbb87b68c4edc62225777759658e155626bd",
+      "import_metadata": "raid/assets/props/loot_cache_saltflat.glb.import",
+      "import_metadata_sha256": "9c6d3ee76b21107f37630f4d51c35dac2f177286eea3e158f4c8b6b9463298d1",
+      "imported_scene": ".godot/imported/loot_cache_saltflat.glb-1f5acdac0634de16f967b538442cff17.scn",
+      "imported_scene_sha256": "7ca1659a7febc3c5557e98683ec26d3abd11917052fad79cf27a713552a9a390",
+      "size_bytes": 45072,
+      "import_cache": ".godot/imported/loot_cache_saltflat.glb-1f5acdac0634de16f967b538442cff17.md5",
+      "import_cache_sha256": "fc3a61a4630412ff1d3fe66e3998b631e51c8421b338cc66ad357ec37bafa98c"
+    },
+    {
+      "source": "raid/assets/props/loot_cache_woodland.glb",
+      "sha256": "a073268199cebfd2b3418c87ed0a375cede97a0ad288ea54f1252e5022f6e93c",
+      "import_metadata": "raid/assets/props/loot_cache_woodland.glb.import",
+      "import_metadata_sha256": "9e080e84e17c931e18252c8bb5fef333698efbf7250513bd0764e7f69326136c",
+      "imported_scene": ".godot/imported/loot_cache_woodland.glb-e4412cbe7b6b258a029ed59cc097276f.scn",
+      "imported_scene_sha256": "c6bf8682f2cbbb69a32fc9fde90f88255fd03a355e2d1b3b9369428545790fbe",
+      "size_bytes": 45072,
+      "import_cache": ".godot/imported/loot_cache_woodland.glb-e4412cbe7b6b258a029ed59cc097276f.md5",
+      "import_cache_sha256": "76b638226a057f1a0de26d8981992e1cadba3afac608e11ae257161748915fe7"
+    }
+  ]
+}

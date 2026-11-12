@@ -1,0 +1,17 @@
+{
+  "deterministic_bytes": true,
+  "glb_sha256": "0a77d1ee22ed9a5b03aed240011e0a3a753d295dc2d3afde919ebfa941f3e264",
+  "repeat_sha256": "0a77d1ee22ed9a5b03aed240011e0a3a753d295dc2d3afde919ebfa941f3e264",
+  "roundtrip": {
+    "groups": 20,
+    "max_material_component": 0.0000000149011611938477,
+    "max_normal_component": 0.000107735395431519,
+    "max_position_component_m": 0.0,
+    "max_vertex_color_component": 0.0,
+    "passed": true,
+    "triangles": 18392
+  },
+  "status": "roundtrip geometry/material passed; native pixel and world access gates still pending",
+  "terrain_exported": false,
+  "visual_only": true
+}

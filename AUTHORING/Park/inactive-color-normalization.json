@@ -1,0 +1,62 @@
+[
+  {
+    "node": "/root/ParkLayeredBaked/north_02/compact_broadleaf_mound",
+    "original_color_sha256": "29079729f069fb3cbc74b052ba2f682fee41ad92318fe0bb98b73c556ec262d0",
+    "reason": "inactive COLOR_0 omitted; rendered appearance unchanged because original override disables vertex colors",
+    "surface": 0
+  },
+  {
+    "node": "/root/ParkLayeredBaked/north_03/compact_broadleaf_mound",
+    "original_color_sha256": "29079729f069fb3cbc74b052ba2f682fee41ad92318fe0bb98b73c556ec262d0",
+    "reason": "inactive COLOR_0 omitted; rendered appearance unchanged because original override disables vertex colors",
+    "surface": 0
+  },
+  {
+    "node": "/root/ParkLayeredBaked/north_04/compact_broadleaf_mound",
+    "original_color_sha256": "29079729f069fb3cbc74b052ba2f682fee41ad92318fe0bb98b73c556ec262d0",
+    "reason": "inactive COLOR_0 omitted; rendered appearance unchanged because original override disables vertex colors",
+    "surface": 0
+  },
+  {
+    "node": "/root/ParkLayeredBaked/north_05/compact_broadleaf_mound",
+    "original_color_sha256": "29079729f069fb3cbc74b052ba2f682fee41ad92318fe0bb98b73c556ec262d0",
+    "reason": "inactive COLOR_0 omitted; rendered appearance unchanged because original override disables vertex colors",
+    "surface": 0
+  },
+  {
+    "node": "/root/ParkLayeredBaked/north_06/compact_broadleaf_mound",
+    "original_color_sha256": "29079729f069fb3cbc74b052ba2f682fee41ad92318fe0bb98b73c556ec262d0",
+    "reason": "inactive COLOR_0 omitted; rendered appearance unchanged because original override disables vertex colors",
+    "surface": 0
+  },
+  {
+    "node": "/root/ParkLayeredBaked/south_02/compact_broadleaf_mound",
+    "original_color_sha256": "29079729f069fb3cbc74b052ba2f682fee41ad92318fe0bb98b73c556ec262d0",
+    "reason": "inactive COLOR_0 omitted; rendered appearance unchanged because original override disables vertex colors",
+    "surface": 0
+  },
+  {
+    "node": "/root/ParkLayeredBaked/south_03/compact_broadleaf_mound",
+    "original_color_sha256": "29079729f069fb3cbc74b052ba2f682fee41ad92318fe0bb98b73c556ec262d0",
+    "reason": "inactive COLOR_0 omitted; rendered appearance unchanged because original override disables vertex colors",
+    "surface": 0
+  },
+  {
+    "node": "/root/ParkLayeredBaked/south_04/compact_broadleaf_mound",
+    "original_color_sha256": "29079729f069fb3cbc74b052ba2f682fee41ad92318fe0bb98b73c556ec262d0",
+    "reason": "inactive COLOR_0 omitted; rendered appearance unchanged because original override disables vertex colors",
+    "surface": 0
+  },
+  {
+    "node": "/root/ParkLayeredBaked/south_05/compact_broadleaf_mound",
+    "original_color_sha256": "29079729f069fb3cbc74b052ba2f682fee41ad92318fe0bb98b73c556ec262d0",
+    "reason": "inactive COLOR_0 omitted; rendered appearance unchanged because original override disables vertex colors",
+    "surface": 0
+  },
+  {
+    "node": "/root/ParkLayeredBaked/south_06/compact_broadleaf_mound",
+    "original_color_sha256": "29079729f069fb3cbc74b052ba2f682fee41ad92318fe0bb98b73c556ec262d0",
+    "reason": "inactive COLOR_0 omitted; rendered appearance unchanged because original override disables vertex colors",
+    "surface": 0
+  }
+]

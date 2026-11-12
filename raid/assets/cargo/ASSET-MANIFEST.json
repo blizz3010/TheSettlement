@@ -1,0 +1,97 @@
+{
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "source": "User-uploaded cargo_pack.zip",
+  "uploaded_scripts_executed": false,
+  "blend_files_opened": false,
+  "archive_sha256": "380844c108296eab7ddb8d604db1eeed395a39e3ddd439426eaa5a84676a6e2f",
+  "assets": [
+    {
+      "source": "raid/assets/cargo/cargo_container_dented_olive.glb",
+      "sha256": "f3152720ec2327bdaf13c3548c2d8cea0e9628441c80a2ac591ca5968057addc",
+      "size_bytes": 202832,
+      "import_metadata": "raid/assets/cargo/cargo_container_dented_olive.glb.import",
+      "import_metadata_sha256": "4bdd47d94fc02a4b96d84cd64b0a27d8afd56349f13731e2f3d1d6d7501ca1f9",
+      "imported_scene": ".godot/imported/cargo_container_dented_olive.glb-05ffc21fbd2b265aef1ec60cb916f545.scn",
+      "imported_scene_sha256": "3e2f46c1f702ae5b8260776a122e011c584db43ff1cd61e629a246ba406f0f56",
+      "import_cache": ".godot/imported/cargo_container_dented_olive.glb-05ffc21fbd2b265aef1ec60cb916f545.md5",
+      "import_cache_sha256": "82874bb449bc3b2034f660e069a3bd3c877b84de6d967a40f82c4a37f26f338f"
+    },
+    {
+      "source": "raid/assets/cargo/cargo_container_dented_sand.glb",
+      "sha256": "2d2894c69a3e3fadb4ad34c58c84737d8289f2cc764bbea52771b27dd06d34a2",
+      "size_bytes": 202828,
+      "import_metadata": "raid/assets/cargo/cargo_container_dented_sand.glb.import",
+      "import_metadata_sha256": "11e901730de72683765d39dad5562c54e304e989ef126cc8c1f60ea0dce2c857",
+      "imported_scene": ".godot/imported/cargo_container_dented_sand.glb-b06bd8c9a141bc8be6bdfe33f78d4052.scn",
+      "imported_scene_sha256": "84a29c32bb96314924b992f7da9245ec42a0f25ffbb60530d5798d5275a06819",
+      "import_cache": ".godot/imported/cargo_container_dented_sand.glb-b06bd8c9a141bc8be6bdfe33f78d4052.md5",
+      "import_cache_sha256": "ad710665ac71705c9873bbf6db9420baef805dec6a3e2c6f37ba890167998d6d"
+    },
+    {
+      "source": "raid/assets/cargo/cargo_container_intact_olive.glb",
+      "sha256": "0e73ec648498d5881954b85d9fb5d86616422ab317689c611efb80f84872cb4c",
+      "size_bytes": 199952,
+      "import_metadata": "raid/assets/cargo/cargo_container_intact_olive.glb.import",
+      "import_metadata_sha256": "f5286972824b6a812d3975299741dd1a3d9689608c1c95a4781556fe656b70e1",
+      "imported_scene": ".godot/imported/cargo_container_intact_olive.glb-cd1941ecb9c845b9c84906dabfb58846.scn",
+      "imported_scene_sha256": "631aa3f165c9fcdb6163739b39f718bab2653c2ff0b32db6bf715860cc8be73e",
+      "import_cache": ".godot/imported/cargo_container_intact_olive.glb-cd1941ecb9c845b9c84906dabfb58846.md5",
+      "import_cache_sha256": "acb6b4a5b6f8d1779117166b7549bb355fa4887efe980b33edf56a670477b9a1"
+    },
+    {
+      "source": "raid/assets/cargo/cargo_container_intact_sand.glb",
+      "sha256": "556866a963d2998dbfde04b8568a1377604664b914f662220efd7895e3eae7eb",
+      "size_bytes": 199948,
+      "import_metadata": "raid/assets/cargo/cargo_container_intact_sand.glb.import",
+      "import_metadata_sha256": "711fc4854cad90ebc08073acc81ea14f91df96b474a11f31c24eec7a66c40f1f",
+      "imported_scene": ".godot/imported/cargo_container_intact_sand.glb-14a4d97f1560ff71edcdffb9248b2efc.scn",
+      "imported_scene_sha256": "207ad1c10c469960781332f4c9f9886c99ff429058bd4a00d949d5e1626bacc4",
+      "import_cache": ".godot/imported/cargo_container_intact_sand.glb-14a4d97f1560ff71edcdffb9248b2efc.md5",
+      "import_cache_sha256": "f66d333c1961808e3560bf06c9057b9707b8403cb86e8666edbbec339bbb2358"
+    },
+    {
+      "source": "raid/assets/cargo/cargo_stack_large_olive.glb",
+      "sha256": "07fc70412620a74c7a7bbb214e760d9365d0f16b5e7bdd35c57efcc9a6d79695",
+      "size_bytes": 161892,
+      "import_metadata": "raid/assets/cargo/cargo_stack_large_olive.glb.import",
+      "import_metadata_sha256": "2bc6982c171ac6faf5b514cc158d450cf2a25d4614bf1f8cc72e5f3cf4be167c",
+      "imported_scene": ".godot/imported/cargo_stack_large_olive.glb-0b648c0ac6b397c1900a0ff8a5b09178.scn",
+      "imported_scene_sha256": "628d02cf3902e7724c058dce3a13ca83e8f39fbba3bc44e2340b3bf47820d26d",
+      "import_cache": ".godot/imported/cargo_stack_large_olive.glb-0b648c0ac6b397c1900a0ff8a5b09178.md5",
+      "import_cache_sha256": "11a356b23e6cb9fc62563ab9dac02b7bdde924985ddbb5878da9423dbf875aa6"
+    },
+    {
+      "source": "raid/assets/cargo/cargo_stack_large_sand.glb",
+      "sha256": "745e4e64c8fb9d03d72c72986057cac00b6e30bebcd37df1ee3fb7911e5193ed",
+      "size_bytes": 161884,
+      "import_metadata": "raid/assets/cargo/cargo_stack_large_sand.glb.import",
+      "import_metadata_sha256": "f78945a62e7025c657e994effc76fd75b8badeea47700a545baadf20818ba5cf",
+      "imported_scene": ".godot/imported/cargo_stack_large_sand.glb-43149fd27bee97337b82c594e93a45e5.scn",
+      "imported_scene_sha256": "03c940f9f744f39ef1928e88662a46c65d178f84524873e6e278e02019bdadec",
+      "import_cache": ".godot/imported/cargo_stack_large_sand.glb-43149fd27bee97337b82c594e93a45e5.md5",
+      "import_cache_sha256": "279f64bffafde0d5713fe375d719f946e71903b95adfad1caf986bb1815784bc"
+    },
+    {
+      "source": "raid/assets/cargo/cargo_stack_pallet_olive.glb",
+      "sha256": "9489ccb8d3bda5526c84f3d0ad78eeaeed82f93fa7dba34ecd9171ef257dcd03",
+      "size_bytes": 81780,
+      "import_metadata": "raid/assets/cargo/cargo_stack_pallet_olive.glb.import",
+      "import_metadata_sha256": "df2d58d3c0a6cd3d512ad2ad3944f0e40eb0acea70f3f008f001299144c1976f",
+      "imported_scene": ".godot/imported/cargo_stack_pallet_olive.glb-08293609a845cb41c932f47bc05a14c7.scn",
+      "imported_scene_sha256": "46baa45f9a1c4e49c1b7683b8afc4ec968348584a32447d7ae8c491863365060",
+      "import_cache": ".godot/imported/cargo_stack_pallet_olive.glb-08293609a845cb41c932f47bc05a14c7.md5",
+      "import_cache_sha256": "7afdad9778b02a23b03c9b43fb518e19f12a69e51ed17e8674aca993c0223582"
+    },
+    {
+      "source": "raid/assets/cargo/cargo_stack_pallet_sand.glb",
+      "sha256": "a5cb49462a80f5950b613a38dc495abe9055872cbce832d68789c251fd3dcc9f",
+      "size_bytes": 81776,
+      "import_metadata": "raid/assets/cargo/cargo_stack_pallet_sand.glb.import",
+      "import_metadata_sha256": "d7e6e87f3f9646f211dc823b5b717eb99a7994df741d647f520bc7ba5f2839c2",
+      "imported_scene": ".godot/imported/cargo_stack_pallet_sand.glb-e16dad3a1f199ef91aaa30d28e381550.scn",
+      "imported_scene_sha256": "4d7568161f672ef6310a01d5d1da586fbe5103f9c993d00171d62f269ac9f2fd",
+      "import_cache": ".godot/imported/cargo_stack_pallet_sand.glb-e16dad3a1f199ef91aaa30d28e381550.md5",
+      "import_cache_sha256": "a15f6e33cdf02dd204ea63fd921dbc637fa0630e18be3aa5f89ef3d65ed0dac0"
+    }
+  ]
+}

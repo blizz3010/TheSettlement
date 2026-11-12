@@ -1,0 +1,33 @@
+{
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "source": "User-supplied valve_echo_cistern.zip and relay_lever_weather_station.zip",
+  "uploaded_scripts_executed": false,
+  "archive_sha256": {
+    "relay_lever_weather_station.zip": "acd6901b2750c77131f73ea9fac755ba7a40551dec74e68b05d2c10d93e2435f",
+    "valve_echo_cistern.zip": "e809512a0f93a5c04ca6ab7aa0704a0388f2a8d94314cfa74df90904d214b5d8"
+  },
+  "assets": [
+    {
+      "source": "raid/assets/puzzle_controls/relay_lever_weather_station.glb",
+      "sha256": "cfb1b37e24fd21762485b65253403dd3666ba06137ad184ae738eef3d299af31",
+      "size_bytes": 58344,
+      "import_metadata": "raid/assets/puzzle_controls/relay_lever_weather_station.glb.import",
+      "import_metadata_sha256": "be73798491fef06ac06f2712774daf851e35a4b283d18916339f105782c4b580",
+      "imported_scene": ".godot/imported/relay_lever_weather_station.glb-ce576e4b73a3009997a70c6212e7c4c3.scn",
+      "imported_scene_sha256": "1c08ae81e7d2fff7345595c0c34971db02b0d0550ba6e0bcb5ed6873ca822db1",
+      "import_cache": ".godot/imported/relay_lever_weather_station.glb-ce576e4b73a3009997a70c6212e7c4c3.md5",
+      "import_cache_sha256": "6eceb63d1c0c6138726b86fea0097cd0026cb75b6796f285094e031fad1a4230"
+    },
+    {
+      "source": "raid/assets/puzzle_controls/valve_echo_cistern.glb",
+      "sha256": "2bc1021c85e6dc04ac25cd80e2c97a3c50e33b7b89820a0fac795b29bd46c0cb",
+      "size_bytes": 83048,
+      "import_metadata": "raid/assets/puzzle_controls/valve_echo_cistern.glb.import",
+      "import_metadata_sha256": "60f67d4ac60e7474d3dab87730fce3c3a7de965c944744d2af6f41b7ef4e4d56",
+      "imported_scene": ".godot/imported/valve_echo_cistern.glb-41e233caab0808bfdae5e9831ee36179.scn",
+      "imported_scene_sha256": "5014d5a285cf853a4906fb45d2c33322c7bf114aee84224efdc78485b11fd79c",
+      "import_cache": ".godot/imported/valve_echo_cistern.glb-41e233caab0808bfdae5e9831ee36179.md5",
+      "import_cache_sha256": "466040d1af2ffac1eefadb593b7cd198e091e116f9a62a6393a0e3f16f235161"
+    }
+  ]
+}

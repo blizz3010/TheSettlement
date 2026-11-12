@@ -1,0 +1,9 @@
+{
+  "asset": "obsidian_archive_v21.glb",
+  "source_filename": "obsidian_archive_v2.glb",
+  "source_revision": "2.1",
+  "sha256": "754d7b98a3277bfff6d0fad511af44c9f0e751786e446ecbe970f1e574ad0b48",
+  "integration": "Imported mesh only; no uploaded scripts executed. Runtime adapter excludes presentation site meshes and ordinary door leaves; one raid-owned secure vault door.",
+  "coordinate_system": "Godot Y-up, front +Z; model scale 1.0",
+  "state_and_map_changes": false
+}
