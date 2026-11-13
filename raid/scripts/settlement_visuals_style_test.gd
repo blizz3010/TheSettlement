@@ -38,7 +38,9 @@ static func apply(world: Node3D) -> Node3D:
 	var budget := _budget(root)
 	root.set_meta("budget", budget)
 	# Rollout chunk 2 zones live under their own root so their budget is separate.
-	var r2 := Rollout2.apply(world, Rollout2.zones())
+	# Test-only switch so capture runs can take a matching "before" for new cameras.
+	var r2_zones: Array = [] if OS.get_environment("SETTLEMENT_VISUALS_SKIP_ROLLOUT2") == "1" else Rollout2.zones()
+	var r2 := Rollout2.apply(world, r2_zones)
 	var r2_budget := _budget(r2)
 	root.set_meta("rollout2_budget", r2_budget)
 	print("settlement_visuals_rollout2 budget ", r2_budget)

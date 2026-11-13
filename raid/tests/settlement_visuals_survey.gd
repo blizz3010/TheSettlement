@@ -26,7 +26,8 @@ const SHOTS := [
 	{"name": "c2_far_west_elev", "origin": Vector3(-22.0, 18.0, -26.0), "look": Vector3(-36.0, 1.0, -4.0), "elevated": true, "note": "Chunk 2: far-west mound, elevated"},
 	{"name": "c2_far_west", "origin": Vector3(-24.0, 1.55, -2.0), "look": Vector3(-38.0, 3.0, -10.0), "elevated": false, "note": "Chunk 2: far-west mound, player height"},
 	{"name": "c2_northwest_elev", "origin": Vector3(-6.0, 16.0, 16.0), "look": Vector3(-20.0, 0.0, 30.0), "elevated": true, "note": "Chunk 2: ground north of the hideout, elevated"},
-	{"name": "c2_northwest", "origin": Vector3(-10.0, 1.55, 22.0), "look": Vector3(-22.0, 1.2, 30.0), "elevated": false, "note": "Chunk 2: ground north of the hideout, player height"}
+	{"name": "c2_northwest", "origin": Vector3(-10.0, 1.55, 22.0), "look": Vector3(-22.0, 1.2, 30.0), "elevated": false, "note": "Chunk 2: ground north of the hideout, player height"},
+	{"name": "c2_west_mound", "origin": Vector3(-37.0, 4.2, -12.0), "look": Vector3(-44.0, 3.2, -3.0), "elevated": false, "note": "Chunk 2: west mound, player height"}
 ]
 
 var journal: Dictionary = {"notes": [], "screenshots": [], "coverage": {}, "meshes": [], "ok": false}
