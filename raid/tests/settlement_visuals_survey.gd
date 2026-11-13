@@ -303,8 +303,15 @@ func run() -> void:
 	if MODE == "after":
 		var patch_root = world.get_node_or_null("SettlementVisualsStyleTest")
 		log_line("style test present=" + str(patch_root != null) + (" budget=" + str(patch_root.get_meta("budget")) if patch_root else ""))
-	log_line("taking " + tag + " shots into " + folder)
+	var only := OS.get_environment("SETTLEMENT_VISUALS_SHOTS").strip_edges()
+	var custom_folder := OS.get_environment("SETTLEMENT_VISUALS_AFTER" if tag == "after" else "SETTLEMENT_VISUALS_BEFORE").strip_edges()
+	if custom_folder != "":
+		folder = custom_folder
+		DirAccess.make_dir_recursive_absolute(folder)
+	log_line("taking " + tag + " shots into " + folder + (" filter=" + only if only != "" else " (all cameras)"))
 	for shot in SHOTS:
+		if only != "" and not str(shot.name) in only.split(","):
+			continue
 		await screenshot(world, folder, shot, tag)
 	journal["ok"] = true
 	write_journal()

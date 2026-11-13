@@ -1,5 +1,8 @@
 extends RefCounted
-## Mid-stylized hideout-approach style test, v2.
+## Mid-stylized hideout-approach style test, v3 (tree fix).
+## v2 direction approved; sphere-cluster canopies replaced with mid-stylized
+## broadleaf variants from settlement_visuals_kit.gd, and ivy tamed into
+## larger, fewer clusters.
 ## Makes the everyday view of the bare retaining walls and stair approach
 ## obviously dressed: ivy and hanging plants on the wall faces, planters,
 ## a layered paving-to-turf border, fuller trees framing the stairs, and
@@ -8,6 +11,7 @@ extends RefCounted
 ## Procedural meshes are generated here because the kit foliage reads too
 ## low-poly / lollipop-like for a mid-stylized judgment.
 
+const Kit = preload("res://raid/scripts/settlement_visuals_kit.gd")
 const ROOT_NAME := "SettlementVisualsStyleTest"
 const SEED := 20261113
 
@@ -17,7 +21,7 @@ static func apply(world: Node3D) -> Node3D:
 	var root := Node3D.new()
 	root.name = ROOT_NAME
 	root.set_meta("visual_only", true)
-	root.set_meta("style_test", "hideout_approach_v2")
+	root.set_meta("style_test", "hideout_approach_v3")
 	world.add_child(root)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = SEED
@@ -32,7 +36,7 @@ static func apply(world: Node3D) -> Node3D:
 	_add_lights(root)
 	var budget := _budget(root)
 	root.set_meta("budget", budget)
-	print("settlement_visuals_style_test v2 budget ", budget)
+	print("settlement_visuals_style_test v3 budget ", budget)
 	return root
 
 
@@ -92,17 +96,15 @@ static func _add_wall_ivy(root: Node3D, rng: RandomNumberGenerator, mats: Dictio
 	# "Your Home" plaque sits at (-15.91, 2.38, 10.40), 1.85 x 0.48 — keep a window.
 	var leaves: Array[Transform3D] = []
 	var colors: Array[Color] = []
-	var stems: Array[Transform3D] = []
 	# East face, south of the stairs — the everyday hero wall.
-	_ivy_panel(leaves, colors, stems, rng, -15.80, 0.10, 2.95, 7.20, 13.28, Vector3.RIGHT, true)
+	Kit.ivy_clusters(leaves, colors, rng, -15.80, 0.10, 2.95, 7.20, 13.28, Vector3.RIGHT, true)
 	# East face, short strip north of the stairs before the stash porch.
-	_ivy_panel(leaves, colors, stems, rng, -15.80, 0.10, 2.95, 16.72, 17.95, Vector3.RIGHT, false)
+	Kit.ivy_clusters(leaves, colors, rng, -15.80, 0.10, 2.95, 16.72, 17.95, Vector3.RIGHT, false)
 	# South face, from the SE corner west along the approach.
-	_ivy_panel(leaves, colors, stems, rng, 6.82, 0.10, 2.95, -24.4, -16.15, Vector3.FORWARD * -1.0, false, true)
+	Kit.ivy_clusters(leaves, colors, rng, 6.82, 0.10, 2.95, -24.4, -16.15, Vector3.FORWARD * -1.0, false, true)
 	# Porch east face, lighter (elevated cameras see it).
-	_ivy_panel(leaves, colors, stems, rng, -12.82, 0.10, 2.95, 18.15, 21.85, Vector3.RIGHT, false)
+	Kit.ivy_clusters(leaves, colors, rng, -12.82, 0.10, 2.95, 18.15, 21.85, Vector3.RIGHT, false)
 	_spawn_colored(root, "IvyLeaves", meshes["leaf"], mats["leaf_mat"], leaves, colors, true)
-	_spawn_plain(root, "IvyStems", _stem_box(), mats["vine_stem"], stems, false)
 
 
 static func _ivy_panel(
@@ -241,22 +243,11 @@ static func _add_hanging_plants(root: Node3D, rng: RandomNumberGenerator, mats: 
 		_box(holder, "Bowl", Vector3(0, -0.05, 0), Vector3(0.30, 0.12, 0.24), mats["wood_dark"], false)
 		_box(holder, "Soil", Vector3(0, 0.07, 0), Vector3(0.28, 0.04, 0.22), mats["soil"], false)
 		var outward := Vector3.RIGHT if p.z > 7.3 else Vector3(0, 0, -1)
-		# Burst at the lip.
-		for _j in range(16):
-			var lip: Vector3 = p + Vector3(rng.randf_range(-0.12, 0.12), rng.randf_range(0.02, 0.16), rng.randf_range(-0.10, 0.10))
-			_push_leaf(leaves, colors, rng, lip, outward + Vector3(0, 0.4, 0), 0.18, 0.28)
-		# Long trailers draping down the wall.
-		var trailers := rng.randi_range(5, 7)
-		for t in range(trailers):
-			var length := rng.randf_range(1.1, 2.0)
-			var ox := rng.randf_range(-0.10, 0.10)
-			var oz := rng.randf_range(-0.10, 0.10)
-			var steps := 9
-			for s in range(steps):
-				var u := float(s) / float(steps - 1)
-				var q: Vector3 = p + outward * (0.06 + u * 0.14) + Vector3(ox, -u * length, oz)
-				q.x += sin(u * 4.0 + t) * 0.06
-				_push_leaf(leaves, colors, rng, q, outward, 0.20, 0.32)
+		# A few larger clusters at the lip, then short clustered trailers.
+		for _j in range(4):
+			var lip: Vector3 = p + Vector3(rng.randf_range(-0.10, 0.10), rng.randf_range(0.02, 0.14), rng.randf_range(-0.08, 0.08))
+			Kit.hanging_trailers(leaves, colors, rng, lip, outward + Vector3(0, 0.5, 0), 1)
+		Kit.hanging_trailers(leaves, colors, rng, p, outward, 3)
 		i += 1
 	_spawn_colored(root, "HangingLeaves", meshes["leaf"], mats["leaf_mat"], leaves, colors, true)
 
@@ -415,9 +406,9 @@ static func _dist_to_segment(p: Vector3, a: Vector3, b: Vector3) -> float:
 
 
 static func _add_trees(root: Node3D, rng: RandomNumberGenerator, mats: Dictionary) -> void:
-	# A couple of fuller-canopy trees framing the stair flight, off the path.
-	_make_tree(root, "FrameTreeSouth", Vector3(-13.55, 0, 8.05), rng, mats, 5.6, 0.08)
-	_make_tree(root, "FrameTreeNorth", Vector3(-11.55, 0, 18.20), rng, mats, 6.1, -0.06)
+	# Framing trees use kit variants 0 and 1 — mid-stylized broadleaf, not sphere clusters.
+	Kit.add_tree(root, "FrameTreeSouth", Vector3(-13.05, 0, 7.35), 0, 0.98, 0.55)
+	Kit.add_tree(root, "FrameTreeNorth", Vector3(-11.55, 0, 18.20), 1, 1.05, -0.70)
 
 
 static func _make_tree(parent: Node3D, n: String, at: Vector3, rng: RandomNumberGenerator, mats: Dictionary, height: float, lean: float) -> void:
