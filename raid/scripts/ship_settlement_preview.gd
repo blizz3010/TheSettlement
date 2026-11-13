@@ -147,3 +147,11 @@ func _depart_ship_preview():
 	host.call_deferred("open_raid")
 	get_parent().remove_child(self)
 	queue_free()
+
+func activate_loaded_world():
+	super.activate_loaded_world()
+	# TASKS item 10: reshape the hills that ran through the inn lake.
+	if world_activated:
+		var lake_fix: Dictionary = preload("res://raid/scripts/inn_lake_mountain_fix.gd").apply(self)
+		if not lake_fix.get("ok", false):
+			push_warning("Inn lake mountain fix skipped: " + str(lake_fix.get("reason", lake_fix)))
