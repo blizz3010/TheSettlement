@@ -60,16 +60,17 @@ static func zones() -> Array:
 		},
 		{
 			# Outer west mound: open lawn beyond the tree band behind the tailor,
-			# inside the grass radius (r < 46).
+			# inside the grass radius (r < 46). Drifts are 1.25x wider and 2x denser
+			# than the first pass so they read from the settlement edge.
 			"name": "WestMound", "seed": 52002,
 			"drifts": [
-				[Vector2(-41.0, -14.0), 3.0, 50, 10, 18],
-				[Vector2(-44.0, -6.0), 2.8, 46, 9, 16],
-				[Vector2(-40.0, -1.5), 2.4, 38, 7, 14],
-				[Vector2(-42.0, 2.5), 2.4, 38, 7, 14],
-				[Vector2(-38.6, -19.0), 2.4, 38, 7, 12],
-				[Vector2(-45.0, -12.0), 2.6, 44, 8, 16],
-				[Vector2(-46.0, 3.0), 2.2, 34, 6, 12]
+				[Vector2(-41.0, -14.0), 3.75, 100, 20, 36],
+				[Vector2(-44.0, -6.0), 3.50, 92, 18, 32],
+				[Vector2(-40.0, -1.5), 3.00, 76, 14, 28],
+				[Vector2(-42.0, 2.5), 3.00, 76, 14, 28],
+				[Vector2(-38.6, -19.0), 3.00, 76, 14, 24],
+				[Vector2(-45.0, -12.0), 3.25, 88, 16, 32],
+				[Vector2(-46.0, 3.0), 2.75, 68, 12, 24]
 			],
 			"trees": [
 				[Vector2(-43.0, -17.0), 3, 1.0, 0.9],

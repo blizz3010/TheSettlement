@@ -27,7 +27,11 @@ const SHOTS := [
 	{"name": "c2_far_west", "origin": Vector3(-24.0, 1.55, -2.0), "look": Vector3(-38.0, 3.0, -10.0), "elevated": false, "note": "Chunk 2: far-west mound, player height"},
 	{"name": "c2_northwest_elev", "origin": Vector3(-6.0, 16.0, 16.0), "look": Vector3(-20.0, 0.0, 30.0), "elevated": true, "note": "Chunk 2: ground north of the hideout, elevated"},
 	{"name": "c2_northwest", "origin": Vector3(-10.0, 1.55, 22.0), "look": Vector3(-22.0, 1.2, 30.0), "elevated": false, "note": "Chunk 2: ground north of the hideout, player height"},
-	{"name": "c2_west_mound", "origin": Vector3(-37.0, 4.2, -12.0), "look": Vector3(-44.0, 3.2, -3.0), "elevated": false, "note": "Chunk 2: west mound, player height"}
+	{"name": "c2_west_mound", "origin": Vector3(-37.0, 4.2, -12.0), "look": Vector3(-44.0, 3.2, -3.0), "elevated": false, "note": "Chunk 2: west mound, player height"},
+	{"name": "c2_west_mound_pl", "origin": Vector3(-47.0, 4.35, -17.0), "look": Vector3(-40.0, 4.0, -7.0), "elevated": false, "note": "Chunk 2: west mound from the open lawn edge, player height"},
+	{"name": "c2_west_mound_low", "origin": Vector3(-50.0, 10.0, -24.0), "look": Vector3(-41.0, 3.0, -7.0), "elevated": true, "note": "Chunk 2: west mound, low oblique"},
+	{"name": "c3_dan_atlas_gap", "origin": Vector3(11.0, 1.6, 12.0), "look": Vector3(16.0, 1.3, 24.0), "elevated": false, "note": "Market gap between Dan and Atlas, player height"},
+	{"name": "c3_atlas_psy_gap", "origin": Vector3(18.0, 1.6, 4.0), "look": Vector3(30.0, 1.3, 11.0), "elevated": false, "note": "Market gap between Atlas and Psy, player height"}
 ]
 
 var journal: Dictionary = {"notes": [], "screenshots": [], "coverage": {}, "meshes": [], "ok": false}
