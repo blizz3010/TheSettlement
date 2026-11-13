@@ -4,6 +4,9 @@ extends RefCounted
 ## darker desaturated greens that sit next to the existing mid-distance trees.
 ## Ivy: fewer, larger leaf clusters instead of stringy single leaves.
 
+# Ivy grid spacing (v3 was 0.48 / 0.52; v2 was a dense per-leaf grid).
+const IVY_STEP_Y := 0.40
+const IVY_STEP_A := 0.44
 const TREE_SEEDS := [11017, 22031, 33047, 44057]
 const TREE_SPECS := [
 	{"height": 5.70, "spread": 1.00, "lean": 0.05, "forks": 4},
@@ -210,7 +213,7 @@ static func _build_tree(tree: Node3D, variant: int, mats: Dictionary, msh: Dicti
 			var q: Vector3 = tp + off
 			var up_dir := (q - Vector3(0, height * 0.62, 0)).normalized().lerp(Vector3.UP, 0.5)
 			xforms.append(_clump_xform(q, up_dir, rng, rng.randf_range(1.0, 1.35)))
-			colors.append(_canopy_color(rng))
+			colors.append(_canopy_color(rng, true))
 
 	_spawn_colored(tree, "LeafClumps", msh["clump"], mats["leaf_mat"], xforms, colors, true)
 
@@ -229,21 +232,30 @@ static func _clump_xform(p: Vector3, along: Vector3, rng: RandomNumberGenerator,
 	return Transform3D(basis, p)
 
 
-static func _canopy_color(rng: RandomNumberGenerator) -> Color:
-	# Darker, less saturated olives — sampled from the existing mid-distance tree.
+static func _canopy_color(rng: RandomNumberGenerator, crown_top: bool = false) -> Color:
+	# Darker, less saturated olives with a slight blue-teal lean, matched to the
+	# existing mid-distance trees (v3.1 colour pass).
 	var palette := [
-		Color(0.20, 0.31, 0.18),
-		Color(0.24, 0.36, 0.22),
-		Color(0.28, 0.40, 0.24),
-		Color(0.22, 0.34, 0.26),
-		Color(0.26, 0.37, 0.20),
-		Color(0.18, 0.28, 0.17),
-		Color(0.30, 0.40, 0.27)
+		Color(0.18, 0.29, 0.19),
+		Color(0.21, 0.33, 0.23),
+		Color(0.25, 0.37, 0.25),
+		Color(0.19, 0.31, 0.27),
+		Color(0.23, 0.34, 0.22),
+		Color(0.16, 0.26, 0.19),
+		Color(0.26, 0.37, 0.28)
 	]
 	var c: Color = palette[rng.randi_range(0, palette.size() - 1)]
-	c.r = clampf(c.r + rng.randf_range(-0.02, 0.02), 0.14, 0.36)
-	c.g = clampf(c.g + rng.randf_range(-0.02, 0.025), 0.24, 0.44)
-	c.b = clampf(c.b + rng.randf_range(-0.02, 0.02), 0.14, 0.32)
+	c.r = clampf(c.r + rng.randf_range(-0.02, 0.02), 0.12, 0.34)
+	c.g = clampf(c.g + rng.randf_range(-0.02, 0.025), 0.22, 0.42)
+	c.b = clampf(c.b + rng.randf_range(-0.02, 0.02), 0.15, 0.33)
+	if crown_top:
+		# Sun-facing crown clumps read lighter and mintier from above: pull them
+		# darker and toward blue so the top matches the neighbouring trees.
+		# Only a small blue lean: upward faces already pick up sky ambient.
+		# Sky ambient already tints up-facing cards blue at player height, so the
+		# albedo pulls blue down while darkening (net: darker, slightly cooler from
+		# above, not teal from below).
+		c = Color(c.r * 0.86, c.g * 0.82, c.b * 0.72)
 	return c
 
 
@@ -272,24 +284,24 @@ static func ivy_clusters(
 			var aa := a + jitter_a
 			var yy := y + jitter_y
 			if aa < a0 or aa > a1 or yy < y0 or yy > y1:
-				y += 0.48
+				y += IVY_STEP_Y
 				continue
 			var p := _face_point(face, yy, aa, south_face) + outward * rng.randf_range(0.02, 0.08)
 			if keep_sign_window and in_home_sign(p):
-				y += 0.48
+				y += IVY_STEP_Y
 				continue
-			if rng.randf() < 0.16:
-				y += 0.48
+			if rng.randf() < 0.10:
+				y += IVY_STEP_Y
 				continue
-			_push_cluster(leaves, colors, rng, p, outward, 0.30, 0.46, rng.randi_range(4, 6))
-			y += 0.48
-		a += 0.52
+			_push_cluster(leaves, colors, rng, p, outward, 0.30, 0.46, rng.randi_range(5, 6))
+			y += IVY_STEP_Y
+		a += IVY_STEP_A
 		row += 1
 	# Hanging curtains: a few large clusters down each strand, not a string of singles.
 	var strand_a := a0 + 0.22
 	while strand_a < a1:
-		if rng.randf() < 0.22:
-			strand_a += rng.randf_range(0.50, 0.70)
+		if rng.randf() < 0.15:
+			strand_a += rng.randf_range(0.44, 0.62)
 			continue
 		var length := rng.randf_range(1.15, 1.85)
 		var bunches := 3
@@ -304,7 +316,7 @@ static func ivy_clusters(
 			if keep_sign_window and in_home_sign(p):
 				continue
 			_push_cluster(leaves, colors, rng, p, outward, 0.32, 0.50, 4)
-		strand_a += rng.randf_range(0.50, 0.72)
+		strand_a += rng.randf_range(0.44, 0.62)
 
 
 static func hanging_trailers(
@@ -386,18 +398,20 @@ static func _push_leaf(
 
 
 static func _ivy_color(rng: RandomNumberGenerator) -> Color:
-	# A bit livelier than the tree canopy, still not lime.
+	# Slightly livelier than the tree canopy, but darker and less lime than v3 so
+	# sunlit faces don't read as a pasted-on bright hedge.
 	var palette := [
-		Color(0.20, 0.34, 0.16),
-		Color(0.24, 0.40, 0.18),
-		Color(0.30, 0.44, 0.20),
-		Color(0.22, 0.32, 0.16),
-		Color(0.28, 0.38, 0.18),
-		Color(0.34, 0.42, 0.20)
+		Color(0.17, 0.28, 0.14),
+		Color(0.20, 0.33, 0.16),
+		Color(0.24, 0.36, 0.17),
+		Color(0.18, 0.27, 0.15),
+		Color(0.23, 0.32, 0.16),
+		Color(0.27, 0.34, 0.17)
 	]
 	var c: Color = palette[rng.randi_range(0, palette.size() - 1)]
-	c.r = clampf(c.r + rng.randf_range(-0.02, 0.02), 0.12, 0.40)
-	c.g = clampf(c.g + rng.randf_range(-0.02, 0.03), 0.24, 0.50)
+	c.r = clampf(c.r + rng.randf_range(-0.02, 0.02), 0.12, 0.32) * 0.85
+	c.g = clampf(c.g + rng.randf_range(-0.02, 0.025), 0.22, 0.40) * 0.85
+	c.b *= 0.90
 	return c
 
 

@@ -17,7 +17,10 @@ const SHOTS := [
 	{"name": "rook_and_north", "origin": Vector3(18.0, 1.65, 30.0), "look": Vector3(28.0, 2.0, 34.0), "elevated": false, "note": "Rook's Supplies and the north market edge"},
 	{"name": "hall_and_ship", "origin": Vector3(8.0, 1.65, -8.0), "look": Vector3(20.0, 2.4, -16.0), "elevated": false, "note": "Town Hall side and the launch pad ship"},
 	{"name": "elevated_plaza_market", "origin": Vector3(2.0, 16.0, -10.0), "look": Vector3(8.0, 1.2, 14.0), "elevated": true, "note": "Elevated overview of plaza, market and hideout"},
-	{"name": "elevated_hideout", "origin": Vector3(-6.0, 14.0, 4.0), "look": Vector3(-20.0, 2.5, 16.0), "elevated": true, "note": "Elevated overview of the hideout terrace and west grounds"}
+	{"name": "elevated_hideout", "origin": Vector3(-6.0, 14.0, 4.0), "look": Vector3(-20.0, 2.5, 16.0), "elevated": true, "note": "Elevated overview of the hideout terrace and west grounds"},
+	{"name": "hideout_west_face", "origin": Vector3(-41.0, 2.9, 9.5), "look": Vector3(-32.0, 1.5, 16.0), "elevated": false, "note": "Player height west of the hideout, looking at the west retaining face"},
+	{"name": "hideout_north_face", "origin": Vector3(-21.0, 2.05, 31.0), "look": Vector3(-25.0, 1.5, 23.0), "elevated": false, "note": "Player height north of the hideout, looking at the north retaining face"},
+	{"name": "elevated_hideout_nw", "origin": Vector3(-44.0, 14.0, 34.0), "look": Vector3(-24.0, 1.5, 15.0), "elevated": true, "note": "Elevated view of the hideout west and north faces"}
 ]
 
 var journal: Dictionary = {"notes": [], "screenshots": [], "coverage": {}, "meshes": [], "ok": false}

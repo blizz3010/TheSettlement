@@ -21,7 +21,7 @@ static func apply(world: Node3D) -> Node3D:
 	var root := Node3D.new()
 	root.name = ROOT_NAME
 	root.set_meta("visual_only", true)
-	root.set_meta("style_test", "hideout_approach_v3")
+	root.set_meta("style_test", "hideout_rollout_chunk1")
 	world.add_child(root)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = SEED
@@ -36,7 +36,7 @@ static func apply(world: Node3D) -> Node3D:
 	_add_lights(root)
 	var budget := _budget(root)
 	root.set_meta("budget", budget)
-	print("settlement_visuals_style_test v3 budget ", budget)
+	print("settlement_visuals_style_test rollout1 budget ", budget)
 	return root
 
 
@@ -104,6 +104,12 @@ static func _add_wall_ivy(root: Node3D, rng: RandomNumberGenerator, mats: Dictio
 	Kit.ivy_clusters(leaves, colors, rng, 6.82, 0.10, 2.95, -24.4, -16.15, Vector3.FORWARD * -1.0, false, true)
 	# Porch east face, lighter (elevated cameras see it).
 	Kit.ivy_clusters(leaves, colors, rng, -12.82, 0.10, 2.95, 18.15, 21.85, Vector3.RIGHT, false)
+	# Rollout chunk 1: west face (outer x = -32) and north face (outer z = 23).
+	# Lighter than the hero east wall; patches with bare stone between them.
+	Kit.ivy_clusters(leaves, colors, rng, -32.20, 0.10, 2.95, 7.40, 12.60, Vector3.LEFT, false)
+	Kit.ivy_clusters(leaves, colors, rng, -32.20, 0.10, 2.95, 15.20, 20.10, Vector3.LEFT, false)
+	Kit.ivy_clusters(leaves, colors, rng, 23.20, 0.10, 2.95, -31.80, -26.60, Vector3.BACK, false, true)
+	Kit.ivy_clusters(leaves, colors, rng, 23.20, 0.10, 2.95, -23.40, -17.60, Vector3.BACK, false, true)
 	_spawn_colored(root, "IvyLeaves", meshes["leaf"], mats["leaf_mat"], leaves, colors, true)
 
 
@@ -261,7 +267,13 @@ static func _add_planters(root: Node3D, rng: RandomNumberGenerator, mats: Dictio
 		{"at": Vector3(-15.42, 0.22, 12.22), "size": Vector3(0.42, 0.44, 1.05), "yaw": 0.0},
 		{"at": Vector3(-15.42, 0.22, 17.20), "size": Vector3(0.42, 0.44, 0.95), "yaw": 0.0},
 		{"at": Vector3(-18.55, 0.22, 6.48), "size": Vector3(1.25, 0.44, 0.42), "yaw": 0.0},
-		{"at": Vector3(-21.40, 0.22, 6.48), "size": Vector3(1.20, 0.44, 0.42), "yaw": 0.0}
+		{"at": Vector3(-21.40, 0.22, 6.48), "size": Vector3(1.20, 0.44, 0.42), "yaw": 0.0},
+		# Rollout chunk 1: west foot (between ivy patches) and north foot
+		# (between the existing authored flower clusters at x -29 / -24 / -19).
+		{"at": Vector3(-32.45, 0.22, 13.90), "size": Vector3(0.42, 0.44, 1.30), "yaw": 0.0},
+		{"at": Vector3(-32.45, 0.22, 21.30), "size": Vector3(0.42, 0.44, 1.10), "yaw": 0.0},
+		{"at": Vector3(-26.50, 0.22, 23.45), "size": Vector3(1.25, 0.44, 0.42), "yaw": 0.0},
+		{"at": Vector3(-21.50, 0.22, 23.45), "size": Vector3(1.15, 0.44, 0.42), "yaw": 0.0}
 	]
 	var tufts: Array[Transform3D] = []
 	var tuft_colors: Array[Color] = []
@@ -328,6 +340,11 @@ static func _add_verge(root: Node3D, rng: RandomNumberGenerator, mats: Dictionar
 	# North shoulder of the stair, east of the stash porch.
 	_scatter_rect(tufts, tuft_colors, ferns, fern_colors, flowers, flower_colors, rng,
 		Rect2(Vector2(-12.4, 16.75), Vector2(3.6, 1.35)), 18, 7, 10)
+	# Rollout chunk 1: west foot band and north foot band.
+	_scatter_rect(tufts, tuft_colors, ferns, fern_colors, flowers, flower_colors, rng,
+		Rect2(Vector2(-33.85, 7.30), Vector2(1.70, 15.60)), 95, 30, 44)
+	_scatter_rect(tufts, tuft_colors, ferns, fern_colors, flowers, flower_colors, rng,
+		Rect2(Vector2(-31.70, 23.20), Vector2(15.40, 1.55)), 90, 28, 40)
 	_spawn_colored(root, "VergeGrass", meshes["grass"], mats["leaf_mat"], tufts, tuft_colors, false)
 	_spawn_colored(root, "VergeFerns", meshes["fern"], mats["leaf_mat"], ferns, fern_colors, false)
 	_spawn_colored(root, "VergeFlowers", meshes["flower_head"], mats["petal_mat"], flowers, flower_colors, false)
@@ -409,6 +426,10 @@ static func _add_trees(root: Node3D, rng: RandomNumberGenerator, mats: Dictionar
 	# Framing trees use kit variants 0 and 1 — mid-stylized broadleaf, not sphere clusters.
 	Kit.add_tree(root, "FrameTreeSouth", Vector3(-13.05, 0, 7.35), 0, 0.98, 0.55)
 	Kit.add_tree(root, "FrameTreeNorth", Vector3(-11.55, 0, 18.20), 1, 1.05, -0.70)
+	# Rollout chunk 1: variants 2 and 3 at the west foot (south end) and the
+	# north-west corner, off the wall bases and clear of the build turf.
+	Kit.add_tree(root, "WestFootTree", Vector3(-35.0, -0.04, 9.3), 2, 1.0, 1.9)
+	Kit.add_tree(root, "NorthWestTree", Vector3(-30.6, -0.04, 25.7), 3, 0.95, -2.4)
 
 
 static func _make_tree(parent: Node3D, n: String, at: Vector3, rng: RandomNumberGenerator, mats: Dictionary, height: float, lean: float) -> void:
