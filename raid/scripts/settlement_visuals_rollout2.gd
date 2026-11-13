@@ -57,6 +57,31 @@ static func zones() -> Array:
 				[Vector2(-15.8, 29.2), Vector3(0.80, 0.50, 0.65)],
 				[Vector2(-17.4, 26.9), Vector3(0.40, 0.28, 0.38)]
 			]
+		},
+		{
+			# Outer west mound: open lawn beyond the tree band behind the tailor,
+			# inside the grass radius (r < 46).
+			"name": "WestMound", "seed": 52002,
+			"drifts": [
+				[Vector2(-41.0, -14.0), 3.0, 50, 10, 18],
+				[Vector2(-44.0, -6.0), 2.8, 46, 9, 16],
+				[Vector2(-40.0, -1.5), 2.4, 38, 7, 14],
+				[Vector2(-42.0, 2.5), 2.4, 38, 7, 14],
+				[Vector2(-38.6, -19.0), 2.4, 38, 7, 12]
+			],
+			"trees": [
+				[Vector2(-43.0, -17.0), 3, 1.0, 0.9],
+				[Vector2(-45.0, -2.0), 1, 0.92, -0.6],
+				[Vector2(-40.5, -8.5), 0, 1.05, 2.6]
+			],
+			"rocks": [
+				[Vector2(-42.6, -11.6), Vector3(1.10, 0.70, 0.90)],
+				[Vector2(-43.6, -12.6), Vector3(0.60, 0.40, 0.55)],
+				[Vector2(-39.2, -4.2), Vector3(0.85, 0.55, 0.75)],
+				[Vector2(-44.8, 0.8), Vector3(0.70, 0.45, 0.60)],
+				[Vector2(-40.0, -16.4), Vector3(0.90, 0.60, 0.80)],
+				[Vector2(-45.2, -8.4), Vector3(0.50, 0.34, 0.45)]
+			]
 		}
 	]
 
