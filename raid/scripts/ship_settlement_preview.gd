@@ -147,3 +147,11 @@ func _depart_ship_preview():
 	host.call_deferred("open_raid")
 	get_parent().remove_child(self)
 	queue_free()
+
+func activate_loaded_world():
+	super.activate_loaded_world()
+	# TASKS item 9 style test: one painted far-scenery sector (east).
+	if world_activated and OS.get_environment("FAR_SCENERY_TEST_OFF") != "1":
+		var far_test: Dictionary = preload("res://raid/scripts/far_scenery_test.gd").apply(self)
+		if not far_test.get("ok", false):
+			push_warning("Far scenery style test skipped: " + str(far_test.get("reason", far_test)))
