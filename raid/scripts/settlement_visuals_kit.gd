@@ -35,7 +35,7 @@ static func materials() -> Dictionary:
 	out["trunk"] = _mat(Color(0.23, 0.16, 0.11), 0.90, false)
 	out["trunk_dark"] = _mat(Color(0.16, 0.11, 0.08), 0.92, false)
 	# Inner canopy mass: darker, desaturated olive, no vertex color.
-	out["lobe"] = _mat(Color(0.22, 0.30, 0.19), 0.86, false)
+	out["lobe"] = _mat(Color(0.15, 0.21, 0.13), 0.92, false)
 	out["glass"] = _emissive(Color(1.0, 0.82, 0.48), Color(1.0, 0.72, 0.32), 2.4)
 	out["ink"] = _mat(Color(0.93, 0.87, 0.70), 0.55, false)
 	_shared_mats = out
@@ -140,9 +140,10 @@ static func _build_tree(tree: Node3D, variant: int, mats: Dictionary, msh: Dicti
 			height * rng.randf_range(0.66, 0.82),
 			sin(yaw) * 0.45 * spread * rng.randf_range(0.4, 1.0)
 		)
-		var sx := rng.randf_range(1.25, 1.70) * spread
-		var sy := rng.randf_range(0.85, 1.20)
-		var sz := rng.randf_range(1.20, 1.60) * spread
+		# Kept smaller than the clump shell so it only reads as inner shadow.
+		var sx := rng.randf_range(1.00, 1.30) * spread
+		var sy := rng.randf_range(0.70, 0.95)
+		var sz := rng.randf_range(0.95, 1.25) * spread
 		var mi := MeshInstance3D.new()
 		mi.name = "InnerLobe%d" % i
 		mi.mesh = msh["lobe"]
@@ -194,6 +195,22 @@ static func _build_tree(tree: Node3D, variant: int, mats: Dictionary, msh: Dicti
 		var q := Vector3(cos(yaw) * 1.15 * spread, height * rng.randf_range(0.58, 0.78), sin(yaw) * 1.15 * spread)
 		xforms.append(_clump_xform(q, Vector3.UP, rng, rng.randf_range(0.85, 1.15)))
 		colors.append(_canopy_color(rng))
+
+	# Crown cover: clumps over the top of the crown (seen from elevated cameras),
+	# grouped around the branch tips so the top stays lumpy with a few gaps.
+	var tips: Array = []
+	for b in branches:
+		var tp: Vector3 = b["to"]
+		if tp.y > height * 0.55:
+			tips.append(tp)
+	for tp in tips:
+		var n := rng.randi_range(3, 5)
+		for j in range(n):
+			var off := Vector3(rng.randf_range(-0.55, 0.55), rng.randf_range(0.05, 0.45), rng.randf_range(-0.55, 0.55)) * spread
+			var q: Vector3 = tp + off
+			var up_dir := (q - Vector3(0, height * 0.62, 0)).normalized().lerp(Vector3.UP, 0.5)
+			xforms.append(_clump_xform(q, up_dir, rng, rng.randf_range(1.0, 1.35)))
+			colors.append(_canopy_color(rng))
 
 	_spawn_colored(tree, "LeafClumps", msh["clump"], mats["leaf_mat"], xforms, colors, true)
 
