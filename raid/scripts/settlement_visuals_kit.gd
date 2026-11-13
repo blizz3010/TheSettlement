@@ -572,10 +572,14 @@ static func _clump_mesh() -> ArrayMesh:
 		var left: Vector3 = origin - tangent * w + bitan * h * 0.15
 		var right: Vector3 = origin + tangent * w + bitan * h * 0.15
 		var base: Vector3 = origin - bitan * h * 0.25
-		_add_tri(st, base, left, tip, Color.WHITE)
-		_add_tri(st, base, tip, right, Color.WHITE)
-		_add_tri(st, base, tip, left, Color.WHITE)
-		_add_tri(st, base, right, tip, Color.WHITE)
+		# Up-facing cards catch the blue sky ambient and read teal; tint their
+		# vertex colour slightly warmer/darker (multiplies the instance colour).
+		var up := clampf(normal.y, 0.0, 1.0)
+		var tint := Color.WHITE.lerp(Color(0.97, 0.92, 0.76), up)
+		_add_tri(st, base, left, tip, tint)
+		_add_tri(st, base, tip, right, tint)
+		_add_tri(st, base, tip, left, tint)
+		_add_tri(st, base, right, tip, tint)
 	st.generate_normals()
 	return st.commit()
 
