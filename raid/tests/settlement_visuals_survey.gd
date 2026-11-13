@@ -20,7 +20,13 @@ const SHOTS := [
 	{"name": "elevated_hideout", "origin": Vector3(-6.0, 14.0, 4.0), "look": Vector3(-20.0, 2.5, 16.0), "elevated": true, "note": "Elevated overview of the hideout terrace and west grounds"},
 	{"name": "hideout_west_face", "origin": Vector3(-41.0, 2.9, 9.5), "look": Vector3(-32.0, 1.5, 16.0), "elevated": false, "note": "Player height west of the hideout, looking at the west retaining face"},
 	{"name": "hideout_north_face", "origin": Vector3(-21.0, 2.05, 31.0), "look": Vector3(-25.0, 1.5, 23.0), "elevated": false, "note": "Player height north of the hideout, looking at the north retaining face"},
-	{"name": "elevated_hideout_nw", "origin": Vector3(-44.0, 14.0, 34.0), "look": Vector3(-24.0, 1.5, 15.0), "elevated": true, "note": "Elevated view of the hideout west and north faces"}
+	{"name": "elevated_hideout_nw", "origin": Vector3(-44.0, 14.0, 34.0), "look": Vector3(-24.0, 1.5, 15.0), "elevated": true, "note": "Elevated view of the hideout west and north faces"},
+	{"name": "c2_west_ground_elev", "origin": Vector3(-2.0, 16.0, -16.0), "look": Vector3(-18.0, 0.0, 0.0), "elevated": true, "note": "Chunk 2: west unused ground and paved route, elevated"},
+	{"name": "c2_west_ground", "origin": Vector3(-4.0, 1.55, -10.0), "look": Vector3(-18.0, 1.0, 2.0), "elevated": false, "note": "Chunk 2: west unused ground, player height"},
+	{"name": "c2_far_west_elev", "origin": Vector3(-22.0, 18.0, -26.0), "look": Vector3(-36.0, 1.0, -4.0), "elevated": true, "note": "Chunk 2: far-west mound, elevated"},
+	{"name": "c2_far_west", "origin": Vector3(-24.0, 1.55, -2.0), "look": Vector3(-38.0, 3.0, -10.0), "elevated": false, "note": "Chunk 2: far-west mound, player height"},
+	{"name": "c2_northwest_elev", "origin": Vector3(-6.0, 16.0, 16.0), "look": Vector3(-20.0, 0.0, 30.0), "elevated": true, "note": "Chunk 2: ground north of the hideout, elevated"},
+	{"name": "c2_northwest", "origin": Vector3(-10.0, 1.55, 22.0), "look": Vector3(-22.0, 1.2, 30.0), "elevated": false, "note": "Chunk 2: ground north of the hideout, player height"}
 ]
 
 var journal: Dictionary = {"notes": [], "screenshots": [], "coverage": {}, "meshes": [], "ok": false}

@@ -12,6 +12,7 @@ extends RefCounted
 ## low-poly / lollipop-like for a mid-stylized judgment.
 
 const Kit = preload("res://raid/scripts/settlement_visuals_kit.gd")
+const Rollout2 = preload("res://raid/scripts/settlement_visuals_rollout2.gd")
 const ROOT_NAME := "SettlementVisualsStyleTest"
 const SEED := 20261113
 
@@ -36,6 +37,11 @@ static func apply(world: Node3D) -> Node3D:
 	_add_lights(root)
 	var budget := _budget(root)
 	root.set_meta("budget", budget)
+	# Rollout chunk 2 zones live under their own root so their budget is separate.
+	var r2 := Rollout2.apply(world, Rollout2.zones())
+	var r2_budget := _budget(r2)
+	root.set_meta("rollout2_budget", r2_budget)
+	print("settlement_visuals_rollout2 budget ", r2_budget)
 	print("settlement_visuals_style_test rollout1 budget ", budget)
 	return root
 
