@@ -48,8 +48,19 @@ func screenshot(world: Node3D, shot: Dictionary) -> void:
 	cam.near = 0.05
 	cam.far = 4000.0
 	world.add_child(cam)
-	cam.global_position = v3(shot.origin)
-	cam.look_at(v3(shot.look), Vector3.UP)
+	var origin := v3(shot.origin)
+	var look := v3(shot.look)
+	if shot.get("ground", false):
+		# Stand on whatever walkable surface is under the camera, eye at 1.65 m.
+		await get_tree().physics_frame
+		var q := PhysicsRayQueryParameters3D.create(Vector3(origin.x, 80.0, origin.z), Vector3(origin.x, -40.0, origin.z))
+		var hit := world.get_world_3d().direct_space_state.intersect_ray(q)
+		if hit:
+			var dy: float = hit.position.y + 1.65 - origin.y
+			origin.y += dy
+			look.y += dy
+	cam.global_position = origin
+	cam.look_at(look, Vector3.UP)
 	cam.current = true
 	for i in 10:
 		await get_tree().process_frame
