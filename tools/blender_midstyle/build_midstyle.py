@@ -373,9 +373,48 @@ def build_rook_counter():
     export(OUT + "rook_counter_stock.glb")
     bpy.ops.wm.save_as_mainfile(filepath="/workspace/settlement_midstyle/blender/rook_counter_stock.blend")
 
+# ------------------------------------------------------- Hall reception desk
+# Desk-local space: origin at the desk centre on the hall floor plane (Godot y=0),
+# customer front faces Godot +z. Placed at HallReceptionAssemblyV098 (0, 0, -22).
+# Envelope matches the kept collider: 2.4 x 1.16 x 1.2 m, floor y=.24, top y=1.40.
+def build_reception_desk():
+    reset(); MATS.clear()
+    teal = mat("DeskPaintTeal", "#56716b", .8)
+    teal_l = mat("DeskPanelTeal", "#6a857c", .8)
+    oak = mat("DeskTopOak", "#7a5638", .65)
+    dark = mat("DeskKickWalnut", "#3f3227", .8)
+    brass = mat("DeskBrass", "#a8834a", .45, .6)
+    F, T = .24, 1.40
+    parts = []
+    parts.append(box("Kick", dark, G(0, F + .05, -.03), (2.28, 1.04, .10), .012, 2))
+    parts.append(box("Carcass", teal, G(0, (F + .10 + T - .07) / 2, -.02), (2.34, 1.10, T - .07 - F - .10), .02, 2))
+    fz = .555
+    for y in (F + .14, T - .12):
+        parts.append(box("FrontRail", teal, G(0, y, fz), (2.36, .05, .085), .014, 2))
+    for x in (-1.15, -.52, .52, 1.15):
+        parts.append(box("FrontStile", teal, G(x, (F + T) / 2 - .01, fz), (.10, .05, T - F - .26), .014, 2))
+    for x0, x1 in ((-1.10, -.57), (-.47, .47), (.57, 1.10)):
+        h = T - F - .40
+        parts.append(box("RaisedPanel", teal_l, G((x0 + x1) / 2, (F + T) / 2 - .01, fz - .005), (x1 - x0, .045, h), .03, 3))
+    for side in (-1, 1):
+        parts.append(box("EndPost", oak, G(side * 1.18, (F + T - .07) / 2, .53), (.11, .11, T - .07 - F), .018, 2))
+        parts.append(box("EndPanel", teal, G(side * 1.16, (F + T) / 2, -.04), (.05, 1.02, T - F - .30), .012, 2))
+        for y in (F + .03, T - .09):
+            parts.append(cyl("PostCollar", brass, G(side * 1.18, y, .53), .066, .025, 16, .004))
+    top = box("Top", oak, G(0, T - .036, .02), (2.50, 1.26, .072), .022, 3)
+    parts.append(top)
+    parts.append(box("TopLip", oak, G(0, T - .085, .595), (2.42, .05, .03), .01, 2))
+    # Staff-side open shelf, visible from behind the desk.
+    parts.append(box("StaffShelf", oak, G(0, .80, -.50), (2.10, .26, .04), .008, 2))
+    for p_ in parts: paint(p_, .80, 1.05, noise_amt=.06, seed=hash(p_.name) % 97)
+    print("RECEPTION_DESK_TRIS", tri_count())
+    export(OUT + "hall_reception_desk.glb")
+    bpy.ops.wm.save_as_mainfile(filepath="/workspace/settlement_midstyle/blender/hall_reception_desk.blend")
+
 if __name__ == "__main__":
     import os, sys
     os.makedirs(OUT, exist_ok=True)
-    which = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else ["dress", "rook"]
+    which = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else ["dress", "rook", "desk"]
     if "dress" in which: build_dress_form()
     if "rook" in which: build_rook_counter()
+    if "desk" in which: build_reception_desk()

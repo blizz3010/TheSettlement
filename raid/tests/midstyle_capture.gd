@@ -12,6 +12,8 @@ const VIEWS := {
 	"rook_player": [Vector3(30.0, 1.62, 32.4), Vector3(30.0, 1.15, 34.5), 70.0],
 	"rook_close": [Vector3(29.6, 1.56, 33.4), Vector3(29.4, 1.17, 34.42), 50.0],
 	"rook_ledger": [Vector3(30.75, 1.56, 33.5), Vector3(31.2, 1.17, 34.45), 50.0],
+	"reception_player": [Vector3(0.6, 1.86, -17.6), Vector3(0.0, 0.95, -22.0), 70.0],
+	"reception_close": [Vector3(1.9, 1.80, -19.9), Vector3(0.0, 0.85, -22.0), 50.0],
 }
 var out_dir := ""
 
@@ -58,10 +60,10 @@ func run() -> void:
 		world.player.visible = false; world.player.enabled = false
 	for child in world.get_children():
 		if child is CanvasLayer or child is Control: child.visible = false
-	var before := {"tailor": _tris(world.get_node("TailorAtelier")), "rook": _tris(world.get_node("RookReferenceArt"))}
+	var before := {"tailor": _tris(world.get_node("TailorAtelier")), "rook": _tris(world.get_node("RookReferenceArt")), "hall": _tris(world.get_node("town_hall")) if world.has_node("town_hall") else -1}
 	await shoot(world, "before")
 	var result := MidstyleSwap.apply(world)
-	var after := {"tailor": _tris(world.get_node("TailorAtelier")), "rook": _tris(world.get_node("RookReferenceArt"))}
+	var after := {"tailor": _tris(world.get_node("TailorAtelier")), "rook": _tris(world.get_node("RookReferenceArt")), "hall": _tris(world.get_node("town_hall")) if world.has_node("town_hall") else -1}
 	print("MIDSTYLE RESULT ", JSON.stringify({"swap": result, "visible_tris_before": before, "visible_tris_after": after}))
 	await shoot(world, "after")
 	get_tree().quit(0 if result.ok else 2)
