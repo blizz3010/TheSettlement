@@ -15,7 +15,7 @@ const OUTLINE_COLOR:=Color("0b1412")
 # material surfaces of a counter display (e.g. the rocks on Rook's ore tray, not the tray).
 const ITEMS:={
 	"timber":{"trader":"Rook","name":"Timber","src":"glb","path":"res://assets/trader_display/timber_bundle.glb","yaw":-30.0},
-	"stone":{"trader":"Rook","name":"Stone","src":"glb","path":"res://assets/trader_display/stone_ore_tray.glb","keep":["Grey_rock"],"yaw":-35.0},
+	"stone":{"trader":"Rook","name":"Stone","src":"glb","path":"res://assets/trader_display/stone_ore_tray.glb","keep":["Grey_rock"],"tint":{"Grey_rock":[0.27,0.29,0.25,0.95]},"yaw":-35.0},
 	"metal":{"trader":"Rook","name":"Metal scrap","src":"glb","path":"res://assets/trader_display/scrap_display_rack.glb","keep":["Forged_scrap_steel"],"yaw":-35.0},
 	"helmet_basic":{"trader":"Psy","name":"Basic helmet","src":"glb","path":"res://assets/market_detail/psy_visor_helmet.glb","yaw":-35.0},
 	"armor_basic_vest":{"trader":"Psy","name":"Basic armor vest","src":"glb","path":"res://assets/market_detail/psy_field_vest.glb","yaw":-30.0},
@@ -37,15 +37,19 @@ func _ready():
 	add_child(viewport)
 	var root=Node3D.new();root.name="IconStudio";viewport.add_child(root)
 	var env=Environment.new();env.background_mode=Environment.BG_CLEAR_COLOR
-	env.ambient_light_source=Environment.AMBIENT_SOURCE_COLOR;env.ambient_light_color=Color("c9d3cf");env.ambient_light_energy=0.55
-	env.tonemap_mode=Environment.TONE_MAPPER_FILMIC;env.tonemap_exposure=1.15
+	env.ambient_light_source=Environment.AMBIENT_SOURCE_COLOR;env.ambient_light_color=Color("c9d3cf");env.ambient_light_energy=_f("TI_AMB",0.30)
+	env.tonemap_mode=Environment.TONE_MAPPER_FILMIC;env.tonemap_exposure=_f("TI_EXP",1.0)
 	var we=WorldEnvironment.new();we.environment=env;root.add_child(we)
-	_light(root,"Key",Vector3(-42,-38,0),Color("fff0dc"),1.55,true)
-	_light(root,"Fill",Vector3(-12,140,0),Color("b9c9dc"),0.42,false)
-	_light(root,"Rim",Vector3(-25,180,0),Color("bfeee4"),1.35,false) # from behind, toward camera
+	_light(root,"Key",Vector3(-42,-38,0),Color("fff0dc"),_f("TI_KEY",0.95),true)
+	_light(root,"Fill",Vector3(-12,140,0),Color("b9c9dc"),_f("TI_FILL",0.25),false)
+	_light(root,"Rim",Vector3(-25,180,0),Color("bfeee4"),_f("TI_RIM",1.0),false) # from behind, toward camera
 	camera=Camera3D.new();camera.projection=Camera3D.PROJECTION_ORTHOGONAL;camera.current=true;camera.near=0.05;camera.far=60
 	root.add_child(camera)
 	stage=Node3D.new();stage.name="Item";root.add_child(stage)
+
+func _f(k:String,d:float)->float:
+	var v=OS.get_environment(k)
+	return d if v.is_empty() else float(v)
 
 func _light(root:Node3D,n:String,rot:Vector3,c:Color,e:float,shadow:bool):
 	var l=DirectionalLight3D.new();l.name=n;l.rotation_degrees=rot;l.light_color=c;l.light_energy=e
@@ -57,7 +61,7 @@ func build(id:String)->Node3D:
 	match spec.src:
 		"glb":
 			var scene=load(spec.path).instantiate();holder.add_child(scene)
-			if spec.has("keep"):_isolate(scene,spec.keep)
+			if spec.has("keep"):_isolate(scene,spec.keep,spec.get("tint",{}))
 		"garment":
 			if _garment_source==null:
 				_garment_source=ClothingPreview.new();_garment_source.visible=false;add_child(_garment_source)
@@ -71,12 +75,14 @@ func build(id:String)->Node3D:
 			FishingVisuals.rod(holder,Vector3(-0.55,-0.62,0),Vector3(0.55,0.62,0),0)
 	return holder
 
-func _isolate(scene:Node,keep:Array):
+func _isolate(scene:Node,keep:Array,tint:Dictionary={}):
 	for mi in scene.find_children("*","MeshInstance3D",true,false):
 		var src:Mesh=mi.mesh;var out=ArrayMesh.new()
 		for s in src.get_surface_count():
 			var m=src.surface_get_material(s)
 			if m!=null and m.resource_name in keep:
+				if tint.has(m.resource_name): # same damping the game applies when it reuses this ore (settlement_stream.gd)
+					var t:Array=tint[m.resource_name];m=m.duplicate();m.albedo_color=Color(t[0],t[1],t[2]);m.roughness=t[3]
 				out.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,src.surface_get_arrays(s));out.surface_set_material(out.get_surface_count()-1,m)
 		mi.mesh=out
 
