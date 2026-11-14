@@ -26,7 +26,7 @@ func shoot(world: Node3D, tag: String) -> void:
 		var spec: Array = VIEWS[view]
 		var cam := Camera3D.new(); cam.fov = spec[2]; cam.near = 0.05; cam.far = 600
 		world.add_child(cam); cam.global_position = spec[0]; cam.look_at(spec[1]); cam.current = true
-		for i in 10: await get_tree().process_frame
+		for i in 4: await get_tree().process_frame
 		await RenderingServer.frame_post_draw
 		get_viewport().get_texture().get_image().save_png(out_dir.path_join("%s_%s.png" % [view, tag]))
 		cam.queue_free()
@@ -61,7 +61,7 @@ func run() -> void:
 	for child in world.get_children():
 		if child is CanvasLayer or child is Control: child.visible = false
 	var before := {"tailor": _tris(world.get_node("TailorAtelier")), "rook": _tris(world.get_node("RookReferenceArt")), "hall": _tris(world.get_node("town_hall")) if world.has_node("town_hall") else -1}
-	await shoot(world, "before")
+	if OS.get_environment("MIDSTYLE_SKIP_BEFORE") != "1": await shoot(world, "before")
 	var result := MidstyleSwap.apply(world)
 	var after := {"tailor": _tris(world.get_node("TailorAtelier")), "rook": _tris(world.get_node("RookReferenceArt")), "hall": _tris(world.get_node("town_hall")) if world.has_node("town_hall") else -1}
 	print("MIDSTYLE RESULT ", JSON.stringify({"swap": result, "visible_tris_before": before, "visible_tris_after": after}))

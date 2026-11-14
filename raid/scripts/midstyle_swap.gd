@@ -18,7 +18,8 @@ const RECEPTION_ORIGIN := Vector3(0, 0, -22)
 const DRESS_FORM_ORIGIN := Vector3(0, 0, -1.35)
 const DRESS_FORM_REGION := AABB(Vector3(-.42, .05, -1.62), Vector3(.84, 2.12, .54))
 ## Rook counter-top dressing volume in RookReferenceArt-local space (top surface y=1.15).
-const ROOK_TOP_REGION := AABB(Vector3(-1.98, 1.152, -1.93), Vector3(3.96, .17, .86))
+## Starts just below the top so items whose base sits 1 cm into the stone are fully cut.
+const ROOK_TOP_REGION := AABB(Vector3(-1.98, 1.135, -1.93), Vector3(3.96, .185, .86))
 
 static func apply(world: Node3D) -> Dictionary:
 	var result := {"ok": true, "tailor": {}, "rook": {}}

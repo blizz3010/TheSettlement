@@ -406,7 +406,22 @@ def build_reception_desk():
     parts.append(box("TopLip", oak, G(0, T - .085, .595), (2.42, .05, .03), .01, 2))
     # Staff-side open shelf, visible from behind the desk.
     parts.append(box("StaffShelf", oak, G(0, .80, -.50), (2.10, .26, .04), .008, 2))
-    for p_ in parts: paint(p_, .80, 1.05, noise_amt=.06, seed=hash(p_.name) % 97)
+    # Brass desk lantern, back-left (the v098 desk's lamp was part of the removed slabs).
+    glow = mat("DeskLanternGlow", "#ffe2a6", .3)
+    glow.node_tree.nodes["Principled BSDF"].inputs["Emission Color"].default_value = (1.0, .78, .42, 1)
+    glow.node_tree.nodes["Principled BSDF"].inputs["Emission Strength"].default_value = 2.0
+    lx, lz = -.92, -.30
+    parts.append(lathe("LanternBase", brass, [(.075, T), (.080, T + .012), (.060, T + .030), (.045, T + .040)], 20, center=(0, 0, 0)))
+    parts[-1].data.transform(Matrix.Translation(Vector(G(lx, 0, lz)))); 
+    parts.append(cyl("LanternGlass", glow, G(lx, T + .125, lz), .042, .17, 16, .004))
+    for a in range(4):
+        ang = a * math.pi / 2 + math.pi / 4
+        parts.append(cyl("LanternRib", brass, G(lx + math.cos(ang) * .047, T + .125, lz + math.sin(ang) * .047), .007, .18, 6, 0))
+    parts.append(lathe("LanternCap", brass, [(.058, T + .205), (.062, T + .215), (.040, T + .240), (.012, T + .262), (.018, T + .275), (.004, T + .285)], 20))
+    parts[-1].data.transform(Matrix.Translation(Vector(G(lx, 0, lz))))
+    for p_ in parts:
+        if p_.data.materials[0] != glow: paint(p_, .80, 1.05, noise_amt=.06, seed=hash(p_.name) % 97)
+        else: paint(p_, 1.0, 1.0, noise_amt=0, edge_boost=0)
     print("RECEPTION_DESK_TRIS", tri_count())
     export(OUT + "hall_reception_desk.glb")
     bpy.ops.wm.save_as_mainfile(filepath="/workspace/settlement_midstyle/blender/hall_reception_desk.blend")
