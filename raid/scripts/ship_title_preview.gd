@@ -36,3 +36,17 @@ func _continue_after_preview():
 func _return_failed(reason: String):
 	status.text = reason
 	status.show()
+
+const FixedCharacterSelection = preload("res://raid/scripts/character_select_panel_fixed.gd")
+
+func _play():
+	# Item 15b: same flow as the pinned title menu, but the select panel shows the
+	# real character rig instead of the head-graft mannequin.
+	if starting or replaying_intro or is_instance_valid(character_panel): return
+	characters.rules = CharacterRules.data()
+	character_panel = FixedCharacterSelection.new()
+	character_panel.session = characters
+	character_panel.back_requested.connect(_close_characters)
+	character_panel.launch_requested.connect(_launch_character)
+	menu.hide()
+	add_child(character_panel)
