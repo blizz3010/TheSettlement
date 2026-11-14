@@ -1,4 +1,4 @@
-# Item 11 DETAIL PASS: mid-stylized dress form, Rook counter stock and hall reception desk.
+# Item 11 DETAIL PASS 2 (builds on a65766b): mid-stylized dress form, Rook counter stock and hall reception desk.
 # Blender 4.2, meter scale, Z-up (the glTF exporter converts to Godot Y-up).
 # Every object has its modifiers and transforms applied before export, and each prop is
 # joined into ONE mesh (one surface per material) to keep draw calls low.
@@ -9,7 +9,7 @@ import bpy, bmesh, math, random, os
 from mathutils import Vector, Matrix, noise
 
 OUT = "/workspace/settlement_midstyle/repo/assets/midstyle_test/"
-TEX = os.environ.get("MIDSTYLE_TEX", "/workspace/settlement_midstyle/tex/")
+TEX = os.environ.get("MIDSTYLE_TEX", "/workspace/settlement_midstyle/tex2/")
 BLEND = "/workspace/settlement_midstyle/blender/"
 TAU = 2 * math.pi
 
@@ -35,6 +35,12 @@ def mat(name, tex=None, rough=0.8, metal=0.0, hexcol="#ffffff", emit=None):
         img = nt.nodes.new("ShaderNodeTexImage")
         img.image = bpy.data.images.load(TEX + tex + ".png", check_existing=True)
         nt.links.new(img.outputs["Color"], mix.inputs[6])
+        if os.path.exists(TEX + tex + "_n.png"):  # tangent-space normal map (glTF normalTexture)
+            nimg = nt.nodes.new("ShaderNodeTexImage")
+            nimg.image = bpy.data.images.load(TEX + tex + "_n.png", check_existing=True)
+            nimg.image.colorspace_settings.name = 'Non-Color'
+            nmap = nt.nodes.new("ShaderNodeNormalMap"); nmap.inputs["Strength"].default_value = 1.0
+            nt.links.new(nimg.outputs["Color"], nmap.inputs["Color"]); nt.links.new(nmap.outputs["Normal"], bsdf.inputs["Normal"])
     else:
         h = hexcol.lstrip('#'); c = [(int(h[i:i + 2], 16) / 255) ** 2.2 for i in (0, 2, 4)]
         mix.inputs[6].default_value = (*c, 1); m.diffuse_color = (*c, 1)
@@ -164,7 +170,7 @@ def sweep_rect(name, material, pts, w, h, up=Vector((0, 0, 1)), taper=None, bev=
     apply_all(ob); smooth(ob, 40)
     return ob
 
-def dashes(name, material, pts, normals, spacing=.016, length=.009, width=.0026, height=.0016):
+def dashes(name, material, pts, normals, spacing=.019, length=.0115, width=.0038, height=.0024):
     """Top-stitching: short thread dashes along a polyline lying on a surface."""
     pts = [Vector(p) for p in pts]; bm = bmesh.new()
     seglen = [(pts[i + 1] - pts[i]).length for i in range(len(pts) - 1)]
@@ -232,12 +238,13 @@ def uv_rect(ob, origin, udir, vdir, usize, vsize):
             d = l.vert.co - o; l[uvl].uv = (d.dot(u) / usize + .5, d.dot(v) / vsize + .5)
     bm.to_mesh(ob.data); bm.free(); return ob
 
-ATLAS = ["nails", "linseed", "timber", "rook", "ledger", "guests", "spirit", "hinge"]
+ATLAS = ["nails", "linseed", "timber", "rook", "ledger", "guests", "spirit", "hinge",
+         "price", "rope", "tailor", "key1", "key2", "key3", "post", "stamp"]
 def atlas_uv(ob, key):
-    """Remap 0..1 UVs into this label's cell of labels_atlas.png (2 x 4 cells)."""
+    """Remap 0..1 UVs into this label's cell of labels_atlas.png (2 x 8 cells)."""
     i = ATLAS.index(key); col, row = i % 2, i // 2
     for d in ob.data.uv_layers.active.data:
-        u, v = d.uv; d.uv = ((col + min(max(u, 0), 1)) / 2, 1 - (row + 1) / 4 + min(max(v, 0), 1) / 4)
+        u, v = d.uv; d.uv = ((col + min(max(u, 0), 1)) / 2, 1 - (row + 1) / 8 + min(max(v, 0), 1) / 8)
     return ob
 
 # ------------------------------------------------------------------ vertex paint
@@ -367,6 +374,14 @@ def hem_drop(t):
     ph = abs(((t - 1.5 * math.pi + math.pi) % TAU) - math.pi)  # angle from front centre
     return .055 * max(0.0, 1 - ph / 1.0) ** 1.6
 
+def vest_fold(t, z):
+    """Soft horizontal waist wrinkles on the waistcoat sides and back (kept off the front panel)."""
+    m = min(1.0, max(0.0, (abs(math.cos(t)) - .45) / .3)) + max(0.0, math.sin(t)) * .7
+    return .0024 * min(m, 1.0) * math.exp(-((z - 1.36) / .10) ** 2) * math.sin(z * 230 + 2.5 * math.cos(2 * t))
+
+def vest_surf(t, z, pad=VEST_PAD):
+    return surf(t, z, pad) + surf_n(t, z, pad) * vest_fold(t, z)
+
 def vest_point(i, j, NI, NJ, pad=VEST_PAD):
     s = j / NJ; zn = VEST_BOT + (VEST_TOP - VEST_BOT) * s
     g = v_gap(zn); t0 = t_front(g, zn, pad); t1 = t_front(-g, zn, pad) + TAU
@@ -376,6 +391,112 @@ def vest_point(i, j, NI, NJ, pad=VEST_PAD):
 
 def place_on(ob, p, nrm):
     ob.data.transform(Matrix.Translation(p) @ nrm.to_track_quat('Z', 'Y').to_matrix().to_4x4()); return ob
+
+
+def uv_grid_obj(bm_rows, name, material, utile, vtile):
+    """Grid from rows of points with UVs = (column/utile, cumulative row length/vtile)."""
+    bm = bmesh.new(); uvl = bm.loops.layers.uv.verify(); n = len(bm_rows[0])
+    vr = [[bm.verts.new(p) for p in row] for row in bm_rows]
+    acc = [[0.0] * n]
+    for r in range(1, len(bm_rows)):
+        acc.append([acc[-1][c] + (Vector(bm_rows[r][c]) - Vector(bm_rows[r - 1][c])).length for c in range(n)])
+    for r in range(len(vr) - 1):
+        for c in range(n - 1):
+            f = bm.faces.new((vr[r][c], vr[r][c + 1], vr[r + 1][c + 1], vr[r + 1][c]))
+            for l, (rr, cc) in zip(f.loops, ((r, c), (r, c + 1), (r + 1, c + 1), (r + 1, c))):
+                l[uvl].uv = (cc / utile, acc[rr][cc] / vtile)
+    return obj_from_bm(bm, name, material)
+
+def z_top(x, pad):
+    lo, hi = 1.69, 1.88
+    for _ in range(30):
+        m = (lo + hi) / 2
+        if cr(TORSO, m)[0] + pad > x: lo = m
+        else: hi = m
+    return lo
+
+def dress_extras(linen, indigo, bronze, steel, pinred, pinblue):
+    """Pass 2 storytelling: ochre cloth length over the right shoulder with real folds, a pinned
+    paper pattern piece, chalk marks, a shop tag on a cord, needle and thread in the cushion."""
+    drape = mat("FormDrape", "drape_ochre", .9); patt = mat("FormPattern", "pattern_paper", .9)
+    chalk_w = mat("FormChalkWhite", "thread_white", .95); twine = mat("FormCord", "twine", .95)
+    labels = mat("FormLabels", "labels_atlas", .9); thread = mat("FormThread", "thread_gold", .7)
+    # --- cloth length: columns across the width, rows from front hem -> over shoulder -> back hem
+    PAD = .030; NW, NF, NB = 16, 30, 12; x0, x1 = .098, .200
+    rows = []
+    for r in range(NF + NB + 1):
+        row = []
+        for c in range(NW + 1):
+            u = c / NW; x = x0 + (x1 - x0) * u; zt = z_top(x, PAD) - .002
+            if r <= NF:  # front: hem up to shoulder, denser near the top
+                zb = 1.24 + .06 * u + .012 * math.sin(u * 9); k = r / NF; z = zt - (zt - zb) * (1 - k) ** 1.5
+                t = t_front(x, z, PAD); p = surf(t, z, PAD)
+                zb_bust = 1.55; yb = surf(t_front(x, zb_bust, PAD), zb_bust, PAD).y
+                if z < zb_bust: p.y = min(p.y, yb - (zb_bust - z) * .10)  # hangs clear of the waist
+                hang = min(1.0, max(0.0, (1.56 - z) / .36))
+                A = .003 + .028 * hang ** .8
+                ph = u * TAU * 2.0 + (1.56 - z) * 3.0
+                p.y -= A * (.5 + .5 * math.sin(ph)) ** 1.5; p.x += A * .35 * math.cos(ph) + .03 * hang * (u - .4)
+                if z > 1.66: p += surf_n(t, z, PAD) * .004 * math.sin(math.pi * u)  # soft roll on the shoulder
+            else:  # back
+                k = (r - NF) / NB; zb = 1.30 + .05 * u; z = zt - (zt - zb) * k ** 1.3
+                t = t_back(x, z, PAD); p = surf(t, z, PAD)
+                A = .002 + .008 * k; ph = u * TAU * 1.6 + k * 3
+                p.y += A * (.5 + .5 * math.sin(ph))
+            row.append(p)
+        rows.append(row)
+    dr = uv_grid_obj(rows, "Drape", drape, NW / 1.0, .20)
+    sol = dr.modifiers.new("Sol", 'SOLIDIFY'); sol.thickness = .0035; sol.offset = -1
+    apply_all(dr); fixn(dr); smooth(dr, 70)
+    paint(dr, .70, 1.04, noise_amt=.05, edge=.10, cavity=.55, seed=90)
+    # hem stitches along both visible long edges and the bottom
+    for c in (1, NW - 1):
+        pts = [rows[r][c] for r in range(2, NF - 4)]; nr = [Vector((0, -1, 0))] * len(pts)
+        pts = [Vector(q) + Vector((0, -.0025, 0)) for q in pts]
+        st = dashes("DrapeStitch", thread, pts, nr, spacing=.022, length=.012); finish(st, None, base=.9, edge=0, seed=91)
+    pts = [Vector(rows[1][c]) + Vector((0, -.003, .0)) for c in range(NW + 1)]
+    st = dashes("DrapeHem", thread, pts, [Vector((0, -1, 0))] * len(pts), spacing=.02, length=.012); finish(st, None, base=.9, edge=0, seed=92)
+    # --- brown-paper pattern piece pinned on the left front, chalk line beside it
+    rows = []
+    for r in range(5):
+        z = 1.29 + .14 * r / 4; row = []
+        for c in range(5):
+            x = -.205 + .085 * c / 4 + .03 * (z - 1.29); t = t_front(x, z, .0185); row.append(surf(t, z, .0185 + .0015 * math.sin(math.pi * c / 4)))
+        rows.append(row)
+    pp = uv_grid_obj(rows, "PatternPiece", patt, 4, .14)
+    sol = pp.modifiers.new("Sol", 'SOLIDIFY'); sol.thickness = .0008; sol.offset = 1
+    apply_all(pp); fixn(pp); paint(pp, .9, 1.0, edge=.05, cavity=.05, seed=93)
+    for (x, z, head) in ((-.198, 1.415, pinred), (-.128, 1.42, pinblue), (-.192, 1.30, pinblue)):
+        t = t_front(x, z, .02); p = surf(t, z, .0195); nrm = surf_n(t, z, .02)
+        d = (nrm + Vector((0, 0, .35))).normalized()
+        sh = cyl("PinShank", steel, (0, 0, .004), .0011, .016, 5, 0); hd = sphere("PinHead", head, (0, 0, .013), .0045, 6, 4)
+        for o in (sh, hd): place_on(o, p, d); finish(o, None, base=.95, edge=0, seed=94)
+    pts = []; nr = []
+    for k in range(14):
+        z = 1.22 + .30 * k / 13; x = -.075 - .02 * math.sin(k / 13 * math.pi); t = t_front(x, z, VEST_PAD)
+        pts.append(vest_surf(t, z) + surf_n(t, z) * .0003); nr.append(surf_n(t, z, VEST_PAD))
+    st = dashes("ChalkLine", chalk_w, pts, nr, spacing=.024, length=.016, width=.004, height=.0012); finish(st, None, base=1.0, top=1.05, edge=0, seed=95)
+    pts = []; nr = []
+    for k in range(9):
+        x = -.075 - .06 * k / 8; z = 1.40; t = t_front(x, z, VEST_PAD); pts.append(vest_surf(t, z)); nr.append(surf_n(t, z, VEST_PAD))
+    st = dashes("ChalkTick", chalk_w, pts, nr, spacing=.024, length=.016, width=.004, height=.0012); finish(st, None, base=1.0, top=1.05, edge=0, seed=96)
+    # --- shop tag on a cord round the neck cap: TAILOR & DYES
+    ring = [(math.cos(TAU * k / 20) * .058, math.sin(TAU * k / 20) * .053 - .002, 1.875 - .012 * math.sin(TAU * k / 20)) for k in range(20)]
+    cd = tube("TagCord", twine, ring, .0022, 5, closed=True); finish(cd, ('box', .05), base=.85, seed=97)
+    a = Vector((0, -.057, 1.887)); b = Vector((0, -.104, 1.78))
+    cd2 = tube("TagCord", twine, [a, a.lerp(b, .5) + Vector((0, -.006, 0)), b], .0018, 5); finish(cd2, ('box', .05), base=.85, seed=98)
+    tag = box("Tag", labels, (0, 0, 0), (.088, .0012, .044), 0, 1)
+    uv_rect(tag, (0, 0, 0), (1, 0, 0), (0, 0, 1), .088, .044); atlas_uv(tag, "tailor"); paint(tag, .96, 1.0, edge=0, cavity=0, noise_amt=.02)
+    tag.data.transform(Matrix.Translation(Vector((0, -.106, 1.755))) @ Matrix.Rotation(-.18, 4, 'X') @ Matrix.Rotation(.08, 4, 'Y'))
+    eye = lathe("TagEyelet", bronze, [(.003, -.0012), (.0055, -.0012), (.0055, .0012), (.003, .0012)], 10)
+    eye.data.transform(Matrix.Translation(Vector((0, -.107, 1.774))) @ Matrix.Rotation(math.pi / 2, 4, 'X')); finish(eye, None, base=.95, seed=99)
+    # --- needle with a thread tail in the cushion (cushion sits on the left shoulder)
+    q = (t_front(-.128, 1.786), 1.786, -.002); base_p = surf(*q) + Vector((0, 0, .03))
+    nd = cyl("Needle", steel, (0, 0, .02), .0012, .04, 5, 0, r2=.0005)
+    d = Vector((.25, -.35, 1)).normalized(); place_on(nd, base_p, d); finish(nd, None, base=1.0, edge=0, seed=100)
+    tip = base_p + d * .038
+    thr = [tip, tip + Vector((.004, -.012, .004)), tip + Vector((.008, -.03, -.02)), tip + Vector((.004, -.042, -.06)), tip + Vector((-.004, -.046, -.10))]
+    th = tube("Thread", mat("FormThreadRed", "ribbon_red", .8), thr, .0013, 4); finish(th, None, base=.9, edge=0, seed=101)
 
 def build_dress_form():
     reset()
@@ -425,11 +546,11 @@ def build_dress_form():
             while z <= 1.80:
                 hx = cr(TORSO, z)[0]; x = side * hx * (.40 + .12 * math.sin((z - 1.09) / .71 * math.pi))
                 t = t_back(x, z) if back else t_front(x, z); pts.append(surf(t, z, .0015)); z += .03
-            s = tube("PrincessSeam", linen, pts, .0028, 4); finish(s, ('box', .2), base=.74, top=.9, edge=0, seed=14)
+            s = tube("PrincessSeam", linen, pts, .0042, 5); finish(s, ('box', .2), base=.56, top=.68, edge=0, cavity=0, seed=14)
         pts = [surf(0 if side > 0 else math.pi, z, .0015) for z in [1.09 + k * .03 for k in range(23)]]
-        s = tube("SideSeam", linen, pts, .0026, 4); finish(s, ('box', .2), base=.74, top=.9, edge=0, seed=15)
+        s = tube("SideSeam", linen, pts, .004, 5); finish(s, ('box', .2), base=.56, top=.68, edge=0, cavity=0, seed=15)
     neck_pts = [surf(TAU * k / 28, 1.80, .0012) for k in range(28)]
-    s = tube("NeckSeam", linen, neck_pts, .003, 5, closed=True); finish(s, ('box', .2), base=.74, top=.9, edge=0, seed=16)
+    s = tube("NeckSeam", linen, neck_pts, .0042, 5, closed=True); finish(s, ('box', .2), base=.56, top=.68, edge=0, cavity=0, seed=16)
     # shoulder arm plates (walnut rim, linen face)
     for side in (-1, 1):
         x = side * (cr(TORSO, 1.665)[0] - .004)
@@ -444,11 +565,11 @@ def build_dress_form():
     ring = lathe("NeckRing", bronze, [(.069, 1.913), (.074, 1.915), (.074, 1.925), (.069, 1.927)], 24); finish(ring, None, base=.95, seed=20)
 
     # --- waistcoat: exact V-neck, pointed fronts, oval armholes; wool twill
-    NI, NJ = 38, 24
+    NI, NJ = 46, 34
     bm = bmesh.new(); vg = {}
     for j in range(NJ + 1):
         for i in range(NI + 1):
-            t, z = vest_point(i, j, NI, NJ); vg[i, j] = bm.verts.new(surf(t, z, VEST_PAD))
+            t, z = vest_point(i, j, NI, NJ); vg[i, j] = bm.verts.new(vest_surf(t, z))
     for j in range(NJ):
         for i in range(NI):
             t, z = vest_point(i + .5, j + .5, NI, NJ)
@@ -465,7 +586,7 @@ def build_dress_form():
         ts = 0.0 if (tw < math.pi / 2 or tw > 1.5 * math.pi) else math.pi
         d = ((tw - ts + math.pi) % TAU) - math.pi; dz = z - 1.745
         e = math.sqrt((d / .62) ** 2 + (dz / .175) ** 2)
-        if 1e-6 < e < 1.45 and abs(d) < .9: v.co = surf(ts + d / e, 1.745 + dz / e, VEST_PAD)
+        if 1e-6 < e < 1.45 and abs(d) < .9: v.co = vest_surf(ts + d / e, 1.745 + dz / e)
     bnd = [e for e in bm.edges if e.is_boundary]; adj = {}
     for e in bnd:
         a, b = e.verts; adj.setdefault(a, []).append(b); adj.setdefault(b, []).append(a)
@@ -510,7 +631,7 @@ def build_dress_form():
         sol = lap.modifiers.new("Sol", 'SOLIDIFY'); sol.thickness = .004; sol.offset = 1
         bevel(lap, .0015, 1, 50); apply_all(lap); fixn(lap); smooth(lap, 50)
         finish(lap, ('box', .15, 2), base=.86, top=1.02, seed=31 + side)
-        st = dashes("LapelStitch", thread, spts, snrm, spacing=.013, length=.0075); finish(st, None, base=.75, top=.85, edge=0, seed=33)
+        st = dashes("LapelStitch", thread, spts, snrm, spacing=.017, length=.0105); finish(st, None, base=.75, top=.85, edge=0, seed=33)
     for k, z in enumerate((1.205, 1.255, 1.305, 1.355)):
         t = t_front(0.0, z, VEST_PAD); p = surf(t, z, VEST_PAD + .002); nrm = surf_n(t, z, VEST_PAD)
         b = lathe("Button", bronze, [(.0001, 0), (.0115, 0), (.0125, .002), (.011, .004), (.007, .0028), (.0001, .0028)], 10)
@@ -529,7 +650,7 @@ def build_dress_form():
         fl = grid("PocketFlap", indigo, rows, closed=False)
         sol = fl.modifiers.new("Sol", 'SOLIDIFY'); sol.thickness = .004; sol.offset = 1
         bevel(fl, .0015, 1, 50); apply_all(fl); fixn(fl); smooth(fl, 50); finish(fl, ('box', .1), base=.78, top=.95, seed=50 + xc)
-        st = dashes("PocketStitch", thread, spts, snrm, spacing=.011, length=.006); finish(st, None, base=.95, edge=0, seed=51)
+        st = dashes("PocketStitch", thread, spts, snrm, spacing=.015, length=.009); finish(st, None, base=.95, edge=0, seed=51)
 
     # --- tape measure draped round the neck: printed ribbon + brass end tabs
     path = []
@@ -575,17 +696,19 @@ def build_dress_form():
         finish(sh, None, base=1, edge=0, seed=73); finish(hd, None, base=.95, edge=0, seed=74); extra += [sh, hd]
     group = join([cush] + extra, "Cushion")
     q = (t_front(-.128, 1.786), 1.786, -.002); place_on(group, surf(*q), (surf_n(*q) + Vector((0, 0, .9))).normalized())
-    for k, (x, z, head) in enumerate(((-.150, 1.625, pinred), (-.162, 1.598, pinblue), (-.140, 1.660, pinred), (.150, 1.205, pinblue), (.165, 1.235, pinred))):
+    for k, (x, z, head) in enumerate(((-.150, 1.625, pinred), (-.162, 1.598, pinblue), (-.140, 1.660, pinred), (-.150, 1.215, pinblue), (-.168, 1.24, pinred))):
         t = t_front(x, z, VEST_PAD); p = surf(t, z, VEST_PAD); nrm = surf_n(t, z, VEST_PAD)
         d = (nrm + Vector((0, 0, .5 if k % 2 else -.3)) + Vector((.3, 0, 0))).normalized()
         sh = cyl("PinShank", steel, (0, 0, .004), .0011, .016, 5, 0); hd = sphere("PinHead", head, (0, 0, .013), .0042, 6, 4)
         for o in (sh, hd): place_on(o, p, d); finish(o, None, base=.95, edge=0, seed=80 + k)
+    dress_extras(linen, indigo, bronze, steel, pinred, pinblue)
     report("DRESS_FORM", "tailor_dress_form")
 
 # ================================================================ Rook counter set
 # Authored in RookReferenceArt-local space so the glb drops in at the art origin.
 # Godot (x, y, z) == Blender (x, -z, y) after the glTF Y-up conversion.
 TOP = 1.15
+PLAN_V0 = .25  # lettering sits just above the front line, facing a standing customer
 def G(x, y, z): return (x, -z, y)
 
 def rock(name, material, size, seed, subdiv=2):
@@ -684,22 +807,24 @@ def build_rook_counter():
     stand = join(st, "Inkstand"); xform(stand, G(-.90, TOP, -1.36), yaw=math.radians(8))
 
     # --- two bottles (linseed oil, lamp spirit) with corks, neck twine and wrapped labels
-    for k, (gm, lb, x, z, h, r) in enumerate(((glass_a, "linseed", -.56, -1.66, .20, .036), (glass_g, "spirit", -.43, -1.73, .15, .030))):
+    for k, (gm, lb, x, z, h, r) in enumerate(((glass_a, "linseed", -.56, -1.66, .21, .043), (glass_g, "spirit", -.43, -1.73, .16, .036))):
         prof = [(r * .8, 0), (r, .006), (r, h * .55), (r * .92, h * .62), (r * .42, h * .74), (r * .32, h * .78), (r * .32, h * .92), (r * .38, h * .94), (r * .38, h * .97), (r * .3, h * .98)]
         b = lathe("Bottle", gm, prof, 16); finish(b, ('cyl', (0, 0), 2, .2, r), base=.85, top=1.12, edge=.3, small=1e-3, seed=21 + k)
         ck = cyl("Cork", cork, (0, 0, h + .006), r * .3, .022, 10, .002, r2=r * .34); finish(ck, ('box', .05), base=.9, seed=23)
-        rows = [[Vector((math.cos(a) * (r + .001), math.sin(a) * (r + .001), zz)) for a in [-math.pi / 2 - .9 + 1.8 * i / 8 for i in range(9)]] for zz in (h * .16, h * .46)]
+        # label faces the customer (-y), narrower arc so the whole word stays on the visible face
+        AR = 1.5; lh = r * AR / 1.75; z0 = h * .30 - lh / 2
+        rows = [[Vector((math.cos(a) * (r + .001), math.sin(a) * (r + .001), zz)) for a in [-math.pi / 2 - AR / 2 + AR * i / 10 for i in range(11)]] for zz in (z0, z0 + lh)]
         lbl = grid("Label", labels, rows, closed=False)
         bm = bmesh.new(); bm.from_mesh(lbl.data); uvl = bm.loops.layers.uv.verify()
         for f in bm.faces:
             for l in f.loops:
-                a = math.atan2(l.vert.co.y, l.vert.co.x); l[uvl].uv = (1 - (a + math.pi / 2 + .9) / 1.8, (l.vert.co.z - h * .16) / (h * .30))
+                a = math.atan2(l.vert.co.y, l.vert.co.x); l[uvl].uv = ((a + math.pi / 2 + AR / 2) / AR, (l.vert.co.z - z0) / lh)
         bm.to_mesh(lbl.data); bm.free(); atlas_uv(lbl, lb)
         sol = lbl.modifiers.new("S", 'SOLIDIFY'); sol.thickness = .0008; sol.offset = 1; apply_all(lbl); fixn(lbl)
         paint(lbl, .95, 1, edge=0, cavity=0)
         twn = tube("NeckTwine", twine, [Vector((math.cos(TAU * i / 12) * r * .36, math.sin(TAU * i / 12) * r * .36, h * .80)) for i in range(12)], .0022, 4, closed=True)
         finish(twn, ('box', .1), base=.9, seed=24)
-        bt = join([b, ck, lbl, twn], "Bottle%d" % k); xform(bt, G(x, TOP, z), yaw=math.radians(15 + 30 * k))
+        bt = join([b, ck, lbl, twn], "Bottle%d" % k); xform(bt, G(x, TOP, z), yaw=math.radians(-4 + 10 * k))
 
     # --- two rolled work plans: printed outer sheet, spiral ends, twine tie with a bow, curled lip
     for i in range(2):
@@ -709,6 +834,16 @@ def build_rook_counter():
         roll.data.materials.append(plan_end)
         for f in roll.data.polygons:
             if abs(f.normal.x) > .75: f.material_index = 1
+        # pass 2: the printed sheet had its UV seam facing the customer and read upside down there.
+        # Re-map the side: u along the roll (left->right from the front), v = arc measured upward
+        # from the customer-facing line, seam at the back.
+        bm = bmesh.new(); bm.from_mesh(roll.data); uvl = bm.loops.layers.uv.verify()
+        for f in bm.faces:
+            if abs(f.normal.x) > .75: continue
+            angs = [math.atan2(l.vert.co.z, -l.vert.co.y) for l in f.loops]
+            if max(angs) - min(angs) > math.pi: angs = [x + TAU if x < 0 else x for x in angs]
+            for l, an in zip(f.loops, angs): l[uvl].uv = (l.vert.co.x / .45 + .5, an * R / .45 + PLAN_V0)
+        bm.to_mesh(roll.data); bm.free()
         paint(roll, .86, 1.0, axis=2, edge=.12, seed=30 + i); rp.append(roll)
         bm = bmesh.new(); vr = []
         for c in range(7):
@@ -787,7 +922,46 @@ def build_rook_counter():
     hj = join(hg, "Hinge"); xform(hj, (.215, -.03, .03), yaw=.4, roll=-.25); cr_.append(hj)
     for k, (x, y, a) in enumerate(((.115, .035, .4), (.13, .07, 1.9), (.255, -.10, 2.6), (.25, .115, .9))):
         cr_ += nail("Nail", iron, (x, y, .02), (math.cos(a), math.sin(a), .04))
+    # pass 2: iron corner brackets with rivets, and a price tag tied on the timber bundle
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            for ax in ('x', 'y'):
+                if ax == 'y': c = (sx * (W / 2 - .03), sy * (D / 2 + .0015), .040); sz = (.05, .003, .036)
+                else: c = (sx * (W / 2 + .0015), sy * (D / 2 - .03), .040); sz = (.003, .05, .036)
+                br = box("CornerIron", iron, c, sz, .0008, 1); finish(br, None, base=.7, top=.9, edge=.3, seed=56); cr_.append(br)
+                for o in (-.012, .012):
+                    rp_ = (c[0] + (o if ax == 'y' else sx * .0018), c[1] + (o if ax == 'x' else sy * .0018), c[2])
+                    rv = sphere("Rivet", iron, rp_, .0032, 6, 4); finish(rv, None, base=.9, edge=.2, seed=57); cr_.append(rv)
+    cr_.append(label("PriceTag", labels, "price", (-.205, -.128, .068), .075, .0375, '-y', rot=(.15, .2, -.12)))
+    pt = tube("TagString", twine, [(-.19, -.12, .086), (-.20, -.123, .092), (-.17, -.075, .095)], .0018, 4); finish(pt, ('box', .1), base=.85, seed=58); cr_.append(pt)
     crate = join(cr_, "SampleCrate"); xform(crate, G(.98, TOP, -1.40))
+
+    # --- claw hammer laid on the counter in front of the crate
+    hm = []
+    hd_ = sweep_rect("HammerHandle", walnut, [(0, 0, .014), (.12, 0, .013), (.24, 0, .0135), (.29, 0, .015)], .024, .018, bev=.006, taper=lambda u: .85 + .3 * u * (1 - u) * 2 if u < .9 else 1.0)
+    finish(hd_, ('box', .3, 0), base=.72, top=1.0, edge=.2, seed=62); hm.append(hd_)
+    head = box("HammerHead", iron, (.31, 0, .018), (.032, .055, .032), .004, 2); finish(head, None, base=.78, edge=.3, seed=63); hm.append(head)
+    face = cyl("HammerFace", iron, (.31, .045, .018), .016, .04, 12, .003, rot=(math.pi / 2, 0, 0)); finish(face, None, base=.88, edge=.3, seed=64); hm.append(face)
+    for sx in (-1, 1):
+        clw = sweep_rect("HammerClaw", iron, [(.31 + sx * .006, -.025, .018), (.31 + sx * .008, -.05, .016), (.31 + sx * .010, -.075, .008), (.31 + sx * .011, -.088, .002)], .008, .022, taper=lambda u: 1 - .6 * u, bev=.001)
+        finish(clw, None, base=.75, edge=.3, seed=65); hm.append(clw)
+    wedge = box("HammerWedge", walnut, (.31, 0, .0345), (.014, .02, .002), .0005, 1); finish(wedge, None, base=.6, seed=66); hm.append(wedge)
+    ham = join(hm, "Hammer"); xform(ham, G(.62, TOP, -1.16), yaw=math.radians(-160))
+
+    # --- coins: a short stack and two loose ones near the ledger
+    for k in range(7):
+        cn = cyl("Coin", bronze, (math.sin(k * 1.7) * .002, math.cos(k * 2.3) * .002, .0013 + k * .0026), .0135, .0024, 14, .0006, bsegs=1)
+        cn.data.transform(Matrix.Translation(Vector(G(-.86, TOP, -1.17)))); finish(cn, None, base=.85, top=1.0, edge=.35, seed=67 + k)
+    for (x, z, a) in ((-.81, -1.15, .3), (-.835, -1.21, 1.2)):
+        cn = cyl("Coin", bronze, (0, 0, .0012), .0135, .0024, 14, .0006, bsegs=1, rot=(.12, 0, a)); cn.data.transform(Matrix.Translation(Vector(G(x, TOP, z)))); finish(cn, None, base=.9, edge=.35, seed=75)
+    # --- coiled rope with a tag
+    pts = []
+    for k in range(3 * 24 + 1):
+        a = TAU * k / 24; rr = .072 - .012 * (k / 72); pts.append(Vector((math.cos(a) * rr, math.sin(a) * rr, .010 + .0185 * k / 72 + .003 * math.sin(a * 3))))
+    pts.append(pts[-1] + Vector((.02, -.04, -.01))); pts.append(pts[-1] + Vector((.03, -.04, -.015)))
+    rope = tube("RopeCoil", twine, pts, .0095, 6); uv_box(rope, .06); paint(rope, .78, 1.02, noise_amt=.06, edge=.1, cavity=.25, seed=76)
+    rope.data.transform(Matrix.Translation(Vector(G(1.37, TOP, -1.80))))
+    label("RopeTag", labels, "rope", Vector(G(1.30, TOP, -1.69)) + Vector((0, 0, .0012)), .08, .04, 'z', rot=(0, 0, .25))
 
     # --- burlap sack of nails: drawstring neck, nails poking out, tied tag; spilled nails
     sk = []
@@ -820,6 +994,91 @@ def build_rook_counter():
 # Envelope matches the kept collider: 2.4 x 1.16 x 1.2 m, floor y=.24, top y=1.40.
 # The front lines up with the hall's own bronze bindings (x = +-.52, +-1.04) and
 # dressed edges (y = .34, 1.29), which stay in the scene.
+def desk_extras(parts, T, oak, dark, brass, ink, labels):
+    """Pass 2 storytelling clutter: potted fern, PAID stamp + pad + receipt, letter tray with
+    envelopes marked POST, coin dish, key rack with three numbered room keys on the right end."""
+    terra = mat("DeskTerracotta", "terracotta", .9); fern = mat("DeskFern", "fern", .85)
+    env = mat("DeskEnvelope", "paper_brown", .9); paper = mat("DeskPaper", "paper", .9)
+    def add(ob, uv=('box', .5, 0), **pk):
+        pk.setdefault("seed", len(parts) * 1.3); finish(ob, uv, **pk); parts.append(ob); return ob
+    # potted fern, front-right corner
+    fx, fz_ = 1.00, .36
+    pot = lathe("FernPot", terra, [(.050, 0), (.055, .006), (.066, .085), (.074, .088), (.076, .102), (.070, .106), (.064, .104)], 20)
+    pot.data.transform(Matrix.Translation(Vector(G(fx, T, fz_)))); add(pot, ('cyl', (fx, -fz_), 2, .25, .07), base=.78, top=1.05, edge=.25)
+    soil = cyl("FernSoil", dark, G(fx, T + .096, fz_), .063, .006, 16, 0); add(soil, None, base=.45)
+    for k in range(17):
+        a = TAU * k / 17 + .3; L = .20 + .07 * ((k * 5) % 3) / 2; el = .9 + .25 * ((k * 7) % 4) / 3
+        base_p = Vector(G(fx, T + .10, fz_)) + Vector((math.cos(a) * .012, math.sin(a) * .012, 0))
+        d0 = Vector((math.cos(a), math.sin(a), 0)); rows = []
+        for i in range(9):
+            u = i / 8; ang = el * (1 - 1.7 * u)
+            c = base_p + d0 * (L * u * .9) + Vector((0, 0, L * .55 * math.sin(el) * u - L * .5 * u * u))
+            side = d0.cross(Vector((0, 0, 1))).normalized(); wdt = .024 * math.sin(math.pi * min(1, u * 1.1 + .05)) ** .7
+            rows.append([c - side * wdt + Vector((0, 0, wdt * .25)), c, c + side * wdt + Vector((0, 0, wdt * .25))])
+        fr = uv_grid_obj(rows, "Frond", fern, 2, .06)
+        sol = fr.modifiers.new("S", 'SOLIDIFY'); sol.thickness = .0015; apply_all(fr); fixn(fr); smooth(fr, 70)
+        add(fr, None, base=.75, top=1.15, edge=.05, cavity=.2)
+    # stamp, ink pad and a PAID receipt slip between register and plaque
+    sx, sz = -.20, .16
+    add(box("InkPadTin", brass, G(sx, T + .006, sz), (.085, .058, .012), .002, 1), None, base=.75)
+    add(box("InkPad", ink, G(sx, T + .0125, sz), (.072, .046, .002), .0008, 1), None, base=.8, edge=0)
+    knob = lathe("StampKnob", oak, [(.012, 0), (.012, .004), (.008, .010), (.007, .030), (.012, .040), (.014, .050), (.009, .058), (.0001, .060)], 14)
+    knob.data.transform(Matrix.Translation(Vector(G(sx + .085, T + .012, sz - .01)))); add(knob, ('cyl', (0, 0), 2, .1, .01), base=.72, edge=.25)
+    add(box("StampBase", dark, G(sx + .085, T + .006, sz - .01), (.05, .03, .012), .002, 1), None, base=.7)
+    slip = label("Receipt", labels, "stamp", (0, 0, 0), .11, .055, 'z')
+    xform(slip, G(sx + .02, T + .0012, sz + .10), yaw=math.radians(10)); parts.append(slip)
+    # letter tray (back right) with brown envelopes and a POST card
+    tx, tz = 1.00, -.30
+    add(box("TrayBottom", oak, G(tx, T + .004, tz), (.30, .22, .008), .002, 1), ('box', .4, 0), base=.8)
+    for sgn in (-1, 1):
+        add(box("TraySide", oak, G(tx + sgn * .145, T + .025, tz), (.012, .22, .045), .003, 1), ('box', .4, 1), base=.78, edge=.2)
+        add(box("TrayEnd", oak, G(tx, T + .025, tz + sgn * .105), (.30, .012, .045), .003, 1), ('box', .4, 0), base=.78, edge=.2)
+    for k in range(5):
+        e = box("Envelope", env, (0, 0, 0), (.24, .16, .003), .0008, 1)
+        xform(e, G(tx + .006 * k - .012, T + .010 + k * .0035, tz + .004 * k), yaw=math.radians(-4 + 3 * k)); add(e, ('box', .25), base=.85, edge=.08)
+    xform(label("PostCard", labels, "post", (0, 0, 0), .10, .05, 'z'), G(tx + .02, T + .029, tz - .015), yaw=math.radians(6))
+    # coin dish beside the bell
+    dish = lathe("CoinDish", brass, [(.0001, 0), (.035, 0), (.045, .010), (.050, .014), (.046, .015), (.036, .006), (.0001, .006)], 20)
+    dish.data.transform(Matrix.Translation(Vector(G(-.06, T, .44)))); add(dish, None, base=.85, edge=.3)
+    for k, (dx, dz) in enumerate(((-.01, .0), (.012, .008), (0, -.014))):
+        add(cyl("Coin", brass, G(-.06 + dx, T + .009 + k * .0022, .44 + dz), .0125, .0022, 12, .0005, bsegs=1), None, base=.95, edge=.35)
+    # key rack on the right end panel: oak board, brass hooks, three keys with numbered tags
+    kx = 1.24; ky = .98; kz = -.05
+    add(box("KeyRack", oak, G(kx, ky, kz), (.018, .34, .07), .004, 2), ('box', .3, 1), edge=.25)
+    add(pframe("KeyRackMould", oak, G(kx + .009, ky, kz), (0, 1, 0), (0, 0, 1), (1, 0, 0), .32, .06, [(0, 0), (0, .004), (.004, .006), (.008, .004), (.01, 0)]), None, base=.8, edge=.3)
+    for k, zz in enumerate((-.10, 0, .10)):
+        hz = kz + zz
+        add(cyl("KeyHook", brass, G(kx + .022, ky - .01, hz), .0035, .03, 8, .001, rot=(0, math.pi / 2, 0)), None, base=.9)
+        rpts = [Vector(G(kx + .03, ky - .025 + .014 * math.cos(TAU * i / 12), hz + .014 * math.sin(TAU * i / 12))) for i in range(12)]
+        add(tube("KeyRing", brass, rpts, .002, 5, closed=True, up=Vector((1, 0, 0))), None, base=.95)
+        add(cyl("KeyShaft", brass, G(kx + .03, ky - .085, hz), .0035, .075, 8, .001, rot=(0, 0, 0)), None, base=.85, edge=.2)
+        add(box("KeyBit", brass, G(kx + .03, ky - .118, hz + .009), (.003, .014, .016), .0008, 1), None, base=.85, edge=.2)
+        bow = lathe("KeyBow", brass, [(.006, -.003), (.012, -.003), (.012, .003), (.006, .003)], 12)
+        bow.data.transform(Matrix.Translation(Vector(G(kx + .03, ky - .042, hz))) @ Matrix.Rotation(math.pi / 2, 4, 'Y')); add(bow, None, base=.9)
+        tg = label("KeyTag", labels, "key%d" % (3 - k), (0, 0, 0), .05, .025, '-y')
+        tg.data.transform(Matrix.Translation(Vector(G(kx + .036, ky - .07, hz - .03))) @ Matrix.Rotation(math.pi / 2, 4, 'Z') @ Matrix.Rotation(-.15, 4, 'X')); parts.append(tg)
+
+OGEE = [(0, 0), (0, .010), (.003, .016), (.007, .0185), (.011, .017), (.014, .012), (.018, .009), (.022, .007), (.025, .004), (.028, 0)]
+def pframe(name, material, o, U, V, N, w, h, prof=OGEE):
+    """Mitred moulding frame: profile (inset, height) swept round a w x h rectangle in plane (U, V), facing N."""
+    o, U, V, N = Vector(o), Vector(U), Vector(V), Vector(N); bm = bmesh.new(); rings = []
+    for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1)):
+        rings.append([bm.verts.new(o + U * sx * (w / 2 - i) + V * sy * (h / 2 - i) + N * ht) for i, ht in prof])
+    for k in range(4):
+        a, b = rings[k], rings[(k + 1) % 4]
+        for j in range(len(prof) - 1):
+            f = bm.faces.new((a[j], b[j], b[j + 1], a[j + 1]))
+    bm.normal_update()
+    if sum(f.normal.dot(N) for f in bm.faces) < 0:
+        for f in bm.faces: f.normal_flip()
+    ob = obj_from_bm(bm, name, material); smooth(ob, 50); return ob
+
+def rosette(name, material, pos, normal, scale=1.0):
+    pr = [(r * scale, z * scale) for r, z in ((.0001, 0), (.031, 0), (.032, .004), (.027, .009), (.019, .0125), (.013, .011), (.009, .016), (.004, .0185), (.0001, .019))]
+    ob = lathe(name, material, pr, 32, lobes=8, lobe_amt=.16)
+    ob.data.transform(Matrix.Translation(Vector(pos)) @ Vector((0, 0, 1)).rotation_difference(Vector(normal)).to_matrix().to_4x4())
+    return ob
+
 def build_reception_desk():
     reset()
     teal = mat("DeskPaintTeal", "teal_paint", .8); teal_l = mat("DeskPanelTeal", "teal_panel", .8)
@@ -847,10 +1106,8 @@ def build_reception_desk():
         # flat back panel, chamfered raised field, applied oak moulding frame
         add(box("PanelBack", teal_l, G(cx, .73, fz - .012), (w, .02, .66), 0, 1), ('box', .6, 0), base=.78)
         add(box("RaisedField", teal_l, G(cx, .73, fz + .004), (w - .09, .03, .55), .028, 1), ('box', .6, 2), edge=.2)
-        for y in (.405, 1.055):
-            add(box("Moulding", oak, G(cx, y, fz + .026), (w, .016, .016), .006, 2), ('box', .4, 0))
-        for x in (x0 + .008, x1 - .008):
-            add(box("Moulding", oak, G(x, .73, fz + .026), (.016, .016, .66), .006, 2), ('box', .4, 2))
+        # pass 2: mitred ogee moulding frame instead of four square sticks
+        add(pframe("Moulding", oak, G(cx, .73, fz + .016), (1, 0, 0), (0, 0, 1), (0, -1, 0), w, .666), ('box', .4, 0), edge=.25, cavity=.3)
         # frieze drawers (the centre bay gets two so the pulls clear the hanging banner)
         for d0, d1 in (((x0, x1),) if w < .6 else ((x0, -.015), (.015, x1))):
             dc, dw = (d0 + d1) / 2, d1 - d0
@@ -876,16 +1133,26 @@ def build_reception_desk():
             add(cyl("PostCollar", brass, G(x, y, .53), .067, .02, 20, .004), ('cyl', (x, -.53), 2, .2, .067), base=.92, edge=.25)
         add(box("EndPanel", teal, G(side * 1.16, (F + T) / 2, -.04), (.05, 1.02, T - F - .30), .012, 2), ('box', .6, 2))
         add(box("EndField", teal_l, G(side * 1.19, (F + T) / 2 - .02, -.05), (.03, .80, .62), .026, 1), ('box', .6, 2), edge=.2)
-        for z in (-.46, .36):
-            add(box("EndMould", oak, G(side * 1.205, (F + T) / 2 - .02, z), (.016, .016, .70), .006, 2), ('box', .4, 2))
-        for y in (.48, 1.12):
-            add(box("EndMould", oak, G(side * 1.205, y, -.05), (.016, .84, .016), .006, 2), ('box', .4, 1))
+        add(pframe("EndMould", oak, G(side * 1.198, (F + T) / 2 - .02, -.05), (0, 1, 0), (0, 0, 1), (side, 0, 0), .86, .66), ('box', .4, 1), edge=.25, cavity=.3)
+        # fluted post faces (front + outer side) and carved capital rosettes
+        for k in (-1, 0, 1):
+            add(box("Flute", dark, G(x + k * .026, .83, .5855), (.009, .0016, .78), .0006, 1), None, base=.55, edge=0, cavity=0)
+            add(box("Flute", dark, G(x + side * .0555, .83, .53 + k * .026), (.0016, .009, .78), .0006, 1), None, base=.55, edge=0, cavity=0)
+        add(rosette("PostRosette", brass, G(x, T - .105, .596), (0, -1, 0), .62), None, base=.9, edge=.3, small=2e-3)
+    # carved rosettes on the four stiles at frieze level; dentil course under the top
+    for x in (-1.07, -.52, .52, 1.07):
+        add(rosette("Rosette", oak, G(x, 1.192, fz + .023), (0, -1, 0), .95 if abs(x) > 1 else .85), None, base=.85, top=1.0, edge=.3, cavity=.35, small=2e-3)
+    bm = bmesh.new()
+    for k in range(56):
+        x = -1.10 + k * .04
+        bmesh.ops.create_cube(bm, size=1.0, matrix=Matrix.Translation(Vector(G(x, 1.311, fz + .029))) @ Matrix.Diagonal((.021, .013, .022, 1)))
+    dent = obj_from_bm(bm, "Dentils", oak); add(dent, ('box', .2, 0), base=.8, edge=.25, small=1e-3)
     # top: rounded oak slab over a stepped sub-board; staff-side shelf
     add(box("Top", oak, G(0, T - .026, .02), (2.50, 1.26, .052), .02, 3), ('box', .6, 0), base=.86, top=1.02, edge=.12)
     add(box("TopStep", oak, G(0, T - .062, .02), (2.44, 1.20, .022), .007, 2), ('box', .6, 0), base=.8)
     add(box("StaffShelf", oak, G(0, .80, -.50), (2.10, .26, .04), .008, 2), ('box', .6, 0))
     # brass desk lantern, back-left: footed base, glass with ribs, vented cap and ring handle
-    lx, lz = -.92, -.30
+    lx, lz = -1.02, .40  # pass 2: front-left so it is no longer hidden behind the WELCOME sign
     def at(ob, x=lx, z=lz): ob.data.transform(Matrix.Translation(Vector(G(x, 0, z)))); return ob
     add(at(lathe("LanternBase", brass, [(.078, T + .006), (.082, T + .014), (.070, T + .021), (.060, T + .032), (.048, T + .042)], 20)), None, base=.9)
     for a in range(4):
@@ -926,7 +1193,7 @@ def build_reception_desk():
     for k in range(4):
         sh = box("Paper", ruled if k == 3 else paper, (0, 0, .0012 + k * .0016), (.21, .297, .0012), 0, 1)
         uv_rect(sh, (0, 0, 0), (1, 0, 0), (0, 1, 0), .21, .297); paint(sh, .9, 1.0, edge=0, cavity=0, seed=96 + k)
-        xform(sh, G(-.98 + .012 * k, T, .30 - .008 * k), yaw=math.radians(-12 + 7 * k)); parts.append(sh)
+        xform(sh, G(-.96 + .012 * k, T, -.20 - .008 * k), yaw=math.radians(-12 + 7 * k)); parts.append(sh)
     # inkwell + pen tray behind the register
     it = []
     tray = box("PenTray", dark, (0, 0, .006), (.18, .07, .012), .003, 2); finish(tray, ('box', .3, 0), base=.8, seed=100); it.append(tray)
@@ -935,6 +1202,7 @@ def build_reception_desk():
     lid = lathe("InkLid", brass, [(.014, .061), (.016, .065), (.012, .071), (.0001, .075)], 12); lid.data.transform(Matrix.Translation((.05, 0, 0))); finish(lid, None, base=.92, seed=102); it.append(lid)
     pn2 = cyl("TrayPen", dark, (-.03, 0, .017), .004, .12, 8, .001, rot=(0, math.pi / 2, 0)); finish(pn2, ('box', .2, 0), base=.65, seed=103); it.append(pn2)
     ink_g = join(it, "Inkstand"); xform(ink_g, G(-.45, T, -.26), yaw=math.radians(-6)); parts.append(ink_g)
+    desk_extras(parts, T, oak, dark, brass, ink, labels)
     report("RECEPTION_DESK", "hall_reception_desk")
 
 if __name__ == "__main__":
