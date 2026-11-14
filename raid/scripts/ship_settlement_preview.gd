@@ -8,6 +8,16 @@ const ShipSelection = preload("res://raid/scripts/ship_raid_selection.gd")
 var ship_selection: CanvasLayer
 var ship_selection_generation := 0
 var ship_selection_binding: Dictionary = {}
+const SettlementHealth = preload("res://raid/scripts/settlement_health.gd")
+var player_health: Node
+
+func _initialize_world():
+	await super._initialize_world()
+	# Health/damage: live source for the existing HUD vitals bar; full health on return.
+	if world_initialized and not startup_cancel_requested and is_instance_valid(player):
+		player_health = SettlementHealth.attach(player)
+		var note := SettlementHealth.on_return(player_health)
+		if not note.is_empty(): message(note)
 
 func modal_open(include_cooking:bool=true,include_fishing_trader:bool=true,include_preview_traders:bool=true) -> bool:
 	return is_instance_valid(ship_selection) or super.modal_open(include_cooking, include_fishing_trader, include_preview_traders)
