@@ -54,6 +54,11 @@ func _run():
 		panel=_adapter_panel().new();panel.session=session
 		add_child(panel)
 		for i in 6:await get_tree().process_frame
+	var pick=OS.get_environment("SC_SELECT")
+	if not pick.is_empty():
+		panel.cards[pick].pressed.emit()
+		for i in 4:await get_tree().process_frame
+		print("SC: selected ",panel.selected_slot," name=",panel.preview_name.text," enter_disabled=",panel.enter_button.disabled)
 	var stage=panel.preview
 	print("SC: preview visible ",stage.visible," note=",panel.preview_note.text)
 	if OS.get_environment("SC_GARMENTS")=="1":
