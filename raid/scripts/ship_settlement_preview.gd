@@ -34,6 +34,18 @@ func ship_can_embark() -> bool:
 	if is_instance_valid(fishing_trader) and fishing_trader.accessible(): return false
 	return ship_has_boarding_support()
 
+func _enter_tree():
+	# Item 15b follow-up: in-game inventory preview shows the real character rig.
+	if not get_tree().node_added.is_connected(InventoryModelHook.on_node_added):
+		get_tree().node_added.connect(InventoryModelHook.on_node_added)
+
+func _exit_tree():
+	if get_tree().node_added.is_connected(InventoryModelHook.on_node_added):
+		get_tree().node_added.disconnect(InventoryModelHook.on_node_added)
+	super._exit_tree()
+
+const InventoryModelHook = preload("res://raid/scripts/inventory_model_hook.gd")
+
 func ship_has_boarding_support() -> bool:
 	# The unchanged physical predicate is separate so real collision/controller
 	# checks do not need to bypass headless mouse capture or the startup gates.
