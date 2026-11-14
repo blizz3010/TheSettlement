@@ -26,12 +26,23 @@ func _run():
 	print("SC: state ",state.screen)
 	if state.screen=="create":
 		var appearance={"name":"Settler","cheek":0.0,"hair":"hair_short02_v1","brows":"brow_009_v1","eyes":"eye_brown_v1","hair_tint":"natural"}
+		if OS.get_environment("SC_VARIANT")=="1":appearance={"name":"Wren","cheek":1.0,"hair":"hair_bob01_v1","brows":"brow_001_v1","eyes":"eye_blue_v1","hair_tint":"copper"}
 		var r=session.create_character("slot_1",appearance,{"str":7,"int":7,"dex":7},[],state.bytes,false)
 		print("SC: create ",r.get("ok",false)," ",r.get("reason",""))
 		session.cancel()
-	var panel=_adapter_panel().new();panel.session=session
-	add_child(panel)
-	for i in 6:await get_tree().process_frame
+	var panel
+	if OS.get_environment("SC_TITLE")=="1":
+		# Real opt-in entry: ship title preview -> Play -> character select.
+		var title=load("res://raid/ship_title_preview.tscn").instantiate();add_child(title)
+		for i in 10:await get_tree().process_frame
+		title._play()
+		for i in 6:await get_tree().process_frame
+		panel=title.character_panel
+		print("SC: title panel script ",panel.get_script().resource_path," stage ",panel.preview.get_script().resource_path)
+	else:
+		panel=_adapter_panel().new();panel.session=session
+		add_child(panel)
+		for i in 6:await get_tree().process_frame
 	var stage=panel.preview
 	print("SC: preview visible ",stage.visible," note=",panel.preview_note.text)
 	if OS.get_environment("SC_GARMENTS")=="1":
