@@ -12,12 +12,18 @@ func _ready():
 	call_deferred("_run")
 
 func _adapter_panel():
+	var custom=OS.get_environment("SC_PANEL")
+	if not custom.is_empty():return load(custom)
 	var path="res://raid/scripts/character_select_panel_fixed.gd"
 	if OS.get_environment("SC_ADAPTER")=="1" and ResourceLoader.exists(path):
 		return load(path)
 	return SelectPanel
 
 func _run():
+	var wsize=OS.get_environment("SC_SIZE")
+	if not wsize.is_empty():
+		var parts=wsize.split("x");get_window().size=Vector2i(int(parts[0]),int(parts[1]))
+		for i in 3:await get_tree().process_frame
 	var out=OS.get_environment("SC_OUT");var tag=OS.get_environment("SC_TAG")
 	if tag.is_empty():tag="shot"
 	DirAccess.make_dir_recursive_absolute(out)
@@ -30,6 +36,11 @@ func _run():
 		var r=session.create_character("slot_1",appearance,{"str":7,"int":7,"dex":7},[],state.bytes,false)
 		print("SC: create ",r.get("ok",false)," ",r.get("reason",""))
 		session.cancel()
+		if OS.get_environment("SC_TWO")=="1":
+			var second={"name":"Wren","cheek":0.6,"hair":"hair_bob01_v1","brows":"brow_001_v1","eyes":"eye_blue_v1","hair_tint":"copper"}
+			var r2=session.create_character("slot_2",second,{"str":5,"int":11,"dex":9},["methodical","restless"],session.inspect().bytes,false)
+			print("SC: create second ",r2.get("ok",false)," ",r2.get("reason",""))
+			session.cancel()
 	var panel
 	if OS.get_environment("SC_TITLE")=="1":
 		# Real opt-in entry: ship title preview -> Play -> character select.
