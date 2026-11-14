@@ -5,7 +5,7 @@ import sys, os, math
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-OUT = sys.argv[1] if len(sys.argv) > 1 else "/workspace/settlement_midstyle/tex2"
+OUT = sys.argv[1] if len(sys.argv) > 1 else "/workspace/settlement_midstyle/tex3"
 os.makedirs(OUT, exist_ok=True)
 FONT_B = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 FONT_S = "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"
@@ -70,7 +70,9 @@ def make_all():
                                           ("oak", "#8a6342", 3, 7, 1.0, H), ("timber_light", "#a67c55", 4, 6, 1.2, M),
                                           ("timber_mid", "#83603f", 5, 8, 1.2, M), ("crate_pine", "#a98559", 6, 5, 1.3, H)):
         p, h = wood(n, seed, ring, con)
-        if name == "oak": s = scratches(n, 33, 60); p = p + s * .8; h = h - s * 2
+        if name == "oak":
+            s = scratches(n, 33, 90); p = p + s * .8; h = h - s * 2
+            p = p - .06 * np.clip(fnoise(n, 4, 4, 34) - .6, 0, 1)  # pass 3: darker handled patches
         save(name, tint, p); save_n(name, h, 2.5)
     # painted timber: brush strokes, faint grain through the paint, chips showing the wood beneath
     for name, tint, seed in (("teal_paint", "#56716b", 7), ("teal_panel", "#6b867d", 8)):
@@ -79,6 +81,7 @@ def make_all():
         chips = np.clip((fnoise(n, 7, 7, seed + 3) + .5 * fnoise(n, 30, 30, seed + 4)) - 2.4, 0, 1)
         chips = np.clip(chips * 6, 0, 1)
         p = 1 + .03 * brush + .025 * grain + .03 * fnoise(n, 60, 60, seed + 2)
+        p = p + .05 * fnoise(n, 3, 3, seed + 9) - .06 * np.clip(fnoise(n, 10, 10, seed + 10) - 1.3, 0, 1)  # pass 3: fade + grime blotches
         rgb = p[..., None] * hexc(tint) * (1 - chips[..., None]) + (wp[..., None] * hexc("#8d6a48")) * chips[..., None]
         rgb = rgb * (1 + .1 * np.clip(chips * 0, 0, 1))[..., None]
         save_rgb(name, rgb); save_n(name, .6 * brush + .3 * grain - 2.0 * chips, 1.6)
@@ -96,7 +99,19 @@ def make_all():
                                               ("wool_cream", "#e6dabd", 170, .06, 11, True, M), ("burlap", "#a88f62", 48, .16, 19, False, M),
                                               ("tomato", "#b33a2c", 90, .05, 26, False, M), ("drape_ochre", "#b9853a", 160, .06, 34, True, H),
                                               ("ribbon_red", "#aa4b33", 120, .05, 21, False, M)):
-        p, hh = weave(n, thr, amp, seed, tw); save(name, tint, p); save_n(name, hh, 1.2 if n == H else 1.6)
+        p, hh = weave(n, thr, amp, seed, tw)
+        if name == "wool_indigo":  # pass 3: heathered two-tone yarn
+            p = p + .05 * np.clip(fnoise(n, 300, 300, seed + 5), -1, 1) + .03 * fnoise(n, 6, 6, seed + 6)
+        if name == "linen":  # pass 3: slub yarns
+            p = p - .05 * np.clip(fnoise(n, 3, 220, seed + 5) - .8, 0, 1)
+        if name == "drape_ochre":  # pass 3: woven selvedge stripes along both long edges + sun fade
+            yy2, xx2 = grid(n); e = np.minimum(xx2, 1 - xx2)
+            stripe = ((e > .012) & (e < .030)).astype(float); line = ((e > .040) & (e < .046)).astype(float)
+            rgb = p[..., None] * hexc(tint) * (1 + .06 * fnoise(n, 2, 2, seed + 7))[..., None]
+            rgb = rgb * (1 - stripe[..., None]) + p[..., None] * hexc("#8e3324") * stripe[..., None]
+            rgb = rgb * (1 - line[..., None]) + p[..., None] * hexc("#e8d9b0") * line[..., None]
+            save_rgb(name, rgb); save_n(name, hh, 1.2); continue
+        save(name, tint, p); save_n(name, hh, 1.2 if n == H else 1.6)
     n = M
     for name, tint, seed, sp in (("bronze", "#a98048", 12, .2), ("brass", "#b48d4e", 13, .15), ("iron", "#717a80", 14, 0)):
         p = 1 + fnoise(n, 50, 50, seed) * .06 + fnoise(n, 6, 6, seed + 1) * .03 - np.clip(fnoise(n, 14, 14, seed + 2) - 1.4, 0, 1) * sp
@@ -185,17 +200,18 @@ def pattern_paper():
     d.text((70, 150), "BACK", font=fb, fill=(50, 32, 24)); d.text((70, 230), "No. 14", font=fs, fill=(50, 32, 24)); d.text((70, 290), "cut 2", font=fs, fill=(150, 40, 30))
     im.save(os.path.join(OUT, "pattern_paper.png"))
 
-ATLAS = ["nails", "linseed", "timber", "rook", "ledger", "guests", "spirit", "hinge", "price", "rope", "tailor", "key1", "key2", "key3", "post", "stamp"]
+ATLAS = ["nails", "linseed", "timber", "rook", "ledger", "guests", "spirit", "hinge", "price", "rope", "tailor", "key1", "key2", "key3", "post", "stamp", "hale", "order", "ring", "blank"]
 def labels():
     specs = {"nails": ("NAILS", "2 lb"), "linseed": ("LINSEED", "OIL"), "timber": ("4c", "per ft"),
              "rook": ("ROOK'S", "SUPPLIES"), "ledger": ("LEDGER", "1886"), "guests": ("GUESTS", ""),
              "spirit": ("LAMP", "SPIRIT"), "hinge": ("HINGES", "BRASS"), "price": ("3c", "each"),
              "rope": ("ROPE", "10 m"), "tailor": ("TAILOR", "& DYES"), "key1": ("1", ""), "key2": ("2", ""), "key3": ("3", ""),
-             "post": ("POST", "OUT"), "stamp": ("PAID", "")}
-    W, Hh = 512, 256; atlas = Image.new('RGB', (1024, 2048))
+             "post": ("POST", "OUT"), "stamp": ("PAID", ""), "hale": ("Mrs Hale", "fitting Tues"),
+             "order": ("ORDER", "40 planks"), "ring": ("PLEASE", "ring bell"), "blank": (" ", "")}
+    W, Hh = 512, 256; atlas = Image.new('RGB', (1024, 256 * ((len(ATLAS) + 1) // 2)))
     for i, key in enumerate(ATLAS):
         big, small = specs[key]
-        hand = key in ("timber", "price", "key1", "key2", "key3")
+        hand = key in ("timber", "price", "key1", "key2", "key3", "hale", "order")
         im = Image.new('RGB', (W, Hh), (236, 224, 190) if not hand else (226, 206, 160)); d = ImageDraw.Draw(im)
         d.rectangle([10, 10, W - 11, Hh - 11], outline=(60, 44, 32), width=8)
         if not hand: d.rectangle([28, 28, W - 29, Hh - 29], outline=(60, 44, 32), width=2)

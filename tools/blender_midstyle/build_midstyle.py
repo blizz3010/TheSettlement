@@ -1,4 +1,4 @@
-# Item 11 DETAIL PASS 2 (builds on a65766b): mid-stylized dress form, Rook counter stock and hall reception desk.
+# Item 11 DETAIL PASS 3 (refines a4b61fb; pass 2 built on a65766b): mid-stylized dress form, Rook counter stock and hall reception desk.
 # Blender 4.2, meter scale, Z-up (the glTF exporter converts to Godot Y-up).
 # Every object has its modifiers and transforms applied before export, and each prop is
 # joined into ONE mesh (one surface per material) to keep draw calls low.
@@ -9,7 +9,7 @@ import bpy, bmesh, math, random, os
 from mathutils import Vector, Matrix, noise
 
 OUT = "/workspace/settlement_midstyle/repo/assets/midstyle_test/"
-TEX = os.environ.get("MIDSTYLE_TEX", "/workspace/settlement_midstyle/tex2/")
+TEX = os.environ.get("MIDSTYLE_TEX", "/workspace/settlement_midstyle/tex3/")
 BLEND = "/workspace/settlement_midstyle/blender/"
 TAU = 2 * math.pi
 
@@ -239,12 +239,12 @@ def uv_rect(ob, origin, udir, vdir, usize, vsize):
     bm.to_mesh(ob.data); bm.free(); return ob
 
 ATLAS = ["nails", "linseed", "timber", "rook", "ledger", "guests", "spirit", "hinge",
-         "price", "rope", "tailor", "key1", "key2", "key3", "post", "stamp"]
+         "price", "rope", "tailor", "key1", "key2", "key3", "post", "stamp", "hale", "order", "ring", "blank"]
 def atlas_uv(ob, key):
-    """Remap 0..1 UVs into this label's cell of labels_atlas.png (2 x 8 cells)."""
+    """Remap 0..1 UVs into this label's cell of labels_atlas.png (2 x 10 cells)."""
     i = ATLAS.index(key); col, row = i % 2, i // 2
     for d in ob.data.uv_layers.active.data:
-        u, v = d.uv; d.uv = ((col + min(max(u, 0), 1)) / 2, 1 - (row + 1) / 8 + min(max(v, 0), 1) / 8)
+        u, v = d.uv; d.uv = ((col + min(max(u, 0), 1)) / 2, 1 - (row + 1) / 10 + min(max(v, 0), 1) / 10)
     return ob
 
 # ------------------------------------------------------------------ vertex paint
@@ -377,7 +377,11 @@ def hem_drop(t):
 def vest_fold(t, z):
     """Soft horizontal waist wrinkles on the waistcoat sides and back (kept off the front panel)."""
     m = min(1.0, max(0.0, (abs(math.cos(t)) - .45) / .3)) + max(0.0, math.sin(t)) * .7
-    return .0024 * min(m, 1.0) * math.exp(-((z - 1.36) / .10) ** 2) * math.sin(z * 230 + 2.5 * math.cos(2 * t))
+    side = .0024 * min(m, 1.0) * math.exp(-((z - 1.36) / .10) ** 2) * math.sin(z * 230 + 2.5 * math.cos(2 * t))
+    # pass 3: shallow drag lines pulling from the buttons across the front panel
+    fx = math.cos(t); front = max(0.0, -math.sin(t))
+    drag = .0009 * front * math.exp(-(fx / .32) ** 2) * max(0.0, math.sin((z - 1.18) / .05 * math.pi)) * (1 if 1.18 < z < 1.38 else 0)
+    return side + drag
 
 def vest_surf(t, z, pad=VEST_PAD):
     return surf(t, z, pad) + surf_n(t, z, pad) * vest_fold(t, z)
@@ -435,9 +439,10 @@ def dress_extras(linen, indigo, bronze, steel, pinred, pinblue):
                 if z < zb_bust: p.y = min(p.y, yb - (zb_bust - z) * .10)  # hangs clear of the waist
                 hang = min(1.0, max(0.0, (1.56 - z) / .36))
                 A = .003 + .028 * hang ** .8
-                ph = u * TAU * 2.0 + (1.56 - z) * 3.0
+                ph = u * TAU * 2.0 + (1.56 - z) * 3.0 + .8 * math.sin(u * TAU * .7 + z * 7)
                 p.y -= A * (.5 + .5 * math.sin(ph)) ** 1.5; p.x += A * .35 * math.cos(ph) + .03 * hang * (u - .4)
                 if z > 1.66: p += surf_n(t, z, PAD) * .004 * math.sin(math.pi * u)  # soft roll on the shoulder
+                if r <= 1: p.y -= .006 * (2 - r) / 2; p.z += .004 * (2 - r) / 2  # pass 3: hem turns out
             else:  # back
                 k = (r - NF) / NB; zb = 1.30 + .05 * u; z = zt - (zt - zb) * k ** 1.3
                 t = t_back(x, z, PAD); p = surf(t, z, PAD)
@@ -456,6 +461,10 @@ def dress_extras(linen, indigo, bronze, steel, pinred, pinblue):
         st = dashes("DrapeStitch", thread, pts, nr, spacing=.022, length=.012); finish(st, None, base=.9, edge=0, seed=91)
     pts = [Vector(rows[1][c]) + Vector((0, -.003, .0)) for c in range(NW + 1)]
     st = dashes("DrapeHem", thread, pts, [Vector((0, -1, 0))] * len(pts), spacing=.02, length=.012); finish(st, None, base=.9, edge=0, seed=92)
+    # pass 3: client ticket pinned to the cloth front (reads from the doorway)
+    tp = Vector(rows[16][10]) + Vector((0, -.010, 0))
+    tk = label("ClientTicket", labels, "hale", (0, 0, 0), .075, .0375, '-y', rot=(.08, -.12, 0)); tk.data.transform(Matrix.Translation(tp))
+    pin = sphere("PinHead", pinred, tp + Vector((-.03, -.004, .012)), .0045, 6, 4); finish(pin, None, base=.95, edge=0, seed=89)
     # --- brown-paper pattern piece pinned on the left front, chalk line beside it
     rows = []
     for r in range(5):
@@ -498,6 +507,16 @@ def dress_extras(linen, indigo, bronze, steel, pinred, pinblue):
     thr = [tip, tip + Vector((.004, -.012, .004)), tip + Vector((.008, -.03, -.02)), tip + Vector((.004, -.042, -.06)), tip + Vector((-.004, -.046, -.10))]
     th = tube("Thread", mat("FormThreadRed", "ribbon_red", .8), thr, .0013, 4); finish(th, None, base=.9, edge=0, seed=101)
 
+def seam_runs(pts):
+    """Split (point, visible) samples into visible runs, each extended one sample under the cloth."""
+    runs, cur = [], []
+    for i, (p, v) in enumerate(pts):
+        near = v or (i > 0 and pts[i - 1][1]) or (i + 1 < len(pts) and pts[i + 1][1])
+        if near: cur.append(p)
+        elif cur: runs.append(cur); cur = []
+    if cur: runs.append(cur)
+    return [r for r in runs if len(r) >= 2]
+
 def build_dress_form():
     reset()
     walnut = mat("FormWalnut", "walnut", .62); walnut_d = mat("FormWalnutDark", "walnut_dark", .65)
@@ -532,9 +551,9 @@ def build_dress_form():
     trim = lathe("HipTrim", bronze, [(.146, 1.069), (.149, 1.072), (.149, 1.080), (.146, 1.083)], 32); finish(trim, None, base=.9, seed=12)
 
     # --- torso: smooth Catmull-Rom loft of the old profile, linen weave texture
-    NS = 32; rings = []; zs = []
+    NS = 28; rings = []; zs = []  # pass 3: coarser where the waistcoat hides the torso
     z = 1.08
-    while z < 1.90: zs.append(z); z += .019 if z < 1.70 else .01
+    while z < 1.90: zs.append(z); z += (.016 if z < 1.22 else .028) if z < 1.70 else .01
     zs.append(1.90)
     for z in zs: rings.append([surf(TAU * i / NS, z) for i in range(NS)])
     torso = grid("Torso", linen, rings, cap_bottom=True, cap_top=True); smooth(torso, 70)
@@ -545,10 +564,14 @@ def build_dress_form():
             pts = []; z = 1.09
             while z <= 1.80:
                 hx = cr(TORSO, z)[0]; x = side * hx * (.40 + .12 * math.sin((z - 1.09) / .71 * math.pi))
-                t = t_back(x, z) if back else t_front(x, z); pts.append(surf(t, z, .0015)); z += .03
-            s = tube("PrincessSeam", linen, pts, .0042, 5); finish(s, ('box', .2), base=.56, top=.68, edge=0, cavity=0, seed=14)
-        pts = [surf(0 if side > 0 else math.pi, z, .0015) for z in [1.09 + k * .03 for k in range(23)]]
-        s = tube("SideSeam", linen, pts, .004, 5); finish(s, ('box', .2), base=.56, top=.68, edge=0, cavity=0, seed=15)
+                t = t_back(x, z) if back else t_front(x, z)
+                vis = z < 1.20 or z > 1.79 or (not back and abs(x) < v_gap(z) - .004)
+                pts.append((surf(t, z, .0015), vis)); z += .03
+            for run in seam_runs(pts):
+                s = tube("PrincessSeam", linen, run, .0042, 5); finish(s, ('box', .2), base=.56, top=.68, edge=0, cavity=0, seed=14)
+        pts = [(surf(0 if side > 0 else math.pi, z, .0015), z < 1.20 or z > 1.585) for z in [1.09 + k * .03 for k in range(24)]]
+        for run in seam_runs(pts):
+            s = tube("SideSeam", linen, run, .004, 5); finish(s, ('box', .2), base=.56, top=.68, edge=0, cavity=0, seed=15)
     neck_pts = [surf(TAU * k / 28, 1.80, .0012) for k in range(28)]
     s = tube("NeckSeam", linen, neck_pts, .0042, 5, closed=True); finish(s, ('box', .2), base=.56, top=.68, edge=0, cavity=0, seed=16)
     # shoulder arm plates (walnut rim, linen face)
@@ -565,7 +588,7 @@ def build_dress_form():
     ring = lathe("NeckRing", bronze, [(.069, 1.913), (.074, 1.915), (.074, 1.925), (.069, 1.927)], 24); finish(ring, None, base=.95, seed=20)
 
     # --- waistcoat: exact V-neck, pointed fronts, oval armholes; wool twill
-    NI, NJ = 46, 34
+    NI, NJ = 40, 28
     bm = bmesh.new(); vg = {}
     for j in range(NJ + 1):
         for i in range(NI + 1):
@@ -606,7 +629,7 @@ def build_dress_form():
     for k, lp in enumerate(loops):
         if len(lp) < 6: continue
         pts = [p * (1 - .003 / max(Vector((p.x, p.y, 0)).length, .01)) if False else p for p in lp[::2]]
-        cord = tube("Binding", indigo, pts, .0042, 5, closed=True); finish(cord, ('box', .1), base=.62, top=.8, edge=.1, seed=22 + k)
+        cord = tube("Binding", indigo, pts, .0042, 4, closed=True); finish(cord, ('box', .1), base=.62, top=.8, edge=.1, seed=22 + k)
     hem_pts = []; hem_n = []
     for i in range(0, NI + 1):
         t, z = vest_point(i, .45, NI, NJ); hem_pts.append(surf(t, z, VEST_PAD)); hem_n.append(surf_n(t, z, VEST_PAD))
@@ -928,10 +951,10 @@ def build_rook_counter():
             for ax in ('x', 'y'):
                 if ax == 'y': c = (sx * (W / 2 - .03), sy * (D / 2 + .0015), .040); sz = (.05, .003, .036)
                 else: c = (sx * (W / 2 + .0015), sy * (D / 2 - .03), .040); sz = (.003, .05, .036)
-                br = box("CornerIron", iron, c, sz, .0008, 1); finish(br, None, base=.7, top=.9, edge=.3, seed=56); cr_.append(br)
+                br = box("CornerIron", iron, c, sz, 0, 1); finish(br, None, base=.7, top=.9, edge=.3, seed=56); cr_.append(br)
                 for o in (-.012, .012):
                     rp_ = (c[0] + (o if ax == 'y' else sx * .0018), c[1] + (o if ax == 'x' else sy * .0018), c[2])
-                    rv = sphere("Rivet", iron, rp_, .0032, 6, 4); finish(rv, None, base=.9, edge=.2, seed=57); cr_.append(rv)
+                    rv = cyl("Rivet", iron, rp_, .003, .004, 6, 0, rot=(math.pi / 2, 0, 0) if ax == 'y' else (0, math.pi / 2, 0)); finish(rv, None, base=.9, edge=.2, seed=57); cr_.append(rv)
     cr_.append(label("PriceTag", labels, "price", (-.205, -.128, .068), .075, .0375, '-y', rot=(.15, .2, -.12)))
     pt = tube("TagString", twine, [(-.19, -.12, .086), (-.20, -.123, .092), (-.17, -.075, .095)], .0018, 4); finish(pt, ('box', .1), base=.85, seed=58); cr_.append(pt)
     crate = join(cr_, "SampleCrate"); xform(crate, G(.98, TOP, -1.40))
@@ -950,23 +973,25 @@ def build_rook_counter():
 
     # --- coins: a short stack and two loose ones near the ledger
     for k in range(7):
-        cn = cyl("Coin", bronze, (math.sin(k * 1.7) * .002, math.cos(k * 2.3) * .002, .0013 + k * .0026), .0135, .0024, 14, .0006, bsegs=1)
+        cn = cyl("Coin", bronze, (math.sin(k * 1.7) * .002, math.cos(k * 2.3) * .002, .0013 + k * .0026), .0135, .0024, 10, 0)
         cn.data.transform(Matrix.Translation(Vector(G(-.86, TOP, -1.17)))); finish(cn, None, base=.85, top=1.0, edge=.35, seed=67 + k)
     for (x, z, a) in ((-.81, -1.15, .3), (-.835, -1.21, 1.2)):
-        cn = cyl("Coin", bronze, (0, 0, .0012), .0135, .0024, 14, .0006, bsegs=1, rot=(.12, 0, a)); cn.data.transform(Matrix.Translation(Vector(G(x, TOP, z)))); finish(cn, None, base=.9, edge=.35, seed=75)
+        cn = cyl("Coin", bronze, (0, 0, .0012), .0135, .0024, 10, 0, rot=(.12, 0, a)); cn.data.transform(Matrix.Translation(Vector(G(x, TOP, z)))); finish(cn, None, base=.9, edge=.35, seed=75)
+    # pass 3: Rook's order slip tucked under the ledger
+    label("OrderSlip", labels, "order", Vector(G(-1.05, TOP, -1.25)) + Vector((0, 0, .0009)), .12, .06, 'z', rot=(0, 0, math.radians(18)))
     # --- coiled rope with a tag
     pts = []
     for k in range(3 * 24 + 1):
         a = TAU * k / 24; rr = .072 - .012 * (k / 72); pts.append(Vector((math.cos(a) * rr, math.sin(a) * rr, .010 + .0185 * k / 72 + .003 * math.sin(a * 3))))
     pts.append(pts[-1] + Vector((.02, -.04, -.01))); pts.append(pts[-1] + Vector((.03, -.04, -.015)))
-    rope = tube("RopeCoil", twine, pts, .0095, 6); uv_box(rope, .06); paint(rope, .78, 1.02, noise_amt=.06, edge=.1, cavity=.25, seed=76)
+    rope = tube("RopeCoil", twine, pts, .0095, 5); uv_box(rope, .06); paint(rope, .78, 1.02, noise_amt=.06, edge=.1, cavity=.25, seed=76)
     rope.data.transform(Matrix.Translation(Vector(G(1.37, TOP, -1.80))))
     label("RopeTag", labels, "rope", Vector(G(1.30, TOP, -1.69)) + Vector((0, 0, .0012)), .08, .04, 'z', rot=(0, 0, .25))
 
     # --- burlap sack of nails: drawstring neck, nails poking out, tied tag; spilled nails
     sk = []
     prof = [(.0001, 0), (.075, .004), (.098, .03), (.104, .07), (.095, .11), (.070, .14), (.042, .158), (.036, .166), (.046, .178), (.062, .196), (.066, .204)]
-    sack = lathe("Sack", burlap, prof, 22, wobble=.12, lobes=5, lobe_amt=.05)
+    sack = lathe("Sack", burlap, prof, 18, wobble=.12, lobes=5, lobe_amt=.05)
     finish(sack, ('cyl', (0, 0), 2, .25, .1), base=.78, top=1.05, noise_amt=.07, edge=.08, seed=70); sk.append(sack)
     fill = cyl("NailFill", iron, (0, 0, .192), .058, .012, 16, .002); finish(fill, ('box', .05), base=.55, top=.65, seed=71); sk.append(fill)
     for k in range(9):
@@ -1006,8 +1031,8 @@ def desk_extras(parts, T, oak, dark, brass, ink, labels):
     pot = lathe("FernPot", terra, [(.050, 0), (.055, .006), (.066, .085), (.074, .088), (.076, .102), (.070, .106), (.064, .104)], 20)
     pot.data.transform(Matrix.Translation(Vector(G(fx, T, fz_)))); add(pot, ('cyl', (fx, -fz_), 2, .25, .07), base=.78, top=1.05, edge=.25)
     soil = cyl("FernSoil", dark, G(fx, T + .096, fz_), .063, .006, 16, 0); add(soil, None, base=.45)
-    for k in range(17):
-        a = TAU * k / 17 + .3; L = .20 + .07 * ((k * 5) % 3) / 2; el = .9 + .25 * ((k * 7) % 4) / 3
+    for k in range(13):
+        a = TAU * k / 13 + .3; L = .20 + .07 * ((k * 5) % 3) / 2; el = .9 + .25 * ((k * 7) % 4) / 3
         base_p = Vector(G(fx, T + .10, fz_)) + Vector((math.cos(a) * .012, math.sin(a) * .012, 0))
         d0 = Vector((math.cos(a), math.sin(a), 0)); rows = []
         for i in range(9):
@@ -1042,16 +1067,32 @@ def desk_extras(parts, T, oak, dark, brass, ink, labels):
     dish.data.transform(Matrix.Translation(Vector(G(-.06, T, .44)))); add(dish, None, base=.85, edge=.3)
     for k, (dx, dz) in enumerate(((-.01, .0), (.012, .008), (0, -.014))):
         add(cyl("Coin", brass, G(-.06 + dx, T + .009 + k * .0022, .44 + dz), .0125, .0022, 12, .0005, bsegs=1), None, base=.95, edge=.35)
+    # pass 3: an ink blot by the inkstand, a cup ring, and a tent card by the bell
+    blot = lathe("InkBlot", ink, [(.0001, 0), (.016, 0), (.016, .0006), (.0001, .0006)], 12, lobes=5, lobe_amt=.3)
+    blot.data.transform(Matrix.Translation(Vector(G(-.36, T, -.15)))); add(blot, None, base=.8, edge=0, cavity=0)
+    bm = bmesh.new(); ring_v = []
+    for k in range(20):
+        a = TAU * k / 20; ring_v.append((bm.verts.new((math.cos(a) * .036, math.sin(a) * .036, .0005)), bm.verts.new((math.cos(a) * .041, math.sin(a) * .041, .0005))))
+    for k in range(20):
+        a0, b0 = ring_v[k]; a1, b1 = ring_v[(k + 1) % 20]; bm.faces.new((a0, b0, b1, a1))
+    cup = obj_from_bm(bm, "CupRing", dark); cup.data.transform(Matrix.Translation(Vector(G(-.05, T, .05)))); fixn(cup)
+    for f in cup.data.polygons:
+        if f.normal.z < 0: f.flip()
+    add(cup, ('box', .2), base=.45, top=.55, edge=0, cavity=0, noise_amt=.1)
+    for sgn, key in ((1, "ring"), (-1, "blank")):
+        cd = label("TentCard", labels, key, (0, 0, 0), .09, .045, '-y')
+        cd.data.transform(Matrix.Translation(Vector(G(-.43, T + .021, .44 + sgn * .007))) @ Matrix.Rotation(0 if sgn > 0 else math.pi, 4, 'Z') @ Matrix.Rotation(-.32, 4, 'X'))
+        parts.append(cd)
     # key rack on the right end panel: oak board, brass hooks, three keys with numbered tags
     kx = 1.24; ky = .98; kz = -.05
     add(box("KeyRack", oak, G(kx, ky, kz), (.018, .34, .07), .004, 2), ('box', .3, 1), edge=.25)
     add(pframe("KeyRackMould", oak, G(kx + .009, ky, kz), (0, 1, 0), (0, 0, 1), (1, 0, 0), .32, .06, [(0, 0), (0, .004), (.004, .006), (.008, .004), (.01, 0)]), None, base=.8, edge=.3)
     for k, zz in enumerate((-.10, 0, .10)):
         hz = kz + zz
-        add(cyl("KeyHook", brass, G(kx + .022, ky - .01, hz), .0035, .03, 8, .001, rot=(0, math.pi / 2, 0)), None, base=.9)
+        add(cyl("KeyHook", brass, G(kx + .022, ky - .01, hz), .0035, .03, 6, 0, rot=(0, math.pi / 2, 0)), None, base=.9)
         rpts = [Vector(G(kx + .03, ky - .025 + .014 * math.cos(TAU * i / 12), hz + .014 * math.sin(TAU * i / 12))) for i in range(12)]
         add(tube("KeyRing", brass, rpts, .002, 5, closed=True, up=Vector((1, 0, 0))), None, base=.95)
-        add(cyl("KeyShaft", brass, G(kx + .03, ky - .085, hz), .0035, .075, 8, .001, rot=(0, 0, 0)), None, base=.85, edge=.2)
+        add(cyl("KeyShaft", brass, G(kx + .03, ky - .085, hz), .0035, .075, 6, 0), None, base=.85, edge=.2)
         add(box("KeyBit", brass, G(kx + .03, ky - .118, hz + .009), (.003, .014, .016), .0008, 1), None, base=.85, edge=.2)
         bow = lathe("KeyBow", brass, [(.006, -.003), (.012, -.003), (.012, .003), (.006, .003)], 12)
         bow.data.transform(Matrix.Translation(Vector(G(kx + .03, ky - .042, hz))) @ Matrix.Rotation(math.pi / 2, 4, 'Y')); add(bow, None, base=.9)
@@ -1074,8 +1115,8 @@ def pframe(name, material, o, U, V, N, w, h, prof=OGEE):
     ob = obj_from_bm(bm, name, material); smooth(ob, 50); return ob
 
 def rosette(name, material, pos, normal, scale=1.0):
-    pr = [(r * scale, z * scale) for r, z in ((.0001, 0), (.031, 0), (.032, .004), (.027, .009), (.019, .0125), (.013, .011), (.009, .016), (.004, .0185), (.0001, .019))]
-    ob = lathe(name, material, pr, 32, lobes=8, lobe_amt=.16)
+    pr = [(r * scale, z * scale) for r, z in ((.0001, 0), (.032, 0), (.028, .009), (.016, .012), (.008, .016), (.0001, .019))]
+    ob = lathe(name, material, pr, 24, lobes=8, lobe_amt=.16)
     ob.data.transform(Matrix.Translation(Vector(pos)) @ Vector((0, 0, 1)).rotation_difference(Vector(normal)).to_matrix().to_4x4())
     return ob
 
@@ -1115,7 +1156,7 @@ def build_reception_desk():
             add(box("DrawerBead", oak, G(dc, 1.192, fz + .028), (dw - .07, .006, .10), .003, 1), ('box', .4, 0), base=.75, edge=0)
             px = dc if w < .6 else (dc - .06 if dc < 0 else dc + .06)
             for s_ in (-1, 1):
-                add(cyl("PullPost", brass, G(px + s_ * .045, 1.20, fz + .036), .006, .02, 8, .001, rot=(math.pi / 2, 0, 0), bsegs=1), None, base=.95)
+                add(cyl("PullPost", brass, G(px + s_ * .045, 1.20, fz + .036), .006, .02, 6, 0, rot=(math.pi / 2, 0, 0)), None, base=.95)
             bail = [Vector(G(px + .045 * math.cos(math.pi * k / 10), 1.20 - .028 * math.sin(math.pi * k / 10), fz + .047)) for k in range(11)]
             add(tube("Bail", brass, bail, .0035, 6, up=Vector((0, -1, 0))), None, base=.95, edge=.25)
             add(box("PullPlate", brass, G(px, 1.20, fz + .029), (.11, .022, .004), .0015, 1), None, base=.9)
@@ -1130,14 +1171,14 @@ def build_reception_desk():
         add(box("PostBase", oak, G(x, F + .07, .53), (.135, .135, .14), .012, 2), ('box', .5, 2))
         add(box("PostCapital", oak, G(x, T - .105, .53), (.13, .13, .05), .012, 2), ('box', .5, 2))
         for y in (F + .15, T - .135):
-            add(cyl("PostCollar", brass, G(x, y, .53), .067, .02, 20, .004), ('cyl', (x, -.53), 2, .2, .067), base=.92, edge=.25)
+            add(cyl("PostCollar", brass, G(x, y, .53), .067, .02, 16, .004, bsegs=1), ('cyl', (x, -.53), 2, .2, .067), base=.92, edge=.25)
         add(box("EndPanel", teal, G(side * 1.16, (F + T) / 2, -.04), (.05, 1.02, T - F - .30), .012, 2), ('box', .6, 2))
         add(box("EndField", teal_l, G(side * 1.19, (F + T) / 2 - .02, -.05), (.03, .80, .62), .026, 1), ('box', .6, 2), edge=.2)
         add(pframe("EndMould", oak, G(side * 1.198, (F + T) / 2 - .02, -.05), (0, 1, 0), (0, 0, 1), (side, 0, 0), .86, .66), ('box', .4, 1), edge=.25, cavity=.3)
         # fluted post faces (front + outer side) and carved capital rosettes
         for k in (-1, 0, 1):
-            add(box("Flute", dark, G(x + k * .026, .83, .5855), (.009, .0016, .78), .0006, 1), None, base=.55, edge=0, cavity=0)
-            add(box("Flute", dark, G(x + side * .0555, .83, .53 + k * .026), (.0016, .009, .78), .0006, 1), None, base=.55, edge=0, cavity=0)
+            add(box("Flute", dark, G(x + k * .026, .83, .5855), (.009, .0016, .78), 0, 1), None, base=.55, edge=0, cavity=0)
+            add(box("Flute", dark, G(x + side * .0555, .83, .53 + k * .026), (.0016, .009, .78), 0, 1), None, base=.55, edge=0, cavity=0)
         add(rosette("PostRosette", brass, G(x, T - .105, .596), (0, -1, 0), .62), None, base=.9, edge=.3, small=2e-3)
     # carved rosettes on the four stiles at frieze level; dentil course under the top
     for x in (-1.07, -.52, .52, 1.07):
