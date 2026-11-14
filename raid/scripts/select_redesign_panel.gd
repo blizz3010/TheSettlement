@@ -47,6 +47,7 @@ func _ready():
 	# 3D set fills the whole screen behind the UI.
 	preview=RedesignStage.new()
 	preview.screen_offset=0.0 if variant=="sidebar" else 0.42
+	if variant=="carousel":preview.camera_target=Vector3(0,.66,0)
 	preview.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);add_child(preview)
 	preview.custom_minimum_size=Vector2.ZERO
 	var ink=Color(0.035,0.06,0.055)
@@ -75,7 +76,7 @@ func _ready():
 	body=VBoxContainer.new();body.add_theme_constant_override("separation",12)
 	if variant=="carousel":
 		var wrap=VBoxContainer.new();wrap.add_theme_constant_override("separation",8);left_panel.add_child(wrap)
-		strip=HBoxContainer.new();strip.add_theme_constant_override("separation",14);strip.alignment=BoxContainer.ALIGNMENT_CENTER
+		strip=HBoxContainer.new();strip.add_theme_constant_override("separation",14);strip.alignment=BoxContainer.ALIGNMENT_BEGIN
 		wrap.add_child(body);wrap.add_child(strip)
 	else:
 		left_panel.add_child(body)
