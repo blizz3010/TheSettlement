@@ -56,11 +56,12 @@ func contact_sheet():
 		v.add_child(_label(spec.name,17,Color("e6e0cf")));v.add_child(_label(spec.trader+" · "+("game model" if spec.src=="glb" else ("tailor preview garment" if spec.src=="garment" else "trader rod build")),13,Color("9fb3a6")))
 	var strip_title=_label("Same PNGs on a light backdrop and at in-menu sizes (64 / 48 / 34 px):",15,Color("b8c7b6"));strip_title.horizontal_alignment=HORIZONTAL_ALIGNMENT_LEFT;col.add_child(strip_title)
 	var strip=PanelContainer.new();strip.add_theme_stylebox_override("panel",theme_.frame("c9c5b8","8a826d",8));col.add_child(strip)
-	var row=HBoxContainer.new();row.add_theme_constant_override("separation",6);strip.add_child(row)
+	var rows_=VBoxContainer.new();rows_.add_theme_constant_override("separation",6);strip.add_child(rows_)
 	for size in [64,48,34]:
+		var row=HBoxContainer.new();row.add_theme_constant_override("separation",8);rows_.add_child(row)
+		var sl=_label("%d px"%size,13,Color("2a2f2b"));sl.custom_minimum_size.x=48;row.add_child(sl)
 		for id in Renderer.ITEMS:
 			var t=TextureRect.new();t.texture=_tex(id);t.custom_minimum_size=Vector2(size,size);t.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;t.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;t.size_flags_vertical=Control.SIZE_SHRINK_CENTER;row.add_child(t)
-		if size!=34:row.add_child(VSeparator.new())
 	await _snap("icon_contact_sheet.png")
 	layer.queue_free()
 func menu(shop:String,tag:String,preview:bool):
