@@ -1,17 +1,19 @@
 extends RefCounted
-## Item 11 STYLE TEST (preview only, awaiting Michael's OK).
+## Item 11 STYLE TEST, detail pass (preview only, awaiting Michael's OK).
+## Each remodel is one glTF mesh (one surface per material) with shared JPEG textures in
+## assets/midstyle_test/textures; built by tools/blender_midstyle/build_midstyle.py.
 ## Swaps two high-severity item-12 props for mid-stylized Blender remodels:
-##  * Tailor & Dyes dress form (box torso, egg head, box waistcoat) -> tailor_dress_form.glb
-##  * Rook's counter-top stock (ledger, three timber cubes, two plan rolls) -> rook_counter_stock.glb
-##  * Town Hall reception desk body (relocated hall-mesh slabs) -> hall_reception_desk.glb
+##  * Tailor & Dyes dress form (box torso, egg head, box waistcoat) -> tailor_dress_form.gltf
+##  * Rook's counter-top stock (ledger, three timber cubes, two plan rolls) -> rook_counter_stock.gltf
+##  * Town Hall reception desk body (relocated hall-mesh slabs) -> hall_reception_desk.gltf
 ## Pinned builders are untouched: the old pieces are hidden (tailor) or cut out of the
 ## Rook static batch (Rook's art is merged into per-material batches at startup).
 ## Render-only: no collision, interaction, stock or save data changes.
 ## Set false (e.g. by a capture driver) to keep the stock props for "before" shots.
 static var enabled := true
-const DRESS_FORM := "res://assets/midstyle_test/tailor_dress_form.glb"
-const ROOK_COUNTER := "res://assets/midstyle_test/rook_counter_stock.glb"
-const RECEPTION_DESK := "res://assets/midstyle_test/hall_reception_desk.glb"
+const DRESS_FORM := "res://assets/midstyle_test/tailor_dress_form.gltf"
+const ROOK_COUNTER := "res://assets/midstyle_test/rook_counter_stock.gltf"
+const RECEPTION_DESK := "res://assets/midstyle_test/hall_reception_desk.gltf"
 ## Desk centre on the hall floor, matching the kept v098 collider (0, .82, -22).
 const RECEPTION_ORIGIN := Vector3(0, 0, -22)
 ## Dress form footprint in TailorAtelier-local space (v094 form at x=0, z=-1.35).

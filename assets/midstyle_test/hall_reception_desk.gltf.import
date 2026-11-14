@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://fnoxy3ufuo7h"
-path="res://.godot/imported/rook_counter_stock.glb-98f34523c716886a5f8cdb209516ec52.scn"
+uid="uid://c2dnyn1a26iuf"
+path="res://.godot/imported/hall_reception_desk.gltf-028b42abe41ac790e67dc349315ccbc1.scn"
 
 [deps]
 
-source_file="res://assets/midstyle_test/rook_counter_stock.glb"
-dest_files=["res://.godot/imported/rook_counter_stock.glb-98f34523c716886a5f8cdb209516ec52.scn"]
+source_file="res://assets/midstyle_test/hall_reception_desk.gltf"
+dest_files=["res://.godot/imported/hall_reception_desk.gltf-028b42abe41ac790e67dc349315ccbc1.scn"]
 
 [params]
 

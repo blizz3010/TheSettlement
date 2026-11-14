@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://52tbhmghgjrw"
-path="res://.godot/imported/tailor_dress_form.glb-d8937a77337a9838f49b0ce7c0c79591.scn"
+uid="uid://cwg6s3m4jy441"
+path="res://.godot/imported/rook_counter_stock.gltf-16edc37b950c45040077ff6a8003850f.scn"
 
 [deps]
 
-source_file="res://assets/midstyle_test/tailor_dress_form.glb"
-dest_files=["res://.godot/imported/tailor_dress_form.glb-d8937a77337a9838f49b0ce7c0c79591.scn"]
+source_file="res://assets/midstyle_test/rook_counter_stock.gltf"
+dest_files=["res://.godot/imported/rook_counter_stock.gltf-16edc37b950c45040077ff6a8003850f.scn"]
 
 [params]
 

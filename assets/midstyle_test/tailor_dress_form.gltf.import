@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b0mnxxkrnitlj"
-path="res://.godot/imported/hall_reception_desk.glb-de7153ab61606c5a73f74abfda08bfc9.scn"
+uid="uid://ckay2165wvg1i"
+path="res://.godot/imported/tailor_dress_form.gltf-28a1ae46d1d608fafeb65f550da3f14e.scn"
 
 [deps]
 
-source_file="res://assets/midstyle_test/hall_reception_desk.glb"
-dest_files=["res://.godot/imported/hall_reception_desk.glb-de7153ab61606c5a73f74abfda08bfc9.scn"]
+source_file="res://assets/midstyle_test/tailor_dress_form.gltf"
+dest_files=["res://.godot/imported/tailor_dress_form.gltf-28a1ae46d1d608fafeb65f550da3f14e.scn"]
 
 [params]
 
