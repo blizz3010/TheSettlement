@@ -34,6 +34,15 @@ func _run():
 	for i in 6:await get_tree().process_frame
 	var stage=panel.preview
 	print("SC: preview visible ",stage.visible," note=",panel.preview_note.text)
+	if OS.get_environment("SC_GARMENTS")=="1":
+		# Synthetic all-slots-equipped context (display only; no save is touched).
+		var ctx={"slots":{},"owned":{},"definitions":{}}
+		var dyes={"jacket":[.42,.30,.18,1.0],"pants":[.20,.24,.20,1.0],"gloves":[.30,.22,.14,1.0]}
+		for slot in ["jacket","pants","gloves","boots","helmet"]:
+			ctx.slots[slot]="sc_"+slot;ctx.definitions["def_"+slot]={"category":slot}
+			ctx.owned["sc_"+slot]={"definition_id":"def_"+slot,"location":"equipped","dyes":{"fabric":dyes[slot]} if dyes.has(slot) else {}}
+		stage.show_equipped(ctx);stage.redraw_preview()
+		for i in 3:await get_tree().process_frame
 	if OS.get_environment("SC_DIAG")=="1":_diag(stage)
 	for view in [["front",0.0],["three_quarter",35.0],["side",90.0]]:
 		stage.set_angle(view[1])

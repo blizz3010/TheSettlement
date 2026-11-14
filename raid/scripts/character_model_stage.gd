@@ -62,6 +62,11 @@ func _load_rig():
 	model_ok=true
 
 func _add_fill_light():
+	# The shipped key (1.8) + ambient (.65) were tuned for dark box garments; on the
+	# rig's light technical-neutral skin they clip to flat white, hiding the form.
+	for node in stage.get_children():
+		if node is DirectionalLight3D:node.light_energy=1.25
+		if node is WorldEnvironment:node.environment.ambient_light_energy=.5
 	var fill=DirectionalLight3D.new();fill.name="SelectFill"
 	fill.rotation_degrees=Vector3(-5,150,0);fill.light_color=Color("9fb9c5");fill.light_energy=.35
 	stage.add_child(fill)
@@ -94,21 +99,22 @@ func _rebuild_garments():
 	# Pants: waistband, buckle, two-segment legs following hip -> knee -> ankle, cargo pockets.
 	var pants:Node3D=garments.pants;_clear(pants)
 	part(pants,"Fabric waistband",Vector3(0,hip_y+.02,torso_z),Vector3(torso_w-.03,.09,torso_d-.02),fabrics.pants)
+	part(pants,"Fabric seat",Vector3(0,hip_y-.10,torso_z-.005),Vector3(torso_w-.02,.29,torso_d-.01),fabrics.pants)
 	part(pants,"Fixed belt buckle",Vector3(0,hip_y+.035,torso_z+(torso_d-.02)*.5+.004),Vector3(.03,.024,.010),metal)
 	var boots:Node3D=garments.boots;_clear(boots)
 	var gloves:Node3D=garments.gloves;_clear(gloves)
 	for side in ["l","r"]:
 		var s=1.0 if side=="l" else -1.0
 		var hip:Vector3=L["thigh_"+side];var knee:Vector3=L["calf_"+side];var ankle:Vector3=L["foot_"+side];var ball:Vector3=L["ball_"+side]
-		limb(pants,"Fabric trouser leg",hip+Vector3(0,.04,0),knee,.088,fabrics.pants)
-		limb(pants,"Fabric trouser leg lower",knee,ankle+Vector3(0,.06,0),.072,fabrics.pants)
+		limb(pants,"Fabric trouser leg",hip+Vector3(0,.02,0),knee,.098,fabrics.pants)
+		limb(pants,"Fabric trouser leg lower",knee+Vector3(0,.03,0),ankle+Vector3(0,.13,0),.080,fabrics.pants)
 		var thigh_mid=hip.lerp(knee,.45)
 		part(pants,"Fabric cargo pocket",thigh_mid+Vector3(s*.085,0,.01),Vector3(.02,.13,.11),fabrics.pants)
 		# Boots: shaft round the ankle, toe box along foot -> ball, sole.
 		var forward=Vector3(ball.x-ankle.x,0,ball.z-ankle.z)
 		var yaw=atan2(forward.x,forward.z)
 		var toe_centre=Vector3((ankle.x+ball.x)*.5,.055,(ankle.z+ball.z)*.5+.01)
-		part(boots,"Fixed dark boot shaft",Vector3(ankle.x,ankle.y+.06,ankle.z),Vector3(.13,.17,.14),dark)
+		part(boots,"Fixed dark boot shaft",Vector3(ankle.x,ankle.y+.07,ankle.z+.005),Vector3(.175,.19,.17),dark)
 		var toe=part(boots,"Fixed dark boot toe",toe_centre,Vector3(.12,.11,forward.length()+.11),dark);toe.rotation.y=yaw
 		var sole=part(boots,"Fixed sole",Vector3(toe_centre.x,.012,toe_centre.z),Vector3(.13,.024,forward.length()+.13),dark);sole.rotation.y=yaw
 		# Gloves: oriented along the forearm at the wrist.
@@ -117,11 +123,11 @@ func _rebuild_garments():
 		var glove=Node3D.new();glove.name="Glove "+side;gloves.add_child(glove)
 		var x=Vector3.UP.cross(dir).normalized()
 		if x.length_squared()<.1:x=Vector3.RIGHT
-		glove.basis=Basis(x,dir,x.cross(dir).normalized());glove.position=wrist+dir*.05
-		part(glove,"Fabric glove palm",Vector3.ZERO,Vector3(.085,.10,.04),fabrics.gloves)
-		part(glove,"Fixed dark glove grip",Vector3(0,0,.022),Vector3(.06,.07,.008),dark)
-		for finger in range(4):part(glove,"Fabric glove finger",Vector3((finger-1.5)*.019,.075,0),Vector3(.016,.055,.03),fabrics.gloves)
-		part(glove,"Fabric glove thumb",Vector3(-s*.05,.01,.012),Vector3(.03,.055,.03),fabrics.gloves)
+		glove.basis=Basis(x,dir,x.cross(dir).normalized());glove.position=wrist+dir*.055
+		part(glove,"Fabric glove palm",Vector3.ZERO,Vector3(.10,.13,.07),fabrics.gloves)
+		part(glove,"Fixed dark glove grip",Vector3(0,0,.037),Vector3(.07,.09,.008),dark)
+		for finger in range(4):part(glove,"Fabric glove finger",Vector3((finger-1.5)*.022,.10,0),Vector3(.02,.08,.045),fabrics.gloves)
+		part(glove,"Fabric glove thumb",Vector3(-s*.055,.01,.02),Vector3(.035,.07,.04),fabrics.gloves)
 	# Helmet: refit the shipped visor-helmet asset to this head (head bone + hair envelope).
 	var helmet_holder:Node3D=garments.helmet
 	var head_bounds:AABB=rig_meshes.hair_short02_v1.get_aabb().merge(_head_box())
