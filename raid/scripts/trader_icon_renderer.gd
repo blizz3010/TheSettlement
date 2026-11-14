@@ -42,8 +42,7 @@ func _ready():
 	var we=WorldEnvironment.new();we.environment=env;root.add_child(we)
 	_light(root,"Key",Vector3(-42,-38,0),Color("fff0dc"),1.55,true)
 	_light(root,"Fill",Vector3(-12,140,0),Color("b9c9dc"),0.42,false)
-	_light(root,"Rim",Vector3(-18,165,0),Color("a8e6dc"),0.0,false) # placeholder, real rim below
-	_light(root,"RimBack",Vector3(20,180,0),Color("bfeee4"),1.35,false)
+	_light(root,"Rim",Vector3(-25,180,0),Color("bfeee4"),1.35,false) # from behind, toward camera
 	camera=Camera3D.new();camera.projection=Camera3D.PROJECTION_ORTHOGONAL;camera.current=true;camera.near=0.05;camera.far=60
 	root.add_child(camera)
 	stage=Node3D.new();stage.name="Item";root.add_child(stage)
