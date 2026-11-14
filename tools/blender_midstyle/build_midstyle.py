@@ -292,6 +292,7 @@ def build_rook_counter():
     stone = mat("RookStone", "#a49c8c", .85)
     iron = mat("RookScrap", "#6f777c", .55, .55)
     paper = mat("RookPlanPaper", "#ded0ae", .9)
+    paper_core = mat("RookPlanCore", "#b7a47c", .9)
     ribbon = mat("RookRibbon", "#aa5a3a", .8)
     ink = mat("RookInk", "#2f2d29", .4)
     parts = []
@@ -364,10 +365,9 @@ def build_rook_counter():
         x = .30 + i * .03; y = TOP + .055; z = -1.63 + i * .115
         ax = (0, math.pi / 2, 0)
         roll = cyl("PlanRoll", paper, G(x, y, z), .052, .46, 22, .004, rot=ax)
-        core = cyl("PlanCore", paper, G(x, y, z), .030, .468, 16, .002, rot=ax)
-        lip = box("PlanLip", paper, G(x, y - .032, z + .043), (.44, .034, .006), .002, 1, rot=(math.radians(-40), 0, 0))
+        core = cyl("PlanCore", paper_core, G(x, y, z), .030, .468, 16, .002, rot=ax)
         tie = cyl("PlanTie", ribbon, G(x, y, z), .055, .03, 22, .003, rot=ax)
-        r = join([roll, core, lip, tie], "PlanRoll%d" % i)
+        r = join([roll, core, tie], "PlanRoll%d" % i)
         paint(r, .84, 1.04, seed=29 + i); parts.append(r)
     print("ROOK_COUNTER_TRIS", tri_count())
     export(OUT + "rook_counter_stock.glb")

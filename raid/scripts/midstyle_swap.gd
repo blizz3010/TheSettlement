@@ -94,13 +94,17 @@ static func _cut_region(mesh: MeshInstance3D, root: Node3D, region: AABB) -> int
 					break
 			if inside: removed += 1
 			else: kept.append_array([index[t], index[t + 1], index[t + 2]])
+		if kept.is_empty(): continue  # the whole surface was counter-top dressing
 		arrays[Mesh.ARRAY_INDEX] = kept
 		rebuilt.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 		var surface_material := source.surface_get_material(s)
-		if surface_material != null: rebuilt.surface_set_material(s, surface_material)
+		if surface_material != null: rebuilt.surface_set_material(rebuilt.get_surface_count() - 1, surface_material)
 	if removed > 0:
-		mesh.mesh = rebuilt
 		mesh.set_meta("midstyle_removed_triangles", removed)
+		if rebuilt.get_surface_count() == 0:
+			mesh.visible = false
+		else:
+			mesh.mesh = rebuilt
 	return removed
 
 static func _triangles(root: Node) -> int:
