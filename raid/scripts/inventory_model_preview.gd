@@ -15,4 +15,20 @@ func _ready():
 
 func redraw_preview():
 	# The inventory column re-renders while visible (as the shipped preview did).
-	if is_instance_valid(render_view):render_view.render_target_update_mode=SubViewport.UPDATE_WHEN_VISIBLE
+	if is_instance_valid(render_view):
+		render_view.render_target_update_mode=SubViewport.UPDATE_WHEN_VISIBLE
+		_fit_width()
+
+func set_angle(degrees:float):
+	super.set_angle(degrees)
+	_fit_width()
+
+func _fit_width():
+	# The inventory column is narrow (~140 x 300 px): widen the ortho frame so the
+	# rig's A-pose arm span (~0.97 m) is never cropped.
+	if not model_ok or not is_instance_valid(camera) or not is_instance_valid(render_view):return
+	var vs=render_view.size
+	if vs.x<=0 or vs.y<=0:return
+	var aspect=float(vs.x)/float(vs.y)
+	var span=absf(model_bounds.size.x*cos(deg_to_rad(angle)))+absf(model_bounds.size.z*sin(deg_to_rad(angle)))
+	camera.size=maxf(model_bounds.end.y*1.18,(span+.12)/aspect)
