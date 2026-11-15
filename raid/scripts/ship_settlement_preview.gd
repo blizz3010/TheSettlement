@@ -171,4 +171,10 @@ func _depart_ship_preview():
 
 func activate_loaded_world():
 	super.activate_loaded_world()
+	# TASKS item 8 (PR #4): mid-stylized hideout dressing.
 	preload("res://raid/scripts/settlement_visuals_style_test.gd").apply(self)
+	# TASKS item 10: reshape the hills that ran through the inn lake.
+	if world_activated:
+		var lake_fix: Dictionary = preload("res://raid/scripts/inn_lake_mountain_fix.gd").apply(self)
+		if not lake_fix.get("ok", false):
+			push_warning("Inn lake mountain fix skipped: " + str(lake_fix.get("reason", lake_fix)))
