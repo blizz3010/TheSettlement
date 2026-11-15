@@ -8,6 +8,8 @@ const ShipSelection = preload("res://raid/scripts/ship_raid_selection.gd")
 var ship_selection: CanvasLayer
 var ship_selection_generation := 0
 var ship_selection_binding: Dictionary = {}
+const ShipTakeoff = preload("res://raid/scripts/ship_takeoff_cutscene.gd")
+var ship_takeoff: Node
 const SettlementHealth = preload("res://raid/scripts/settlement_health.gd")
 var player_health: Node
 
@@ -20,10 +22,11 @@ func _initialize_world():
 		if not note.is_empty(): message(note)
 
 func modal_open(include_cooking:bool=true,include_fishing_trader:bool=true,include_preview_traders:bool=true) -> bool:
-	return is_instance_valid(ship_selection) or super.modal_open(include_cooking, include_fishing_trader, include_preview_traders)
+	# Hide gameplay HUD (minimap, vitals, hotbar) for the duration of takeoff.
+	return is_instance_valid(ship_selection) or is_instance_valid(ship_takeoff) or super.modal_open(include_cooking, include_fishing_trader, include_preview_traders)
 
 func _process(delta):
-	if ship_contract.busy: return
+	if ship_contract.busy or is_instance_valid(ship_takeoff): return
 	super._process(delta)
 	if ship_can_embark():
 		prompt.text = key_label("interact") + "  Select raid • Ship deployment"
@@ -70,7 +73,7 @@ func _input(event):
 			get_viewport().set_input_as_handled()
 
 func _unhandled_input(event):
-	if ship_contract.busy: return
+	if ship_contract.busy or is_instance_valid(ship_takeoff): return
 	if is_instance_valid(ship_selection):
 		# Block baseline quick-load/build/menu shortcuts while choosing a destination.
 		get_viewport().set_input_as_handled()
@@ -115,6 +118,9 @@ func _confirm_ship_selection(generation: int, raid_id := "relay_ridge"):
 	if generation != ship_selection_generation or not is_instance_valid(ship_selection) or ship_contract.busy: return
 	if not Catalog.contains(raid_id):
 		return
+	# cooking_window_focused is the settlement-wide window-focus flag
+	# (DisplayServer.window_is_focused, forced true in headless). It is not a
+	# leftover cooking-only Deploy gate. An unfocused window must not embark.
 	if not cooking_window_focused:
 		_close_ship_selection(false)
 		return
@@ -130,7 +136,7 @@ func _confirm_ship_selection(generation: int, raid_id := "relay_ridge"):
 		return
 	ship_selected_raid_id = raid_id
 	if is_instance_valid(player): player.enabled = false
-	call_deferred("_depart_ship_preview")
+	call_deferred("_begin_takeoff_cutscene")
 
 func open_options():
 	# The inherited close-request handler can run before this subclass receives
@@ -143,6 +149,21 @@ func _notification(what):
 	# baseline handler twice; it still owns focus bookkeeping and the quit dialog.
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_WM_CLOSE_REQUEST:
 		_close_ship_selection(false)
+
+func _begin_takeoff_cutscene():
+	if not ship_contract.busy or not is_inside_tree() or is_queued_for_deletion(): return
+	if is_instance_valid(ship_takeoff): return
+	ship_takeoff = ShipTakeoff.new()
+	ship_takeoff.name = "ShipTakeoffCutscene"
+	ship_takeoff.raid_id = ship_selected_raid_id
+	ship_takeoff.finished.connect(_on_takeoff_finished)
+	add_child(ship_takeoff)
+	ship_takeoff.begin(self)
+
+func _on_takeoff_finished(raid_id: String, _skipped: bool):
+	if raid_id != "":
+		ship_selected_raid_id = raid_id
+	call_deferred("_depart_ship_preview")
 
 func _depart_ship_preview():
 	if not ship_contract.busy or not is_inside_tree() or is_queued_for_deletion(): return
@@ -157,3 +178,13 @@ func _depart_ship_preview():
 	host.call_deferred("open_raid")
 	get_parent().remove_child(self)
 	queue_free()
+
+func activate_loaded_world():
+	super.activate_loaded_world()
+	# TASKS item 8 (PR #4): mid-stylized hideout dressing.
+	preload("res://raid/scripts/settlement_visuals_style_test.gd").apply(self)
+	# TASKS item 10: reshape the hills that ran through the inn lake.
+	if world_activated:
+		var lake_fix: Dictionary = preload("res://raid/scripts/inn_lake_mountain_fix.gd").apply(self)
+		if not lake_fix.get("ok", false):
+			push_warning("Inn lake mountain fix skipped: " + str(lake_fix.get("reason", lake_fix)))
