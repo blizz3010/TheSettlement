@@ -3,13 +3,14 @@ extends Node
 ## autoload during capture (project.godot is not changed), so the game itself starts as a
 ## plain `godot --path .` launch of main_scene. Drives real input events:
 ## mouse clicks on Play / settler card / Enter, W to walk up the ship ramp, E to board,
-## a click on Deploy. env PF_OUT=<dir>.
+## a click on Deploy. env PF_OUT=<dir>. Timeouts are wall-clock and generous: llvmpipe
+## renders the settlement at a few seconds per frame.
 var out := ""
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	out = OS.get_environment("PF_OUT")
 	DirAccess.make_dir_recursive_absolute(out)
-	get_tree().create_timer(1500).timeout.connect(func(): print("PF: watchdog"); get_tree().quit(3))
+	get_tree().create_timer(5400).timeout.connect(func(): print("PF: watchdog"); get_tree().quit(3))
 	call_deferred("_run")
 
 func log_(s): print("PF: ", s, "  t=", Time.get_ticks_msec() / 1000)
@@ -93,7 +94,7 @@ func _run():
 		if not took_approach and l.z < 10.5:
 			took_approach = true
 			call_deferred("shot", "04a_spaceship_approach")
-		return world.ship_can_embark(), 30)
+		return world.ship_can_embark(), 1200)
 	key(KEY_W, false)
 	await get_tree().create_timer(1.0).timeout
 	log_("on pad " + str(reached) + " local " + str(ship.to_local(player.global_position)) + " embark " + str(world.ship_can_embark()))
@@ -107,7 +108,7 @@ func _run():
 	await click(world.ship_selection.deploy_button)
 	var raid_ok = await wait_for(func():
 		var s = get_tree().current_scene
-		return s != null and s.get("raid") != null and is_instance_valid(s.raid) and s.raid.is_raid_ready() and not s.cover.visible, 300)
+		return s != null and s.get("raid") != null and is_instance_valid(s.raid) and s.raid.is_raid_ready() and not s.cover.visible, 2400)
 	log_("raid ready " + str(raid_ok))
 	await get_tree().create_timer(5.0).timeout
 	await shot("05_inside_raid" if raid_ok else "05_FAILED")
