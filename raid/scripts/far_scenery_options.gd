@@ -209,7 +209,8 @@ static func plant_clusters(backdrop: Node3D, root: Node3D) -> Dictionary:
 static func _ridge_profile(az: float, phase: float) -> Vector2:
 	# x = radius scale, y = height scale. Several frequencies plus a few
 	# mountain passes so the skyline is a range, not a flat band.
-	var r := 1.0 + 0.16 * sin(az * 3.0 + phase) + 0.09 * sin(az * 5.0 - phase * 1.3) + 0.05 * sin(az * 11.0 + phase * 0.4) + 0.03 * sin(az * 19.0)
+	# Keep wobble modest so the inner foot stays outside the lake (~206 m).
+	var r := 1.0 + 0.06 * sin(az * 3.0 + phase) + 0.04 * sin(az * 5.0 - phase * 1.3) + 0.02 * sin(az * 11.0 + phase * 0.4)
 	var longw := 0.62 + 0.38 * sin(az * 2.0 + phase)
 	var peaks := 0.0
 	var freqs := [3.0, 5.0, 8.0, 13.0]
@@ -238,23 +239,23 @@ static func _ridge_ring(st: SurfaceTool, radius: float, height: float, phase: fl
 		var a1 := TAU * (i + 1) / segments
 		var p0 := _ridge_profile(a0, phase)
 		var p1 := _ridge_profile(a1, phase)
-		# Five-point hill profile: inner foot, inner mid, crest, outer mid, outer foot.
-		# A wider base and mid-slope keep the ring from reading as a thin band.
+		# Narrow, steep ridge so the inner slope is a horizon silhouette, not a
+		# ramp across the valley or the lake (far shore is ~206 m from origin).
 		var h0 := height * p0.y
 		var h1 := height * p1.y
 		var ring0 := [
-			Vector3(cos(a0) * radius * p0.x * 0.78, h0 * 0.02, sin(a0) * radius * p0.x * 0.78),
-			Vector3(cos(a0) * radius * p0.x * 0.90, h0 * 0.48, sin(a0) * radius * p0.x * 0.90),
+			Vector3(cos(a0) * radius * p0.x * 0.96, h0 * 0.18, sin(a0) * radius * p0.x * 0.96),
+			Vector3(cos(a0) * radius * p0.x * 0.98, h0 * 0.62, sin(a0) * radius * p0.x * 0.98),
 			Vector3(cos(a0) * radius * p0.x, h0, sin(a0) * radius * p0.x),
-			Vector3(cos(a0) * radius * p0.x * 1.14, h0 * 0.42, sin(a0) * radius * p0.x * 1.14),
-			Vector3(cos(a0) * radius * p0.x * 1.28, h0 * 0.04, sin(a0) * radius * p0.x * 1.28),
+			Vector3(cos(a0) * radius * p0.x * 1.05, h0 * 0.58, sin(a0) * radius * p0.x * 1.05),
+			Vector3(cos(a0) * radius * p0.x * 1.08, h0 * 0.16, sin(a0) * radius * p0.x * 1.08),
 		]
 		var ring1 := [
-			Vector3(cos(a1) * radius * p1.x * 0.78, h1 * 0.02, sin(a1) * radius * p1.x * 0.78),
-			Vector3(cos(a1) * radius * p1.x * 0.90, h1 * 0.48, sin(a1) * radius * p1.x * 0.90),
+			Vector3(cos(a1) * radius * p1.x * 0.96, h1 * 0.18, sin(a1) * radius * p1.x * 0.96),
+			Vector3(cos(a1) * radius * p1.x * 0.98, h1 * 0.62, sin(a1) * radius * p1.x * 0.98),
 			Vector3(cos(a1) * radius * p1.x, h1, sin(a1) * radius * p1.x),
-			Vector3(cos(a1) * radius * p1.x * 1.14, h1 * 0.42, sin(a1) * radius * p1.x * 1.14),
-			Vector3(cos(a1) * radius * p1.x * 1.28, h1 * 0.04, sin(a1) * radius * p1.x * 1.28),
+			Vector3(cos(a1) * radius * p1.x * 1.05, h1 * 0.58, sin(a1) * radius * p1.x * 1.05),
+			Vector3(cos(a1) * radius * p1.x * 1.08, h1 * 0.16, sin(a1) * radius * p1.x * 1.08),
 		]
 		var crest_frac := [0.0, 0.45, 1.0, 0.42, 0.0]
 		for row in range(rows - 1):
@@ -284,8 +285,10 @@ static func add_layer_ridges(root: Node3D) -> Dictionary:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	# Nearer green foothills, farther cooler alpine backdrop. Low triangle count.
-	var t1 := _ridge_ring(st, 275.0, 64.0, 0.4, Color(0.22, 0.30, 0.22), 40)
-	var t2 := _ridge_ring(st, 470.0, 102.0, 1.7, Color(0.32, 0.38, 0.42), 36)
+	# Crests sit well behind the lake (far shore ~206 m). Even with wobble and
+	# the inner foot at 0.96, the near ring stays outside ~285 m.
+	var t1 := _ridge_ring(st, 320.0, 72.0, 0.4, Color(0.22, 0.30, 0.22), 40)
+	var t2 := _ridge_ring(st, 510.0, 118.0, 1.7, Color(0.32, 0.38, 0.42), 36)
 	var mesh := st.commit()
 	var mat := ShaderMaterial.new()
 	mat.shader = RIDGE
