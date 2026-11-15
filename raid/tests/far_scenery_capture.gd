@@ -1,8 +1,14 @@
 extends Node
-## Test-only camera-matched captures of the far scenery (TASKS item 9).
-## Shots come from FAR_SHOTS (JSON file path). Writes PNGs, per-shot render
-## stats, and a dump of the backdrop nodes beyond the settlement.
-## Convention used here: +z = north (inn/lake), +x = east (launch pad).
+## Test-only matched captures of item 9 far-scenery options.
+## Loaded through a temporary override.cfg autoload; not wired into project.godot.
+## Env: FAR_OUT, FAR_TAG (optional, defaults to FAR_SCENERY_OPTION or "off"),
+## FAR_SHOTS (optional JSON), FAR_DUMP=1.
+
+const DEFAULT_SHOTS := [
+	{"name": "settlement_wide", "origin": [-42.0, 48.0, -48.0], "look": [8.0, 6.0, 22.0], "note": "Elevated wide view of the settlement and surrounding hills"},
+	{"name": "inn_lake", "origin": [0.0, 5.05, 61.6], "look": [20.0, 3.0, 130.0], "note": "Inn rear deck, looking out over the lake"},
+	{"name": "pad_approach", "origin": [36.0, 3.2, 2.0], "look": [200.0, 14.0, 8.0], "note": "Launch-pad / raid-approach view facing the eastern hills", "ground": true},
+]
 
 var journal: Dictionary = {"notes": [], "screenshots": [], "backdrop": [], "ok": false}
 var out_dir := ""
@@ -51,7 +57,6 @@ func screenshot(world: Node3D, shot: Dictionary) -> void:
 	var origin := v3(shot.origin)
 	var look := v3(shot.look)
 	if shot.get("ground", false):
-		# Stand on whatever walkable surface is under the camera, eye at 1.65 m.
 		await get_tree().physics_frame
 		var q := PhysicsRayQueryParameters3D.create(Vector3(origin.x, 80.0, origin.z), Vector3(origin.x, -40.0, origin.z))
 		var hit := world.get_world_3d().direct_space_state.intersect_ray(q)
@@ -74,7 +79,7 @@ func screenshot(world: Node3D, shot: Dictionary) -> void:
 	var img: Image = get_viewport().get_texture().get_image()
 	var path := "%s/%s_%s.png" % [out_dir, tag, shot.name]
 	img.save_png(path)
-	journal["screenshots"].append({"path": path, "name": shot.name, "note": shot.get("note", ""), "stats": stats})
+	journal["screenshots"].append({"path": path, "name": shot.name, "note": shot.get("note", ""), "stats": stats, "origin": [origin.x, origin.y, origin.z], "look": [look.x, look.y, look.z]})
 	log_line("shot %s %s" % [path, str(stats)])
 
 func tri_count(node: Node) -> int:
@@ -114,15 +119,25 @@ func dump_backdrop(world: Node3D) -> void:
 			inst = node.multimesh.instance_count
 		journal["backdrop"].append({"path": str(world.get_path_to(node)), "class": node.get_class(), "visible": node.is_visible_in_tree(), "material": mname, "vis_range": [node.visibility_range_begin, node.visibility_range_end], "instances": inst, "triangles": tri_count(node), "aabb": str(aabb)})
 
-func run() -> void:
-	tag = OS.get_environment("FAR_TAG").strip_edges()
-	out_dir = OS.get_environment("FAR_OUT").strip_edges()
+func load_shots() -> Array:
 	var shots_path := OS.get_environment("FAR_SHOTS").strip_edges()
-	if tag == "" or out_dir == "" or shots_path == "":
-		push_error("FAR_TAG, FAR_OUT and FAR_SHOTS required")
+	if shots_path != "":
+		return JSON.parse_string(FileAccess.get_file_as_string(shots_path))
+	return DEFAULT_SHOTS
+
+func run() -> void:
+	var opt := OS.get_environment("FAR_SCENERY_OPTION").strip_edges().to_lower()
+	if opt == "":
+		opt = "off"
+	tag = OS.get_environment("FAR_TAG").strip_edges()
+	if tag == "":
+		tag = opt
+	out_dir = OS.get_environment("FAR_OUT").strip_edges()
+	if out_dir == "":
+		push_error("FAR_OUT required")
 		get_tree().quit(2)
 		return
-	var shots = JSON.parse_string(FileAccess.get_file_as_string(shots_path))
+	var shots = load_shots()
 	DirAccess.make_dir_recursive_absolute(out_dir)
 	get_tree().root.size = Vector2i(1440, 900)
 	DisplayServer.window_set_size(Vector2i(1440, 900))
@@ -153,7 +168,10 @@ func run() -> void:
 	for i in 30:
 		await get_tree().process_frame
 	hide_overlays(world)
-	journal["far_test_meta"] = str(world.get_meta("far_scenery_test", {}))
+	journal["option"] = opt
+	journal["far_option_meta"] = world.get_meta("far_scenery_option", {})
+	journal["lake_fix_present"] = world.has_meta("inn_lake_mountain_fix")
+	log_line("option %s meta %s lake_fix %s" % [opt, str(journal["far_option_meta"]), str(journal["lake_fix_present"])])
 	if OS.get_environment("FAR_DUMP") == "1":
 		dump_backdrop(world)
 		log_line("backdrop nodes beyond 70 m: %d" % journal["backdrop"].size())

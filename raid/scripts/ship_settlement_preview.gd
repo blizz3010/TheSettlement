@@ -201,9 +201,10 @@ func activate_loaded_world():
 	# this only adds what the first pass could not reach; nothing is applied twice.
 	if MidstyleSwap.enabled and world_activated and not startup_cancel_requested:
 		MidstyleSwap.apply(self)
-	# TASKS item 9 style test: far scenery runs after the lake fix so MiddleRidge
-	# keeps PR #5's reshape (lake_cut is turned off when that meta is set).
-	if world_activated and OS.get_environment("FAR_SCENERY_TEST_OFF") != "1":
-		var far_test: Dictionary = preload("res://raid/scripts/far_scenery_test.gd").apply(self)
-		if not far_test.get("ok", false):
-			push_warning("Far scenery style test skipped: " + str(far_test.get("reason", far_test)))
+	# TASKS item 9: far-scenery preview options (A/B/C). Off unless
+	# FAR_SCENERY_OPTION or far_scenery_options.gd PREVIEW is set. Runs after
+	# the lake fix so MiddleRidge keeps PR #5's reshape (lake_cut off).
+	if world_activated:
+		var far_opt: Dictionary = preload("res://raid/scripts/far_scenery_options.gd").apply(self)
+		if not far_opt.get("skipped", false) and not far_opt.get("ok", false):
+			push_warning("Far scenery option skipped: " + str(far_opt.get("reason", far_opt)))
