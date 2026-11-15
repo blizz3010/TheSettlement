@@ -195,3 +195,9 @@ func activate_loaded_world():
 		var lake_fix: Dictionary = preload("res://raid/scripts/inn_lake_mountain_fix.gd").apply(self)
 		if not lake_fix.get("ok", false):
 			push_warning("Inn lake mountain fix skipped: " + str(lake_fix.get("reason", lake_fix)))
+	# Item 11 swap, second pass for the normal (staged) start: the title runs the startup asset
+	# gate after _initialize_world, and the gate is what builds TailorAtelier. apply() skips any
+	# prop already swapped (MidstyleDressForm / MidstyleCounterStock / MidstyleReceptionDesk), so
+	# this only adds what the first pass could not reach; nothing is applied twice.
+	if MidstyleSwap.enabled and world_activated and not startup_cancel_requested:
+		MidstyleSwap.apply(self)

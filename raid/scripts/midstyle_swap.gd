@@ -23,18 +23,20 @@ const DRESS_FORM_REGION := AABB(Vector3(-.42, .05, -1.62), Vector3(.84, 2.12, .5
 ## Starts just below the top so items whose base sits 1 cm into the stone are fully cut.
 const ROOK_TOP_REGION := AABB(Vector3(-1.98, 1.135, -1.93), Vector3(3.96, .185, .86))
 
+## Idempotent: a prop that already carries its Midstyle* node is reported {"ok": true, "already": true}
+## and left alone, so the ship settlement can call this again after the startup asset gate.
 static func apply(world: Node3D) -> Dictionary:
 	var result := {"ok": true, "tailor": {}, "rook": {}}
 	var tailor := world.get_node_or_null("TailorAtelier") as Node3D
-	if tailor != null and not tailor.has_node("MidstyleDressForm"):
-		result.tailor = _swap_dress_form(tailor)
+	if tailor != null and tailor.has_node("MidstyleDressForm"): result.tailor = {"ok": true, "already": true}
+	elif tailor != null: result.tailor = _swap_dress_form(tailor)
 	var rook := world.get_node_or_null("RookReferenceArt") as Node3D
-	if rook != null and not rook.has_node("MidstyleCounterStock"):
-		result.rook = _swap_rook_counter(rook)
+	if rook != null and rook.has_node("MidstyleCounterStock"): result.rook = {"ok": true, "already": true}
+	elif rook != null: result.rook = _swap_rook_counter(rook)
 	result["reception"] = {}
 	var assembly := world.get_node_or_null("HallReceptionAssemblyV098") as Node3D
-	if assembly != null and not assembly.has_node("MidstyleReceptionDesk"):
-		result.reception = _swap_reception(world, assembly)
+	if assembly != null and assembly.has_node("MidstyleReceptionDesk"): result.reception = {"ok": true, "already": true}
+	elif assembly != null: result.reception = _swap_reception(world, assembly)
 	result.ok = result.tailor.get("ok", false) and result.rook.get("ok", false) and result.reception.get("ok", false)
 	world.set_meta("midstyle_style_test", result)
 	return result
