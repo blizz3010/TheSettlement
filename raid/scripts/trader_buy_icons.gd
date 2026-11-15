@@ -37,14 +37,18 @@ static func apply_details(panel: Control, row: Dictionary, previous_text: String
 	if not is_instance_valid(panel) or not is_instance_valid(panel.details) or row.is_empty():
 		return
 	var stats := stats_text(row)
+	var alert := ""
+	for phrase in ["Not enough credits", "Bag full", "Credit limit", "Not enough carried"]:
+		if previous_text.contains(phrase):
+			var i := previous_text.find(phrase)
+			var end := previous_text.find("\n", i)
+			alert = previous_text.substr(i, -1 if end < 0 else end - i).strip_edges() + "\n\n"
+			break
 	var tail := ""
 	var desc := str(row.get("description", ""))
 	if not desc.is_empty() and previous_text.contains(desc):
 		tail = previous_text.substr(previous_text.find(desc) + desc.length())
-	elif previous_text.contains("Not enough credits"):
-		var i := previous_text.find("Not enough credits")
-		tail = "\n\n" + previous_text.substr(i)
-	panel.details.text = stats + tail
+	panel.details.text = alert + stats + tail
 
 static func install_hero(panel: Control) -> TextureRect:
 	if panel.has_meta("trader_hero") and is_instance_valid(panel.get_meta("trader_hero")):
