@@ -9,8 +9,11 @@ var ship_selection: CanvasLayer
 var ship_selection_generation := 0
 var ship_selection_binding: Dictionary = {}
 const MidstyleSwap = preload("res://raid/scripts/midstyle_swap.gd")
+const MidstyleRollout = preload("res://raid/scripts/midstyle_rollout.gd")
 
 func _initialize_world():
+	# Item 12 rollout: raid prop remodels follow the item 11 switch (see midstyle_rollout.gd).
+	MidstyleRollout.enabled = MidstyleSwap.enabled
 	await super._initialize_world()
 	# Item 11 style test: mid-stylized prop remodels, render-only (see midstyle_swap.gd).
 	if MidstyleSwap.enabled and world_initialized and not startup_cancel_requested:

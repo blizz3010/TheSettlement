@@ -47,6 +47,7 @@ TESTS = [
     ("test_field_supplies", "FIELD_SUPPLIES_TESTS "),
     ("test_cargo_scenery", "CARGO_SCENERY_TESTS "),
     ("test_raid_ui_lifecycle", "RAID_UI_LIFECYCLE_TESTS "),
+    ("test_midstyle_rollout", "MIDSTYLE_ROLLOUT_TESTS "),
 ]
 
 def main():
