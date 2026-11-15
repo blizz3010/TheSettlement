@@ -201,10 +201,11 @@ func activate_loaded_world():
 	# this only adds what the first pass could not reach; nothing is applied twice.
 	if MidstyleSwap.enabled and world_activated and not startup_cancel_requested:
 		MidstyleSwap.apply(self)
-	# TASKS item 9: far-scenery preview options (A/B/C). Off unless
-	# FAR_SCENERY_OPTION or far_scenery_options.gd PREVIEW is set. Runs after
+	# TASKS item 9: far scenery (option B) is on by default in the normal game.
+	# FAR_SCENERY_OPTION=off turns it off for tests and benches. Runs after
 	# the lake fix so MiddleRidge keeps PR #5's reshape (lake_cut off).
+	# Original thin dome ribs are hidden at runtime; settlement.gd is not edited.
 	if world_activated:
 		var far_opt: Dictionary = preload("res://raid/scripts/far_scenery_options.gd").apply(self)
 		if not far_opt.get("skipped", false) and not far_opt.get("ok", false):
-			push_warning("Far scenery option skipped: " + str(far_opt.get("reason", far_opt)))
+			push_warning("Far scenery skipped: " + str(far_opt.get("reason", far_opt)))

@@ -51,6 +51,7 @@ TESTS = [
     ("test_raid_ui_lifecycle", "RAID_UI_LIFECYCLE_TESTS "),
     ("test_health_damage", "HEALTH_DAMAGE_TESTS "),
     ("test_midstyle_rollout", "MIDSTYLE_ROLLOUT_TESTS "),
+    ("test_far_scenery", "FAR_SCENERY_TESTS "),
 ]
 
 def main():

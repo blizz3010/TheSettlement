@@ -1,16 +1,13 @@
 extends RefCounted
-## TASKS item 9 far-scenery preview options, render-only, no pinned edits.
-## A: painted hills plus a sparse treeline around the unfinished sectors.
-## B: A, plus alpine/apron paint, layered ridge silhouettes, dense treeline.
-## C: B, plus thickened dome ribs (the original 5.5 cm ribs are hidden).
-## A and B hide the original thin ribs so the comparison is a clear yes/no.
-##
-## Toggle: env FAR_SCENERY_OPTION=off|A|B|C overrides PREVIEW below.
-## Default is off so this branch matches main until a preview is requested.
+## TASKS item 9 far scenery, option B, render-only, no pinned edits.
+## On by default in the normal game (play_title → ship settlement).
+## FAR_SCENERY_OPTION=off (also 0 / false) turns it off for tests and benches.
+## Paints unfinished hills and the alpine backdrop, plants a dense treeline,
+## and adds low-detail layered ridge silhouettes with a varied skyline.
+## Original 5.5 cm dome ribs are hidden at runtime; settlement.gd is not edited.
 ## Apply after PR #5's lake fix so MiddleRidge keeps the reshaped mesh and
 ## lake_cut is turned off.
 
-const PREVIEW := ""
 const META := "far_scenery_option"
 const SEED := 2026111509
 const Lake := preload("res://scripts/inn_lake_v088.gd")
@@ -18,7 +15,6 @@ const Meshes := preload("res://raid/scripts/far_scenery_test.gd")
 const PAINT := preload("res://raid/shaders/far_terrain_paint_v100.gdshader")
 const CANOPY := preload("res://raid/shaders/far_canopy_v100.gdshader")
 const RIDGE := preload("res://raid/shaders/far_ridge_silhouette_v100.gdshader")
-const RIB := preload("res://raid/shaders/far_dome_rib_v100.gdshader")
 
 const R_MIN := 74.0
 const R_MAX := 330.0
@@ -28,18 +24,11 @@ const SOUTH_AZ := -90.0
 const SOUTH_HALF := 52.0
 const RIB_COLOR := Color("93c4be")
 const RIB_THICK := 0.055
-const RIB_NEW_THICK := 0.28
-const DOME_RX := 65.0
-const DOME_RY := 42.0
-const DOME_CY := -1.0
 
-static func option_id() -> String:
-	var env := OS.get_environment("FAR_SCENERY_OPTION").strip_edges().to_upper()
-	if env == "":
-		env = PREVIEW.strip_edges().to_upper()
-	if env in ["A", "B", "C"]:
-		return env
-	return "OFF"
+
+static func enabled() -> bool:
+	var env := OS.get_environment("FAR_SCENERY_OPTION").strip_edges().to_lower()
+	return env not in ["off", "0", "false"]
 
 
 static func south_weight(p: Vector2) -> float:
@@ -131,16 +120,15 @@ static func _paint_node(node: MeshInstance3D, band: int, lake_cut: bool) -> void
 	node.material_override = mat
 
 
-static func paint_terrain(backdrop: Node3D, world: Node3D, opt: String) -> Array:
+static func paint_terrain(backdrop: Node3D, world: Node3D) -> Array:
 	var changed := []
 	var lake_fixed := world.has_meta("inn_lake_mountain_fix")
 	var jobs := [
 		["MiddleRidge", 0, not lake_fixed],
 		["OuterFoothills", 1, false],
 		["ScenicGroundApron", 3, false],
+		["DistantAlpineRange", 2, false],
 	]
-	if opt != "A":
-		jobs.append(["DistantAlpineRange", 2, false])
 	for job in jobs:
 		var node := backdrop.get_node_or_null(job[0]) as MeshInstance3D
 		if node == null:
@@ -150,41 +138,31 @@ static func paint_terrain(backdrop: Node3D, world: Node3D, opt: String) -> Array
 	return changed
 
 
-static func plant_clusters(backdrop: Node3D, root: Node3D, opt: String) -> Dictionary:
+static func plant_clusters(backdrop: Node3D, root: Node3D) -> Dictionary:
 	var faces: PackedVector3Array = backdrop.terrain_vertices
 	var bins := _index(faces)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = SEED
 	var meshes := [Meshes.broadleaf_cluster_mesh(), Meshes.conifer_mesh()]
 	var groups := [[], []]
-	var target := 480 if opt == "A" else 2100
+	var target := 2100
 	var attempts := 0
 	var accepted := 0
-	var r_lo := 140.0 if opt == "A" else R_MIN
-	var r_hi := 230.0 if opt == "A" else R_MAX
 	while accepted < target and attempts < target * 28:
 		attempts += 1
 		var az := rng.randf_range(-PI, PI)
-		var r := sqrt(rng.randf_range(r_lo * r_lo, r_hi * r_hi))
+		var r := sqrt(rng.randf_range(R_MIN * R_MIN, R_MAX * R_MAX))
 		var p := Vector2(cos(az), sin(az)) * r
 		if rng.randf() < south_weight(p):
 			continue
-		var cover: float
-		if opt == "A":
-			# Sparse crest band, with meadow gaps.
-			cover = 0.22 + 0.16 * sin(p.x * 0.031 + p.y * 0.017) + 0.10 * sin(p.y * 0.047)
-		else:
-			cover = 0.54 + 0.24 * sin(p.x * 0.031 + p.y * 0.017) + 0.18 * sin(p.y * 0.047 - p.x * 0.012) + 0.12 * sin(p.x * 0.11 + 1.3)
-			# Extra density along two treeline ridges.
-			var crest := minf(absf(r - 175.0), absf(r - 280.0))
-			if crest < 22.0:
-				cover += 0.28
+		var cover := 0.54 + 0.24 * sin(p.x * 0.031 + p.y * 0.017) + 0.18 * sin(p.y * 0.047 - p.x * 0.012) + 0.12 * sin(p.x * 0.11 + 1.3)
+		var crest := minf(absf(r - 175.0), absf(r - 280.0))
+		if crest < 22.0:
+			cover += 0.28
 		if rng.randf() > clampf(cover, 0.0, 0.95):
 			continue
 		var kind := 1 if rng.randf() < (0.35 if r < 160.0 else 0.62) else 0
 		var height := rng.randf_range(8.0, 13.0) * (1.0 + (r - R_MIN) / R_MAX * 0.6)
-		if opt == "A":
-			height *= 1.15
 		var footprint := height * 0.35
 		if not _clear(p, footprint):
 			continue
@@ -216,7 +194,7 @@ static func plant_clusters(backdrop: Node3D, root: Node3D, opt: String) -> Dicti
 			mm.set_instance_transform(i, groups[kind][i][0])
 			mm.set_instance_color(i, groups[kind][i][1])
 		var node := MultiMeshInstance3D.new()
-		node.name = "FarOptionClusters" + ("Broadleaf" if kind == 0 else "Conifer")
+		node.name = "FarSceneryClusters" + ("Broadleaf" if kind == 0 else "Conifer")
 		node.multimesh = mm
 		node.material_override = mat
 		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -228,43 +206,91 @@ static func plant_clusters(backdrop: Node3D, root: Node3D, opt: String) -> Dicti
 		"mesh_triangles": [meshes[0].get_faces().size() / 3, meshes[1].get_faces().size() / 3]}
 
 
+static func _ridge_profile(az: float, phase: float) -> Vector2:
+	# x = radius scale, y = height scale. Several frequencies plus a few
+	# mountain passes so the skyline is a range, not a flat band.
+	var r := 1.0 + 0.16 * sin(az * 3.0 + phase) + 0.09 * sin(az * 5.0 - phase * 1.3) + 0.05 * sin(az * 11.0 + phase * 0.4) + 0.03 * sin(az * 19.0)
+	var longw := 0.62 + 0.38 * sin(az * 2.0 + phase)
+	var peaks := 0.0
+	var freqs := [3.0, 5.0, 8.0, 13.0]
+	var amps := [0.22, 0.16, 0.12, 0.08]
+	for k in 4:
+		var ph := phase * (1.0 + 0.37 * k) + k * 1.7
+		var s := 0.5 + 0.5 * sin(az * freqs[k] + ph)
+		peaks += amps[k] * pow(s, 2.4)
+	var h := 0.38 * longw + peaks - 0.035 * absf(sin(az * 7.0 - phase))
+	var pass_w := 0.0
+	for p in 3:
+		var center := phase + p * 2.15
+		var d := absf(wrapf(az - center, -PI, PI))
+		var width := 0.22 + 0.08 * sin(phase + p)
+		pass_w = maxf(pass_w, 1.0 - smoothstep(0.0, width, d))
+	h *= lerpf(1.0, 0.30, pass_w * 0.85)
+	h *= 1.0 + 0.04 * sin(az * 23.0 + phase)
+	return Vector2(r, clampf(h, 0.20, 1.20))
+
+
 static func _ridge_ring(st: SurfaceTool, radius: float, height: float, phase: float, color: Color, segments: int) -> int:
 	var tris := 0
+	var rows := 5
 	for i in segments:
 		var a0 := TAU * i / segments
 		var a1 := TAU * (i + 1) / segments
-		var wobble0 := 1.0 + 0.08 * sin(a0 * 5.0 + phase) + 0.04 * sin(a0 * 11.0)
-		var wobble1 := 1.0 + 0.08 * sin(a1 * 5.0 + phase) + 0.04 * sin(a1 * 11.0)
-		var h0 := height * (0.72 + 0.28 * (0.5 + 0.5 * sin(a0 * 3.0 + phase)))
-		var h1 := height * (0.72 + 0.28 * (0.5 + 0.5 * sin(a1 * 3.0 + phase)))
-		var inner0 := Vector3(cos(a0) * radius * 0.92 * wobble0, h0 * 0.15, sin(a0) * radius * 0.92 * wobble0)
-		var inner1 := Vector3(cos(a1) * radius * 0.92 * wobble1, h1 * 0.15, sin(a1) * radius * 0.92 * wobble1)
-		var crest0 := Vector3(cos(a0) * radius * wobble0, h0, sin(a0) * radius * wobble0)
-		var crest1 := Vector3(cos(a1) * radius * wobble1, h1, sin(a1) * radius * wobble1)
-		var outer0 := Vector3(cos(a0) * radius * 1.12 * wobble0, h0 * 0.20, sin(a0) * radius * 1.12 * wobble0)
-		var outer1 := Vector3(cos(a1) * radius * 1.12 * wobble1, h1 * 0.20, sin(a1) * radius * 1.12 * wobble1)
-		for tri in [[inner0, crest0, inner1], [inner1, crest0, crest1], [crest0, outer0, crest1], [crest1, outer0, outer1]]:
-			var n: Vector3 = (tri[1] - tri[0]).cross(tri[2] - tri[0]).normalized()
-			if n.y < 0:
-				n = -n
-			for v in tri:
-				st.set_normal(n)
-				st.set_color(color.darkened(0.08) if v.y < h0 * 0.5 else color)
-				st.add_vertex(v)
-			tris += 1
+		var p0 := _ridge_profile(a0, phase)
+		var p1 := _ridge_profile(a1, phase)
+		# Five-point hill profile: inner foot, inner mid, crest, outer mid, outer foot.
+		# A wider base and mid-slope keep the ring from reading as a thin band.
+		var h0 := height * p0.y
+		var h1 := height * p1.y
+		var ring0 := [
+			Vector3(cos(a0) * radius * p0.x * 0.78, h0 * 0.02, sin(a0) * radius * p0.x * 0.78),
+			Vector3(cos(a0) * radius * p0.x * 0.90, h0 * 0.48, sin(a0) * radius * p0.x * 0.90),
+			Vector3(cos(a0) * radius * p0.x, h0, sin(a0) * radius * p0.x),
+			Vector3(cos(a0) * radius * p0.x * 1.14, h0 * 0.42, sin(a0) * radius * p0.x * 1.14),
+			Vector3(cos(a0) * radius * p0.x * 1.28, h0 * 0.04, sin(a0) * radius * p0.x * 1.28),
+		]
+		var ring1 := [
+			Vector3(cos(a1) * radius * p1.x * 0.78, h1 * 0.02, sin(a1) * radius * p1.x * 0.78),
+			Vector3(cos(a1) * radius * p1.x * 0.90, h1 * 0.48, sin(a1) * radius * p1.x * 0.90),
+			Vector3(cos(a1) * radius * p1.x, h1, sin(a1) * radius * p1.x),
+			Vector3(cos(a1) * radius * p1.x * 1.14, h1 * 0.42, sin(a1) * radius * p1.x * 1.14),
+			Vector3(cos(a1) * radius * p1.x * 1.28, h1 * 0.04, sin(a1) * radius * p1.x * 1.28),
+		]
+		var crest_frac := [0.0, 0.45, 1.0, 0.42, 0.0]
+		for row in range(rows - 1):
+			var quad := [ring0[row], ring0[row + 1], ring1[row], ring1[row + 1]]
+			for tri in [[quad[0], quad[1], quad[2]], [quad[2], quad[1], quad[3]]]:
+				var n: Vector3 = (tri[1] - tri[0]).cross(tri[2] - tri[0]).normalized()
+				if n.y < 0.0:
+					n = -n
+				for vi in 3:
+					var v: Vector3 = tri[vi]
+					var cf: float = crest_frac[row] if vi == 0 or (vi == 2 and tri == [quad[0], quad[1], quad[2]]) else crest_frac[row + 1]
+					# The two mid/crest vertices of the first tri: index 1 is row+1 of ring0.
+					if tri == [quad[0], quad[1], quad[2]]:
+						cf = [crest_frac[row], crest_frac[row + 1], crest_frac[row]][vi]
+					else:
+						cf = [crest_frac[row], crest_frac[row + 1], crest_frac[row + 1]][vi]
+					var col := color.lerp(color.darkened(0.18), 1.0 - cf)
+					col.a = cf
+					st.set_normal(n)
+					st.set_color(col)
+					st.add_vertex(v)
+				tris += 1
 	return tris
 
 
 static func add_layer_ridges(root: Node3D) -> Dictionary:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var t1 := _ridge_ring(st, 268.0, 52.0, 0.4, Color(0.22, 0.30, 0.22), 28)
-	var t2 := _ridge_ring(st, 455.0, 88.0, 1.7, Color(0.30, 0.36, 0.38), 24)
+	# Nearer green foothills, farther cooler alpine backdrop. Low triangle count.
+	var t1 := _ridge_ring(st, 275.0, 64.0, 0.4, Color(0.22, 0.30, 0.22), 40)
+	var t2 := _ridge_ring(st, 470.0, 102.0, 1.7, Color(0.32, 0.38, 0.42), 36)
 	var mesh := st.commit()
 	var mat := ShaderMaterial.new()
 	mat.shader = RIDGE
 	var node := MeshInstance3D.new()
-	node.name = "FarOptionLayerRidges"
+	node.name = "FarSceneryLayerRidges"
 	node.mesh = mesh
 	node.material_override = mat
 	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -295,93 +321,33 @@ static func hide_original_ribs(world: Node3D) -> int:
 	return ribs.size()
 
 
-static func _tube_segment(st: SurfaceTool, p1: Vector3, p2: Vector3, radius: float, color: Color, sides: int) -> void:
-	var axis := p2 - p1
-	var length := axis.length()
-	if length < 0.0001:
-		return
-	var mid := (p1 + p2) * 0.5
-	var basis := Basis.looking_at(axis.normalized(), Vector3.UP if absf(axis.normalized().y) < 0.92 else Vector3.RIGHT)
-	# looking_at points -Z at the target; the tube runs along Z.
-	var z := basis.z * (length * 0.5)
-	var x := basis.x * radius
-	var y := basis.y * radius
-	for i in sides:
-		var a := TAU * i / sides
-		var b := TAU * (i + 1) / sides
-		var r0 := x * cos(a) + y * sin(a)
-		var r1 := x * cos(b) + y * sin(b)
-		var q00 := mid - z + r0
-		var q01 := mid - z + r1
-		var q10 := mid + z + r0
-		var q11 := mid + z + r1
-		var n := ((q01 - q00).cross(q10 - q00)).normalized()
-		for v in [q00, q01, q11, q00, q11, q10]:
-			st.set_normal(n)
-			st.set_color(color)
-			st.add_vertex(v)
-
-
-static func add_dome_ribs(root: Node3D) -> Dictionary:
-	var st := SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var steps := 24
-	var color := Color("93c4be")
-	for a in range(0, 180, 30):
-		for step in steps:
-			var t0 := float(step) * PI / steps
-			var t1 := float(step + 1) * PI / steps
-			var p1 := Vector3(cos(t0) * DOME_RX, DOME_CY + sin(t0) * DOME_RY, 0).rotated(Vector3.UP, deg_to_rad(a))
-			var p2 := Vector3(cos(t1) * DOME_RX, DOME_CY + sin(t1) * DOME_RY, 0).rotated(Vector3.UP, deg_to_rad(a))
-			_tube_segment(st, p1, p2, RIB_NEW_THICK * 0.5, color, 5)
-	var mesh := st.commit()
-	var mat := ShaderMaterial.new()
-	mat.shader = RIB
-	var node := MeshInstance3D.new()
-	node.name = "FarOptionDomeRibs"
-	node.mesh = mesh
-	node.material_override = mat
-	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	root.add_child(node)
-	return {"triangles": mesh.get_faces().size() / 3, "thickness_m": RIB_NEW_THICK, "meridians": 6}
-
-
 static func apply(world: Node3D) -> Dictionary:
 	if world.has_meta(META):
 		return world.get_meta(META)
-	var opt := option_id()
-	if opt == "OFF":
+	if not enabled():
 		var skipped := {"ok": true, "skipped": true, "option": "OFF"}
 		world.set_meta(META, skipped)
 		return skipped
 	var backdrop := world.get_node_or_null("ValleyBackdrop") as Node3D
 	if backdrop == null or not backdrop.get("terrain_vertices") is PackedVector3Array:
-		return {"ok": false, "reason": "ValleyBackdrop terrain unavailable", "option": opt}
+		return {"ok": false, "reason": "ValleyBackdrop terrain unavailable"}
 	var t0 := Time.get_ticks_usec()
 	var root := Node3D.new()
-	root.name = "FarSceneryOption" + opt
+	root.name = "FarScenery"
 	var hidden := hide_original_ribs(world)
-	var painted := paint_terrain(backdrop, world, opt)
-	var clusters := plant_clusters(backdrop, root, opt)
-	var ridges := {}
-	var ribs := {}
-	if opt != "A":
-		ridges = add_layer_ridges(root)
-	if opt == "C":
-		ribs = add_dome_ribs(root)
+	var painted := paint_terrain(backdrop, world)
+	var clusters := plant_clusters(backdrop, root)
+	var ridges := add_layer_ridges(root)
 	world.add_child(root)
 	var result := {
 		"ok": true,
 		"skipped": false,
-		"option": opt,
+		"option": "B",
 		"painted": painted,
 		"hidden_original_ribs": hidden,
+		"layer_ridges": ridges,
 		"build_ms": (Time.get_ticks_usec() - t0) / 1000.0,
 	}
 	result.merge(clusters)
-	if not ridges.is_empty():
-		result["layer_ridges"] = ridges
-	if not ribs.is_empty():
-		result["dome_ribs"] = ribs
 	world.set_meta(META, result)
 	return result
