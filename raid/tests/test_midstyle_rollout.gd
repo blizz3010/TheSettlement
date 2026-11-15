@@ -1,7 +1,8 @@
 extends SceneTree
 ## Item 12 rollout contract: with midstyle_rollout.gd on, the remodelled relay lever, loot caches
 ## and cargo keep the originals' node names, pivots, outer bounds, motion and gameplay bodies.
-## With it off (the default) every attach still returns the original GLB.
+## With it off (the default) every attach still returns the original GLB. Also checks the normal
+## game start reaches the ship settlement that switches both swaps on.
 const Rollout=preload("res://raid/scripts/midstyle_rollout.gd")
 const Controls=preload("res://raid/scripts/puzzle_controls.gd")
 const Props=preload("res://raid/scripts/raid_props.gd")
@@ -77,7 +78,8 @@ func verify_relay():
 	var body=StaticBody3D.new();root.add_child(body);var art2=Controls.attach(body,false)
 	var energy:float=art2.get_meta("indicator_energy")
 	Controls.activate(body)
-	for i in 30:await process_frame
+	await create_timer(1.0).timeout
+	for i in 2:await process_frame
 	check(is_equal_approx(art2.find_child("Relay_Lever",true,false).rotation_degrees.x,-40.0),"Momentary lever returns to rest")
 	check(is_equal_approx(art2.get_meta("indicator_material").emission_energy_multiplier,energy),"Lamp returns to idle energy")
 	report["relay"]={"triangles":triangles(art),"surfaces":surfaces(art),"bounds":str(bounds(art)),"sweep":sweep}
@@ -98,7 +100,9 @@ func verify_caches():
 			for s in mesh.mesh.get_surface_count():mats[mesh.get_active_material(s).resource_name]=true
 		check(mats.keys().all(func(n):return n.ends_with("SaltFlat" if saltflat else "Woodland")),"Palette "+label)
 		Props.open_cache(body)
-		for i in 30:await process_frame
+		# Wait on time, not frames: the 0.32 s tween can outlast 30 uncapped headless frames.
+		await create_timer(0.6).timeout
+		for i in 2:await process_frame
 		if lid!=null:check(is_equal_approx(lid.rotation_degrees.x,-70.0),"Lid opens about the hinge "+label)
 		report[label]={"triangles":triangles(art),"surfaces":surfaces(art),"bounds":str(b)}
 		holder.free()
@@ -133,7 +137,21 @@ func verify_map(path:String,expect:Dictionary):
 	check(counts=={"cache":6,"door":4,"clue":4,"switch":3,"extract":2},"Interaction targets unchanged "+path)
 	scene.free();await preload("res://raid/tests/audio_shutdown.gd").drain(self)
 
+## Normal game start (project main_scene since #9): play_title -> ship settlement, whose
+## _initialize_world turns on midstyle_swap (item 11) and midstyle_rollout (item 12) for raids.
+func verify_live_flow():
+	check(ProjectSettings.get_setting("application/run/main_scene")=="res://raid/play_title.tscn","Normal start is play_title.tscn")
+	check(FileAccess.get_file_as_string("res://raid/play_title.tscn").contains('path="res://raid/scripts/play_title.gd"'),"play_title.tscn runs play_title.gd")
+	var title_script:Script=load("res://raid/scripts/play_title.gd")
+	check(title_script.get_base_script().resource_path=="res://raid/scripts/ship_title_preview.gd","play_title builds on ship_title_preview")
+	check(title_script.get_base_script().source_code.contains('world_path = "res://raid/ship_settlement_preview.tscn"'),"Normal start loads the ship settlement")
+	var src:String=load("res://raid/scripts/ship_settlement_preview.gd").source_code
+	check(preload("res://raid/scripts/midstyle_swap.gd").enabled,"Item 11 swap on by default")
+	check(src.contains("MidstyleRollout.enabled = MidstyleSwap.enabled") and src.contains("MidstyleSwap.apply(self)"),"Ship settlement enables both swaps")
+	check(not Rollout.enabled,"Rollout off until a ship settlement initialises")
+
 func run():
+	verify_live_flow()
 	verify_off()
 	Rollout.enabled=true
 	await verify_relay()
