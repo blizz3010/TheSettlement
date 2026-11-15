@@ -5,10 +5,18 @@ var return_binding: Dictionary = {}
 func _ready():
 	world_path = "res://raid/ship_settlement_preview.tscn"
 	super._ready()
+	if not return_binding.is_empty():
+		# Extraction already saved a binding. Skip the title card and go straight
+		# into the official settlement load (same startup gates as a fresh Play).
+		if is_instance_valid(menu): menu.hide()
+		if is_instance_valid(status): status.hide()
+		if is_instance_valid(video): video.hide()
+		if is_instance_valid(play_button): play_button.hide()
+		call_deferred("_continue_after_preview")
+		return
 	status.text = "SHIP RAID PREVIEW • Isolated test saves only • No persistent raid loot"
 	status.show()
 	_layout()
-	if not return_binding.is_empty(): call_deferred("_continue_after_preview")
 
 func _continue_after_preview():
 	characters.rules = CharacterRules.data()
@@ -36,3 +44,17 @@ func _continue_after_preview():
 func _return_failed(reason: String):
 	status.text = reason
 	status.show()
+
+const FixedCharacterSelection = preload("res://raid/scripts/character_select_panel_fixed.gd")
+
+func _play():
+	# Item 15b: same flow as the pinned title menu, but the select panel shows the
+	# real character rig instead of the head-graft mannequin.
+	if starting or replaying_intro or is_instance_valid(character_panel): return
+	characters.rules = CharacterRules.data()
+	character_panel = FixedCharacterSelection.new()
+	character_panel.session = characters
+	character_panel.back_requested.connect(_close_characters)
+	character_panel.launch_requested.connect(_launch_character)
+	menu.hide()
+	add_child(character_panel)
