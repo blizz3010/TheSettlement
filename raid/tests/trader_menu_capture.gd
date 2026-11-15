@@ -46,9 +46,12 @@ func run() -> void:
 		for id in ids:
 			var t := Time.get_ticks_msec()
 			var img: Image = await r.render(str(id))
-			var dest := icon_dir.path_join(str(id) + ".png")
-			var err := img.save_png(dest)
-			print("TM: icon %s err=%d alpha_px=%d %dms" % [id, err, _opaque(img), Time.get_ticks_msec() - t])
+			if img == null or img.is_empty():
+				print("TM: icon %s FAILED (no image)" % id)
+			else:
+				var dest := icon_dir.path_join(str(id) + ".png")
+				var err := img.save_png(dest)
+				print("TM: icon %s err=%d alpha_px=%d %dms" % [id, err, _opaque(img), Time.get_ticks_msec() - t])
 		r.queue_free()
 		Icons._cache.clear()
 	if only.is_empty() or OS.get_environment("TM_SHEET") == "1":

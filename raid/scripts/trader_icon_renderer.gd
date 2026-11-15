@@ -73,7 +73,12 @@ func build(id:String)->Node3D:
 	var spec:Dictionary=ITEMS[id];var holder=Node3D.new();holder.name=id
 	match spec.src:
 		"glb":
-			var scene=load(spec.path).instantiate();holder.add_child(scene)
+			if not ResourceLoader.exists(spec.path):
+				push_error("trader icon model missing: "+str(spec.path));return holder
+			var packed=load(spec.path)
+			if packed==null:
+				push_error("trader icon model failed to load: "+str(spec.path));return holder
+			var scene=packed.instantiate();holder.add_child(scene)
 			if spec.has("keep"):_isolate(scene,spec.keep,spec.get("tint",{}))
 			if spec.has("multiply"):_multiply(scene,spec.multiply)
 		"garment":
