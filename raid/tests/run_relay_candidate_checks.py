@@ -22,6 +22,7 @@ TESTS = [
     ("test_relay_contracts", "RELAY_CONTRACTS "),
     ("test_relay_scene", "RELAY_SCENE_TESTS "),
     ("test_ship_startup_contract", "SHIP_STARTUP_CONTRACT_TESTS "),
+    ("test_play_flow_entry", "PLAY_FLOW_ENTRY_TESTS "),
     ("test_ship_contract", "Ship contract: "),
     ("test_ship_flow", "Ship flow: "),
     ("test_ship_boarding_geometry", "SHIP_BOARDING_GEOMETRY_TESTS "),
