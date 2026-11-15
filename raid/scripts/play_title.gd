@@ -8,7 +8,8 @@ const MockupASelection = preload("res://raid/scripts/select_redesign_panel.gd")
 func _ready():
 	super._ready()
 	# The inherited preview banner is for the opt-in review entry, not the normal game.
-	if return_binding.is_empty(): status.hide()
+	# Return-from-raid failures still show through _return_failed().
+	status.hide()
 
 func _play():
 	if starting or replaying_intro or is_instance_valid(character_panel): return

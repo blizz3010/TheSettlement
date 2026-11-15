@@ -87,7 +87,7 @@ func _restore_title():
 	if is_instance_valid(raid):
 		raid.free()
 		raid = null
-	var title = load("res://raid/ship_title_preview.tscn").instantiate()
+	var title = load("res://raid/play_title.tscn").instantiate() # normal play flow entry
 	title.return_binding = binding.duplicate(true)
 	get_tree().root.add_child(title)
 	get_tree().current_scene = title

@@ -28,6 +28,7 @@ func run():
 	check(inherits(title.get_script(), "res://scripts/title_menu.gd"), "Title keeps the shipped main menu")
 	check(title.world_path == "res://raid/ship_settlement_preview.tscn", "Play leads into the ship settlement (raids via the spaceship)")
 	check(not title.status.visible, "Preview banner hidden on normal launch")
+	check(FileAccess.get_file_as_string("res://raid/scripts/ship_transition.gd").contains('load("res://raid/play_title.tscn")'), "Returning from a raid goes back through the play-flow title")
 	check(title.menu.visible and is_instance_valid(title.play_button), "Main menu with Play is shown first")
 	title.play_button.pressed.emit()
 	await process_frame
