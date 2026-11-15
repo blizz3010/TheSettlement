@@ -31,6 +31,7 @@ TESTS = [
     ("test_relay_readiness", "RELAY_READINESS_TESTS "),
     ("test_relay_extraction_schedule", "RELAY_EXTRACTION_SCHEDULE_TESTS "),
     ("test_ship_selection", "RELAY_SHIP_SELECTION_TESTS "),
+    ("test_ship_takeoff_cutscene", "SHIP_TAKEOFF_CUTSCENE_TESTS "),
     ("test_cinder_contracts", "CINDER_CONTRACTS "),
     ("test_cinder_scene", "CINDER_SCENE_TESTS "),
     ("test_cinder_walkthrough", "CINDER_WALKTHROUGH_TESTS "),

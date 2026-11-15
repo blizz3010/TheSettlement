@@ -69,6 +69,12 @@ func run():
 	selector.deploy_button.pressed.emit()
 	selector.deploy_button.pressed.emit()
 	await process_frame
+	check(is_instance_valid(world.ship_takeoff) and world.ship_takeoff.playing, "Confirmed deploy starts the takeoff cutscene")
+	world.ship_takeoff.request_skip()
+	for _i in 45:
+		await process_frame
+		if world.departures >= 1:
+			break
 	check(world.saves == 2 and world.departures == 1, "Remapped interaction departs once despite duplicate input")
 	world.free()
 	InputMap.action_erase_events("interact")
@@ -86,5 +92,5 @@ func run():
 		await process_frame
 		check(host.restores == 1, "Cancel/return is idempotent: " + mode)
 		host.free()
-	print("Ship flow: ", "PASS" if failures == 0 else "FAIL", " (14 checks; real selection/input adapter and host with test doubles)")
+	print("Ship flow: ", "PASS" if failures == 0 else "FAIL", " (15 checks; real selection/input adapter, skippable takeoff, and host with test doubles)")
 	quit(1 if failures else 0)
