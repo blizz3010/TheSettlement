@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://raid/tests/settlement_visuals_survey.gd" id="1"]
+
+[node name="SettlementVisualsSurvey" type="Node"]
+script = ExtResource("1")

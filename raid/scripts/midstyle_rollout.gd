@@ -1,5 +1,5 @@
 extends RefCounted
-## Item 12 rollout of the item 11 pass 3 mid-stylized look (preview only, awaiting Michael's OK).
+## Item 12 rollout of the item 11 pass 3 mid-stylized look (PR #10, awaiting Michael's OK to merge).
 ## Swaps the art of four raid prop families for Blender remodels in assets/midstyle_rollout,
 ## built by tools/blender_midstyle/build_rollout.py:
 ##  * weather-station relay lever  (puzzle_controls.gd)  relay_lever_weather_station.gltf
@@ -8,8 +8,10 @@ extends RefCounted
 ## Each remodel keeps the original's node names (Relay_Lever, Relay_Indicator, Cache_Lid,
 ## Cache_Latch ...), pivots and outer bounds, so the existing motion, lamp and lid code drives it
 ## unchanged. Render-only: bodies, collision, targets and puzzle state are untouched.
-## Off by default so the stock path and the asset contract tests keep the original GLBs;
-## the review entry (ship_settlement_preview.gd) turns it on together with midstyle_swap.gd.
+## Off by default so the asset contract tests (which attach props without a settlement) keep the
+## original GLBs. The ship settlement (ship_settlement_preview.gd) turns it on together with
+## midstyle_swap.gd; that settlement is the world of the normal game start (raid/play_title.tscn,
+## project main_scene since #9) and of the opt-in review entry, so raids launched from it use the remodels.
 static var enabled := false
 const DIR := "res://assets/midstyle_rollout/"
 const RELAY := DIR + "relay_lever_weather_station.gltf"
