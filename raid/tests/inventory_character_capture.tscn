@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://raid/tests/inventory_character_capture.gd" id="1"]
+
+[node name="InventoryCharacterCapture" type="Node"]
+script = ExtResource("1")
