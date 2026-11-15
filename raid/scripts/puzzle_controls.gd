@@ -3,12 +3,13 @@ extends RefCounted
 ## gameplay. Imported parts never add collision or throttle an interaction.
 const VALVE=preload("res://raid/assets/puzzle_controls/valve_echo_cistern.glb")
 const RELAY=preload("res://raid/assets/puzzle_controls/relay_lever_weather_station.glb")
+const Rollout=preload("res://raid/scripts/midstyle_rollout.gd")
 const VALVE_TURN_DEGREES:=90.0
 const RELAY_REST_DEGREES:=-40.0
 const RELAY_THROW_DEGREES:=40.0
 
 static func attach(body:Node3D,valve:bool)->Node3D:
-	var art=(VALVE if valve else RELAY).instantiate()
+	var art=(VALVE if valve else Rollout.relay(RELAY)).instantiate()
 	art.name="PuzzleControlArt";art.position.y=-0.9;body.add_child(art)
 	art.set_meta("valve",valve)
 	if not valve:

@@ -6,8 +6,10 @@ const CACHE_SALTFLAT=preload("res://raid/assets/props/loot_cache_saltflat.glb")
 const BEACON_WOODLAND=preload("res://raid/assets/props/extraction_beacon_woodland.glb")
 const BEACON_SALTFLAT=preload("res://raid/assets/props/extraction_beacon_saltflat.glb")
 
+const Rollout=preload("res://raid/scripts/midstyle_rollout.gd")
+
 static func attach_cache(body:Node3D,saltflat:bool)->Node3D:
-	var art=(CACHE_SALTFLAT if saltflat else CACHE_WOODLAND).instantiate()
+	var art=Rollout.cache(CACHE_SALTFLAT if saltflat else CACHE_WOODLAND,saltflat).instantiate()
 	art.name="CacheArt";art.position.y=-0.5;body.add_child(art)
 	return art
 

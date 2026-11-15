@@ -22,6 +22,7 @@ TESTS = [
     ("test_relay_contracts", "RELAY_CONTRACTS "),
     ("test_relay_scene", "RELAY_SCENE_TESTS "),
     ("test_ship_startup_contract", "SHIP_STARTUP_CONTRACT_TESTS "),
+    ("test_play_flow_entry", "PLAY_FLOW_ENTRY_TESTS "),
     ("test_ship_contract", "Ship contract: "),
     ("test_ship_flow", "Ship flow: "),
     ("test_ship_boarding_geometry", "SHIP_BOARDING_GEOMETRY_TESTS "),
@@ -31,6 +32,7 @@ TESTS = [
     ("test_relay_readiness", "RELAY_READINESS_TESTS "),
     ("test_relay_extraction_schedule", "RELAY_EXTRACTION_SCHEDULE_TESTS "),
     ("test_ship_selection", "RELAY_SHIP_SELECTION_TESTS "),
+    ("test_ship_takeoff_cutscene", "SHIP_TAKEOFF_CUTSCENE_TESTS "),
     ("test_cinder_contracts", "CINDER_CONTRACTS "),
     ("test_cinder_scene", "CINDER_SCENE_TESTS "),
     ("test_cinder_walkthrough", "CINDER_WALKTHROUGH_TESTS "),
@@ -47,6 +49,8 @@ TESTS = [
     ("test_field_supplies", "FIELD_SUPPLIES_TESTS "),
     ("test_cargo_scenery", "CARGO_SCENERY_TESTS "),
     ("test_raid_ui_lifecycle", "RAID_UI_LIFECYCLE_TESTS "),
+    ("test_health_damage", "HEALTH_DAMAGE_TESTS "),
+    ("test_midstyle_rollout", "MIDSTYLE_ROLLOUT_TESTS "),
 ]
 
 def main():
