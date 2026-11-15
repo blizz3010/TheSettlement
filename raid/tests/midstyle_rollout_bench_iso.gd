@@ -1,0 +1,79 @@
+extends Node
+## Item 12 rollout props-only frame-time bench (manual, not part of the suite).
+## Instances all eleven raid prop variants (original GLBs with ROLLOUT=0, remodels with
+## ROLLOUT=1) under one shadowed sun and flies a fixed, frame-indexed orbit, same recipe as
+## midstyle_bench_iso.gd. Env: ROLLOUT=0|1, ROLLOUT_OUT=<abs json>, ROLLOUT_FRAMES=<n>
+const ORIGINAL := {
+	"relay_lever_weather_station": "res://raid/assets/puzzle_controls/relay_lever_weather_station.glb",
+	"loot_cache_woodland": "res://raid/assets/props/loot_cache_woodland.glb",
+	"loot_cache_saltflat": "res://raid/assets/props/loot_cache_saltflat.glb",
+	"cargo_container_intact_olive": "res://raid/assets/cargo/cargo_container_intact_olive.glb",
+	"cargo_container_dented_sand": "res://raid/assets/cargo/cargo_container_dented_sand.glb",
+	"cargo_container_intact_sand": "res://raid/assets/cargo/cargo_container_intact_sand.glb",
+	"cargo_container_dented_olive": "res://raid/assets/cargo/cargo_container_dented_olive.glb",
+	"cargo_stack_large_olive": "res://raid/assets/cargo/cargo_stack_large_olive.glb",
+	"cargo_stack_large_sand": "res://raid/assets/cargo/cargo_stack_large_sand.glb",
+	"cargo_stack_pallet_olive": "res://raid/assets/cargo/cargo_stack_pallet_olive.glb",
+	"cargo_stack_pallet_sand": "res://raid/assets/cargo/cargo_stack_pallet_sand.glb",
+}
+const WARMUP := 30
+
+func _ready() -> void:
+	get_tree().create_timer(900).timeout.connect(func(): get_tree().quit(3))
+	call_deferred("run")
+
+func run() -> void:
+	var on := OS.get_environment("ROLLOUT") == "1"
+	var out := OS.get_environment("ROLLOUT_OUT")
+	var frames := int(OS.get_environment("ROLLOUT_FRAMES")) if OS.get_environment("ROLLOUT_FRAMES") != "" else 300
+	get_tree().root.size = Vector2i(1280, 800)
+	DisplayServer.window_set_size(Vector2i(1280, 800))
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	Engine.max_fps = 0
+	var root := Node3D.new(); add_child(root)
+	var env := WorldEnvironment.new(); env.environment = Environment.new()
+	env.environment.background_mode = Environment.BG_COLOR; env.environment.background_color = Color(0.5, 0.55, 0.6)
+	env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR; env.environment.ambient_light_color = Color(0.6, 0.6, 0.65)
+	root.add_child(env)
+	var sun := DirectionalLight3D.new(); sun.shadow_enabled = true; sun.rotation_degrees = Vector3(-50, 35, 0); root.add_child(sun)
+	var floor_mi := MeshInstance3D.new(); var pm := PlaneMesh.new(); pm.size = Vector2(40, 40); floor_mi.mesh = pm; root.add_child(floor_mi)
+	var tris := {}; var i := 0
+	for key in ORIGINAL:
+		var path: String = "res://assets/midstyle_rollout/%s.gltf" % key if on else ORIGINAL[key]
+		var n: Node3D = (load(path) as PackedScene).instantiate()
+		var a := TAU * i / ORIGINAL.size(); n.position = Vector3(sin(a) * 7.0, 0, cos(a) * 7.0); n.rotation.y = a
+		root.add_child(n); tris[key] = _tris(n); i += 1
+	var cam := Camera3D.new(); cam.fov = 60.0; root.add_child(cam); cam.current = true
+	var ms: Array[float] = []; var last := 0; var info := {}
+	for f in WARMUP + frames:
+		var a := TAU * float(max(f - WARMUP, 0)) / float(frames)
+		cam.position = Vector3(sin(a) * 13.0, 3.0, cos(a) * 13.0); cam.look_at(Vector3(0, 1.0, 0))
+		await RenderingServer.frame_post_draw
+		var now := Time.get_ticks_usec()
+		if f >= WARMUP and last > 0: ms.append((now - last) / 1000.0)
+		last = now
+		if f == WARMUP:
+			info = {"draw_calls": RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),
+				"primitives": RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME),
+				"objects": RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_OBJECTS_IN_FRAME)}
+	var sorted := ms.duplicate(); sorted.sort(); var total := 0.0
+	for v in sorted: total += v
+	var k := maxi(1, int(ceil(sorted.size() * 0.01))); var worst := 0.0
+	for j in k: worst += sorted[sorted.size() - 1 - j]
+	var report := {"rollout": on, "frames": sorted.size(), "avg_ms": total / sorted.size(), "median_ms": sorted[sorted.size() / 2],
+		"one_pct_low_ms": worst / k, "tris": tris, "first_frame": info}
+	print("ROLLOUT ISO RESULT ", JSON.stringify(report))
+	if out != "":
+		var fh := FileAccess.open(out, FileAccess.WRITE); fh.store_string(JSON.stringify(report, "  ")); fh.close()
+	get_tree().quit(0)
+
+func _tris(n: Node) -> Dictionary:
+	var t := 0; var surf := 0
+	for mi in n.find_children("*", "MeshInstance3D", true, false):
+		var m: Mesh = (mi as MeshInstance3D).mesh
+		if m == null: continue
+		for s in m.get_surface_count():
+			surf += 1
+			var arr := m.surface_get_arrays(s); var idx = arr[Mesh.ARRAY_INDEX]
+			t += (idx.size() / 3) if idx != null and idx.size() > 0 else (arr[Mesh.ARRAY_VERTEX].size() / 3)
+	return {"triangles": t, "surfaces": surf}
