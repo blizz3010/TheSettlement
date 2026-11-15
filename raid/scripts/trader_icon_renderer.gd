@@ -1,5 +1,5 @@
 extends Node
-# Item 16 icon-style preview. Renders an item's real in-game model to a transparent PNG.
+# Item 16 icon renderer. Renders an item's real in-game model to a transparent PNG.
 # Mid-stylized look: fixed 3/4 orthographic view, warm soft key, cool fill, teal rim light
 # and a thin dark outline added in image space. Uses only existing models/builders; no pinned edits.
 const ClothingPreview=preload("res://scripts/clothing_preview.gd")
@@ -17,14 +17,27 @@ const ITEMS:={
 	"timber":{"trader":"Rook","name":"Timber","src":"glb","path":"res://assets/trader_display/timber_bundle.glb","yaw":-30.0},
 	"stone":{"trader":"Rook","name":"Stone","src":"glb","path":"res://assets/trader_display/stone_ore_tray.glb","keep":["Grey_rock"],"tint":{"Grey_rock":[0.27,0.29,0.25,0.95]},"yaw":-35.0},
 	"metal":{"trader":"Rook","name":"Metal scrap","src":"glb","path":"res://assets/trader_display/scrap_display_rack.glb","keep":["Forged_scrap_steel"],"yaw":-35.0},
+	"crafting_guide":{"trader":"Rook","name":"Free crafting guide","src":"glb","path":"res://assets/trader_items/crafting_guide.glb","yaw":-30.0},
+	"pickaxe_preview":{"trader":"Rook","name":"Pickaxe","src":"glb","path":"res://assets/trader_items/pickaxe_preview.glb","yaw":-40.0},
+	"scythe_preview":{"trader":"Rook","name":"Scythe","src":"glb","path":"res://assets/trader_items/scythe_preview.glb","yaw":-25.0},
+	"building_plans_preview":{"trader":"Rook","name":"Supply crate plan","src":"glb","path":"res://assets/trader_items/building_plans_preview.glb","yaw":-40.0},
 	"helmet_basic":{"trader":"Psy","name":"Basic helmet","src":"glb","path":"res://assets/market_detail/psy_visor_helmet.glb","yaw":-35.0},
 	"armor_basic_vest":{"trader":"Psy","name":"Basic armor vest","src":"glb","path":"res://assets/market_detail/psy_field_vest.glb","yaw":-30.0},
 	"backpack_basic":{"trader":"Psy","name":"Field pack","src":"glb","path":"res://assets/market_detail/psy_expedition_pack.glb","yaw":-35.0},
-	"basic_jacket":{"trader":"Tailor","name":"Basic jacket","src":"garment","slot":"jacket","yaw":-30.0},
-	"basic_pants":{"trader":"Tailor","name":"Basic pants","src":"garment","slot":"pants","yaw":-30.0},
-	"basic_gloves":{"trader":"Tailor","name":"Basic gloves","src":"garment","slot":"gloves","side":1,"yaw":-40.0},
-	"basic_boots":{"trader":"Tailor","name":"Basic boots","src":"garment","slot":"boots","yaw":-35.0},
-	"fishing_pole":{"trader":"Fishing","name":"Basic fishing pole","src":"rod","yaw":-20.0},
+	"rig_basic":{"trader":"Psy","name":"Utility rig","src":"glb","path":"res://assets/trader_items/rig_basic.glb","yaw":-30.0},
+	"basic_jacket":{"trader":"Tailor","name":"Basic jacket","src":"glb","path":"res://assets/trader_items/basic_jacket.glb","yaw":-30.0},
+	"basic_pants":{"trader":"Tailor","name":"Basic pants","src":"glb","path":"res://assets/trader_items/basic_pants.glb","yaw":-30.0},
+	"basic_gloves":{"trader":"Tailor","name":"Basic gloves","src":"glb","path":"res://assets/trader_items/basic_gloves.glb","yaw":-40.0},
+	"basic_boots":{"trader":"Tailor","name":"Basic boots","src":"glb","path":"res://assets/trader_items/basic_boots.glb","yaw":-35.0},
+	"cloth_linen":{"trader":"Tailor","name":"Linen cloth","src":"glb","path":"res://assets/trader_items/cloth_linen.glb","yaw":-35.0},
+	"thread_spool":{"trader":"Tailor","name":"Thread spool","src":"glb","path":"res://assets/trader_items/thread_spool.glb","yaw":-30.0},
+	"pattern_basic_gloves":{"trader":"Tailor","name":"Basic gloves pattern","src":"glb","path":"res://assets/trader_items/pattern_sheet.glb","multiply":[0.95,0.90,0.78],"yaw":-20.0},
+	"pattern_basic_pants":{"trader":"Tailor","name":"Basic pants pattern","src":"glb","path":"res://assets/trader_items/pattern_sheet.glb","multiply":[0.90,0.82,0.68],"yaw":-20.0},
+	"pattern_basic_jacket":{"trader":"Tailor","name":"Basic jacket pattern","src":"glb","path":"res://assets/trader_items/pattern_sheet.glb","multiply":[0.78,0.88,0.86],"yaw":-20.0},
+	"shirt_basic":{"trader":"Tailor","name":"Basic shirt","src":"glb","path":"res://assets/trader_items/shirt_basic.glb","yaw":-30.0},
+	"dye_palette_future":{"trader":"Tailor","name":"Pigment packets","src":"glb","path":"res://assets/trader_items/dye_palette_future.glb","yaw":-35.0},
+	"fishing_pole":{"trader":"Fishing","name":"Basic fishing pole","src":"glb","path":"res://assets/trader_items/fishing_pole.glb","yaw":-20.0},
+	"bait_portion":{"trader":"Fishing","name":"Bait portion","src":"glb","path":"res://assets/trader_items/bait_portion.glb","yaw":-35.0},
 }
 var viewport:SubViewport
 var stage:Node3D
@@ -62,6 +75,7 @@ func build(id:String)->Node3D:
 		"glb":
 			var scene=load(spec.path).instantiate();holder.add_child(scene)
 			if spec.has("keep"):_isolate(scene,spec.keep,spec.get("tint",{}))
+			if spec.has("multiply"):_multiply(scene,spec.multiply)
 		"garment":
 			if _garment_source==null:
 				_garment_source=ClothingPreview.new();_garment_source.visible=false;add_child(_garment_source)
@@ -85,6 +99,18 @@ func _isolate(scene:Node,keep:Array,tint:Dictionary={}):
 					var t:Array=tint[m.resource_name];m=m.duplicate();m.albedo_color=Color(t[0],t[1],t[2]);m.roughness=t[3]
 				out.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,src.surface_get_arrays(s));out.surface_set_material(out.get_surface_count()-1,m)
 		mi.mesh=out
+
+func _multiply(scene:Node,rgb:Array):
+	for mi in scene.find_children("*","MeshInstance3D",true,false):
+		if mi.mesh==null:continue
+		for s in mi.mesh.get_surface_count():
+			var m=mi.mesh.surface_get_material(s)
+			if m==null:continue
+			m=m.duplicate()
+			if "albedo_color" in m:
+				var c:Color=m.albedo_color
+				m.albedo_color=Color(c.r*float(rgb[0]),c.g*float(rgb[1]),c.b*float(rgb[2]),c.a)
+			mi.mesh.surface_set_material(s,m)
 
 func render(id:String)->Image:
 	for c in stage.get_children():c.free()
