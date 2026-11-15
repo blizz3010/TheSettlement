@@ -140,8 +140,10 @@ func dump_backdrop(world: Node3D) -> void:
 
 func load_shots() -> Array:
 	var shots_path := OS.get_environment("FAR_SHOTS").strip_edges()
-	if shots_path != "":
-		return JSON.parse_string(FileAccess.get_file_as_string(shots_path))
+	if shots_path != "" and FileAccess.file_exists(shots_path):
+		var parsed = JSON.parse_string(FileAccess.get_file_as_string(shots_path))
+		if parsed is Array and not parsed.is_empty():
+			return parsed
 	return DEFAULT_SHOTS
 
 func run() -> void:
