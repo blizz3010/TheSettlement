@@ -8,13 +8,20 @@ const ShipSelection = preload("res://raid/scripts/ship_raid_selection.gd")
 var ship_selection: CanvasLayer
 var ship_selection_generation := 0
 var ship_selection_binding: Dictionary = {}
+const MidstyleSwap = preload("res://raid/scripts/midstyle_swap.gd")
+const MidstyleRollout = preload("res://raid/scripts/midstyle_rollout.gd")
 const ShipTakeoff = preload("res://raid/scripts/ship_takeoff_cutscene.gd")
 var ship_takeoff: Node
 const SettlementHealth = preload("res://raid/scripts/settlement_health.gd")
 var player_health: Node
 
 func _initialize_world():
+	# Item 12 rollout: raid prop remodels follow the item 11 switch (see midstyle_rollout.gd).
+	MidstyleRollout.enabled = MidstyleSwap.enabled
 	await super._initialize_world()
+	# Item 11 style test: mid-stylized prop remodels, render-only (see midstyle_swap.gd).
+	if MidstyleSwap.enabled and world_initialized and not startup_cancel_requested:
+		MidstyleSwap.apply(self)
 	# Health/damage: live source for the existing HUD vitals bar; full health on return.
 	if world_initialized and not startup_cancel_requested and is_instance_valid(player):
 		player_health = SettlementHealth.attach(player)
@@ -188,3 +195,9 @@ func activate_loaded_world():
 		var lake_fix: Dictionary = preload("res://raid/scripts/inn_lake_mountain_fix.gd").apply(self)
 		if not lake_fix.get("ok", false):
 			push_warning("Inn lake mountain fix skipped: " + str(lake_fix.get("reason", lake_fix)))
+	# Item 11 swap, second pass for the normal (staged) start: the title runs the startup asset
+	# gate after _initialize_world, and the gate is what builds TailorAtelier. apply() skips any
+	# prop already swapped (MidstyleDressForm / MidstyleCounterStock / MidstyleReceptionDesk), so
+	# this only adds what the first pass could not reach; nothing is applied twice.
+	if MidstyleSwap.enabled and world_activated and not startup_cancel_requested:
+		MidstyleSwap.apply(self)
