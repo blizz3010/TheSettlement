@@ -27,8 +27,27 @@ func write_journal() -> void:
 		f.store_string(JSON.stringify(journal, "\t"))
 		f.close()
 
+# Static guard: the driver may be the launched scene and/or an override.cfg autoload.
+static var _started := false
+
 func _ready() -> void:
-	call_deferred("run")
+	call_deferred("_boot")
+
+func _boot() -> void:
+	# Prefer the launched scene script. The autoload (direct child of root,
+	# typically named FarSceneryCapture) waits a frame and skips if the scene
+	# is already running this same script.
+	if get_parent() == get_tree().root and get_tree().current_scene != self:
+		await get_tree().process_frame
+		var scene := get_tree().current_scene
+		if scene != null and scene != self and scene.get_script() == get_script():
+			return
+		for i in 4:
+			await get_tree().process_frame
+	if _started:
+		return
+	_started = true
+	run()
 
 func hide_overlays(world: Node) -> void:
 	if is_instance_valid(world.get("player")):
@@ -149,6 +168,7 @@ func run() -> void:
 	world.staged_startup = true
 	world.process_mode = Node.PROCESS_MODE_DISABLED
 	get_tree().root.add_child(world)
+	log_line("world added, valid=%s" % str(is_instance_valid(world)))
 	var deadline := Time.get_ticks_msec() + 300000
 	while is_instance_valid(world) and not world.world_initialized:
 		if Time.get_ticks_msec() > deadline:
@@ -156,6 +176,10 @@ func run() -> void:
 			get_tree().quit(1)
 			return
 		await get_tree().process_frame
+	if not is_instance_valid(world) or not world.world_initialized:
+		log_line("BREAK world was freed or failed to initialize")
+		get_tree().quit(1)
+		return
 	var assets: Dictionary = await world.startup_asset_gate.prepare(world)
 	if not assets.get("ok", false):
 		log_line("BREAK assets: " + str(assets))

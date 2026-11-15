@@ -7,9 +7,24 @@ const WARMUP := 8
 
 var journal := {}
 
+static var _started := false
+
 func _ready() -> void:
 	get_tree().create_timer(1200).timeout.connect(func(): get_tree().quit(3))
-	call_deferred("run")
+	call_deferred("_boot")
+
+func _boot() -> void:
+	if get_parent() == get_tree().root and get_tree().current_scene != self:
+		await get_tree().process_frame
+		var scene := get_tree().current_scene
+		if scene != null and scene != self and scene.get_script() == get_script():
+			return
+		for i in 4:
+			await get_tree().process_frame
+	if _started:
+		return
+	_started = true
+	run()
 
 func run() -> void:
 	var opt := OS.get_environment("FAR_SCENERY_OPTION").strip_edges()
@@ -34,6 +49,10 @@ func run() -> void:
 			get_tree().quit(1)
 			return
 		await get_tree().process_frame
+	if not is_instance_valid(world) or not world.world_initialized:
+		push_error("FAR BENCH world was freed or failed to initialize")
+		get_tree().quit(1)
+		return
 	var assets: Dictionary = await world.startup_asset_gate.prepare(world)
 	if not assets.get("ok", false):
 		push_error("FAR BENCH assets: " + str(assets))

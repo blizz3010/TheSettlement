@@ -1,3 +1,6 @@
-[gd_scene format=3]
+[gd_scene load_steps=2 format=3]
 
-[node name="FarSceneryBenchIsoRoot" type="Node"]
+[ext_resource type="Script" path="res://raid/tests/far_scenery_bench_iso.gd" id="1"]
+
+[node name="FarSceneryBenchIso" type="Node"]
+script = ExtResource("1")
