@@ -260,7 +260,7 @@ func funds_shot() -> void:
 	var state: Dictionary = _make_state(5)
 	var panel: Control = RookPanel.new()
 	host.add_child(panel)
-	panel.render(state.plot, state.inventory, "", "Not enough settlement credits. Nothing purchased.", {})
+	panel.render(state.plot, state.inventory, "", "", {})
 	panel._select_item("timber")
 	panel.show()
 	_caption(layer, "INSUFFICIENT FUNDS  ·  Rook  ·  5 credits, timber costs 10  ·  Review is disabled")

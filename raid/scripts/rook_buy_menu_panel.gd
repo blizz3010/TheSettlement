@@ -19,11 +19,10 @@ func _rebuild_list():
 func _update_summary():
 	super._update_summary()
 	var row := _selected_row()
+	var previous := details.text if is_instance_valid(details) else ""
 	Icons.update_hero(self, row)
-	if not row.is_empty() and is_instance_valid(details):
-		var reason := str(row.get("reason", ""))
-		details.text = Icons.stats_text(row)
-		if not reason.is_empty() and not details.text.contains(reason):
-			details.text += "\n\n" + reason
-		if action == "sell":
-			details.text += "\n\n" + str(shop_definition.get("sale_help", "Only eligible carried material stacks. Equipment, quest items, stash and Lockbox are protected."))
+	Icons.apply_details(self, row, previous)
+	if not row.is_empty() and is_instance_valid(details) and action == "sell":
+		var help := str(shop_definition.get("sale_help", "Only eligible carried material stacks. Equipment, quest items, stash and Lockbox are protected."))
+		if not details.text.contains(help):
+			details.text += "\n\n" + help

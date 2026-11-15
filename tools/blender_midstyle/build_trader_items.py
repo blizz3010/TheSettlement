@@ -221,18 +221,20 @@ def item_scythe():
     oak = mat("ScytheHaft", "walnut", rough=0.7, hexcol="#4a3424")
     iron = mat("ScytheBlade", "iron", rough=0.3, metal=0.8, hexcol="#8a9096")
     leather = mat("ScytheGrip", "leather_rust", rough=0.8, hexcol="#5a3020")
-    # Slightly shortened for icon framing, still reads as a long-handled tool.
-    haft = cyl("Haft", oak, (0, 0.05, 0), 0.014, 0.95, segs=12, bev=0.002, rot=(math.radians(78), 0, math.radians(8)))
-    grip = cyl("Grip", leather, (0.01, 0.28, -0.02), 0.017, 0.09, segs=10, bev=0.001, rot=(math.radians(78), 0, math.radians(8)))
-    snath = cyl("Snath", oak, (-0.02, -0.38, 0.04), 0.012, 0.18, segs=10, bev=0.002, rot=(math.radians(20), math.radians(70), 0))
-    # Curved blade approximated with a few beveled boxes
-    parts = [haft, grip, snath]
-    for i, (x, y, z, sx, sy, rz) in enumerate([
-        (0.02, -0.46, 0.05, 0.22, 0.022, 20),
-        (0.18, -0.50, 0.04, 0.16, 0.018, 45),
-        (0.28, -0.42, 0.03, 0.12, 0.016, 80),
-    ]):
-        parts.append(box(f"Blade{i}", iron, (x, y, z), (sx, sy, 0.008), bev=0.002, rot=(0, 0, math.radians(rz))))
+    # Long haft with a connected crescent blade at the foot, readable at 48 px.
+    haft = cyl("Haft", oak, (0, 0, 0), 0.016, 0.90, segs=12, bev=0.002, rot=(math.radians(90), 0, math.radians(10)))
+    grip = cyl("Grip", leather, (0.02, 0.28, 0), 0.020, 0.10, segs=10, bev=0.001, rot=(math.radians(90), 0, math.radians(10)))
+    ferrule = cyl("Ferrule", iron, (-0.055, -0.38, 0), 0.018, 0.04, segs=10, bev=0.001, rot=(math.radians(90), 0, math.radians(10)))
+    # Overlapping blade segments so the crescent stays one piece.
+    parts = [haft, grip, ferrule]
+    segs = [
+        (-0.02, -0.42, 0, 0.20, 0.028, 15),
+        (0.12, -0.48, 0, 0.18, 0.026, 40),
+        (0.24, -0.44, 0, 0.16, 0.022, 70),
+        (0.30, -0.34, 0, 0.12, 0.018, 100),
+    ]
+    for i, (x, y, z, sx, sy, rz) in enumerate(segs):
+        parts.append(box(f"Blade{i}", iron, (x, y, z), (sx, sy, 0.010), bev=0.002, rot=(0, 0, math.radians(rz))))
     return join("scythe", parts)
 
 def item_crafting_guide():

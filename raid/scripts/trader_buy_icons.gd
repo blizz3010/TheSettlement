@@ -5,8 +5,7 @@ const ICON_DIR := "res://raid/assets/trader_icons"
 static var _cache: Dictionary = {}
 
 static func path_for(id: String) -> String:
-	var key := _key(id)
-	return ICON_DIR.path_join(key + ".png")
+	return ICON_DIR.path_join(id + ".png")
 
 static func _key(id: String) -> String:
 	if id.begins_with("pattern_basic_"):
@@ -14,10 +13,10 @@ static func _key(id: String) -> String:
 	return id
 
 static func texture(id: String) -> Texture2D:
-	var key := _key(id)
-	if _cache.has(key):
-		return _cache[key]
-	var res_path := ICON_DIR.path_join(key + ".png")
+	# Prefer the exact id so tinted pattern variants keep their own PNGs.
+	if _cache.has(id):
+		return _cache[id]
+	var res_path := ICON_DIR.path_join(id + ".png")
 	var tex: Texture2D = null
 	if ResourceLoader.exists(res_path):
 		tex = load(res_path) as Texture2D
@@ -27,8 +26,25 @@ static func texture(id: String) -> Texture2D:
 			var img := Image.load_from_file(abs_path)
 			if img != null and not img.is_empty():
 				tex = ImageTexture.create_from_image(img)
-	_cache[key] = tex
+	if tex == null:
+		var fallback := _key(id)
+		if fallback != id:
+			tex = texture(fallback)
+	_cache[id] = tex
 	return tex
+
+static func apply_details(panel: Control, row: Dictionary, previous_text: String) -> void:
+	if not is_instance_valid(panel) or not is_instance_valid(panel.details) or row.is_empty():
+		return
+	var stats := stats_text(row)
+	var tail := ""
+	var desc := str(row.get("description", ""))
+	if not desc.is_empty() and previous_text.contains(desc):
+		tail = previous_text.substr(previous_text.find(desc) + desc.length())
+	elif previous_text.contains("Not enough credits"):
+		var i := previous_text.find("Not enough credits")
+		tail = "\n\n" + previous_text.substr(i)
+	panel.details.text = stats + tail
 
 static func install_hero(panel: Control) -> TextureRect:
 	if panel.has_meta("trader_hero") and is_instance_valid(panel.get_meta("trader_hero")):
