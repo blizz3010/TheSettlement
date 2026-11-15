@@ -32,6 +32,7 @@ TESTS = [
     ("test_relay_readiness", "RELAY_READINESS_TESTS "),
     ("test_relay_extraction_schedule", "RELAY_EXTRACTION_SCHEDULE_TESTS "),
     ("test_ship_selection", "RELAY_SHIP_SELECTION_TESTS "),
+    ("test_ship_takeoff_cutscene", "SHIP_TAKEOFF_CUTSCENE_TESTS "),
     ("test_cinder_contracts", "CINDER_CONTRACTS "),
     ("test_cinder_scene", "CINDER_SCENE_TESTS "),
     ("test_cinder_walkthrough", "CINDER_WALKTHROUGH_TESTS "),
@@ -48,6 +49,7 @@ TESTS = [
     ("test_field_supplies", "FIELD_SUPPLIES_TESTS "),
     ("test_cargo_scenery", "CARGO_SCENERY_TESTS "),
     ("test_raid_ui_lifecycle", "RAID_UI_LIFECYCLE_TESTS "),
+    ("test_health_damage", "HEALTH_DAMAGE_TESTS "),
 ]
 
 def main():

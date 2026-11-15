@@ -34,6 +34,10 @@ var generation_failure:=""
 var raid_audio
 var extraction_pulse_second:=0
 const EXTRACTION_RADIUS:=4.0
+## Health and damage (raid_health_controller.gd). Downed ends the raid through _request_return.
+const HealthController=preload("res://raid/scripts/raid_health_controller.gd")
+var health_controller
+var downed:=false
 func is_raid_ready()->bool:return ready_for_play
 func get_raid_failure()->String:return generation_failure
 # Overridable map adapters keep the first map as the default. Lifecycle, input,
@@ -73,6 +77,7 @@ func _ready():
 	var game_settings=preload("res://scripts/game_settings.gd").new();game_settings.apply(game_settings.load_settings(),player,get_viewport())
 	raid_audio=preload("res://raid/scripts/raid_audio.gd").new();raid_audio.name="RaidAudio";add_child(raid_audio)
 	_build_ui()
+	health_controller=HealthController.new();add_child(health_controller);health_controller.setup(self,status.get_parent())
 	# Node-bound one-shot callbacks disappear when a loading raid is freed.
 	# A suspended _ready coroutine retains its Variant stack on cancellation in
 	# Godot 4.6.3. Keep the same two-physics-tick collision barrier without it.
@@ -247,6 +252,7 @@ func _process(delta):
 	note_time-=delta
 	if note_time<=0:toast.text=""
 	if player.position.y < -5 or maxf(absf(player.position.x),absf(player.position.z))>155:
+		if health_controller!=null:health_controller.out_of_bounds()
 		player.position=Vector3(settings.SPAWN.x,generator.height_at(settings.SPAWN)+0.1,settings.SPAWN.y);player.velocity=Vector3.ZERO
 	var region=_wild_region()
 	for poi in generator.pois:
@@ -268,7 +274,7 @@ func _process(delta):
 		if active_target.kind=="extract" and not raid_state.extraction_id.is_empty():hint.text=_key("interact")+"  Cancel extraction"
 
 func _physics_process(delta:float):
-	if not ready_for_play or returning or not raid_state.extracted_at.is_empty():return
+	if not ready_for_play or returning or downed or not raid_state.extracted_at.is_empty():return
 	if player.enabled and not modal.visible and not map_panel.visible:
 		raid_state.advance_active_time(delta)
 		var at=Vector2(player.position.x,player.position.z)
@@ -364,7 +370,7 @@ func _nearest_target()->Dictionary:
 		best=target;distance=offset.length()
 	return best
 func _unhandled_input(event):
-	if not ready_for_play:return
+	if not ready_for_play or downed:return
 	if not raid_state.extracted_at.is_empty():return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode==KEY_ESCAPE or event.physical_keycode==KEY_ESCAPE:
@@ -444,7 +450,7 @@ func _button(text:String,callback:Callable):
 		if _modal_callback_current(generation):callback.call())
 	modal_content.add_child(button);return button
 func _close_modal():
-	if returning or not raid_state.extracted_at.is_empty():return
+	if returning or downed or not raid_state.extracted_at.is_empty():return
 	modal_generation+=1
 	modal.hide();map_panel.hide();player.enabled=true;Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
 func _code_panel(poi:Dictionary):
@@ -497,7 +503,7 @@ func _request_return():
 	else:return_requested.emit()
 func _notification(what):
 	if what==NOTIFICATION_APPLICATION_FOCUS_IN and is_instance_valid(raid_audio):raid_audio.resume()
-	if what==NOTIFICATION_APPLICATION_FOCUS_OUT and ready_for_play and is_instance_valid(modal):
+	if what==NOTIFICATION_APPLICATION_FOCUS_OUT and ready_for_play and not downed and is_instance_valid(modal):
 		if is_instance_valid(raid_audio):raid_audio.suspend()
 		if not modal.visible and not map_panel.visible:_pause_menu()
 		player.enabled=false
