@@ -508,6 +508,15 @@ func test_recovery() -> void:
 		rec._input(m)
 		applied_fast += m.relative.y * p.mouse_sensitivity
 	check(is_equal_approx(applied_fast, 720.0 * p.mouse_sensitivity), "normal frame rate: mouse look untouched")
+	# A W press and release flushed in the same (slow) frame still reaches physics.
+	var kd := InputEventKey.new(); kd.keycode = KEY_W; kd.physical_keycode = KEY_W; kd.pressed = true
+	var ku := kd.duplicate(); ku.pressed = false
+	Input.action_release("forward")
+	rec._input(kd)
+	rec._input(ku)
+	check(Input.is_action_pressed("forward") and rec.latches == 1, "same-frame W press+release is held for this frame's physics")
+	rec._process(0.016)
+	check(not Input.is_action_pressed("forward"), "the latched key is released after the frame")
 	OS.set_environment("SETTLEMENT_TOWN_HALL_RECOVERY", "off")
 	var w2 := FakeWorld.new()
 	check(Recovery.install(w2) == null, "SETTLEMENT_TOWN_HALL_RECOVERY=off disables the recovery node")

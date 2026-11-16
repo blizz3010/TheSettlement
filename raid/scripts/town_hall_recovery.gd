@@ -9,6 +9,7 @@ extends Node
 ##    stuck movement keys and open the pause menu, even if a panel's state is inconsistent.
 ##  * Quit always works: the quit prompt gets "Quit without saving", and a second window-close
 ##    request while the quit prompt is up saves if it can and quits.
+##  * A movement key pressed and released within one slow frame still moves the player.
 ##  * Mouse look is capped per frame while frames are slow (see LOOK_CAP_RAD).
 ##  * Mouse capture: whenever no overlay is open and the window is focused, the player is
 ##    re-enabled and the mouse recaptured after a short grace period.
@@ -29,6 +30,11 @@ const CLOSE_REPEAT_MS := 20000
 ## untouched.
 const SLOW_FRAME_MS := 100
 const LOOK_CAP_RAD := 0.35
+## Movement keys on slow frames: player.gd polls Input.is_action_pressed in _physics_process.
+## When a press and its release are flushed in the same frame (any hold shorter than a
+## multi-second frame), the physics steps never see the key down and the player does not move.
+## Such a press is kept down for that frame's physics steps and released afterwards.
+const LATCH_ACTIONS := ["forward", "backward", "left", "right"]
 const RETURN_LABEL := "Return to Town Hall entrance"
 const QUIT_NOW_LABEL := "Quit without saving"
 
@@ -44,6 +50,9 @@ var last_frame_ms := 0
 var last_tick_ms := -1
 var look_budget_px := Vector2.INF
 var look_capped := 0
+var press_frame := {}
+var latched := {}
+var latches := 0
 var panics := 0
 var last_return: Dictionary = {}
 ## Tests replace this so a quit does not end the test run.
@@ -125,10 +134,29 @@ func _cap_look(event: InputEventMouseMotion) -> void:
 		# The same event object continues to player.gd's _unhandled_input.
 		event.relative = capped
 
+func _latch_movement(event: InputEventKey) -> void:
+	if not _world_live(): return
+	var frame := Engine.get_process_frames()
+	for action in LATCH_ACTIONS:
+		if not InputMap.has_action(action) or not event.is_action(action): continue
+		if event.pressed:
+			press_frame[action] = frame
+		elif press_frame.get(action, -1) == frame and not Input.is_action_pressed(action):
+			Input.action_press(action)
+			latched[action] = frame
+			latches += 1
+
+func _release_latched() -> void:
+	for action in latched.keys():
+		Input.action_release(action)
+	latched.clear()
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if _world_live(): _cap_look(event)
 		return
+	if event is InputEventKey and not event.echo:
+		_latch_movement(event)
 	if not _is_escape(event) or not _world_live(): return
 	var options = _options()
 	# A key-binding capture in Options owns Escape (it cancels the capture).
@@ -303,6 +331,8 @@ func _process(_delta: float) -> void:
 	if last_tick_ms >= 0: last_frame_ms = now_ms - last_tick_ms
 	last_tick_ms = now_ms
 	look_budget_px = Vector2.INF
+	# Physics for this frame has run with any latched key down; let it go now.
+	if not latched.is_empty(): _release_latched()
 	if not _world_live():
 		uncaptured_since_ms = -1
 		return
