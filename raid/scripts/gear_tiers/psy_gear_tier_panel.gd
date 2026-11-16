@@ -43,6 +43,9 @@ func set_loadout_help(text: String) -> void:
 func _update_summary():
 	if action == "equip" and not loadout_help.is_empty(): shop_definition["help"] = loadout_help
 	super._update_summary()
+	# Keep the 11-slot loadout visible on the equip tab while a piece is selected.
+	if action == "equip" and not selected_item.is_empty() and not loadout_help.is_empty() and is_instance_valid(details):
+		details.text += "\n\n" + loadout_help
 	if _rendering or not is_instance_valid(confirm_button): return
 	if not quote.is_empty():
 		confirm_button.text = {"sell": "Confirm sale", "repair": "Confirm repair", "upgrade": "Confirm upgrade", "equip": "Confirm"}.get(str(quote.get("action", "")), "Confirm purchase")

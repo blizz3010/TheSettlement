@@ -125,7 +125,7 @@ func rows(action: String, plot, inventory, locker) -> Array:
 				var reason := ""
 				if int(next.tier) < 4: reason = lock_reason(int(next.tier), locker)
 				if reason.is_empty(): reason = _materials_reason(mats, inventory, locker)
-				var text := "Reinforce into T%d %s.\n%s\nCost: price difference + 10%%, plus %s. The piece comes back at full durability." % [int(next.tier), next.name, stats_line(next), _materials_text(mats)]
+				var text := "Reinforce into T%d %s.\nAfter: %s\nCost: price difference + 10%%, plus %s. The piece comes back at full durability." % [int(next.tier), next.name, stats_line(next), _materials_text(mats)]
 				if int(next.tier) == 4: text += "\nComposite inserts are raid-only parts (raid loot arrives with item 13); none can drop yet."
 				result.append(_instance_row(id, r, def, Defs.upgrade_cost(r.def), reason, text))
 		"equip":
@@ -135,7 +135,7 @@ func rows(action: String, plot, inventory, locker) -> Array:
 				var worn: bool = r.location == "equipped"
 				var current: Dictionary = locker.equipped_def(def.slot)
 				var text := ("Unequip from %s. It returns to your gear locker." % SLOT_LABELS[def.slot]) if worn else ("Equip in the %s slot%s." % [SLOT_LABELS[def.slot], (", replacing " + str(current.name)) if not current.is_empty() else ""])
-				var row := _instance_row(id, r, def, 0, "", text + "\n" + stats_line(def))
+				var row := _instance_row(id, r, def, 0, "", text)
 				row.name = ("● " if worn else "") + str(row.name)
 				result.append(row)
 	return result
@@ -171,7 +171,7 @@ func _sorted_ids(locker) -> Array:
 func _instance_row(id: String, r: Dictionary, def: Dictionary, price: int, reason: String, text: String) -> Dictionary:
 	var pct := roundi(100.0 * float(r.durability) / float(def.durability))
 	return {"id": id, "name": "T%d %s · %d%%" % [def.tier, def.name, pct], "category": SLOT_LABELS[def.slot], "tier": int(def.tier),
-		"description": "%s\n\n%s\nDurability %d / %d%s." % [text, stats_line(def), roundi(float(r.durability)), int(def.durability), " · equipped" if r.location == "equipped" else ""],
+		"description": "%s\n\nNow: %s\nDurability %d / %d%s." % [text, stats_line(def), roundi(float(r.durability)), int(def.durability), " · equipped" if r.location == "equipped" else ""],
 		"price": price, "owned": 1, "enabled": reason.is_empty(), "reason": reason, "max_quantity": 1, "space_per_unit": 0, "def": r.def}
 
 func _materials_text(mats: Dictionary) -> String:
