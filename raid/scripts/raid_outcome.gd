@@ -6,6 +6,9 @@ static var last: Dictionary = {}
 static func record(outcome: Dictionary) -> void:
 	last = outcome.duplicate(true)
 
+static func peek() -> Dictionary:
+	return last.duplicate(true)
+
 static func take() -> Dictionary:
 	var result := last
 	last = {}

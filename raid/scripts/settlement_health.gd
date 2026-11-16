@@ -24,4 +24,4 @@ static func on_return(health: Node) -> String:
 	var outcome := Outcome.take()
 	if health != null: health.reset()
 	if outcome.get("outcome", "") != "downed": return ""
-	return "Recovered from %s after being downed by the %s. Raid failed; raid loot does not persist yet, so nothing was lost. Health restored." % [outcome.get("map", "the raid"), outcome.get("source", "unknown")]
+	return "Recovered from %s after being downed by the %s. Raid failed. Raid field loot still does not persist. Health restored." % [outcome.get("map", "the raid"), outcome.get("source", "unknown")]
