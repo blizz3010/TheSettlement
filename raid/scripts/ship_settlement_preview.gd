@@ -13,9 +13,13 @@ const MidstyleRollout = preload("res://raid/scripts/midstyle_rollout.gd")
 const MidstyleRollout2 = preload("res://raid/scripts/midstyle_rollout2.gd")
 const TraderBuyMenus = preload("res://raid/scripts/trader_buy_menus.gd")
 const DanListings = preload("res://raid/scripts/dan_listings_install.gd")
+const AtlasRecovery = preload("res://raid/scripts/atlas_recovery_install.gd")
+const RaidOutcome = preload("res://raid/scripts/raid_outcome.gd")
 const ShipTakeoff = preload("res://raid/scripts/ship_takeoff_cutscene.gd")
 var ship_takeoff: Node
 const SettlementHealth = preload("res://raid/scripts/settlement_health.gd")
+const TownHallRecovery = preload("res://raid/scripts/town_hall_recovery.gd")
+const GrassViewCulling = preload("res://raid/scripts/grass_view_culling.gd")
 var player_health: Node
 
 func _initialize_world():
@@ -34,14 +38,25 @@ func _initialize_world():
 	# Item 16: working specialist buy menus (Rook, Psy, Tailor, Fishing). Idempotent.
 	if world_initialized and not startup_cancel_requested:
 		TraderBuyMenus.install(self)
-	# Item 13: Dan's local player listings. Idempotent; Psy/Atlas panels stay as they are.
+	# Item 13: Dan's local player listings. Idempotent.
 	if world_initialized and not startup_cancel_requested:
 		DanListings.install(self)
+	# Item 13: Atlas recovery. Runs after Dan so it can extend that controller.
+	if world_initialized and not startup_cancel_requested:
+		AtlasRecovery.install(self)
 	# Health/damage: live source for the existing HUD vitals bar; full health on return.
 	if world_initialized and not startup_cancel_requested and is_instance_valid(player):
 		player_health = SettlementHealth.attach(player)
+		var raid_outcome: Dictionary = RaidOutcome.peek()
+		var atlas_note := AtlasRecovery.apply_return(self, raid_outcome)
 		var note := SettlementHealth.on_return(player_health)
+		if not atlas_note.is_empty():
+			note = (note + " " + atlas_note).strip_edges() if not note.is_empty() else atlas_note
 		if not note.is_empty(): message(note)
+	# Item 21: stuck recovery / input safety net, and view culling for the dense grass.
+	if world_initialized and not startup_cancel_requested:
+		TownHallRecovery.install(self)
+		GrassViewCulling.install(self)
 
 func modal_open(include_cooking:bool=true,include_fishing_trader:bool=true,include_preview_traders:bool=true) -> bool:
 	# Hide gameplay HUD (minimap, vitals, hotbar) for the duration of takeoff.
@@ -225,6 +240,9 @@ func activate_loaded_world():
 	# Item 13 listings, second pass for the staged start.
 	if world_activated and not startup_cancel_requested:
 		DanListings.install(self)
+	# Item 13 Atlas recovery, second pass (after Dan, so the controller stays extended).
+	if world_activated and not startup_cancel_requested:
+		AtlasRecovery.install(self)
 	# TASKS item 9: far scenery (option B) is on by default in the normal game.
 	# FAR_SCENERY_OPTION=off turns it off for tests and benches. Runs after
 	# the lake fix so MiddleRidge keeps PR #5's reshape (lake_cut off).
@@ -233,6 +251,11 @@ func activate_loaded_world():
 		var far_opt: Dictionary = preload("res://raid/scripts/far_scenery_options.gd").apply(self)
 		if not far_opt.get("skipped", false) and not far_opt.get("ok", false):
 			push_warning("Far scenery skipped: " + str(far_opt.get("reason", far_opt)))
+	# TASKS item 21: pause-menu recovery + Escape/quit/mouse safety net, and grass view
+	# culling (the Town Hall "stall" was ~16.5M grass-heavy primitives per frame).
+	if world_activated and not startup_cancel_requested:
+		TownHallRecovery.install(self)
+		GrassViewCulling.install(self)
 
 func save_payload(payload: Dictionary, show_notice := true, writer_override = null) -> bool:
 	var ok := super.save_payload(payload, show_notice, writer_override)
@@ -241,10 +264,16 @@ func save_payload(payload: Dictionary, show_notice := true, writer_override = nu
 		if store != null and store.has_method("save"):
 			if not store.save():
 				push_warning("Dan listings sidecar could not be saved: " + str(store.get("last_error")))
+	if ok and has_meta("atlas_recovery"):
+		var atlas = get_meta("atlas_recovery")
+		if atlas != null and atlas.has_method("save"):
+			if not atlas.save():
+				push_warning("Atlas recovery sidecar could not be saved: " + str(atlas.get("last_error")))
 	return ok
 
 func load_game(show_notice := true) -> bool:
 	var ok := super.load_game(show_notice)
 	if ok:
 		DanListings.load_store(self)
+		AtlasRecovery.load_store(self)
 	return ok
