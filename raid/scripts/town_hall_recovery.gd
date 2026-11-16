@@ -9,6 +9,7 @@ extends Node
 ##    stuck movement keys and open the pause menu, even if a panel's state is inconsistent.
 ##  * Quit always works: the quit prompt gets "Quit without saving", and a second window-close
 ##    request while the quit prompt is up saves if it can and quits.
+##  * Mouse look is capped per frame while frames are slow (see LOOK_CAP_RAD).
 ##  * Mouse capture: whenever no overlay is open and the window is focused, the player is
 ##    re-enabled and the mouse recaptured after a short grace period.
 const NODE_NAME := "TownHallRecovery"
@@ -21,6 +22,13 @@ const ESCAPE_WINDOW_MS := 2000
 const ESCAPE_PANIC_COUNT := 3
 const RECAPTURE_GRACE_S := 0.5
 const CLOSE_REPEAT_MS := 20000
+## Mouse look on slow frames: player.gd (pinned) applies every motion event at once, so on a
+## multi-second frame the queued nudges of a player waiting for the view land together and pin
+## the camera at the -1.25 pitch clamp (the floor). When the last frame took longer than
+## SLOW_FRAME_MS, the look applied per frame is capped at LOOK_CAP_RAD; normal frame rates are
+## untouched.
+const SLOW_FRAME_MS := 100
+const LOOK_CAP_RAD := 0.35
 const RETURN_LABEL := "Return to Town Hall entrance"
 const QUIT_NOW_LABEL := "Quit without saving"
 
@@ -32,6 +40,10 @@ var uncaptured_since_ms := -1
 var uncaptured_frames := 0
 var last_close_request_ms := -CLOSE_REPEAT_MS
 var recaptures := 0
+var last_frame_ms := 0
+var last_tick_ms := -1
+var look_budget_px := Vector2.INF
+var look_capped := 0
 var panics := 0
 var last_return: Dictionary = {}
 ## Tests replace this so a quit does not end the test run.
@@ -44,6 +56,7 @@ static func install(host: Node) -> Node:
 	if existing != null:
 		existing.call("inject_buttons")
 		return existing
+	if OS.get_environment("SETTLEMENT_TOWN_HALL_RECOVERY") == "off": return null
 	var node = load("res://raid/scripts/town_hall_recovery.gd").new()
 	node.name = NODE_NAME
 	node.world = host
@@ -98,7 +111,24 @@ func _world_live() -> bool:
 func _is_escape(event: InputEvent) -> bool:
 	return event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_ESCAPE or event.physical_keycode == KEY_ESCAPE)
 
+func _cap_look(event: InputEventMouseMotion) -> void:
+	if last_frame_ms <= SLOW_FRAME_MS: return
+	var p = world.get("player") if world != null else null
+	if not is_instance_valid(p): return
+	var sens: float = maxf(float(p.get("mouse_sensitivity")), 0.0001)
+	if look_budget_px == Vector2.INF: look_budget_px = Vector2.ONE * (LOOK_CAP_RAD / sens)
+	var r := event.relative
+	var capped := Vector2(clampf(r.x, -look_budget_px.x, look_budget_px.x), clampf(r.y, -look_budget_px.y, look_budget_px.y))
+	look_budget_px = Vector2(maxf(look_budget_px.x - absf(capped.x), 0.0), maxf(look_budget_px.y - absf(capped.y), 0.0))
+	if capped != r:
+		look_capped += 1
+		# The same event object continues to player.gd's _unhandled_input.
+		event.relative = capped
+
 func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		if _world_live(): _cap_look(event)
+		return
 	if not _is_escape(event) or not _world_live(): return
 	var options = _options()
 	# A key-binding capture in Options owns Escape (it cancels the capture).
@@ -269,6 +299,10 @@ func _notification(what: int) -> void:
 
 ## Mouse capture safety net: no overlay open + focused window => player control restored.
 func _process(_delta: float) -> void:
+	var now_ms := Time.get_ticks_msec()
+	if last_tick_ms >= 0: last_frame_ms = now_ms - last_tick_ms
+	last_tick_ms = now_ms
+	look_budget_px = Vector2.INF
 	if not _world_live():
 		uncaptured_since_ms = -1
 		return

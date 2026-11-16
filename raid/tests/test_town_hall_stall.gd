@@ -489,6 +489,30 @@ func test_recovery() -> void:
 	esc(); esc(); esc()
 	await frames(1)
 	check(rec.panics == 1 and w.options_panel.visible, "Escape during key-binding capture is left to the options panel")
+	# Slow frames: queued mouse nudges are capped per frame instead of pinning the pitch.
+	w.options_panel.capture_action = ""
+	w.options_panel.cancel_and_close()
+	var applied_slow := 0.0
+	rec.last_frame_ms = 9500
+	rec.look_budget_px = Vector2.INF
+	for i in 12:
+		var m := InputEventMouseMotion.new(); m.relative = Vector2(0, 60)
+		rec._input(m)
+		applied_slow += m.relative.y * p.mouse_sensitivity
+	check(applied_slow <= Recovery.LOOK_CAP_RAD + 0.0001 and applied_slow > 0.3, "slow frame: 12 x 60 px of queued look applies at most %.2f rad (got %.2f, uncapped 1.44)" % [Recovery.LOOK_CAP_RAD, applied_slow])
+	rec.last_frame_ms = 16
+	rec.look_budget_px = Vector2.INF
+	var applied_fast := 0.0
+	for i in 12:
+		var m := InputEventMouseMotion.new(); m.relative = Vector2(0, 60)
+		rec._input(m)
+		applied_fast += m.relative.y * p.mouse_sensitivity
+	check(is_equal_approx(applied_fast, 720.0 * p.mouse_sensitivity), "normal frame rate: mouse look untouched")
+	OS.set_environment("SETTLEMENT_TOWN_HALL_RECOVERY", "off")
+	var w2 := FakeWorld.new()
+	check(Recovery.install(w2) == null, "SETTLEMENT_TOWN_HALL_RECOVERY=off disables the recovery node")
+	OS.unset_environment("SETTLEMENT_TOWN_HALL_RECOVERY")
+	w2.free()
 	w.queue_free()
 	await frames(2)
 
