@@ -16,6 +16,8 @@ const DanListings = preload("res://raid/scripts/dan_listings_install.gd")
 const ShipTakeoff = preload("res://raid/scripts/ship_takeoff_cutscene.gd")
 var ship_takeoff: Node
 const SettlementHealth = preload("res://raid/scripts/settlement_health.gd")
+const TownHallRecovery = preload("res://raid/scripts/town_hall_recovery.gd")
+const GrassViewCulling = preload("res://raid/scripts/grass_view_culling.gd")
 var player_health: Node
 
 func _initialize_world():
@@ -42,6 +44,10 @@ func _initialize_world():
 		player_health = SettlementHealth.attach(player)
 		var note := SettlementHealth.on_return(player_health)
 		if not note.is_empty(): message(note)
+	# Item 21: stuck recovery / input safety net, and view culling for the dense grass.
+	if world_initialized and not startup_cancel_requested:
+		TownHallRecovery.install(self)
+		GrassViewCulling.install(self)
 
 func modal_open(include_cooking:bool=true,include_fishing_trader:bool=true,include_preview_traders:bool=true) -> bool:
 	# Hide gameplay HUD (minimap, vitals, hotbar) for the duration of takeoff.
@@ -233,6 +239,11 @@ func activate_loaded_world():
 		var far_opt: Dictionary = preload("res://raid/scripts/far_scenery_options.gd").apply(self)
 		if not far_opt.get("skipped", false) and not far_opt.get("ok", false):
 			push_warning("Far scenery skipped: " + str(far_opt.get("reason", far_opt)))
+	# TASKS item 21: pause-menu recovery + Escape/quit/mouse safety net, and grass view
+	# culling (the Town Hall "stall" was ~16.5M grass-heavy primitives per frame).
+	if world_activated and not startup_cancel_requested:
+		TownHallRecovery.install(self)
+		GrassViewCulling.install(self)
 
 func save_payload(payload: Dictionary, show_notice := true, writer_override = null) -> bool:
 	var ok := super.save_payload(payload, show_notice, writer_override)
