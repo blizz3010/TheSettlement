@@ -20,12 +20,13 @@ func frames(n: int):
 
 func click(control: Control):
 	var p = control.get_global_rect().get_center()
+	var label := str(control.name)
 	for pressed in [true, false]:
 		var e = InputEventMouseButton.new()
 		e.button_index = MOUSE_BUTTON_LEFT; e.pressed = pressed; e.position = p; e.global_position = p
 		Input.parse_input_event(e)
 		await frames(2)
-	log_("click " + str(control.name) + " " + str(p))
+	log_("click " + label + " " + str(p))
 
 func wait_for(cond: Callable, seconds: float) -> bool:
 	var deadline = Time.get_ticks_msec() + seconds * 1000
