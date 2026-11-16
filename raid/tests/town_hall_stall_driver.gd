@@ -210,7 +210,14 @@ func _run():
 	if OS.get_environment("STALL_CENSUS") == "1": await _census(); _finish(0); return
 	if OS.get_environment("STALL_PROBE") == "2": await _probe2(); _finish(0); return
 	if OS.get_environment("STALL_GRASS") == "1": _grass_dump(); _finish(0); return
-	if OS.get_environment("STALL_MEASURE") == "1": await _measure(); _finish(0); return
+	if OS.get_environment("STALL_MEASURE") == "1":
+		await _measure()
+		if OS.get_environment("STALL_SYMPTOMS") == "1":
+			var gcm = world.get_node_or_null("GrassViewCulling")
+			if gcm: gcm.set_mode("cull")
+			await _place(Vector3(0, 0.27, -17.2), 0.0)
+			await _symptoms()
+		_finish(0); return
 	if OS.get_environment("STALL_SYMPTOMS") == "1": await _symptoms(); _finish(0); return
 	phase = "idle_spawn"
 	await secs(float(OS.get_environment("STALL_IDLE")) if OS.get_environment("STALL_IDLE") != "" else 20.0)
@@ -380,25 +387,13 @@ func _grass_dump():
 
 func _measure_modes(tag: String):
 	var gc = world.get_node_or_null("GrassViewCulling")
-	for m in ["original", "split", "cull"]:
+	for m in ["original", "none", "split", "cull"]:
 		gc.set_mode(m)
 		await frames(1)
 		await _frames_report("%s_%s" % [tag, m], 3)
 		await shot("measure_%s_%s" % [tag, m])
 	log_("MEASURE %s stats=%s" % [tag, str(gc.stats)])
 	_dump_subs(tag, gc)
-	if OS.get_environment("STALL_OCC") == "1":
-		var occ = world.get_node_or_null("SettlementOccluders")
-		if occ == null:
-			occ = load("res://raid/scripts/settlement_occluders.gd").install(world)
-			log_("MEASURE occluders=%d tris=%d" % [occ.occluder_count, occ.occluder_tris])
-		get_viewport().use_occlusion_culling = true
-		for m in ["original", "cull"]:
-			gc.set_mode(m)
-			await frames(3)
-			await _frames_report("%s_%s_occ" % [tag, m], 3)
-			await shot("measure_%s_%s_occ" % [tag, m])
-		get_viewport().use_occlusion_culling = false
 
 func _aabb_in_frustum(planes: Array, b: AABB) -> bool:
 	for pl in planes:
@@ -490,6 +485,11 @@ func _symptoms():
 	await RenderingServer.frame_post_draw
 	log_("SYMPTOM %s close_to_quit_prompt_drawn_ms=%d quit_pending=%s (game keeps running until Save and Quit)" % [label, Time.get_ticks_msec() - t_close, world.options_panel.quit_pending])
 	await shot("symptom_%s_quit_prompt" % label)
+	# 6. impatient second window close while the prompt is up
+	log_("SYMPTOM %s second_close_sent" % label)
+	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+	await secs(30.0)
+	log_("SYMPTOM %s second_close_still_running_after_30s" % label)
 
 func _finish(code: int):
 	watchdog_run = false

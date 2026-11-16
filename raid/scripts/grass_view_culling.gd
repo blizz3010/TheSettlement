@@ -36,6 +36,27 @@ const NEAR_MARGIN := 0.5
 const UPDATE_MOVE := 0.25
 const UPDATE_INTERVAL_MS := 250
 const SPLIT_BUDGET_USEC := 12000
+## Each 3 m sub-chunk keeps a 3 x 3 grid of 1 m bins (highest root, tallest blade) for the
+## glazing test, so blades the near-LOD shader has already shortened are judged at their
+## drawn height rather than the whole chunk's bounding box.
+const BINS := 3
+## Per bin: highest root y, tallest blade, then the blades' x/z extent (min x, max x, min z, max z).
+const BIN_STRIDE := 6
+const TOP_MARGIN := 0.05
+## The headless (dummy) renderer keeps no MultiMesh instance data, so headless tests attach
+## the instance buffer to the MultiMesh under this meta key; the game reads mm.buffer.
+const BUFFER_META := "grass_view_culling_buffer"
+
+static func instance_buffer(mm: MultiMesh) -> PackedFloat32Array:
+	var buf: PackedFloat32Array = mm.buffer
+	if buf.is_empty() and mm.has_meta(BUFFER_META): buf = mm.get_meta(BUFFER_META)
+	return buf
+
+static func slice_buffer(buf: PackedFloat32Array, stride: int, indices: PackedInt32Array) -> PackedFloat32Array:
+	var out := PackedFloat32Array()
+	for i in indices:
+		out.append_array(buf.slice(i * stride, i * stride + stride))
+	return out
 
 var world: Node3D
 var enabled := true
@@ -45,7 +66,7 @@ var last_camera := Vector3.INF
 var last_update_ms := 0
 var split_done := false
 var split_usec := 0
-var stats := {"subchunks": 0, "visible": 0, "culled_distance": 0, "culled_sill": 0, "batches": 0, "instances": 0}
+var stats := {"subchunks": 0, "visible": 0, "culled_distance": 0, "culled_sill": 0, "batches": 0, "instances": 0, "update_usec": 0}
 var force_update := true
 var last_collect_ms := 0
 var last_frame_usec := 0
@@ -104,12 +125,14 @@ func _camera_pos() -> Vector3:
 	return Vector3.ZERO
 
 static func _near_info(mat: Material) -> Dictionary:
-	if not mat is ShaderMaterial or mat.shader == null: return {"near": false, "near_end": 0.0}
+	if not mat is ShaderMaterial or mat.shader == null: return {"near": false, "near_start": 0.0, "near_end": 0.0}
 	var code: String = mat.shader.code
-	if not code.contains("near_mode") or not code.contains("near_end"): return {"near": false, "near_end": 0.0}
+	if not code.contains("near_mode") or not code.contains("near_end"): return {"near": false, "near_start": 0.0, "near_end": 0.0}
 	var mode = mat.get_shader_parameter("near_mode")
 	var near_end = mat.get_shader_parameter("near_end")
-	return {"near": mode == null or bool(mode), "near_end": float(near_end) if near_end != null else 24.0}
+	var near_start = mat.get_shader_parameter("near_start")
+	var ne := float(near_end) if near_end != null else 24.0
+	return {"near": mode == null or bool(mode), "near_start": float(near_start) if near_start != null else ne - 6.0, "near_end": ne}
 
 ## Splits one batch into CELL-sized sub-chunks; instance order inside each is preserved.
 func split(original: MultiMeshInstance3D) -> void:
@@ -117,24 +140,56 @@ func split(original: MultiMeshInstance3D) -> void:
 	var mm: MultiMesh = original.multimesh
 	var count := mm.instance_count
 	var stride := 12 + (4 if mm.use_colors else 0) + (4 if mm.use_custom_data else 0)
-	var buf: PackedFloat32Array = mm.buffer
+	var buf := instance_buffer(mm)
 	if buf.size() != count * stride: return
+	var from_meta := mm.buffer.is_empty()
+	var mesh_box: AABB = mm.mesh.get_aabb()
 	var xf: Transform3D = original.global_transform
+	var mesh_top := maxf(mm.mesh.get_aabb().end.y, 0.0)
+	var scale_y := xf.basis.get_scale().y
 	var cells := {}
+	var bins := {}
+	var boxes := {}
 	for i in count:
 		var o := i * stride
-		# Transform3D buffer layout: basis rows with origin x,y,z at offsets 3, 7, 11.
+		# Transform3D buffer layout: basis rows with origin x,y,z at offsets 3, 7, 11;
+		# the basis Y column (blade up axis) is at offsets 1, 5, 9.
 		var w := xf * Vector3(buf[o + 3], buf[o + 7], buf[o + 11])
 		var key := Vector2i(floori(w.x / CELL), floori(w.z / CELL))
-		if not cells.has(key): cells[key] = PackedInt32Array()
+		if not cells.has(key):
+			cells[key] = PackedInt32Array()
+			var empty := PackedFloat32Array(); empty.resize(BINS * BINS * BIN_STRIDE)
+			for b in BINS * BINS:
+				var q := b * BIN_STRIDE
+				empty[q] = -INF; empty[q + 1] = -INF; empty[q + 2] = INF; empty[q + 3] = -INF; empty[q + 4] = INF; empty[q + 5] = -INF
+			bins[key] = empty
 		cells[key].append(i)
+		var sc := Vector3(buf[o + 0], buf[o + 4], buf[o + 8]).length()
+		var ext := Vector3(maxf(absf(mesh_box.position.x), absf(mesh_box.end.x)) * sc, 0.0, maxf(absf(mesh_box.position.z), absf(mesh_box.end.z)) * sc)
+		var lo := w - ext + Vector3(0, minf(mesh_box.position.y, 0.0), 0)
+		var hi := w + ext
+		if not boxes.has(key): boxes[key] = AABB(lo, hi - lo)
+		else: boxes[key] = boxes[key].merge(AABB(lo, hi - lo))
+		# Per 1 m bin: highest blade root and tallest blade (before the shader's distance fade).
+		var bx := clampi(floori((w.x - key.x * CELL) / (CELL / BINS)), 0, BINS - 1)
+		var bz := clampi(floori((w.z - key.y * CELL) / (CELL / BINS)), 0, BINS - 1)
+		var bi := (bz * BINS + bx) * BIN_STRIDE
+		var h := mesh_top * Vector3(buf[o + 1], buf[o + 5], buf[o + 9]).length() * scale_y
+		var bb: PackedFloat32Array = bins[key]
+		if w.y > bb[bi]: bb[bi] = w.y
+		if h > bb[bi + 1]: bb[bi + 1] = h
+		# Roots only: a clump's lateral spread (<= ~0.2 m) shifts the sill crossing by a few
+		# centimetres, well inside SILL_MARGIN.
+		bb[bi + 2] = minf(bb[bi + 2], w.x); bb[bi + 3] = maxf(bb[bi + 3], w.x)
+		bb[bi + 4] = minf(bb[bi + 4], w.z); bb[bi + 5] = maxf(bb[bi + 5], w.z)
+		bins[key] = bb
+		var top_box: AABB = boxes[key]
+		if w.y + h > top_box.end.y: top_box.size.y = w.y + h - top_box.position.y; boxes[key] = top_box
 	var subs: Array = []
 	var info := _near_info(original.material_override)
 	for key in cells:
 		var indices: PackedInt32Array = cells[key]
-		var sub_buf := PackedFloat32Array()
-		for i in indices:
-			sub_buf.append_array(buf.slice(i * stride, i * stride + stride))
+		var sub_buf := slice_buffer(buf, stride, indices)
 		var sub_mm := MultiMesh.new()
 		sub_mm.transform_format = MultiMesh.TRANSFORM_3D
 		sub_mm.use_colors = mm.use_colors
@@ -142,6 +197,7 @@ func split(original: MultiMeshInstance3D) -> void:
 		sub_mm.mesh = mm.mesh
 		sub_mm.instance_count = indices.size()
 		sub_mm.buffer = sub_buf
+		if from_meta: sub_mm.set_meta(BUFFER_META, sub_buf)
 		var sub := MultiMeshInstance3D.new()
 		sub.name = "%s_%d_%d" % [original.name, key.x, key.y]
 		sub.multimesh = sub_mm
@@ -155,7 +211,7 @@ func split(original: MultiMeshInstance3D) -> void:
 		sub.visibility_range_fade_mode = original.visibility_range_fade_mode
 		add_child(sub)
 		sub.global_transform = xf
-		subs.append({"mmi": sub, "indices": indices, "aabb": xf * sub_mm.get_aabb(), "near": info.near, "near_end": info.near_end})
+		subs.append({"mmi": sub, "indices": indices, "aabb": boxes[key], "near": info.near, "near_start": info.near_start, "near_end": info.near_end, "cell": key, "bins": bins[key]})
 	original.set_meta("grass_view_culling_split", true)
 	var batch := {"original": original, "subs": subs, "vis": -2, "vb": -1.0, "ve": -1.0, "vbm": -1.0, "vem": -1.0, "mat": original.material_override}
 	batches.append(batch)
@@ -184,7 +240,7 @@ func _sync_quality(batch: Dictionary) -> void:
 			s.mmi.visibility_range_begin_margin = batch.vbm; s.mmi.visibility_range_end_margin = batch.vem
 	var info := _near_info(o.material_override)
 	for s in batch.subs:
-		s.near = info.near; s.near_end = info.near_end
+		s.near = info.near; s.near_start = info.near_start; s.near_end = info.near_end
 	# Someone re-showed the original (e.g. a rebuild): keep exactly one copy on screen.
 	if o.visible and mode != "original": o.visible = false
 
@@ -218,6 +274,31 @@ static func aabb_visible_from_hall(c: Vector3, box: AABB) -> bool:
 			if ray_visible(c, Vector3(box.position.x + box.size.x * a, top, box.position.z + box.size.z * b)): return true
 	return false
 
+## Height factor the grass_lod / fishing_grass vertex shader applies at xz distance d
+## (near mode: 1 - smoothstep(near_start, near_end, d)); 1.0 for other grass shaders.
+static func near_keep(s: Dictionary, d: float) -> float:
+	if not s.near: return 1.0
+	return 1.0 - smoothstep(s.near_start, s.near_end, d)
+
+## Glazing/doorway test per 1 m bin, each bin judged at its tallest drawn blade.
+static func sub_visible_from_hall(c: Vector3, s: Dictionary) -> bool:
+	# Coarse pass at the sub-chunk's full bounding-box height first (cheap, conservative).
+	if not aabb_visible_from_hall(c, s.aabb): return false
+	var bins: PackedFloat32Array = s.bins
+	for b in BINS * BINS:
+		var bi := b * BIN_STRIDE
+		if bins[bi] == -INF: continue
+		# Sample the corners of the blades' own footprint in this bin (not the empty bin area,
+		# which can reach inside the hall where no grass grows).
+		var x0: float = bins[bi + 2]; var x1: float = bins[bi + 3]
+		var z0: float = bins[bi + 4]; var z1: float = bins[bi + 5]
+		var box := AABB(Vector3(x0, 0, z0), Vector3(x1 - x0, 0, z1 - z0))
+		var top: float = bins[bi] + bins[bi + 1] * near_keep(s, xz_distance(c, box)) + TOP_MARGIN
+		for x in [x0, x1]:
+			for z in [z0, z1]:
+				if ray_visible(c, Vector3(x, top, z)): return true
+	return false
+
 static func xz_distance(c: Vector3, box: AABB) -> float:
 	var dx := maxf(maxf(box.position.x - c.x, 0.0), c.x - box.end.x)
 	var dz := maxf(maxf(box.position.z - c.z, 0.0), c.z - box.end.z)
@@ -225,19 +306,22 @@ static func xz_distance(c: Vector3, box: AABB) -> float:
 
 func update_visibility(c: Vector3) -> void:
 	if mode == "original": return
+	var t0 := Time.get_ticks_usec()
 	var inside := camera_inside_hall(c)
 	var vis := 0; var cd := 0; var cs := 0
 	for batch in batches:
 		_sync_quality(batch)
 		for s in batch.subs:
-			var show := enabled
-			if show and s.near and xz_distance(c, s.aabb) > s.near_end + NEAR_MARGIN:
+			var show := enabled and mode != "none"
+			if mode == "split": pass
+			elif show and s.near and xz_distance(c, s.aabb) > s.near_end + NEAR_MARGIN:
 				show = false; cd += 1
-			elif show and inside and not aabb_visible_from_hall(c, s.aabb):
+			elif show and inside and not sub_visible_from_hall(c, s):
 				show = false; cs += 1
 			if s.mmi.visible != show: s.mmi.visible = show
 			if show: vis += 1
 	stats.visible = vis; stats.culled_distance = cd; stats.culled_sill = cs
+	stats.update_usec = Time.get_ticks_usec() - t0
 
 func set_enabled(value: bool) -> void:
 	enabled = value
@@ -245,11 +329,10 @@ func set_enabled(value: bool) -> void:
 	update_visibility(_camera_pos())
 
 ## Measurement/test hook: "original" shows the untouched source batches (pre-fix state),
-## "split" shows every sub-chunk, "cull" is the normal mode.
+## "split" shows every sub-chunk, "none" hides all of this grass, "cull" is the normal mode.
 var mode := "cull"
 func set_mode(value: String) -> void:
 	mode = value
-	enabled = value == "cull"
 	for batch in batches:
 		if is_instance_valid(batch.original): batch.original.visible = value == "original"
 		for sub in batch.subs: sub.mmi.visible = value != "original"

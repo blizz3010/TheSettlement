@@ -34,6 +34,9 @@ var last_close_request_ms := -CLOSE_REPEAT_MS
 var recaptures := 0
 var panics := 0
 var last_return: Dictionary = {}
+## Tests replace this so a quit does not end the test run.
+var quit_handler: Callable
+var quits := 0
 
 static func install(host: Node) -> Node:
 	if host == null or not is_instance_valid(host): return null
@@ -226,6 +229,10 @@ func return_to_entrance(reason := "api") -> Dictionary:
 	p.camera.rotation = Vector3(p.pitch, 0.0, 0.0)
 	p.step_view_offset = 0.0
 	p.last_motion_position = Vector3.INF
+	if p.has_method("update_eye_height"):
+		p.visual_eye_height = p.STANDING_EYE
+		p.update_eye_height(0)
+	if p.has_method("update_camera_view"): p.update_camera_view()
 	p.reset_physics_interpolation()
 	if options != null: options.cancel_changes()
 	if options != null and options.has_signal("closed"): options.closed.emit()
@@ -236,9 +243,14 @@ func return_to_entrance(reason := "api") -> Dictionary:
 	print("TOWN_HALL_RECOVERY return used=%s position=%s reason=%s" % [used, str(foot), reason])
 	return last_return
 
+func _do_quit() -> void:
+	quits += 1
+	if quit_handler.is_valid(): quit_handler.call()
+	else: get_tree().quit()
+
 func quit_now() -> void:
 	print("TOWN_HALL_RECOVERY quit_now")
-	get_tree().quit()
+	_do_quit()
 
 func _notification(what: int) -> void:
 	if what != NOTIFICATION_WM_CLOSE_REQUEST or world == null or not is_instance_valid(world): return
@@ -251,7 +263,7 @@ func _notification(what: int) -> void:
 		if world.has_method("save_game") and world.get("world_initialized") == true:
 			saved = world.save_game(false)
 		print("TOWN_HALL_RECOVERY second close request: saved=%s, quitting" % saved)
-		get_tree().quit()
+		_do_quit()
 		return
 	last_close_request_ms = now
 
