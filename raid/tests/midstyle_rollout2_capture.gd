@@ -50,12 +50,21 @@ func run() -> void:
 		print("ROLLOUT2 BREAK login binding failed"); get_tree().quit(1); return
 	world.staged_startup = true
 	world.process_mode = Node.PROCESS_MODE_DISABLED
+	world.loading_stage.connect(func(label, ms): print("ROLLOUT2 STAGE ", label, " ", snapped(ms, 0.1)))
 	get_tree().root.add_child(world)
 	var deadline := Time.get_ticks_msec() + 600000
+	var frames := 0
 	while is_instance_valid(world) and not world.world_initialized:
 		if Time.get_ticks_msec() > deadline:
-			print("ROLLOUT2 BREAK world did not initialize"); get_tree().quit(1); return
+			print("ROLLOUT2 BREAK world did not initialize phase=", world.startup_phase, " last=", world.startup_last_label)
+			get_tree().quit(1); return
+		frames += 1
+		if frames % 120 == 0:
+			print("ROLLOUT2 wait phase=", world.startup_phase, " last=", world.startup_last_label, " cancel=", world.startup_cancel_requested)
 		await get_tree().process_frame
+	if not is_instance_valid(world) or not world.world_initialized:
+		print("ROLLOUT2 BREAK world previously freed or uninitialized")
+		get_tree().quit(1); return
 	var assets: Dictionary = await world.startup_asset_gate.prepare(world)
 	if not assets.get("ok", false):
 		print("ROLLOUT2 BREAK assets ", assets); get_tree().quit(1); return
