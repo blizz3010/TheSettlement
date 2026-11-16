@@ -15,7 +15,9 @@ import build_midstyle as B
 from build_midstyle import mat, box, cyl, sphere, lathe, tube, sweep_rect, finish, paint, uv_box, uv_cyl, uv_rect, join, obj_from_bm, apply_all, smooth, select_only, fixn, xform, bevel
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
-OUT = os.path.join(REPO, "assets", "midstyle_rollout2") + "/"
+OUT = os.environ.get("ROLLOUT2_OUT", os.path.join(REPO, "assets", "midstyle_rollout2"))
+if not OUT.endswith("/"):
+    OUT += "/"
 B.TEX = os.environ.get("ROLLOUT2_TEX", "/workspace/settlement_rollout2/tex/")
 B.OUT = OUT
 BLEND = os.environ.get("ROLLOUT2_BLEND", "/workspace/settlement_rollout2/blender/")
@@ -389,7 +391,7 @@ def build_hull():
     hull = obj_from_bm(bm, "Fuselage", ivory)
     # mid-weight bevel so panel edges catch the light
     bevel(hull, 0.018, 2, 35); apply_all(hull); smooth(hull, 28)
-    part(P, hull, ('box', 1.8, None), seed=1, edge=.14, cavity=.16, noise_amt=.045)
+    part(P, hull, ('box', 5.5, None), seed=1, edge=.14, cavity=.16, noise_amt=.045)
 
     # ---- recessed panel plates on the flanks (real secondary forms)
     for xi, x in enumerate([ -4.4, -3.3, -2.2, -1.1, 0.0, 1.1, 2.2, 3.2 ]):
@@ -602,9 +604,11 @@ def build_hull():
         def fin_pt(x, y, thick):
             return bm.verts.new(G(x, y, side * 2.22 + thick))
         # 4-corner each side: root front, root back, tip front, tip back
-        rf = fin_pt(4.05, 4.18, 0.05); rb = fin_pt(4.85, 4.22, 0.05)
+        # Root the fin on the nacelle (engine at y=3.08, shroud r≈0.62, top ≈3.70)
+        # so the tails do not hover in a gap above the engines.
+        rf = fin_pt(4.12, 3.72, 0.07); rb = fin_pt(4.92, 3.76, 0.07)
         tf = fin_pt(4.35, 5.65, 0.03); tb = fin_pt(4.82, 5.62, 0.03)
-        lf = fin_pt(4.05, 4.18, -0.05); lb = fin_pt(4.85, 4.22, -0.05)
+        lf = fin_pt(4.12, 3.72, -0.07); lb = fin_pt(4.92, 3.76, -0.07)
         sf = fin_pt(4.35, 5.65, -0.03); sb = fin_pt(4.82, 5.62, -0.03)
         bm.faces.new((rf, rb, tb, tf))
         bm.faces.new((lf, sf, sb, lb))
@@ -618,6 +622,8 @@ def build_hull():
         # ochre tip
         tip = box("FinTip", ochre, G(4.62, 5.55, side * 2.22), (0.42, 0.18, 0.07), bev=0.01, segs=2)
         part(P, tip, ('box', .3, None), seed=435, edge=.1)
+        fair = box("FinFairing", ivory, G(4.52, 3.78, side * 2.18), (0.70, 0.22, 0.16), bev=0.03, segs=2)
+        part(P, fair, ('box', .6, None), seed=436 + (side > 0), edge=.12, cavity=.1)
 
     # modest wing / chine flares near x=0.85 and a smaller one aft at x=3.6, halfw 3.8
     for x0, chord, drop in ((0.90, 1.8, 0.15), (3.55, 1.3, 0.10)):

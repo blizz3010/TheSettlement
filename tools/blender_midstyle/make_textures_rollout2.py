@@ -48,33 +48,48 @@ def panel_lines(n, count, width_px, seed=1):
 
 N = 512
 
-# Ivory ceramic hull paint: warm cream, panel grooves, grimy edges, fine orange-peel.
-h = fnoise(N, 28, 28, 11) * 0.012 + fnoise(N, 8, 8, 12) * 0.006
-h += panel_lines(N, 8, 2.2, 13) * 0.045
-# rivet bumps along the panel lines
+# Ivory aircraft paint: warm cream, faint irregular panel gaps (not a tile grid),
+# soft orange-peel, light grit in the recesses.
+def sparse_panels(n, n_h, n_v, width_px, seed):
+    yy, xx = grid(n)
+    h = np.zeros((n, n))
+    rng = np.random.default_rng(seed)
+    # Irregular spacing, not a regular square grid, and no wrap-seam doubling.
+    for u in np.linspace(0.08, 0.92, n_v) + rng.normal(0, 0.015, n_v):
+        u = float(np.clip(u, 0.02, 0.98))
+        w = width_px * rng.uniform(0.7, 1.3)
+        h += -np.exp(-((xx - u) * n) ** 2 / (2 * w ** 2))
+    for v in np.linspace(0.10, 0.90, n_h) + rng.normal(0, 0.02, n_h):
+        v = float(np.clip(v, 0.02, 0.98))
+        w = width_px * rng.uniform(0.7, 1.3)
+        h += -np.exp(-((yy - v) * n) ** 2 / (2 * w ** 2))
+    return h
+
+h = fnoise(N, 28, 28, 11) * 0.010 + fnoise(N, 8, 8, 12) * 0.005
+h += sparse_panels(N, 3, 4, 1.6, 13) * 0.016
 yy, xx = grid(N)
 riv = np.zeros((N, N))
-for i in range(8):
-    for j in range(16):
-        cy = (i + .5) / 8; cx = (j + .5) / 16
-        d2 = ((xx - cx) * N) ** 2 + ((yy - cy) * N) ** 2
-        riv += np.exp(-d2 / 4.5) * 0.04
+rng = np.random.default_rng(16)
+# A few faint rivets near the panel gaps, not a dense nail grid.
+for _ in range(28):
+    cy, cx = rng.uniform(0.05, 0.95, 2)
+    d2 = ((xx - cx) * N) ** 2 + ((yy - cy) * N) ** 2
+    riv += np.exp(-d2 / 3.5) * 0.012
 h += riv
-grime = np.clip(fnoise(N, 40, 18, 14) * 0.5 + 0.15, 0, 1)
-base = (0.92 + h * 4 + fnoise(N, 6, 6, 15) * 0.03)[..., None] * hexc("d9d0c0")
-base = base * (1 - 0.18 * grime[..., None] * hexc("5a4a38")[None, None, :] / (base + 1e-6))
-# slightly cooler in recesses
-base = base * (1 + h[..., None] * 0.8)
+grime = np.clip(fnoise(N, 40, 18, 14) * 0.35 + 0.08, 0, 1)
+base = (0.94 + h * 1.4 + fnoise(N, 6, 6, 15) * 0.02)[..., None] * hexc("e4d8c6")
+base = base * (1 - 0.08 * grime[..., None] * hexc("5a4a38")[None, None, :] / (base + 1e-6))
+base = base * (1 + h[..., None] * 0.35)
 save_rgb("hull_ivory", base)
-save_n("hull_ivory", h + riv, 3.2)
+save_n("hull_ivory", h + riv, 1.15)
 
-# Worn ochre livery / heat-stained accent.
-h2 = fnoise(N, 24, 24, 21) * 0.014 + panel_lines(N, 6, 2.0, 22) * 0.03
+# Worn ochre livery / heat-stained accent: soft, not a tile grid.
+h2 = fnoise(N, 24, 24, 21) * 0.012 + sparse_panels(N, 2, 3, 1.6, 22) * 0.012
 fade = np.clip(0.55 + fnoise(N, 36, 20, 23) * 0.35, 0, 1)
-och = (0.85 + h2 * 3)[..., None] * hexc("b68a4a")
-och = och * fade[..., None] + hexc("6a4e2c")[None, None, :] * (1 - fade[..., None]) * 0.35
+och = (0.88 + h2 * 1.4)[..., None] * hexc("c49a58")
+och = och * fade[..., None] + hexc("6a4e2c")[None, None, :] * (1 - fade[..., None]) * 0.28
 save_rgb("hull_ochre", och)
-save_n("hull_ochre", h2, 2.6)
+save_n("hull_ochre", h2, 1.2)
 
 # Warm pad concrete with radial-looking joints (tileable square joints) and grit.
 h3 = fnoise(N, 32, 32, 31) * 0.02 + fnoise(N, 7, 7, 32) * 0.01
