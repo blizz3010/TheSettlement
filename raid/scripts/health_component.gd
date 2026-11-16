@@ -20,6 +20,13 @@ var since_damage := 0.0
 var dead := false
 var last_source := ""
 var hits_taken := 0
+## Optional damage-reduction hook (TASKS item 22, PR A): Callable(amount: float, source: String) -> float.
+## Called only for hits that will land (alive, not in i-frames). The result is clamped to
+## [0, amount]. When unset (the default), damage() behaves exactly as before.
+## Bound to gear_locker_state.reduce_damage by the raid in PR B.
+var reduction: Callable
+## Raw damage before reduction for the last landed hit (equals the dealt amount when no hook).
+var last_raw_damage := 0.0
 
 func bind(target_vitals: RefCounted, maximum: float = 100.0) -> bool:
 	if target_vitals == null or not target_vitals.has_method("set_values"): return false
@@ -41,11 +48,17 @@ func is_invulnerable() -> bool:
 func damage(amount: float, source: String = "unknown") -> bool:
 	if dead or vitals == null or not is_finite(amount) or amount <= 0.0: return false
 	if invulnerable_left > 0.0: return false
+	var raw := amount
+	if reduction.is_valid():
+		var reduced = reduction.call(amount, source)
+		if (reduced is float or reduced is int) and is_finite(float(reduced)):
+			amount = clampf(float(reduced), 0.0, raw)
 	var next := maxf(0.0, vitals.current - amount)
 	if not vitals.set_values(next, max_hp): return false
 	invulnerable_left = invulnerability_seconds
 	since_damage = 0.0
 	last_source = source
+	last_raw_damage = raw
 	hits_taken += 1
 	damaged.emit(amount, source, next)
 	if next <= 0.0:
