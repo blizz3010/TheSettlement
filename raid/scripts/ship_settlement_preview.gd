@@ -10,6 +10,7 @@ var ship_selection_generation := 0
 var ship_selection_binding: Dictionary = {}
 const MidstyleSwap = preload("res://raid/scripts/midstyle_swap.gd")
 const MidstyleRollout = preload("res://raid/scripts/midstyle_rollout.gd")
+const MidstyleRollout2 = preload("res://raid/scripts/midstyle_rollout2.gd")
 const TraderBuyMenus = preload("res://raid/scripts/trader_buy_menus.gd")
 const ShipTakeoff = preload("res://raid/scripts/ship_takeoff_cutscene.gd")
 var ship_takeoff: Node
@@ -19,10 +20,14 @@ var player_health: Node
 func _initialize_world():
 	# Item 12 rollout: raid prop remodels follow the item 11 switch (see midstyle_rollout.gd).
 	MidstyleRollout.enabled = MidstyleSwap.enabled
+	MidstyleRollout2.enabled = MidstyleSwap.enabled
 	await super._initialize_world()
 	# Item 11 style test: mid-stylized prop remodels, render-only (see midstyle_swap.gd).
 	if MidstyleSwap.enabled and world_initialized and not startup_cancel_requested:
 		MidstyleSwap.apply(self)
+	# Item 12 rollout 2: ship + request board remodels (idempotent, render-only).
+	if MidstyleRollout2.enabled and world_initialized and not startup_cancel_requested:
+		MidstyleRollout2.apply(self)
 	# Item 16: working specialist buy menus (Rook, Psy, Tailor, Fishing). Idempotent.
 	if world_initialized and not startup_cancel_requested:
 		TraderBuyMenus.install(self)
@@ -205,6 +210,9 @@ func activate_loaded_world():
 	# this only adds what the first pass could not reach; nothing is applied twice.
 	if MidstyleSwap.enabled and world_activated and not startup_cancel_requested:
 		MidstyleSwap.apply(self)
+	# Item 12 rollout 2, second pass for the staged start (RequestBoard signage exists by then).
+	if MidstyleRollout2.enabled and world_activated and not startup_cancel_requested:
+		MidstyleRollout2.apply(self)
 	# Item 16 menus, second pass for the staged start (panels exist after activation too).
 	if world_activated and not startup_cancel_requested:
 		TraderBuyMenus.install(self)
