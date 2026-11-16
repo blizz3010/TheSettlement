@@ -1,7 +1,8 @@
 extends SceneTree
 ## Item 16: working trader buy menus (Rook, Psy, Tailor, Fishing).
 ## Covers specialist stock categories, purchases, insufficient funds, and inventory updates.
-## Dan and Atlas stay preview-only and are asserted unchanged.
+## Atlas stays preview-only. The pinned Dan catalog remains the demo fallback;
+## live listings are covered by test_dan_player_listings.
 const ShopCatalog = preload("res://scripts/shop_catalog.gd")
 const Supplies = preload("res://scripts/supplies_purchase.gd")
 const ShopTransaction = preload("res://scripts/shop_transaction.gd")
@@ -90,10 +91,10 @@ func run() -> void:
 	for row in fish_rows:
 		check(str(row.category) == "Fishing", "Fishing category is Fishing")
 
-	# Dan / Atlas unchanged
+	# Atlas unchanged; pinned Dan catalog stays the demo fallback
 	var dan: Array = PreviewCatalog.rows("dan", "browse")
 	var atlas: Array = PreviewCatalog.rows("atlas", "overview")
-	check(not dan.is_empty() and str(dan[0].get("reason", "")).to_lower().contains("coming soon"), "Dan listings stay coming soon")
+	check(not dan.is_empty() and str(dan[0].get("reason", "")).to_lower().contains("coming soon"), "Pinned Dan catalog is still the demo fallback")
 	check(not atlas.is_empty() and atlas[0].get("price") == null and not atlas[0].get("enabled", true), "Atlas recovery stays unavailable")
 
 	# --- icons for every stock row ----------------------------------------
@@ -242,7 +243,7 @@ func run() -> void:
 	print("TRADER_BUY_MENUS_TESTS ", JSON.stringify({
 		"checks": checks,
 		"failures": failures,
-		"scope": "Rook/Psy/Tailor/Fishing stock categories, purchases, insufficient funds, inventory update; Dan/Atlas unchanged; icons present",
+		"scope": "Rook/Psy/Tailor/Fishing stock categories, purchases, insufficient funds, inventory update; pinned Dan catalog is the demo fallback; Atlas unchanged; icons present",
 		"rook_stock": rook_ids,
 		"psy_stock": psy_ids,
 		"tailor_stock": tailor_ids,
