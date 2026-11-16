@@ -209,6 +209,8 @@ func _run():
 	if OS.get_environment("STALL_PROBE") == "1": await _probe(); _finish(0); return
 	if OS.get_environment("STALL_CENSUS") == "1": await _census(); _finish(0); return
 	if OS.get_environment("STALL_PROBE") == "2": await _probe2(); _finish(0); return
+	if OS.get_environment("STALL_GRASS") == "1": _grass_dump(); _finish(0); return
+	if OS.get_environment("STALL_MEASURE") == "1": await _measure(); _finish(0); return
 	phase = "idle_spawn"
 	await secs(float(OS.get_environment("STALL_IDLE")) if OS.get_environment("STALL_IDLE") != "" else 20.0)
 	status("after idle")
@@ -356,6 +358,51 @@ func _probe2():
 	vp.scaling_3d_scale = 0.5; await _frames_report("p2_plus_scale_half", 3)
 	vp.scaling_3d_scale = 1.0; S.apply_scene_shadows(vp, true); vp.msaa_3d = Viewport.MSAA_4X; S.apply_grass_quality(vp, 2)
 	await _frames_report("p2_restored", 3)
+
+func _grass_dump():
+	var f = FileAccess.open(out + "/grass.tsv", FileAccess.WRITE)
+	f.store_line("path\tparent_script\tnear\tseam\taabb_pos\taabb_size\tinst\tvisible\ttris\tvb\tve\tfade\tshader\tgroups")
+	var cache := {}
+	for n in world.find_children("*", "MultiMeshInstance3D", true, false):
+		if n.multimesh == null: continue
+		var mm = n.multimesh
+		if not cache.has(mm.mesh): cache[mm.mesh] = _tri_count(mm.mesh)
+		var total = cache[mm.mesh] * (mm.visible_instance_count if mm.visible_instance_count >= 0 else mm.instance_count)
+		if total < 20000: continue
+		var ab: AABB = n.global_transform * n.get_aabb()
+		var mat = n.material_override
+		var sh = mat.shader.resource_path if mat is ShaderMaterial and mat.shader else str(mat)
+		var ps = n.get_parent().get_script().resource_path if n.get_parent().get_script() else ""
+		f.store_line("%s\t%s\t%s\t%s\t%s\t%s\t%d\t%d\t%d\t%.1f\t%.1f\t%d\t%s\t%s" % [world.get_path_to(n), ps, n.get_meta("near_lod", "-"), n.get_meta("edge_seam", "-"), str(ab.position), str(ab.size), mm.instance_count, mm.visible_instance_count, cache[mm.mesh], n.visibility_range_begin, n.visibility_range_end, n.visibility_range_fade_mode, sh, str(n.get_groups())])
+	f.close()
+	log_("grass dump written")
+
+func _measure_modes(tag: String):
+	var gc = world.get_node_or_null("GrassViewCulling")
+	for m in ["original", "split", "cull"]:
+		gc.set_mode(m)
+		await frames(1)
+		await _frames_report("%s_%s" % [tag, m], 3)
+		await shot("measure_%s_%s" % [tag, m])
+	log_("MEASURE %s stats=%s" % [tag, str(gc.stats)])
+
+func _place(pos: Vector3, yaw: float):
+	var p = world.player
+	p.global_position = pos; p.rotation = Vector3(0, yaw, 0); p.velocity = Vector3.ZERO
+	p.pitch = -0.04; p.camera.rotation.x = p.pitch; p.reset_physics_interpolation()
+	await frames(3)
+
+func _measure():
+	var gc = world.get_node_or_null("GrassViewCulling")
+	if gc == null: log_("MEASURE no culling node"); return
+	var ok = await wait_for(func(): return gc.split_done, 900)
+	log_("MEASURE split_done=%s stats=%s split_ms=%d" % [ok, str(gc.stats), gc.split_usec / 1000])
+	get_viewport().msaa_3d = Viewport.MSAA_4X
+	await _measure_modes("spawn")
+	await _place(Vector3(0, 0.27, -24.5), 0.0)
+	await _measure_modes("hall_rear")
+	await _place(Vector3(0, 0.2, -8.0), PI)
+	await _measure_modes("plaza")
 
 func _finish(code: int):
 	watchdog_run = false
