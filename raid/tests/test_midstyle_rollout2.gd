@@ -82,8 +82,8 @@ func verify_ship_bounds_and_split() -> void:
 		if mesh.mesh == null:
 			continue
 		for s in mesh.mesh.get_surface_count():
-			var verts = mesh.mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX]
-			var to_root := hull.global_transform.affine_inverse() * mesh.global_transform
+			var verts: PackedVector3Array = mesh.mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX]
+			var to_root: Transform3D = hull.global_transform.affine_inverse() * mesh.global_transform
 			for v in verts:
 				var p: Vector3 = to_root * v
 				if first:
@@ -121,8 +121,8 @@ func verify_board_bounds() -> void:
 		if mesh.mesh == null:
 			continue
 		for s in mesh.mesh.get_surface_count():
-			var verts = mesh.mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX]
-			var to_root := art.global_transform.affine_inverse() * mesh.global_transform
+			var verts: PackedVector3Array = mesh.mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX]
+			var to_root: Transform3D = art.global_transform.affine_inverse() * mesh.global_transform
 			for v in verts:
 				var p: Vector3 = to_root * v
 				if first:
@@ -158,7 +158,7 @@ func verify_apply_and_idempotent() -> void:
 	check(board.has_node("MidstyleRequestBoard"), "Board node added")
 	check(runtime.visible == false, "Stock runtime mesh hidden")
 	check(panel.visible == false, "Stock board panel hidden")
-	check(board.get_node("StaticBody3D") != null and is_instance_valid(col), "Board collider kept")
+	check(is_instance_valid(body) and body.get_parent() == board and is_instance_valid(col) and col.get_parent() == body, "Board collider kept")
 	var hull_tris: int = first.ship.get("hull_triangles", 0)
 	var pad_tris: int = first.ship.get("pad_triangles", 0)
 	var board_tris: int = first.board.get("triangles", 0)
