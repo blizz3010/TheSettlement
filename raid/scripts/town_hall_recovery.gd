@@ -262,9 +262,11 @@ func _process(_delta: float) -> void:
 		return
 	if not is_instance_valid(return_button) or not is_instance_valid(quit_now_button): inject_buttons()
 	var p = world.player
-	var needs: bool = (not p.enabled or Input.mouse_mode != Input.MOUSE_MODE_CAPTURED)
+	var headless := DisplayServer.get_name() == "headless"
+	# Headless has no mouse capture to restore; only player control is checked there.
+	var needs: bool = not p.enabled or (not headless and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED)
 	var blocked: bool = world.modal_open() or world.get("cooking_window_focused") == false or is_instance_valid(world.get("ship_selection"))
-	if DisplayServer.get_name() != "headless" and not DisplayServer.window_is_focused(): blocked = true
+	if not headless and not DisplayServer.window_is_focused(): blocked = true
 	if not needs or blocked:
 		uncaptured_since_ms = -1
 		return

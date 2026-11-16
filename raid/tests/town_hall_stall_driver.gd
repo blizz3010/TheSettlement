@@ -211,6 +211,7 @@ func _run():
 	if OS.get_environment("STALL_PROBE") == "2": await _probe2(); _finish(0); return
 	if OS.get_environment("STALL_GRASS") == "1": _grass_dump(); _finish(0); return
 	if OS.get_environment("STALL_MEASURE") == "1": await _measure(); _finish(0); return
+	if OS.get_environment("STALL_SYMPTOMS") == "1": await _symptoms(); _finish(0); return
 	phase = "idle_spawn"
 	await secs(float(OS.get_environment("STALL_IDLE")) if OS.get_environment("STALL_IDLE") != "" else 20.0)
 	status("after idle")
@@ -385,6 +386,49 @@ func _measure_modes(tag: String):
 		await _frames_report("%s_%s" % [tag, m], 3)
 		await shot("measure_%s_%s" % [tag, m])
 	log_("MEASURE %s stats=%s" % [tag, str(gc.stats)])
+	_dump_subs(tag, gc)
+	if OS.get_environment("STALL_OCC") == "1":
+		var occ = world.get_node_or_null("SettlementOccluders")
+		if occ == null:
+			occ = load("res://raid/scripts/settlement_occluders.gd").install(world)
+			log_("MEASURE occluders=%d tris=%d" % [occ.occluder_count, occ.occluder_tris])
+		get_viewport().use_occlusion_culling = true
+		for m in ["original", "cull"]:
+			gc.set_mode(m)
+			await frames(3)
+			await _frames_report("%s_%s_occ" % [tag, m], 3)
+			await shot("measure_%s_%s_occ" % [tag, m])
+		get_viewport().use_occlusion_culling = false
+
+func _aabb_in_frustum(planes: Array, b: AABB) -> bool:
+	for pl in planes:
+		var inside := false
+		for i in 8:
+			if not pl.is_point_over(b.get_endpoint(i)): inside = true; break
+		if not inside: return false
+	return true
+
+func _dump_subs(tag: String, gc):
+	var cam = get_viewport().get_camera_3d()
+	var planes = cam.get_frustum()
+	var f = FileAccess.open(out + "/subs_%s.tsv" % tag, FileAccess.WRITE)
+	f.store_line("name\tcx\tcy\tcz\tsx\tsy\tsz\tvis_inst\ttris\txz\tfrustum\tnear")
+	var tot := 0; var tot_f := 0
+	for batch in gc.batches:
+		var tris = gc._tri_count(batch.original.multimesh.mesh)
+		for s in batch.subs:
+			if not s.mmi.visible: continue
+			var mm = s.mmi.multimesh
+			var n = mm.visible_instance_count if mm.visible_instance_count >= 0 else mm.instance_count
+			var b: AABB = s.aabb
+			var c = b.get_center()
+			var d = gc.xz_distance(cam.global_position, b)
+			var inf = _aabb_in_frustum(planes, b) and (batch.original.visibility_range_end <= 0.0 or cam.global_position.distance_to(c) < batch.original.visibility_range_end)
+			tot += n * tris
+			if inf: tot_f += n * tris
+			f.store_line("%s\t%.1f\t%.1f\t%.1f\t%.1f\t%.1f\t%.1f\t%d\t%d\t%.1f\t%s\t%s" % [s.mmi.name, c.x, c.y, c.z, b.size.x, b.size.y, b.size.z, n, tris, d, inf, s.near])
+	f.close()
+	log_("MEASURE %s subs visible_tris=%d in_frustum_tris=%d" % [tag, tot, tot_f])
 
 func _place(pos: Vector3, yaw: float):
 	var p = world.player
@@ -403,6 +447,49 @@ func _measure():
 	await _measure_modes("hall_rear")
 	await _place(Vector3(0, 0.2, -8.0), PI)
 	await _measure_modes("plaza")
+
+## Reproduces Ori's observations at the measured frame rate, without touching game state
+## directly: real InputEvents only, timings are wall clock.
+func _symptoms():
+	var p = world.player
+	var label = OS.get_environment("STALL_LABEL")
+	await _frames_report(label + "_frame", 2)
+	# 1. hold W for 5 s wall clock
+	var start = p.global_position
+	key(KEY_W, true); await secs(5.0); key(KEY_W, false); await frames(2)
+	log_("SYMPTOM %s hold_W_5s moved=%.2f m frames_during=%s" % [label, start.distance_to(p.global_position), "see trace"])
+	# 2. a quick tap (press+release before the next frame), like a key click
+	start = p.global_position
+	key(KEY_W, true); key(KEY_W, false); await frames(3)
+	log_("SYMPTOM %s tap_W moved=%.3f m" % [label, start.distance_to(p.global_position)])
+	# 3. a player nudging the mouse down while waiting for the view to react:
+	#    12 small moves of 60 px over ~3 s wall clock
+	var pitch0 = p.pitch
+	var t0m = Time.get_ticks_msec()
+	for i in 12:
+		var e = InputEventMouseMotion.new(); e.relative = Vector2(0, 60); e.position = Vector2(720, 450)
+		Input.parse_input_event(e)
+		OS.delay_msec(250)
+	await frames(1)
+	log_("SYMPTOM %s mouse_down_12x60px pitch %.2f -> %.2f (clamp -1.25) frames_elapsed_wall_ms=%d" % [label, pitch0, p.pitch, Time.get_ticks_msec() - t0m])
+	await shot("symptom_%s_after_mouse" % label)
+	await look(0, (p.pitch + 0.04) / p.mouse_sensitivity, 1)
+	# 4. Escape -> options: wall clock until visible on a drawn frame
+	var t_esc = Time.get_ticks_msec()
+	key(KEY_ESCAPE, true); key(KEY_ESCAPE, false)
+	await wait_for(func(): return world.options_panel.visible, 120)
+	await RenderingServer.frame_post_draw
+	log_("SYMPTOM %s escape_to_options_drawn_ms=%d" % [label, Time.get_ticks_msec() - t_esc])
+	key(KEY_ESCAPE, true); key(KEY_ESCAPE, false)
+	await wait_for(func(): return not world.options_panel.visible, 120)
+	await RenderingServer.frame_post_draw
+	# 5. window close button -> quit prompt (needs a second click on Save and Quit)
+	var t_close = Time.get_ticks_msec()
+	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+	await wait_for(func(): return world.options_panel.visible and world.options_panel.quit_pending, 120)
+	await RenderingServer.frame_post_draw
+	log_("SYMPTOM %s close_to_quit_prompt_drawn_ms=%d quit_pending=%s (game keeps running until Save and Quit)" % [label, Time.get_ticks_msec() - t_close, world.options_panel.quit_pending])
+	await shot("symptom_%s_quit_prompt" % label)
 
 func _finish(code: int):
 	watchdog_run = false

@@ -48,6 +48,7 @@ var split_usec := 0
 var stats := {"subchunks": 0, "visible": 0, "culled_distance": 0, "culled_sill": 0, "batches": 0, "instances": 0}
 var force_update := true
 var last_collect_ms := 0
+var last_frame_usec := 0
 const RECOLLECT_MS := 5000
 
 static func install(host: Node3D) -> Node:
@@ -256,9 +257,14 @@ func set_mode(value: String) -> void:
 
 func _process(_delta: float) -> void:
 	if world == null or not is_instance_valid(world): return
+	var frame_usec := Time.get_ticks_usec() - last_frame_usec if last_frame_usec > 0 else 0
+	last_frame_usec = Time.get_ticks_usec()
 	if not pending.is_empty():
 		var start := Time.get_ticks_usec()
-		while not pending.is_empty() and Time.get_ticks_usec() - start < SPLIT_BUDGET_USEC:
+		# Small slices on a normal frame rate; on a slow renderer a frame already takes
+		# seconds, so spend up to half a frame splitting instead of crawling one batch per frame.
+		var budget := clampi(frame_usec / 2, SPLIT_BUDGET_USEC, 3000000)
+		while not pending.is_empty() and Time.get_ticks_usec() - start < budget:
 			split(pending.pop_front())
 		split_usec += Time.get_ticks_usec() - start
 		if pending.is_empty():
