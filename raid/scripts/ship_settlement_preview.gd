@@ -12,6 +12,7 @@ const MidstyleSwap = preload("res://raid/scripts/midstyle_swap.gd")
 const MidstyleRollout = preload("res://raid/scripts/midstyle_rollout.gd")
 const MidstyleRollout2 = preload("res://raid/scripts/midstyle_rollout2.gd")
 const TraderBuyMenus = preload("res://raid/scripts/trader_buy_menus.gd")
+const DanListings = preload("res://raid/scripts/dan_listings_install.gd")
 const ShipTakeoff = preload("res://raid/scripts/ship_takeoff_cutscene.gd")
 var ship_takeoff: Node
 const SettlementHealth = preload("res://raid/scripts/settlement_health.gd")
@@ -33,6 +34,9 @@ func _initialize_world():
 	# Item 16: working specialist buy menus (Rook, Psy, Tailor, Fishing). Idempotent.
 	if world_initialized and not startup_cancel_requested:
 		TraderBuyMenus.install(self)
+	# Item 13: Dan's local player listings. Idempotent; Psy/Atlas panels stay as they are.
+	if world_initialized and not startup_cancel_requested:
+		DanListings.install(self)
 	# Health/damage: live source for the existing HUD vitals bar; full health on return.
 	if world_initialized and not startup_cancel_requested and is_instance_valid(player):
 		player_health = SettlementHealth.attach(player)
@@ -218,6 +222,9 @@ func activate_loaded_world():
 	# Item 16 menus, second pass for the staged start (panels exist after activation too).
 	if world_activated and not startup_cancel_requested:
 		TraderBuyMenus.install(self)
+	# Item 13 listings, second pass for the staged start.
+	if world_activated and not startup_cancel_requested:
+		DanListings.install(self)
 	# TASKS item 9: far scenery (option B) is on by default in the normal game.
 	# FAR_SCENERY_OPTION=off turns it off for tests and benches. Runs after
 	# the lake fix so MiddleRidge keeps PR #5's reshape (lake_cut off).
@@ -226,3 +233,18 @@ func activate_loaded_world():
 		var far_opt: Dictionary = preload("res://raid/scripts/far_scenery_options.gd").apply(self)
 		if not far_opt.get("skipped", false) and not far_opt.get("ok", false):
 			push_warning("Far scenery skipped: " + str(far_opt.get("reason", far_opt)))
+
+func save_payload(payload: Dictionary, show_notice := true, writer_override = null) -> bool:
+	var ok := super.save_payload(payload, show_notice, writer_override)
+	if ok and has_meta("dan_listings"):
+		var store = get_meta("dan_listings")
+		if store != null and store.has_method("save"):
+			if not store.save():
+				push_warning("Dan listings sidecar could not be saved: " + str(store.get("last_error")))
+	return ok
+
+func load_game(show_notice := true) -> bool:
+	var ok := super.load_game(show_notice)
+	if ok:
+		DanListings.load_store(self)
+	return ok
