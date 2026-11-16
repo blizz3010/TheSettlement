@@ -1,0 +1,144 @@
+{
+  "renderer": "opengl3 / llvmpipe (software). Relative numbers only.",
+  "camera": "edge orbit, r=38 m, y=8 m, looking outward 240 m",
+  "frames": 40,
+  "warmup": 8,
+  "vsync": false,
+  "results": {
+    "main": {
+      "option": "main",
+      "avg_ms": 1868.2,
+      "median_ms": 1898.0,
+      "one_pct_low_ms": 2775.6,
+      "primitives": 3452240,
+      "draw_calls": 203,
+      "avg_vs_main_ms": 0.0,
+      "avg_vs_main_pct": 0.0,
+      "median_vs_main_ms": 0.0,
+      "median_vs_main_pct": 0.0,
+      "far_option_meta": {
+        "ok": true,
+        "option": "OFF",
+        "skipped": true
+      },
+      "lake_fix_present": true
+    },
+    "A": {
+      "option": "A",
+      "avg_ms": 2199.4,
+      "median_ms": 1908.3,
+      "one_pct_low_ms": 12487.4,
+      "primitives": 3473034,
+      "draw_calls": 133,
+      "avg_vs_main_ms": 331.2,
+      "avg_vs_main_pct": 17.7,
+      "median_vs_main_ms": 10.3,
+      "median_vs_main_pct": 0.5,
+      "far_option_meta": {
+        "batches": 2,
+        "broadleaf": 221,
+        "build_ms": 44.321,
+        "conifer": 259,
+        "hidden_original_ribs": 216,
+        "instances": 480,
+        "mesh_triangles": [
+          64,
+          26
+        ],
+        "ok": true,
+        "option": "A",
+        "painted": [
+          "MiddleRidge",
+          "OuterFoothills",
+          "ScenicGroundApron"
+        ],
+        "skipped": false,
+        "triangles": 20878
+      },
+      "lake_fix_present": true
+    },
+    "B": {
+      "option": "B",
+      "avg_ms": 1972.7,
+      "median_ms": 1920.1,
+      "one_pct_low_ms": 2921.7,
+      "primitives": 3538998,
+      "draw_calls": 134,
+      "avg_vs_main_ms": 104.5,
+      "avg_vs_main_pct": 5.6,
+      "median_vs_main_ms": 22.1,
+      "median_vs_main_pct": 1.2,
+      "far_option_meta": {
+        "batches": 2,
+        "broadleaf": 843,
+        "build_ms": 72.642,
+        "conifer": 1257,
+        "hidden_original_ribs": 216,
+        "instances": 2100,
+        "layer_ridges": {
+          "rings": 2,
+          "triangles": 208
+        },
+        "mesh_triangles": [
+          64,
+          26
+        ],
+        "ok": true,
+        "option": "B",
+        "painted": [
+          "MiddleRidge",
+          "OuterFoothills",
+          "ScenicGroundApron",
+          "DistantAlpineRange"
+        ],
+        "skipped": false,
+        "triangles": 86634
+      },
+      "lake_fix_present": true
+    },
+    "C": {
+      "option": "C",
+      "avg_ms": 2150.3,
+      "median_ms": 2129.5,
+      "one_pct_low_ms": 3172.5,
+      "primitives": 3540438,
+      "draw_calls": 135,
+      "avg_vs_main_ms": 282.1,
+      "avg_vs_main_pct": 15.1,
+      "median_vs_main_ms": 231.5,
+      "median_vs_main_pct": 12.2,
+      "far_option_meta": {
+        "batches": 2,
+        "broadleaf": 843,
+        "build_ms": 60.736,
+        "conifer": 1257,
+        "dome_ribs": {
+          "meridians": 6,
+          "thickness_m": 0.28,
+          "triangles": 1440
+        },
+        "hidden_original_ribs": 216,
+        "instances": 2100,
+        "layer_ridges": {
+          "rings": 2,
+          "triangles": 208
+        },
+        "mesh_triangles": [
+          64,
+          26
+        ],
+        "ok": true,
+        "option": "C",
+        "painted": [
+          "MiddleRidge",
+          "OuterFoothills",
+          "ScenicGroundApron",
+          "DistantAlpineRange"
+        ],
+        "skipped": false,
+        "triangles": 86634
+      },
+      "lake_fix_present": true
+    }
+  }
+}

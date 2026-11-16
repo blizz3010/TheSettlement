@@ -1,0 +1,64 @@
+{
+  "note": "Iso bench, llvmpipe / opengl3, 40-frame outward edge orbit, relative only. B bench likely loaded just before the 1125880 ridge-placement fix; triangle count is unchanged (608).",
+  "main": {
+    "avg_ms": 2312.496075,
+    "far_option_meta": {
+      "ok": true,
+      "option": "OFF",
+      "skipped": true
+    },
+    "first_frame": {
+      "draw_calls": 203,
+      "objects": 203,
+      "primitives": 3452240
+    },
+    "frames": 40,
+    "lake_fix_present": true,
+    "median_ms": 2113.435,
+    "one_pct_low_ms": 11684.758,
+    "option": "off"
+  },
+  "b": {
+    "avg_ms": 2196.954225,
+    "far_option_meta": {
+      "batches": 2,
+      "broadleaf": 843,
+      "build_ms": 61.229,
+      "conifer": 1257,
+      "hidden_original_ribs": 216,
+      "instances": 2100,
+      "layer_ridges": {
+        "rings": 2,
+        "triangles": 608
+      },
+      "mesh_triangles": [
+        64,
+        26
+      ],
+      "ok": true,
+      "option": "B",
+      "painted": [
+        "MiddleRidge",
+        "OuterFoothills",
+        "ScenicGroundApron",
+        "DistantAlpineRange"
+      ],
+      "skipped": false,
+      "triangles": 86634
+    },
+    "first_frame": {
+      "draw_calls": 134,
+      "objects": 134,
+      "primitives": 3539398
+    },
+    "frames": 40,
+    "lake_fix_present": true,
+    "median_ms": 2209.913,
+    "one_pct_low_ms": 3362.873,
+    "option": "off"
+  },
+  "relative_pct": {
+    "median": 4.564985438397683,
+    "avg": -4.996412804722277
+  }
+}
