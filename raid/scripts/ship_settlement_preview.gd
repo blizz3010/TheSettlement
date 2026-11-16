@@ -10,6 +10,7 @@ var ship_selection_generation := 0
 var ship_selection_binding: Dictionary = {}
 const MidstyleSwap = preload("res://raid/scripts/midstyle_swap.gd")
 const MidstyleRollout = preload("res://raid/scripts/midstyle_rollout.gd")
+const MidstyleRollout2 = preload("res://raid/scripts/midstyle_rollout2.gd")
 const TraderBuyMenus = preload("res://raid/scripts/trader_buy_menus.gd")
 const DanListings = preload("res://raid/scripts/dan_listings_install.gd")
 const AtlasRecovery = preload("res://raid/scripts/atlas_recovery_install.gd")
@@ -17,15 +18,23 @@ const RaidOutcome = preload("res://raid/scripts/raid_outcome.gd")
 const ShipTakeoff = preload("res://raid/scripts/ship_takeoff_cutscene.gd")
 var ship_takeoff: Node
 const SettlementHealth = preload("res://raid/scripts/settlement_health.gd")
+const TownHallRecovery = preload("res://raid/scripts/town_hall_recovery.gd")
+const GrassViewCulling = preload("res://raid/scripts/grass_view_culling.gd")
 var player_health: Node
 
 func _initialize_world():
 	# Item 12 rollout: raid prop remodels follow the item 11 switch (see midstyle_rollout.gd).
 	MidstyleRollout.enabled = MidstyleSwap.enabled
+	MidstyleRollout2.enabled = MidstyleSwap.enabled
+	if OS.get_environment("MIDSTYLE_ROLLOUT2") == "0":
+		MidstyleRollout2.enabled = false
 	await super._initialize_world()
 	# Item 11 style test: mid-stylized prop remodels, render-only (see midstyle_swap.gd).
 	if MidstyleSwap.enabled and world_initialized and not startup_cancel_requested:
 		MidstyleSwap.apply(self)
+	# Item 12 rollout 2: ship + request board remodels (idempotent, render-only).
+	if MidstyleRollout2.enabled and world_initialized and not startup_cancel_requested:
+		MidstyleRollout2.apply(self)
 	# Item 16: working specialist buy menus (Rook, Psy, Tailor, Fishing). Idempotent.
 	if world_initialized and not startup_cancel_requested:
 		TraderBuyMenus.install(self)
@@ -44,6 +53,10 @@ func _initialize_world():
 		if not atlas_note.is_empty():
 			note = (note + " " + atlas_note).strip_edges() if not note.is_empty() else atlas_note
 		if not note.is_empty(): message(note)
+	# Item 21: stuck recovery / input safety net, and view culling for the dense grass.
+	if world_initialized and not startup_cancel_requested:
+		TownHallRecovery.install(self)
+		GrassViewCulling.install(self)
 
 func modal_open(include_cooking:bool=true,include_fishing_trader:bool=true,include_preview_traders:bool=true) -> bool:
 	# Hide gameplay HUD (minimap, vitals, hotbar) for the duration of takeoff.
@@ -218,6 +231,9 @@ func activate_loaded_world():
 	# this only adds what the first pass could not reach; nothing is applied twice.
 	if MidstyleSwap.enabled and world_activated and not startup_cancel_requested:
 		MidstyleSwap.apply(self)
+	# Item 12 rollout 2, second pass for the staged start (RequestBoard signage exists by then).
+	if MidstyleRollout2.enabled and world_activated and not startup_cancel_requested:
+		MidstyleRollout2.apply(self)
 	# Item 16 menus, second pass for the staged start (panels exist after activation too).
 	if world_activated and not startup_cancel_requested:
 		TraderBuyMenus.install(self)
@@ -235,6 +251,11 @@ func activate_loaded_world():
 		var far_opt: Dictionary = preload("res://raid/scripts/far_scenery_options.gd").apply(self)
 		if not far_opt.get("skipped", false) and not far_opt.get("ok", false):
 			push_warning("Far scenery skipped: " + str(far_opt.get("reason", far_opt)))
+	# TASKS item 21: pause-menu recovery + Escape/quit/mouse safety net, and grass view
+	# culling (the Town Hall "stall" was ~16.5M grass-heavy primitives per frame).
+	if world_activated and not startup_cancel_requested:
+		TownHallRecovery.install(self)
+		GrassViewCulling.install(self)
 
 func save_payload(payload: Dictionary, show_notice := true, writer_override = null) -> bool:
 	var ok := super.save_payload(payload, show_notice, writer_override)
