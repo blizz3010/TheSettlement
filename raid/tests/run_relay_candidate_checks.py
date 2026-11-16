@@ -53,6 +53,7 @@ TESTS = [
     ("test_trader_buy_menus", "TRADER_BUY_MENUS_TESTS "),
     ("test_dan_player_listings", "DAN_PLAYER_LISTINGS_TESTS "),
     ("test_midstyle_rollout", "MIDSTYLE_ROLLOUT_TESTS "),
+    ("test_midstyle_rollout2", "MIDSTYLE_ROLLOUT2_TESTS "),
     ("test_far_scenery", "FAR_SCENERY_TESTS "),
 ]
 

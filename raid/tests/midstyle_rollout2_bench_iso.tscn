@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://raid/tests/midstyle_rollout2_bench_iso.gd" id="1"]
+
+[node name="MidstyleRollout2BenchIso" type="Node"]
+script = ExtResource("1")

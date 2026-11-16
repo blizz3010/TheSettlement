@@ -197,6 +197,18 @@ func _ensure_lift_rig() -> void:
 		ship.remove_child(art)
 		lift_rig.add_child(art)
 		art.global_transform = saved_art
+	# Item 12 rollout 2: the remodelled hull is a sibling of Art. Parent it to the
+	# lift rig so it climbs with the stock TakeoffHull; the remodelled pad stays put.
+	# Optional: settlements without the swap are unchanged. Hide the split stock hull
+	# so it does not double-draw under the remodel.
+	var mid_hull := ship.get_node_or_null("MidstyleLaunchpadHull") as Node3D
+	if mid_hull != null and mid_hull.get_parent() != lift_rig:
+		var saved_mid := mid_hull.global_transform
+		mid_hull.get_parent().remove_child(mid_hull)
+		lift_rig.add_child(mid_hull)
+		mid_hull.global_transform = saved_mid
+		if is_instance_valid(hull_visual):
+			hull_visual.visible = false
 
 func _update_ship(t: float) -> void:
 	var body := _climb_body()
