@@ -199,7 +199,7 @@ func run() -> void:
 	verify_apply_and_idempotent()
 	verify_normal_start_enables()
 	verify_pins_untouched()
-	print("MIDSTYLE_ROLLOUT2_TESTS %d/%d" % [checks - failures.size(), checks])
+	print("MIDSTYLE_ROLLOUT2_TESTS ", JSON.stringify({"checks": checks, "failures": failures}))
 	if not failures.is_empty():
 		print("FAILURES:")
 		for f in failures:
