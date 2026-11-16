@@ -33,8 +33,8 @@ const DOOR_MARGIN := 0.25
 const DOOR_TOP := 4.77
 const HALL_TOP := 6.2
 const NEAR_MARGIN := 0.5
-const UPDATE_MOVE := 0.25
-const UPDATE_INTERVAL_MS := 250
+const UPDATE_MOVE := 0.5
+const UPDATE_INTERVAL_MS := 1000
 const SPLIT_BUDGET_USEC := 12000
 ## Each 3 m sub-chunk keeps a 3 x 3 grid of 1 m bins (highest root, tallest blade) for the
 ## glazing test, so blades the near-LOD shader has already shortened are judged at their
