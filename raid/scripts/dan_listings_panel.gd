@@ -41,10 +41,12 @@ func _install_asking() -> void:
 		_update_summary()
 	)
 	asking_wrap.add_child(asking)
-	if is_instance_valid(summary):
-		# Put the asking price above the quantity / confirm row.
-		summary.add_child(asking_wrap)
-		summary.move_child(asking_wrap, 0)
+	# Sit just above the pinned shop summary so child 0 of summary stays the
+	# quantity row that ShopPanel looks up as MaximumQuantity.
+	if is_instance_valid(summary) and is_instance_valid(summary.get_parent()):
+		var column: Node = summary.get_parent()
+		column.add_child(asking_wrap)
+		column.move_child(asking_wrap, summary.get_index())
 	asking_wrap.visible = false
 
 func bind_store(store: Store) -> void:
@@ -211,6 +213,11 @@ func post_rows(inventory) -> Array:
 			"space_per_unit": 1,
 			"row_action": "post",
 		})
+	rows.sort_custom(func(a, b):
+		if bool(a.get("enabled", false)) != bool(b.get("enabled", false)):
+			return bool(a.get("enabled", false))
+		return str(a.get("name", "")) < str(b.get("name", ""))
+	)
 	return rows
 
 func help_rows() -> Array:
@@ -293,14 +300,8 @@ func _update_listing_summary(row: Dictionary, verb: String) -> void:
 		button.disabled = reviewing
 	for button in category_buttons.get_children():
 		button.disabled = reviewing
-	if is_instance_valid(summary):
-		var maximum = summary.get_child(0).get_node_or_null("MaximumQuantity") if summary.get_child_count() > 0 else null
-		# asking_wrap may now be child 0
-		if maximum == null:
-			for child in summary.get_children():
-				if child.has_node("MaximumQuantity"):
-					maximum = child.get_node("MaximumQuantity")
-					break
+	if is_instance_valid(summary) and summary.get_child_count() > 0:
+		var maximum = summary.get_child(0).get_node_or_null("MaximumQuantity")
 		if maximum:
 			maximum.disabled = reviewing or row.is_empty() or not row.get("enabled", false) or verb != "post"
 	confirmation.visible = reviewing

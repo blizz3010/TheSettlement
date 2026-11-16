@@ -151,11 +151,17 @@ func confirm_shot() -> void:
 		if row.seller_id == "harlan_reed":
 			harlan_id = str(row.id)
 			break
-	var quote: Dictionary = svc.quote_candidate("dan", "buy", harlan_id, 3, state.plot, state.inventory, preload("res://scripts/request_state.gd").new(), {
+	var candidate: Dictionary = svc.quote_candidate("dan", "buy", harlan_id, 3, state.plot, state.inventory, preload("res://scripts/request_state.gd").new(), {
 		"listings": store.snapshot(),
 		"asking_price": 8,
 		"now_unix": 1500,
 	})
+	if candidate.is_empty() or not candidate.get("receipt") is Dictionary:
+		print("DL: confirm quote failed: " + svc.last_error)
+		pack.layer.queue_free()
+		return
+	var quote: Dictionary = candidate.receipt.duplicate(true)
+	quote["token"] = 1
 	var panel: Control = DanPanel.new()
 	pack.host.add_child(panel)
 	panel.configure({
