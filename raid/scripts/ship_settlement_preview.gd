@@ -38,7 +38,7 @@ func _initialize_world():
 	# Health/damage: live source for the existing HUD vitals bar; full health on return.
 	if world_initialized and not startup_cancel_requested and is_instance_valid(player):
 		player_health = SettlementHealth.attach(player)
-		var raid_outcome: Dictionary = RaidOutcome.peek() if RaidOutcome.has_method("peek") else RaidOutcome.last.duplicate(true)
+		var raid_outcome: Dictionary = RaidOutcome.peek()
 		var atlas_note := AtlasRecovery.apply_return(self, raid_outcome)
 		var note := SettlementHealth.on_return(player_health)
 		if not atlas_note.is_empty():
