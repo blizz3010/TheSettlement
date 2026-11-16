@@ -134,7 +134,7 @@ func goto(target: Vector3, timeout: float, tag: String) -> bool:
 		var to = Vector3(target.x - p.global_position.x, 0, target.z - p.global_position.z)
 		if to.length() < 0.5: break
 		if to.length() < best - 0.05: best = to.length(); last_progress = Time.get_ticks_msec()
-		if Time.get_ticks_msec() - last_progress > 6000: log_("goto %s NO PROGRESS at %s dist=%.2f" % [tag, str(p.global_position), to.length()]); break
+		if Time.get_ticks_msec() - last_progress > maxf(6000.0, max_delta * 3000.0): log_("goto %s NO PROGRESS at %s dist=%.2f" % [tag, str(p.global_position), to.length()]); break
 		var yaw_target = atan2(-to.x, -to.z)
 		var dyaw = wrapf(yaw_target - p.rotation.y, -PI, PI)
 		if absf(dyaw) > 0.02:
@@ -247,7 +247,7 @@ func _walk_route():
 	var i := 0
 	for r in route:
 		i += 1
-		await goto(Vector3(r[0], 0, r[1]), 45.0, str(r[2]))
+		await goto(Vector3(r[0], 0, r[1]), float(OS.get_environment("STALL_GOTO_TIMEOUT")) if OS.get_environment("STALL_GOTO_TIMEOUT") != "" else 45.0, str(r[2]))
 		status("at " + str(r[2]))
 		if i % 2 == 0: await shot("05_walk_%02d" % i)
 		# A new player pokes at things: try interact and an overlay on the way.
@@ -257,6 +257,21 @@ func _walk_route():
 			if world.options_panel.visible: await tap(KEY_ESCAPE); await secs(1.0)
 	await shot("06_end")
 	status("end")
+	if OS.get_environment("STALL_PAUSE_SHOT") == "1":
+		phase = "pause_menu"
+		await tap(KEY_ESCAPE)
+		await wait_for(func(): return world.options_panel.visible, 120)
+		await frames(2)
+		status("pause menu")
+		await shot("07_pause_menu_return_option")
+		var rec = world.get_node_or_null("TownHallRecovery")
+		if rec and is_instance_valid(rec.return_button):
+			await click(rec.return_button)
+			await wait_for(func(): return not world.options_panel.visible, 120)
+			await frames(3)
+			status("after Return to Town Hall entrance")
+			log_("RETURN result=%s" % str(rec.last_return))
+			await shot("08_returned_to_entrance")
 	log_("max_delta_ms=%.1f frames=%d" % [max_delta * 1000.0, frame_count])
 	_finish(0)
 
