@@ -42,9 +42,14 @@ func run() -> void:
 	get_tree().root.size = Vector2i(1440, 900)
 	DisplayServer.window_set_size(Vector2i(1440, 900))
 	# Force the new swap off for the "before" pass; item 11 / rollout 1 stay on.
-	OS.set_environment("MIDSTYLE_ROLLOUT2", "0")
+	# ROLLOUT2_SKIP_BEFORE=1 loads with the swap already on and only shoots "after".
+	var skip_before := OS.get_environment("ROLLOUT2_SKIP_BEFORE") == "1"
+	if skip_before:
+		OS.set_environment("MIDSTYLE_ROLLOUT2", "1")
+	else:
+		OS.set_environment("MIDSTYLE_ROLLOUT2", "0")
 	MidstyleSwap.enabled = true
-	Rollout2.enabled = false
+	Rollout2.enabled = skip_before
 	var world: Node = load("res://raid/ship_settlement_preview.tscn").instantiate()
 	if not world.bind_legacy_continue() or not world.request_town_hall_login():
 		print("ROLLOUT2 BREAK login binding failed"); get_tree().quit(1); return
@@ -79,9 +84,13 @@ func run() -> void:
 		"ship": _tris(world.get_node_or_null("LaunchpadShip")),
 		"board": _tris(world.get_node_or_null("RequestBoard")),
 	}
-	await shoot(world, "before")
-	Rollout2.enabled = true
-	var result := Rollout2.apply(world)
+	var result := {}
+	if skip_before:
+		result = {"ok": world.has_node("LaunchpadShip/MidstyleLaunchpadHull") and world.has_node("RequestBoard/MidstyleRequestBoard"), "skipped_before": true}
+	else:
+		await shoot(world, "before")
+		Rollout2.enabled = true
+		result = Rollout2.apply(world)
 	var after := {
 		"ship": _tris(world.get_node_or_null("LaunchpadShip")),
 		"board": _tris(world.get_node_or_null("RequestBoard")),
