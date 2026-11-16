@@ -72,8 +72,18 @@ func _take_carried(inventory, item_id: String, quantity: int) -> bool:
 func _give_carried(inventory, item_id: String, quantity: int) -> bool:
 	if quantity > inventory.capacity("carried") - inventory.used("carried"):
 		return false
+	_promote(inventory, item_id)
 	inventory.carried[item_id] = inventory.amount("carried", item_id) + quantity
 	return true
+
+func _promote(inventory, item_id: String) -> void:
+	# Match the tailor and fishing shops: production supplies need inventory
+	# format 10, fishing supplies need format 9. The pinned restore rejects
+	# those ids in older formats.
+	if item_id in Inventory.PRODUCTION_SUPPLIES:
+		inventory.format_version = maxi(inventory.format_version, 10)
+	elif item_id in Inventory.FISHING_SUPPLIES:
+		inventory.format_version = maxi(inventory.format_version, 9)
 
 func _now(context: Dictionary) -> int:
 	return int(context.get("now_unix", 0))

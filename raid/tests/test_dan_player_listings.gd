@@ -8,7 +8,7 @@ const ShopTransaction = preload("res://scripts/shop_transaction.gd")
 const PreviewCatalog = preload("res://scripts/trader_preview_catalog.gd")
 const Store = preload("res://raid/scripts/dan_listings_store.gd")
 const Service = preload("res://raid/scripts/dan_listings_service.gd")
-const Panel = preload("res://raid/scripts/dan_listings_panel.gd")
+const DanPanel = preload("res://raid/scripts/dan_listings_panel.gd")
 const Install = preload("res://raid/scripts/dan_listings_install.gd")
 const Icons = preload("res://raid/scripts/trader_buy_icons.gd")
 
@@ -61,7 +61,7 @@ func run() -> void:
 	if not posted.is_empty():
 		check(posted.inventory.amount("carried", "timber") == 1, "Posting reserves 2 timber and leaves 1 carried")
 		check(posted.plot.credits == s.plot.credits, "Posting does not take credits")
-		var mine: Dictionary = Store.new()
+		var mine := Store.new()
 		check(mine.restore(posted.listings), "Posted listings restore")
 		var found := false
 		for row in mine.player_rows():
@@ -180,9 +180,10 @@ func run() -> void:
 		store.restore(paid.listings)
 
 	# force_sell + collect_all path
+	s.inventory.format_version = maxi(s.inventory.format_version, 10)
 	s.inventory.carried["cloth_linen"] = 2
 	var cloth_post: Dictionary = svc.quote_candidate("dan", "post", "cloth_linen", 2, s.plot, s.inventory, s.request, ctx(store, 5, 4000))
-	check(not cloth_post.is_empty(), "Posting linen succeeds")
+	check(not cloth_post.is_empty(), "Posting linen succeeds: " + svc.last_error)
 	if not cloth_post.is_empty():
 		s.plot = cloth_post.plot
 		s.inventory = cloth_post.inventory
@@ -216,13 +217,18 @@ func run() -> void:
 
 	# Transaction wrapper still works with the service builder.
 	var tx_state := fresh()
+	tx_state.inventory.format_version = maxi(tx_state.inventory.format_version, 9)
 	tx_state.inventory.carried["bait_portion"] = 4
 	var tx_store := Store.new()
 	tx_store.seed_if_empty(1000)
 	var tx := ShopTransaction.new(svc.quote_candidate)
 	var quote: Dictionary = tx.select("dan", "post", "bait_portion", 2, tx_state.plot, tx_state.inventory, tx_state.request, ctx(tx_store, 3, 7000))
-	check(not quote.is_empty(), "ShopTransaction can review a listing post")
+	check(not quote.is_empty(), "ShopTransaction can review a listing post: " + svc.last_error + " / " + tx.last_error)
 	var writer_ok := [false]
+	if quote.is_empty():
+		print("DAN_PLAYER_LISTINGS_TESTS ", JSON.stringify({"checks": checks, "failures": failures, "scope": "aborted before confirm"}))
+		quit(1)
+		return
 	var committed: Dictionary = tx.confirm(quote.token, tx_state.plot, tx_state.inventory, tx_state.request, func(): return true, func(candidate):
 		tx_state.plot = candidate.plot
 		tx_state.inventory = candidate.inventory
@@ -234,7 +240,7 @@ func run() -> void:
 	check(tx_state.inventory.amount("carried", "bait_portion") == 2, "Confirmed post removes bait from carried")
 
 	# Panel rows and review labels, including the bidding deferral.
-	var ui := Panel.new()
+	var ui := DanPanel.new()
 	# ShopPanel hides in _ready and needs a tree for some layout; row helpers do not.
 	var browse: Array = ui.browse_rows(store, s.inventory)
 	var buyable := 0
@@ -247,6 +253,7 @@ func run() -> void:
 	var help: Array = ui.help_rows()
 	check(not help.is_empty() and str(help[0].get("description", "")).to_lower().contains("bidding is not in this build"), "How-it-works defers bidding")
 	check(ui._review_label("post") == "Review listing" and ui._verb("collect") == "Collect", "Panel verbs match post and payout")
+	ui.free()
 
 	# Seeded items reuse mid-to-high poly item 16 icons. No new low-poly art.
 	for spec in Store.SEEDS:
