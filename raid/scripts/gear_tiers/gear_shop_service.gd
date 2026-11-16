@@ -133,7 +133,7 @@ func rows(action: String, plot, inventory, locker) -> Array:
 				var r: Dictionary = locker.owned[id]
 				var def := Defs.item(r.def)
 				var worn: bool = r.location == "equipped"
-				var current := locker.equipped_def(def.slot)
+				var current: Dictionary = locker.equipped_def(def.slot)
 				var text := ("Unequip from %s. It returns to your gear locker." % SLOT_LABELS[def.slot]) if worn else ("Equip in the %s slot%s." % [SLOT_LABELS[def.slot], (", replacing " + str(current.name)) if not current.is_empty() else ""])
 				var row := _instance_row(id, r, def, 0, "", text + "\n" + stats_line(def))
 				row.name = ("● " if worn else "") + str(row.name)
@@ -143,7 +143,7 @@ func rows(action: String, plot, inventory, locker) -> Array:
 func loadout_text(locker) -> String:
 	var lines := ["Gear locker · 11 slots (worn tiered gear is used in raids):"]
 	for slot in Defs.SLOTS:
-		var def := locker.equipped_def(slot)
+		var def: Dictionary = locker.equipped_def(slot)
 		var text := "—"
 		if not def.is_empty():
 			var r: Dictionary = locker.owned[locker.slots[slot]]

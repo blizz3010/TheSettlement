@@ -7,7 +7,7 @@ const State = preload("res://raid/scripts/gear_tiers/gear_locker_state.gd")
 const Store = preload("res://raid/scripts/gear_tiers/gear_locker_store.gd")
 const Service = preload("res://raid/scripts/gear_tiers/gear_shop_service.gd")
 const Install = preload("res://raid/scripts/gear_tiers/gear_shop_install.gd")
-const Panel = preload("res://raid/scripts/gear_tiers/psy_gear_tier_panel.gd")
+const TierPanel = preload("res://raid/scripts/gear_tiers/psy_gear_tier_panel.gd")
 const ShopTransaction = preload("res://scripts/shop_transaction.gd")
 const Plot = preload("res://scripts/plot_state.gd")
 const Inventory = preload("res://scripts/inventory_state.gd")
@@ -157,8 +157,10 @@ func service_tests():
 	var glove := ""
 	for id in u.locker.owned:
 		if u.locker.owned[id].def == Defs.item_id("gloves", 1): glove = id
+	u.inventory.format_version = 10 # linen and thread exist only in crafting-era (v10) inventories
 	u.inventory.carried["cloth_linen"] = 2; u.inventory.carried["thread_spool"] = 1
-	check(trade(u, "upgrade", glove).ok and u.inventory.amount("carried", "cloth_linen") == 0 and u.inventory.amount("carried", "thread_spool") == 0, "clothing upgrade uses 2 linen + 1 thread")
+	var gu := trade(u, "upgrade", glove)
+	check(gu.ok and u.inventory.amount("carried", "cloth_linen") == 0 and u.inventory.amount("carried", "thread_spool") == 0, "clothing upgrade uses 2 linen + 1 thread: " + str(gu.get("error", "")))
 	# T3 -> T4 needs the raid-only composite insert (stub until item 13).
 	var c := fresh(); c.plot.credits = 20000; c.locker.extractions = 5; c.locker.shop.stock_iii = true
 	trade(c, "buy", Defs.item_id("helmet", 3))
@@ -235,6 +237,7 @@ func controller_tests():
 	ctl.close()
 	check(not ctl.tier_panel.visible and not ctl.is_open(), "close hides the tier shop")
 	facts["controller_saves"] = host.saves.size()
+	ctl.free()
 	host.queue_free()
 	await process_frame
 
@@ -247,6 +250,7 @@ func installer_tests():
 	host.trader_previews = plain
 	check(Install.install(host) == false, "installer needs Atlas's controller first")
 	var atlas = load(ATLAS_EXT).new()
+	atlas.host = host
 	atlas.current_id = "atlas"; atlas.marketplace_enabled = true
 	host.trader_previews = atlas
 	check(Install.install(host), "installs over Atlas's controller")
@@ -255,6 +259,7 @@ func installer_tests():
 	var panel_before = atlas.tier_panel
 	check(Install.install(host) and atlas.tier_panel == panel_before, "second install is a no-op")
 	plain.free()
+	atlas.free()
 	host.queue_free()
 	await process_frame
 	# Extraction counter.
@@ -268,7 +273,7 @@ func installer_tests():
 	check(s.state.extractions == 2, "extractions saved in the gear sidecar (%d)" % s.state.extractions)
 
 func panel_tests():
-	var p = Panel.new(); root.add_child(p)
+	var p = TierPanel.new(); root.add_child(p)
 	var ok := true
 	for t in [1, 2, 3, 4]:
 		var tex: Texture2D = p._item_texture({"tier": t})
