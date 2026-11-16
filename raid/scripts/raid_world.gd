@@ -358,10 +358,13 @@ func _summary_text()->String:
 	return lines
 
 func _extraction_complete():
+	var Outcome=preload("res://raid/scripts/raid_outcome.gd")
+	if Outcome.peek().get("outcome","")!="downed":
+		Outcome.record({"outcome":"extracted","map":_map_name(),"source":"extraction","visited":raid_state.visited.size(),"searched":raid_state.searched.size(),"loot_persisted":false})
 	_start_modal("Extraction complete")
 	_sound("beacon_complete")
 	_scroll_text(_summary_text())
-	_text("Preview results only. Keys and sample rolls reset on return. No settlement rewards or losses.")
+	_text("Preview results only. Keys and sample rolls reset on return. No settlement rewards. Carried supplies stay with you. Unclaimed Atlas recoveries age by one raid.")
 	_button("Return to settlement",_request_return).grab_focus()
 func _nearest_target()->Dictionary:
 	var best={};var distance=3.3

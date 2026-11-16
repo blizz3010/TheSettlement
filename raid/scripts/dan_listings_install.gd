@@ -2,6 +2,7 @@ extends RefCounted
 ## Installs Dan's player-listings panel beside the item 16 buy menus.
 ## Does not edit pinned trader scripts. Safe to call twice.
 const EXT_PATH := "res://raid/scripts/dan_listings_controller_ext.gd"
+const ATLAS_EXT := "res://raid/scripts/atlas_recovery_controller_ext.gd"
 const DanPanel = preload("res://raid/scripts/dan_listings_panel.gd")
 const DanStore = preload("res://raid/scripts/dan_listings_store.gd")
 const DanService = preload("res://raid/scripts/dan_listings_service.gd")
@@ -18,7 +19,7 @@ static func install(host: Node) -> bool:
 	var controller = host.get("trader_previews")
 	if not is_instance_valid(controller):
 		return false
-	if _script_path(controller) == EXT_PATH:
+	if _script_path(controller) in [EXT_PATH, ATLAS_EXT]:
 		_bind_store(host, controller)
 		if is_instance_valid(controller.get("marketplace_panel")):
 			return true
