@@ -658,23 +658,24 @@ def build_hull():
         # strut from belly to shoe
         top = G(gx, y0 - 0.02, gz)
         shoe_p = G(gx, 1.52, gz)
-        strut = cyl("GearStrut", alloy, ((top + shoe_p) / 2), 0.07, (top - shoe_p).length, 12, 0.008)
-        # aim the cylinder along the strut: default axis Z. We need to rotate to (shoe-top).
-        select_only(strut)
-        # rebuild with correct rotation instead
-        # delete and remake
-        bpy.data.objects.remove(strut, do_unlink=True)
         direction = shoe_p - top
         mid = (top + shoe_p) / 2
-        strut = cyl("GearStrut", alloy, mid, 0.07, direction.length, 12, 0.008)
-        # rotate so local Z aligns with direction
-        strut.rotation_euler = direction.to_track_quat('Z', 'Y').to_euler()
-        apply_all(strut); smooth(strut)
+        quat = direction.to_track_quat('Z', 'Y')
+        def oriented_cyl(name, material, center, r, h, segs=12, bev=0.008):
+            # Build at the origin, then rotate/translate once so apply_all does not
+            # spin an already-applied mesh around the world origin.
+            bm = bmesh.new()
+            bmesh.ops.create_cone(bm, cap_ends=True, cap_tris=False, segments=segs, radius1=r, radius2=r, depth=h)
+            ob = obj_from_bm(bm, name, material)
+            ob.rotation_euler = quat.to_euler()
+            ob.location = center
+            if bev > 0:
+                bevel(ob, bev, 2)
+            apply_all(ob); smooth(ob)
+            return ob
+        strut = oriented_cyl("GearStrut", alloy, mid, 0.07, direction.length)
         part(P, strut, ('cyl', (0, 0), 2, 0.3, 0.07), seed=450, edge=.1, cavity=.1)
-        # oleo sleeve
-        oleo = cyl("Oleo", graphite, mid + direction * 0.15, 0.095, direction.length * 0.35, 12, 0.008)
-        oleo.rotation_euler = direction.to_track_quat('Z', 'Y').to_euler()
-        apply_all(oleo); smooth(oleo)
+        oleo = oriented_cyl("Oleo", graphite, mid + direction * 0.15, 0.095, direction.length * 0.35)
         part(P, oleo, ('cyl', (0, 0), 2, 0.25, 0.095), seed=451, edge=.1)
         # foot / shoe
         shoe = box("GearShoe", graphite, shoe_p, (0.55, 0.38, 0.10), bev=0.02, segs=2)
@@ -808,8 +809,6 @@ def build_board():
     # Blender text is in XY plane, facing +Z. We need it in XZ plane facing -Y (front).
     # rotate X by +90: Y -> -Z? rot X 90: (x,y,z)->(x,-z,y) so the XY glyph ends up on XZ facing -Y. Yes.
     txt.rotation_euler = (math.pi / 2, 0, 0)
-    apply_all(txt)
-    # After convert? text apply_all may not convert to mesh. Convert.
     select_only(txt)
     bpy.ops.object.convert(target='MESH')
     txt = bpy.context.active_object

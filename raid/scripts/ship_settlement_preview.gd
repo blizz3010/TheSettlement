@@ -21,6 +21,8 @@ func _initialize_world():
 	# Item 12 rollout: raid prop remodels follow the item 11 switch (see midstyle_rollout.gd).
 	MidstyleRollout.enabled = MidstyleSwap.enabled
 	MidstyleRollout2.enabled = MidstyleSwap.enabled
+	if OS.get_environment("MIDSTYLE_ROLLOUT2") == "0":
+		MidstyleRollout2.enabled = false
 	await super._initialize_world()
 	# Item 11 style test: mid-stylized prop remodels, render-only (see midstyle_swap.gd).
 	if MidstyleSwap.enabled and world_initialized and not startup_cancel_requested:
