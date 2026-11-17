@@ -1,5 +1,6 @@
 extends SceneTree
-## Gear art E0 (TASKS item 22): the T3 Warden Helm + T3 Bulwark Carrier art pilot.
+## Gear art E0 + E1-A (TASKS item 22): the T3 Warden Helm + T3 Bulwark Carrier art pilot and the
+## T1 Shell Cap + T1 Padded Vest. Every set runs the same scene / skin / fit-over-outfit checks.
 ## Checks the per-item-id lookup and its placeholder fallback, the imported scenes (LOD0/LOD1,
 ## triangle budgets, external VRAM-compressed PBR textures), the skin against the
 ## Appearance-Proof rig (bind names, rest-pose fit, bone weights, CPU-skinned deformation),
@@ -17,6 +18,14 @@ const FIT_POSES := [["idle", 0.0], ["idle", 3.1416], ["walk", 0.0], ["walk", 1.5
 	["sprint", 0.0], ["sprint", 1.5708], ["sprint", 3.1416], ["sprint", 4.7124], ["crouch", 0.0]]
 const HELM := "gear_helmet_t3"
 const VEST := "gear_body_armor_t3"
+const HELM1 := "gear_helmet_t1"
+const VEST1 := "gear_body_armor_t1"
+## Art sets: helmet + vest per tier, the helmet's strap / shell material names (strap-over-hair
+## check), and the PBR surface count per piece.
+const SETS := [
+	{"tier": "t3", "helm": HELM, "vest": VEST, "strap": "T3_Webbing", "shell": "T3_Shell"},
+	{"tier": "t1", "helm": HELM1, "vest": VEST1, "strap": "T1_Strap", "shell": "T1_Canvas"}]
+const MATS := {HELM: 6, VEST: 6, HELM1: 5, VEST1: 4}
 const TORSO_BONES := ["pelvis", "spine_01", "spine_02", "spine_03", "clavicle_l", "clavicle_r"]
 var failures: Array = []
 var checks := 0
@@ -70,9 +79,10 @@ func run():
 	root.add_child(rig)
 	var sk := rig.find_child("Skeleton3D", true, false) as Skeleton3D
 	check(sk != null and sk.get_bone_count() == 53, "Appearance-Proof rig has its 53-bone skeleton")
-	for id in [HELM, VEST]: check_scene(id, sk)
-	await check_deformation(sk)
-	await check_fit_over_outfit(sk, rig.find_child("ProofBody", true, false) as MeshInstance3D)
+	for id in [HELM, VEST, HELM1, VEST1]: check_scene(id, sk)
+	for st in SETS:
+		await check_deformation(sk, st.helm, st.vest, st.tier)
+		await check_fit_over_outfit(sk, rig.find_child("ProofBody", true, false) as MeshInstance3D, st)
 	rig.queue_free()
 	await process_frame
 	await check_select_stage()
@@ -84,10 +94,11 @@ func run():
 
 # ------------------------------------------------------------------ lookup / fallback
 func check_lookup():
-	check(GearArt.ids().size() == 2 and HELM in GearArt.ids() and VEST in GearArt.ids(), "E0 art covers exactly the T3 helmet and T3 vest")
-	check(GearArt.has_art(HELM) and GearArt.has_art(VEST), "Both E0 pieces resolve to an art scene")
+	var want := [HELM, VEST, HELM1, VEST1]
+	check(GearArt.ids().size() == 4 and want.all(func(i): return i in GearArt.ids()), "E0 + E1-A art covers exactly the T3 and T1 helmet + vest")
+	check(want.all(func(i): return GearArt.has_art(i)), "All four pieces resolve to an art scene")
 	check(not GearArt.has_art("gear_helmet_t2") and not GearArt.has_art("gear_backpack_t3") and not GearArt.has_art("nope"), "Other ids have no art yet")
-	for id in [HELM, VEST]: check(Defs.item(id).size() > 0, id + " is a real gear def")
+	for id in want: check(Defs.item(id).size() > 0, id + " is a real gear def")
 	var art := GearArt.build(HELM, 0)
 	check(art != null and art.get_meta("gear_art", false), "build() returns the art scene for an id with art")
 	var visible := []
@@ -103,16 +114,27 @@ func check_lookup():
 			if mi.visible: visible.append(str(mi.name))
 		art1.free()
 	check(visible == ["BulwarkCarrier_LOD1"], "build(lod 1) shows only the LOD1 mesh: " + str(visible))
+	for pr in [[HELM1, 0, "ShellCap"], [VEST1, 1, "PaddedVest_LOD1"]]:
+		var a1 := GearArt.build(pr[0], pr[1])
+		visible = []
+		if a1 != null:
+			for mi in a1.find_children("*", "MeshInstance3D", true, false):
+				if mi.visible: visible.append(str(mi.name))
+			a1.free()
+		check(visible == [pr[2]], "%s build(lod %d) shows only %s: %s" % [pr[0], pr[1], pr[2], str(visible)])
 	var ph := GearArt.build("gear_helmet_t2", 0)
 	check(ph != null and not ph.has_meta("gear_art"), "Ids without art fall back to the PR A placeholder")
 	if ph != null: ph.free()
-	check(GearArt.icon(HELM) is Texture2D and GearArt.icon(VEST) is Texture2D, "Both E0 pieces have a rendered icon")
+	check(want.all(func(i): return GearArt.icon(i) is Texture2D), "All four pieces have a rendered icon")
 	check(GearArt.icon("gear_helmet_t2") == null, "No icon for ids without art (callers keep the tier chip)")
 	check(GearArt.covered([HELM, VEST, "gear_backpack_t3"]) == ["helmet", "jacket_torso"], "Covers: helmet + jacket torso")
+	check(GearArt.covered([HELM1, VEST1]) == ["helmet", "jacket_torso"] and GearArt.helmet_hair(HELM1) == "hair_short02_v1", "T1 covers helmet + jacket torso and wears the short helmet hair")
 
 # ------------------------------------------------------------------ imported scene
 func check_scene(id: String, sk: Skeleton3D):
 	var spec: Dictionary = GearArt.ART[id]
+	var tier := id.right(2)
+	var is_helm := id.begins_with("gear_helmet")
 	var packed := load(GearArt.scene_path(id)) as PackedScene
 	check(packed != null, id + " scene loads")
 	if packed == null: return
@@ -158,14 +180,15 @@ func check_scene(id: String, sk: Skeleton3D):
 			if w[k] > 0.001: used[str(skin.get_bind_name(bones[k]))] = true
 		max_w = maxi(max_w, w.size() / maxi(a[Mesh.ARRAY_VERTEX].size(), 1))
 	var used_names := used.keys(); used_names.sort()
-	if id == HELM: check(used_names == ["head"], "Helmet is rigid on the head bone: " + str(used_names))
+	if is_helm: check(used_names == ["head"], "Helmet is rigid on the head bone: " + str(used_names))
 	else: check(used_names.size() >= 4 and used_names.all(func(n): return n in TORSO_BONES), "Vest weights only on torso bones: " + str(used_names))
 	check(max_w == 4, id + " uses 4 weights per vertex")
-	# Materials: 6 PBR surfaces with external, VRAM-compressed textures.
+	# Materials: PBR surfaces with external, VRAM-compressed, mipmapped textures (<= 2048 px).
 	var mats := 0
 	var ext_ok := true
 	var vram_ok := true
 	var tex_paths := {}
+	var max_px := 0
 	for s in lod0.mesh.get_surface_count():
 		var m := lod0.mesh.surface_get_material(s) as StandardMaterial3D
 		if m == null: continue
@@ -174,34 +197,36 @@ func check_scene(id: String, sk: Skeleton3D):
 		if not m.normal_enabled or not m.ao_enabled or set.has(null): ext_ok = false; continue
 		for i in set.size():
 			var p := str(set[i].resource_path)
-			if not (p.begins_with("res://raid/assets/gear/t3/textures/") and p.ends_with(".jpg")): ext_ok = false
+			if not (p.begins_with("res://raid/assets/gear/%s/textures/" % tier) and p.ends_with(".jpg")): ext_ok = false
 			tex_paths[p] = true
+			max_px = maxi(max_px, maxi(set[i].get_width(), set[i].get_height()))
 			var cfg := import_cfg(p)
-			if int(cfg.get_value("params", "compress/mode", -1)) != 2: vram_ok = false
+			if int(cfg.get_value("params", "compress/mode", -1)) != 2 or not bool(cfg.get_value("params", "mipmaps/generate", false)): vram_ok = false
 			if i == 1 and int(cfg.get_value("params", "compress/normal_map", -1)) != 1: vram_ok = false
-	check(mats == 6, "%s has 6 PBR material surfaces (%d)" % [id, mats])
-	check(ext_ok, id + " albedo/normal/ORM/AO are external JPGs under raid/assets/gear/t3/textures")
-	check(vram_ok, id + " textures import VRAM-compressed (normals as normal maps)")
+	check(mats == int(MATS[id]), "%s has %d PBR material surfaces (%d)" % [id, MATS[id], mats])
+	check(ext_ok, id + " albedo/normal/ORM/AO are external JPGs under raid/assets/gear/%s/textures" % tier)
+	check(vram_ok, id + " textures import VRAM-compressed with mipmaps (normals as normal maps)")
+	check(max_px > 0 and max_px <= 2048, "%s textures are at most 2048 px (%d)" % [id, max_px])
 	var gl := FileAccess.get_file_as_string(GearArt.scene_path(id))
-	check(not gl.contains("data:") and gl.contains("textures/t3_") and gl.contains(".jpg"), id + " glTF references external JPGs (nothing embedded)")
+	check(not gl.contains("data:") and gl.contains("textures/%s_" % tier) and gl.contains(".jpg"), id + " glTF references external JPGs (nothing embedded)")
 	var bytes := 0
 	for p in tex_paths.keys(): bytes += FileAccess.get_file_as_bytes(p).size()
 	var bin := FileAccess.get_file_as_bytes(GearArt.scene_path(id).get_basename() + ".bin").size()
 	facts[id] = {"lod0_tris": t0, "lod1_tris": t1, "lod1_ratio": snappedf(ratio, 0.001), "bin_bytes": bin,
-		"gltf_bytes": gl.length(), "texture_bytes": bytes, "bones": used_names, "rest_fit_m": snappedf(rest_fit, 0.00001)}
+		"gltf_bytes": gl.length(), "texture_bytes": bytes, "max_texture_px": max_px, "bones": used_names, "rest_fit_m": snappedf(rest_fit, 0.00001)}
 	inst.free()
 
 # ------------------------------------------------------------------ deformation (CPU skinning)
-func check_deformation(sk: Skeleton3D):
-	var rep = JSON.parse_string(FileAccess.get_file_as_string("res://raid/assets/gear/t3/BUILD-REPORT.json"))
-	check(rep is Dictionary and rep.has(HELM) and rep.has(VEST), "BUILD-REPORT lists both pieces")
-	if rep is Dictionary and rep.has(VEST):
-		check(float(rep[VEST].clearance_m) > 0.0 and int(rep[VEST].verts_inside_skin) == 0, "Vest clears the body at rest (%s m)" % rep[VEST].clearance_m)
-		check(float(rep[HELM].clearance_m) > -0.01 and int(rep[HELM].verts_inside_skin) <= 2, "Helmet within 1 cm of the head+hair shell (%s m, %s verts)" % [rep[HELM].clearance_m, rep[HELM].verts_inside_skin])
-		facts["clearance_m"] = {HELM: rep[HELM].clearance_m, VEST: rep[VEST].clearance_m}
-	var helm := GearArt.attach(sk, HELM, 0)
-	var vest := GearArt.attach(sk, VEST, 0)
-	check(helm != null and vest != null and helm.get_parent() == sk and helm.skeleton == NodePath(".."), "attach() binds both meshes under the character skeleton")
+func check_deformation(sk: Skeleton3D, hid: String, vid: String, tier: String):
+	var rep = JSON.parse_string(FileAccess.get_file_as_string("res://raid/assets/gear/%s/BUILD-REPORT.json" % tier))
+	check(rep is Dictionary and rep.has(hid) and rep.has(vid), "%s BUILD-REPORT lists both pieces" % tier)
+	if rep is Dictionary and rep.has(vid):
+		check(float(rep[vid].clearance_m) > 0.0 and int(rep[vid].verts_inside_skin) == 0, tier + ": " + "Vest clears the body at rest (%s m)" % rep[vid].clearance_m)
+		check(float(rep[hid].clearance_m) > -0.01 and int(rep[hid].verts_inside_skin) <= 2, tier + ": " + "Helmet within 1 cm of the head+hair shell (%s m, %s verts)" % [rep[hid].clearance_m, rep[hid].verts_inside_skin])
+		facts["clearance_m_" + tier] = {hid: rep[hid].clearance_m, vid: rep[vid].clearance_m}
+	var helm := GearArt.attach(sk, hid, 0)
+	var vest := GearArt.attach(sk, vid, 0)
+	check(helm != null and vest != null and helm.get_parent() == sk and helm.skeleton == NodePath(".."), tier + ": " + "attach() binds both meshes under the character skeleton")
 	if helm == null or vest == null: return
 	check(GearArt.attach(sk, "gear_helmet_t2", 0) == null, "attach() refuses ids without art (no placeholder on characters)")
 	await process_frame
@@ -210,7 +235,7 @@ func check_deformation(sk: Skeleton3D):
 	var spine := sk.find_bone("spine_02")
 	var head_rest := sk.get_bone_global_pose(head)
 	var data := {}
-	for pair in [[helm, HELM], [vest, VEST]]:
+	for pair in [[helm, hid], [vest, vid]]:
 		var mi: MeshInstance3D = pair[0]
 		var a = mi.mesh.surface_get_arrays(0)
 		var bb := []
@@ -222,22 +247,22 @@ func check_deformation(sk: Skeleton3D):
 			ks.append(k); rest_pts.append(skinned(sk, mi.skin, bb, a[Mesh.ARRAY_VERTEX][k], a[Mesh.ARRAY_BONES], a[Mesh.ARRAY_WEIGHTS], k))
 		data[pair[1]] = {"a": a, "bb": bb, "ks": ks, "rest": rest_pts, "mi": mi}
 	var rest_err := 0.0
-	for k in data[HELM].ks.size():
-		rest_err = maxf(rest_err, (data[HELM].rest[k] as Vector3).distance_to(data[HELM].a[Mesh.ARRAY_VERTEX][data[HELM].ks[k]]))
-	check(rest_err < 0.0005, "Skinned rest pose reproduces the modelled helmet (%.5f m)" % rest_err)
+	for k in data[hid].ks.size():
+		rest_err = maxf(rest_err, (data[hid].rest[k] as Vector3).distance_to(data[hid].a[Mesh.ARRAY_VERTEX][data[hid].ks[k]]))
+	check(rest_err < 0.0005, tier + ": " + "Skinned rest pose reproduces the modelled helmet (%.5f m)" % rest_err)
 	# Pose: head nods 25 deg, spine bends 20 deg.
 	sk.set_bone_pose_rotation(head, sk.get_bone_pose_rotation(head) * Quaternion(Vector3.RIGHT, deg_to_rad(25)))
 	sk.set_bone_pose_rotation(spine, sk.get_bone_pose_rotation(spine) * Quaternion(Vector3.RIGHT, deg_to_rad(20)))
 	var head_delta := sk.get_bone_global_pose(head) * head_rest.affine_inverse()
 	var rigid_err := 0.0
 	var moved := 0.0
-	var h = data[HELM]
+	var h = data[hid]
 	for k in h.ks.size():
 		var p := skinned(sk, h.mi.skin, h.bb, h.a[Mesh.ARRAY_VERTEX][h.ks[k]], h.a[Mesh.ARRAY_BONES], h.a[Mesh.ARRAY_WEIGHTS], h.ks[k])
 		rigid_err = maxf(rigid_err, p.distance_to(head_delta * (h.rest[k] as Vector3)))
 		moved = maxf(moved, p.distance_to(h.rest[k]))
-	check(rigid_err < 0.0005 and moved > 0.02, "Helmet follows the head rigidly (err %.5f m, moved %.3f m)" % [rigid_err, moved])
-	var v = data[VEST]
+	check(rigid_err < 0.0005 and moved > 0.02, tier + ": " + "Helmet follows the head rigidly (err %.5f m, moved %.3f m)" % [rigid_err, moved])
+	var v = data[vid]
 	var top_move := 0.0
 	var low_move := 1.0
 	for k in v.ks.size():
@@ -245,10 +270,10 @@ func check_deformation(sk: Skeleton3D):
 		var p := skinned(sk, v.mi.skin, v.bb, v.a[Mesh.ARRAY_VERTEX][v.ks[k]], v.a[Mesh.ARRAY_BONES], v.a[Mesh.ARRAY_WEIGHTS], v.ks[k])
 		if r.y > 1.25: top_move = maxf(top_move, p.distance_to(r))
 		if r.y < 0.98: low_move = minf(low_move, p.distance_to(r))
-	check(top_move > 0.03 and low_move < top_move * 0.5, "Vest deforms with the spine: chest moves %.3f m, hem %.3f m" % [top_move, low_move])
-	facts["deform"] = {"helmet_rigid_err_m": snappedf(rigid_err, 0.00001), "vest_top_move_m": snappedf(top_move, 0.001), "vest_hem_move_m": snappedf(low_move, 0.001)}
+	check(top_move > 0.03 and low_move < top_move * 0.5, tier + ": " + "Vest deforms with the spine: chest moves %.3f m, hem %.3f m" % [top_move, low_move])
+	facts["deform_" + tier] = {"helmet_rigid_err_m": snappedf(rigid_err, 0.00001), "vest_top_move_m": snappedf(top_move, 0.001), "vest_hem_move_m": snappedf(low_move, 0.001)}
 	sk.reset_bone_poses()
-	check(GearArt.show_worn(sk, [HELM, "gear_backpack_t3", VEST], 1) == [HELM, VEST], "show_worn attaches only pieces with art")
+	check(GearArt.show_worn(sk, [hid, "gear_backpack_t3", vid], 1) == [hid, vid], "show_worn attaches only pieces with art")
 	var lods := []
 	for c in sk.get_children():
 		if c.has_meta("gear_art_id"): lods.append(int(c.get_meta("lod")))
@@ -332,10 +357,11 @@ func nearest_in(g: Dictionary, P: PackedVector3Array, p: Vector3, cell: float) -
 
 ## The T3 vest over the default-outfit shirt and the arms (idle / walk / sprint / crouch, the
 ## avatar's own cycles), and the helmet straps over the short helmet hair.
-func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
+func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D, st: Dictionary):
+	var hid: String = st.helm; var vid: String = st.vest; var tier: String = st.tier
 	check(DefaultOutfit.dress(sk, ["shirt", "pants"], 0, body) == ["shirt", "pants"], "Default-outfit shirt + pants bind under the gear")
-	var vest := GearArt.attach(sk, VEST, 0)
-	var helm := GearArt.attach(sk, HELM, 0)
+	var vest := GearArt.attach(sk, vid, 0)
+	var helm := GearArt.attach(sk, hid, 0)
 	await process_frame
 	var shirt := sk.get_node("Outfit_shirt") as MeshInstance3D
 	var is_arm := func(n: String) -> bool: return n.begins_with("upperarm") or n.begins_with("lowerarm")
@@ -346,7 +372,7 @@ func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
 	var torso_s := fit_samples(shirt, 1, is_torso, "outfit_knit")
 	var pants := sk.get_node("Outfit_pants") as MeshInstance3D
 	var ps := Skinner.new(sk, pants.skin); var waist_p := fit_samples(pants, 1)
-	var av = GearAvatar.new(); av.skeleton = sk; av.worn = [VEST, HELM]
+	var av = GearAvatar.new(); av.skeleton = sk; av.worn = [vid, hid]
 	var arm_clip := 0; var arm_worst := 1.0; var shirt_clip := 0; var shirt_worst := 1.0
 	var per_pose := {}
 	# Vest -> shirt torso pairs fixed at rest (outer-facing shirt surface only).
@@ -395,13 +421,15 @@ func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
 		for pr in pairs:
 			var sd: float = (v[0][pr[0]] - t[0][pr[1]]).dot(t[1][pr[1]])
 			shirt_worst = minf(shirt_worst, sd)
-			if sd < -FIT_TOL: shirt_clip += 1
+			if sd < -FIT_TOL:
+				shirt_clip += 1
+				if OS.get_environment("FIT_DEBUG") != "" and shirt_clip % 10 == 1: print("FIT_DBG shirt ", pose, " vest_rest ", v_rest[0][pr[0]], " shirt_rest ", t_rest[0][pr[1]], " sd ", sd)
 		per_pose["%s@%.2f" % [pose[0], pose[1]]] = pc
 	sk.reset_bone_poses()
 	av.free()
-	check(arm_clip == 0, "Vest clears the arms (body + shirt sleeves) in idle/walk/sprint/crouch (%d samples past %.0f mm, worst %.1f mm)" % [arm_clip, FIT_TOL * 1000, arm_worst * 1000])
-	check(pants_clip == 0, "Vest stays over the cargo pants waist in every pose (%d pairs, worst %.1f mm)" % [vp_pairs.size(), pants_worst * 1000 if vp_pairs.size() > 0 else 0.0])
-	check(pairs.size() > 200 and shirt_clip == 0, "Vest stays over the default-outfit shirt in every pose (%d pairs, worst %.1f mm)" % [pairs.size(), shirt_worst * 1000])
+	check(arm_clip == 0, tier + ": " + "Vest clears the arms (body + shirt sleeves) in idle/walk/sprint/crouch (%d samples past %.0f mm, worst %.1f mm)" % [arm_clip, FIT_TOL * 1000, arm_worst * 1000])
+	check(pants_clip == 0, tier + ": " + "Vest stays over the cargo pants waist in every pose (%d pairs, worst %.1f mm)" % [vp_pairs.size(), pants_worst * 1000 if vp_pairs.size() > 0 else 0.0])
+	check(pairs.size() > 200 and shirt_clip == 0, tier + ": " + "Vest stays over the default-outfit shirt in every pose (%d pairs, worst %.1f mm)" % [pairs.size(), shirt_worst * 1000])
 	# Helmet straps vs the short helmet hair: radially, nothing of the hair may lie outside a strap.
 	var HC := Vector3(0.0, 1.425, 0.035)
 	var hair := sk.get_parent().find_child("hair_short02_v1", true, false) as MeshInstance3D
@@ -409,11 +437,11 @@ func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
 	var H: PackedVector3Array = fit_skin(hs, hd)[0]
 	var hs_dirs := []
 	for h in H: hs_dirs.append([(h - HC).normalized(), (h - HC).length()])
-	var ws := Skinner.new(sk, helm.skin); var wd := fit_samples(helm, 1, Callable(), "T3_Webbing")
+	var ws := Skinner.new(sk, helm.skin); var wd := fit_samples(helm, 1, Callable(), str(st.strap))
 	var W: PackedVector3Array = fit_skin(ws, wd)[0]
 	# Strap ends tuck up under the shell rim: hair there is hidden by the shell, so skip strap
 	# verts with shell further out along the same ray.
-	var SH: PackedVector3Array = fit_skin(ws, fit_samples(helm, 1, Callable(), "T3_Shell"))[0]
+	var SH: PackedVector3Array = fit_skin(ws, fit_samples(helm, 1, Callable(), str(st.shell)))[0]
 	var sh_dirs := []
 	for h in SH: sh_dirs.append([(h - HC).normalized(), (h - HC).length()])
 	var buried := 0; var tested := 0; var under_shell := 0
@@ -432,12 +460,12 @@ func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
 		if outer > r - 0.0005:
 			buried += 1
 			if OS.get_environment("FIT_DEBUG") != "": print("FIT_DBG strap ", p, " r ", r, " hair ", outer)
-	check(tested > 50 and buried == 0, "Helmet straps / harness ride over the helmet hair (%d strap verts over hair, %d buried, %d tucked under the shell)" % [tested, buried, under_shell])
-	var rep = JSON.parse_string(FileAccess.get_file_as_string("res://raid/assets/gear/t3/BUILD-REPORT.json"))
-	if rep is Dictionary and rep.has(VEST):
-		check(float(rep[VEST].get("shirt_clearance_m", -1)) > 0.0 and int(rep[VEST].get("verts_inside_shirt", 1)) == 0, "BUILD-REPORT: vest clears the shirt at rest (%s m)" % str(rep[VEST].get("shirt_clearance_m")))
-		check(int(rep[HELM].get("strap_points_in_hair", 1)) == 0, "BUILD-REPORT: no strap point buried in the head/hair shell")
-	facts["fit"] = {"arm_worst_m": snappedf(arm_worst, 0.0001), "arm_clip": arm_clip, "per_pose_arm_clip": per_pose,
+	check(tested > 50 and buried == 0, tier + ": " + "Helmet straps / harness ride over the helmet hair (%d strap verts over hair, %d buried, %d tucked under the shell)" % [tested, buried, under_shell])
+	var rep = JSON.parse_string(FileAccess.get_file_as_string("res://raid/assets/gear/%s/BUILD-REPORT.json" % tier))
+	if rep is Dictionary and rep.has(vid):
+		check(float(rep[vid].get("shirt_clearance_m", -1)) > 0.0 and int(rep[vid].get("verts_inside_shirt", 1)) == 0, tier + ": " + "BUILD-REPORT: vest clears the shirt at rest (%s m)" % str(rep[vid].get("shirt_clearance_m")))
+		check(int(rep[hid].get("strap_points_in_hair", 1)) == 0, tier + ": " + "BUILD-REPORT: no strap point buried in the head/hair shell")
+	facts["fit_" + tier] = {"arm_worst_m": snappedf(arm_worst, 0.0001), "arm_clip": arm_clip, "per_pose_arm_clip": per_pose,
 		"shirt_worst_m": snappedf(shirt_worst, 0.0001), "shirt_pairs": pairs.size(), "strap_verts_tested": tested, "strap_buried": buried, "strap_under_shell": under_shell, "pants_pairs": vp_pairs.size(), "pants_worst_m": snappedf(pants_worst, 0.0001)}
 	GearArt.detach_all(sk)
 	DefaultOutfit.undress(sk, body)

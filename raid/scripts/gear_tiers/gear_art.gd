@@ -1,7 +1,8 @@
 extends RefCounted
 ## Per-item-id art lookup for tiered gear (TASKS item 22, gear art waves; E0 pilot =
-## gear_helmet_t3 "Warden Helm" + gear_body_armor_t3 "Bulwark Carrier").
-## Each entry points at a skinned .gltf built by tools/blender_midstyle/build_gear_e0.py on the
+## gear_helmet_t3 "Warden Helm" + gear_body_armor_t3 "Bulwark Carrier"; E1-A = gear_helmet_t1
+## "Shell Cap" + gear_body_armor_t1 "Padded Vest").
+## Each entry points at a skinned .gltf built by tools/blender_midstyle/build_gear_e0.py / _e1.py on the
 ## Appearance-Proof rig (same bone names/rest pose as models/Appearance-Proof.glb), with an
 ## explicit LOD1 mesh (~40%) for the Psy mannequin, and an optional rendered icon.
 ## Ids without an entry fall back to the PR A primitive placeholder (build) or to the caller's
@@ -19,6 +20,10 @@ const ART := {
 		"icon": "res://raid/assets/trader_icons/gear_helmet_t3.png", "covers": ["helmet"], "hair": "hair_short02_v1", "tri_budget": 12000},
 	"gear_body_armor_t3": {"scene": "res://raid/assets/gear/t3/gear_body_armor_t3.gltf", "mesh": "BulwarkCarrier",
 		"icon": "res://raid/assets/trader_icons/gear_body_armor_t3.png", "covers": ["jacket_torso"], "tri_budget": 21000},
+	"gear_helmet_t1": {"scene": "res://raid/assets/gear/t1/gear_helmet_t1.gltf", "mesh": "ShellCap",
+		"icon": "res://raid/assets/trader_icons/gear_helmet_t1.png", "covers": ["helmet"], "hair": "hair_short02_v1", "tri_budget": 9000},
+	"gear_body_armor_t1": {"scene": "res://raid/assets/gear/t1/gear_body_armor_t1.gltf", "mesh": "PaddedVest",
+		"icon": "res://raid/assets/trader_icons/gear_body_armor_t1.png", "covers": ["jacket_torso"], "tri_budget": 15000},
 }
 const LOD1_SUFFIX := "_LOD1"
 static var _icons := {}

@@ -1,0 +1,83 @@
+{
+ "gear_body_armor_t1": {
+  "lod0_tris": 14033,
+  "materials": [
+   "T1_Canvas",
+   "T1_Webbing",
+   "T1_Steel",
+   "T1_Decals"
+  ],
+  "clearance_m": 0.0097,
+  "verts_inside_skin": 0,
+  "shirt_clearance_m": 0.0018,
+  "verts_inside_shirt": 0,
+  "lod1_tris": 5612,
+  "bones": [
+   "clavicle_l",
+   "clavicle_r",
+   "pelvis",
+   "spine_01",
+   "spine_02",
+   "spine_03"
+  ],
+  "gltf": "raid/assets/gear/t1/gear_body_armor_t1.gltf",
+  "images": [
+   "textures/t1_canvas_base.jpg",
+   "textures/t1_canvas_normal.jpg",
+   "textures/t1_canvas_orm.jpg",
+   "textures/t1_decals_base.jpg",
+   "textures/t1_decals_normal.jpg",
+   "textures/t1_decals_orm.jpg",
+   "textures/t1_steel_base.jpg",
+   "textures/t1_steel_normal.jpg",
+   "textures/t1_steel_orm.jpg",
+   "textures/t1_webbing_base.jpg",
+   "textures/t1_webbing_normal.jpg",
+   "textures/t1_webbing_orm.jpg"
+  ],
+  "bytes_gltf": 33746,
+  "bytes_bin": 1086284,
+  "tool": "tools/blender_midstyle/build_gear_e1.py (gear art E1-A)"
+ },
+ "gear_helmet_t1": {
+  "lod0_tris": 8304,
+  "materials": [
+   "T1_Canvas",
+   "T1_Webbing",
+   "T1_Steel",
+   "T1_Decals",
+   "T1_Strap"
+  ],
+  "radii_m": [
+   0.1092,
+   0.1219,
+   0.1196
+  ],
+  "clearance_m": 0.0011,
+  "verts_inside_skin": 0,
+  "strap_points": 150,
+  "strap_points_in_hair": 0,
+  "lod1_tris": 3320,
+  "bones": [
+   "head"
+  ],
+  "gltf": "raid/assets/gear/t1/gear_helmet_t1.gltf",
+  "images": [
+   "textures/t1_canvas_base.jpg",
+   "textures/t1_canvas_normal.jpg",
+   "textures/t1_canvas_orm.jpg",
+   "textures/t1_decals_base.jpg",
+   "textures/t1_decals_normal.jpg",
+   "textures/t1_decals_orm.jpg",
+   "textures/t1_steel_base.jpg",
+   "textures/t1_steel_normal.jpg",
+   "textures/t1_steel_orm.jpg",
+   "textures/t1_webbing_base.jpg",
+   "textures/t1_webbing_normal.jpg",
+   "textures/t1_webbing_orm.jpg"
+  ],
+  "bytes_gltf": 36934,
+  "bytes_bin": 588040,
+  "tool": "tools/blender_midstyle/build_gear_e1.py (gear art E1-A)"
+ }
+}

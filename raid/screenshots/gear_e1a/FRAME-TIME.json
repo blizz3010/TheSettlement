@@ -1,0 +1,21 @@
+{
+  "renderer": "Godot 4.6.3 opengl3 on llvmpipe (software), 1440x900 - relative only; all runs on feat/gear-e1-t1 back to back (T3 art and the no-gear baseline are identical to main 77ec784)",
+  "studio_closeup_ms_60_frames": {
+    "rig_outfit_no_gear": [122.38, 123.53, 125.46],
+    "t1_shell_cap_padded_vest_lod0": [165.95, 168.59, 168.44],
+    "t3_warden_helm_bulwark_carrier_lod0": [182.86, 169.51],
+    "rig_outfit_no_gear_in_t3_runs": [139.76, 124.38],
+    "delta_t1_vs_no_gear_ms": 43.9,
+    "delta_t3_vs_no_gear_ms": 44.1,
+    "delta_note": "each run against its own no-gear baseline: T1 +43.6 / +45.1 / +43.0, T3 +43.1 / +45.1 - T1 costs the same as T3 on llvmpipe"
+  },
+  "select_screen_ms_30_frames": {"t1_worn": [12.92, 13.88, 13.14], "t3_worn": [14.82]},
+  "raid_hud_ms_60_frames": {"t1_run": [420.22, 434.06, 410.1], "t3_run": [410.26]},
+  "settlement_play_flow_ms_6_frames": {"capsule": 7046.68, "avatar_outfit_plus_t1": 7035.76, "note": "llvmpipe settlement frame is fill-bound; the avatar + T1 kit is within noise of the capsule"},
+  "tris": {"gear_body_armor_t1": {"lod0": 14033, "lod1": 5612}, "gear_helmet_t1": {"lod0": 8304, "lod1": 3320}},
+  "draw_surfaces": {"gear_body_armor_t1": 4, "gear_helmet_t1": 5, "t3_for_reference": {"gear_body_armor_t3": 6, "gear_helmet_t3": 6}},
+  "textures": "one shared T1 set: canvas 2048 base + 1024 ORM/normal, webbing 1024, steel 512, decals 1024x512; 2,112,626 bytes of JPG on disk, VRAM s3tc + mipmaps",
+  "review_screenshots": {"format": "JPEG q88 (Ori's convention from E1-A on)", "files": 13, "jpeg_bytes": 1665380,
+    "png_equivalent_bytes": 7767703, "saved_bytes": 6102323,
+    "png_basis": "11 exact PNG twins rendered from the same capture run (6,144,917 B incl. the fit sheet saved as PNG) + 2 settlement shots estimated from the matching E0 PNGs (1,622,786 B)"}
+}
