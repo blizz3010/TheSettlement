@@ -567,6 +567,10 @@ if __name__ == "__main__":
         report[name] = {"mesh": mesh, "lod0_tris": tris(g), "materials": [m.name for m in g.data.materials],
                         "clearance_m": None}
         report[name]["clearance_m"], report[name]["verts_inside_skin"] = clearance(g, bsurf, 0.05, 0.03 if name == "boots" else -1.0)
+        if name == "pants":   # cargo looseness: median clearance of the leg over the thigh/knee band
+            ds = sorted((lambda q: (q[0] - w).length if q[0] is not None else 0.0)(bsurf.nearest(w))
+                        for w in (g.matrix_world @ v.co for v in g.data.vertices) if 0.40 < w.z < 0.70)
+            report[name]["leg_ease_median_m"] = round(ds[len(ds) // 2], 4)
         if name == "boots":
             report[name]["clearance_note"] = "verts below z 0.03 skipped: the sole slab wraps the masked foot sole by design"
         print("BUILT", name, report[name])

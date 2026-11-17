@@ -22,6 +22,7 @@
   ],
   "clearance_m": 0.0063,
   "verts_inside_skin": 0,
+  "leg_ease_median_m": 0.0369,
   "lod1_tris": 10168
  },
  "boots": {
