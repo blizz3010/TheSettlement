@@ -61,6 +61,10 @@ static func _receipt(p, i, fields: Dictionary) -> Dictionary:
 	return r
 
 ## Applies an extracted raid's haul. outcome: {"haul": {id: n}, "raid_uid": String, "map": String}.
+## Gear PR F: found gear ("gear_<slot>_t<n>@<pct>") and composite inserts are returned in the
+## receipt as to_gear / to_parts; the installer grants them into the gear locker sidecar.
+## outcome.locker_free (default unlimited) caps how many pieces the locker can take; Atlas
+## buys any overflow at Psy's sell price (to_atlas_gear, credited here).
 func deposit(plot, inventory, request, store: Store, outcome: Dictionary) -> Dictionary:
 	last_error = ""
 	var packed := _clone(plot, inventory, request, store.snapshot())
@@ -80,10 +84,15 @@ func deposit(plot, inventory, request, store: Store, outcome: Dictionary) -> Dic
 	var to_stash := {}
 	var to_cargo := {}
 	var to_salvage := {}
+	var to_gear := {}
+	var to_parts := {}
+	var to_atlas_gear := {}
+	var atlas_paid := 0
+	var locker_free := int(outcome.get("locker_free", 1 << 30)) if Store._integer(outcome.get("locker_free", 0)) else 0
 	var brought := 0
 	for id in LootTable.ITEMS:
 		var qty := int(haul.get(id, 0)) if Store._integer(haul.get(id, 0)) else 0
-		if qty <= 0:
+		if qty <= 0 or LootTable.is_part(id):
 			continue
 		qty = mini(qty, Store.MAX_STACK)
 		brought += qty
@@ -104,6 +113,21 @@ func deposit(plot, inventory, request, store: Store, outcome: Dictionary) -> Dic
 	for id in haul:
 		if not LootTable.has_item(str(id)):
 			return fail("Raid haul holds an unknown item. Nothing changed.")
+		if not Store._integer(haul[id]) or int(haul[id]) <= 0:
+			continue
+		var n := mini(int(haul[id]), Store.MAX_STACK)
+		if LootTable.is_part(str(id)):
+			to_parts[id] = n; brought += n
+		elif LootTable.is_gear(str(id)):
+			brought += n
+			var keep := mini(n, maxi(0, locker_free))
+			locker_free -= keep
+			if keep > 0: to_gear[id] = keep
+			if n - keep > 0:
+				to_atlas_gear[id] = n - keep
+				atlas_paid += LootTable.value(str(id)) * (n - keep)
+	if atlas_paid > 0:
+		p.credits = mini(CREDIT_CAP, p.credits + atlas_paid)
 	s.mark_applied(uid)
 	s.stats.extractions = int(s.stats.extractions) + 1
 	s.stats.items_brought = int(s.stats.items_brought) + brought
@@ -113,9 +137,13 @@ func deposit(plot, inventory, request, store: Store, outcome: Dictionary) -> Dic
 	if not to_stash.is_empty(): parts.append("stash: " + LootTable.describe(to_stash))
 	if not to_cargo.is_empty(): parts.append("waiting at Atlas (no room): " + LootTable.describe(to_cargo))
 	if not to_salvage.is_empty(): parts.append("salvage to sell at Atlas (%d cr): %s" % [LootTable.total_value(to_salvage), LootTable.describe(to_salvage)])
+	if not to_gear.is_empty(): parts.append("gear to your locker (Psy · Equip): " + LootTable.describe(to_gear))
+	if not to_parts.is_empty(): parts.append("to your locker for Psy's T3 → T4 upgrade: " + LootTable.describe(to_parts))
+	if not to_atlas_gear.is_empty(): parts.append("gear locker full, Atlas bought %s for %d cr" % [LootTable.describe(to_atlas_gear), atlas_paid])
 	var message := "Raid haul brought home. " + "; ".join(parts) + "." if not parts.is_empty() else "You extracted empty-handed."
 	return _validated(p, i, r, s, _receipt(p, i, {"action": "deposit", "item": "deposit", "name": "Raid haul",
 		"to_bag": to_bag, "to_stash": to_stash, "to_cargo": to_cargo, "to_salvage": to_salvage,
+		"to_gear": to_gear, "to_parts": to_parts, "to_atlas_gear": to_atlas_gear, "atlas_paid": atlas_paid,
 		"brought": brought, "message": message}))
 
 ## A downed raid: nothing comes home. Only the lifetime stat changes.

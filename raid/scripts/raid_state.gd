@@ -24,6 +24,8 @@ var cache_supplies:Dictionary={}
 var quick_capacity:int=0
 var quick_slots:Array=[]
 var supplies_used:int=0
+## Gear PR F: found gear pieces and composite inserts per cache ({key: n}).
+var cache_gear:Dictionary={}
 const EXTRACTION_DURATION:=8.0
 const PUZZLE_ORDER=[2,1,3]
 func _init(seed_number:int=241107):seed_value=seed_number
@@ -63,14 +65,26 @@ func search_cache(poi:Dictionary)->Dictionary:
 	cache_contents[poi.id]=LootTable.roll(rng,quality)
 	# PR D: drawn after the items, so the item roll for a seed is unchanged.
 	cache_supplies[poi.id]=LootTable.roll_supplies(rng,quality)
-	return {"ok":true,"quality":quality,"items":cache_contents[poi.id].duplicate(true),"supplies":cache_supplies[poi.id].duplicate(),"preview_only":false}
+	# Gear PR F: drawn after the supplies, so item and supply rolls for a seed are unchanged.
+	cache_gear[poi.id]=LootTable.roll_gear(rng,quality)
+	return {"ok":true,"quality":quality,"items":cache_contents[poi.id].duplicate(true),"supplies":cache_supplies[poi.id].duplicate(),"gear":cache_gear[poi.id].duplicate(),"preview_only":false}
+
+## Gear PR F: found gear and parts left in a cache.
+func gear_in(poi_id:String)->Dictionary:
+	return cache_gear.get(poi_id,{}).duplicate()
+
+## Everything takeable into the haul from one cache: gear first, then items.
+func cache_loot(poi_id:String)->Dictionary:
+	var all:=gear_in(poi_id)
+	for id in cache_contents.get(poi_id,{}):all[id]=int(cache_contents[poi_id][id])
+	return all
 
 func supplies_in(poi_id:String)->Dictionary:
 	return cache_supplies.get(poi_id,{}).duplicate()
 
 ## Anything left to take (items or supplies)?
 func cache_has_anything(poi_id:String)->bool:
-	return LootTable.units(cache_contents.get(poi_id,{}))+LootTable.units(cache_supplies.get(poi_id,{}))>0
+	return LootTable.units(cache_contents.get(poi_id,{}))+LootTable.units(cache_supplies.get(poi_id,{}))+LootTable.units(cache_gear.get(poi_id,{}))>0
 
 func quick_space()->int:return maxi(0,quick_capacity-quick_slots.size())
 
@@ -109,14 +123,26 @@ func cache_items(poi_id:String)->Dictionary:
 func haul_units()->int:return LootTable.units(haul)
 func haul_space()->int:return maxi(0,haul_capacity-haul_units())
 func haul_value()->int:return LootTable.total_value(haul)
+## Gear PR F: does one more of this id fit in the haul?
+func fits(item:String)->bool:return haul_space()>=LootTable.unit_size(item)
+## Found gear (and parts) currently in the haul.
+func haul_gear()->Dictionary:
+	var out:={}
+	for id in haul:
+		if LootTable.is_gear(str(id)) or LootTable.is_part(str(id)):out[id]=int(haul[id])
+	return out
 
 ## Moves up to qty (all if qty<1) of one item from a searched cache into the haul.
 ## Returns how many were taken. Frozen once extracted.
+## Gear PR F: gear pieces take LootTable.unit_size units each.
 func take_from_cache(poi_id:String,item:String,qty:int=-1)->int:
-	if not extracted_at.is_empty() or not cache_contents.has(poi_id):return 0
-	var box:Dictionary=cache_contents[poi_id]
+	if not extracted_at.is_empty():return 0
+	var box:Dictionary
+	if int(cache_gear.get(poi_id,{}).get(item,0))>0:box=cache_gear[poi_id]
+	elif cache_contents.has(poi_id):box=cache_contents[poi_id]
+	else:return 0
 	var available:=int(box.get(item,0))
-	var n:=mini(available,haul_space())
+	var n:=mini(available,haul_space()/LootTable.unit_size(item))
 	if qty>0:n=mini(n,qty)
 	if n<=0:return 0
 	box[item]=available-n
@@ -124,11 +150,11 @@ func take_from_cache(poi_id:String,item:String,qty:int=-1)->int:
 	haul[item]=int(haul.get(item,0))+n
 	return n
 
-## Takes the most valuable items first until the haul is full. Returns {item: n}.
+## Takes the most valuable items first (found gear included) until the haul is full. Returns {item: n}.
 func take_all(poi_id:String)->Dictionary:
 	var taken:={}
-	if not cache_contents.has(poi_id):return taken
-	for item in LootTable.by_value(cache_contents[poi_id].keys()):
+	if not cache_contents.has(poi_id) and not cache_gear.has(poi_id):return taken
+	for item in LootTable.by_value(cache_loot(poi_id).keys()):
 		var n:=take_from_cache(poi_id,str(item))
 		if n>0:taken[item]=n
 	return taken
@@ -180,4 +206,4 @@ func summary()->Dictionary:
 	return {"seed":seed_value,"visited":visited.keys(),"searched":searched.duplicate(true),
 		"active_seconds":active_seconds,"extracted_at":extracted_at,"haul":haul.duplicate(true),
 		"haul_units":haul_units(),"haul_capacity":haul_capacity,"haul_value":haul_value(),
-		"quick_slots":quick_slots.duplicate(),"supplies_used":supplies_used,"preview_only":false}
+		"quick_slots":quick_slots.duplicate(),"supplies_used":supplies_used,"haul_gear":haul_gear(),"preview_only":false}

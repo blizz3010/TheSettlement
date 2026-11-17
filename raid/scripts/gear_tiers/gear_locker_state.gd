@@ -41,6 +41,24 @@ func grant(def_id: String) -> String:
 	owned[id] = {"id": id, "def": def_id, "durability": float(Defs.item(def_id).durability), "location": "locker"}
 	return id
 
+## Gear PR F: a piece found in a raid, at condition_pct % of max durability.
+func grant_found(def_id: String, condition_pct: int) -> String:
+	var id := grant(def_id)
+	if id.is_empty(): return ""
+	var maximum := float(Defs.item(def_id).durability)
+	owned[id].durability = snappedf(maximum * clampf(condition_pct / 100.0, 0.0, 1.0), 0.01)
+	return id
+
+func free_space() -> int:
+	return maxi(0, MAX_ITEMS - owned.size())
+
+## Gear PR F: composite inserts are counted in shop.composite_insert (max 999).
+const MAX_PARTS := 999
+func add_parts(n: int) -> int:
+	var before := int(shop.composite_insert)
+	shop.composite_insert = clampi(before + maxi(0, n), 0, MAX_PARTS)
+	return int(shop.composite_insert) - before
+
 func remove(instance_id: String) -> bool:
 	if not owned.has(instance_id): return false
 	if owned[instance_id].location == "equipped": slots[Defs.item(owned[instance_id].def).slot] = ""

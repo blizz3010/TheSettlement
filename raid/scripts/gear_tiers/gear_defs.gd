@@ -37,7 +37,8 @@ const WEIGHT_BANDS := [
 	# PR D: a full rig + pack haul can push a heavy kit past 30 kg.
 	{"over": 30.0, "sprint": 0.78, "walk": 0.90},
 ]
-## Where each tier comes from (PR C shop, PR F loot). Drop chance is per cache search.
+## Where each tier comes from (PR C shop, PR F loot). Drop chance is per cache search
+## (raid_loot/loot_table.gd roll_gear; the slot is uniform over SLOTS).
 const TIER_SOURCES := {
 	1: {"psy_stock": "always", "unlock_extractions": 0, "stock_fee": 0, "loot_quality": [1, 2], "loot_chance": 0.08},
 	2: {"psy_stock": "unlocked", "unlock_extractions": 1, "stock_fee": 0, "loot_quality": [2, 3], "loot_chance": 0.05,
