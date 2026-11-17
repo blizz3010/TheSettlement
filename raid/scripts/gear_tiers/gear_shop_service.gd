@@ -90,7 +90,7 @@ func rows(action: String, plot, inventory, locker) -> Array:
 					var def := Defs.item(id)
 					var reason := ""
 					if tier == 4:
-						if id != offer: reason = "Rare: raid loot, or Psy's rotating T4 listing after %d extractions." % int(Defs.TIER_SOURCES[4].unlock_extractions)
+						if id != offer: reason = "Rare: found in quality 4-5 raid caches, or Psy's rotating T4 listing after %d extractions." % int(Defs.TIER_SOURCES[4].unlock_extractions)
 						elif int(locker.shop.t4_window_bought) == t4_window(locker): reason = "This window's T4 piece is sold. Next listing after %d more extraction(s)." % (int(Defs.TIER_SOURCES[4].rotation_every_extractions) - int(locker.extractions) % int(Defs.TIER_SOURCES[4].rotation_every_extractions))
 					else:
 						reason = lock_reason(tier, locker)
@@ -128,7 +128,7 @@ func rows(action: String, plot, inventory, locker) -> Array:
 				if int(next.tier) < 4: reason = lock_reason(int(next.tier), locker)
 				if reason.is_empty(): reason = _materials_reason(mats, inventory, locker)
 				var text := "Reinforce into T%d %s.\nAfter: %s\nCost: price difference + 10%%, plus %s. The piece comes back at full durability." % [int(next.tier), next.name, stats_line(next), _materials_text(mats)]
-				if int(next.tier) == 4: text += "\nComposite inserts are raid-only parts; they start dropping from top-tier raid caches with the loot-table update (gear PR F)."
+				if int(next.tier) == 4: text += "\nComposite inserts are raid-only parts found in quality 4-5 caches (Relay Tower, Research Annex, Helion, Obsidian). You have %d." % int(locker.shop.composite_insert)
 				result.append(_instance_row(id, r, def, Defs.upgrade_cost(r.def), reason, text))
 		"equip":
 			for id in _sorted_ids(locker):
@@ -154,7 +154,7 @@ func loadout_text(locker) -> String:
 	var s: Dictionary = locker.summary()
 	lines.append("Protection: ballistic %d%% · hazard %d%% · fall %d%% · %.1f kg" % [roundi(s.dr.ballistic * 100), roundi(s.dr.hazard * 100), roundi(s.dr.fall * 100), s.weight])
 	var cap: Dictionary = Storage.capacity(locker)
-	lines.append("Extractions: %d · Raid haul %d units (%s) · %d quick-use slot%s" % [int(locker.extractions), int(cap.total), Storage.breakdown(cap), int(cap.quick_slots), "" if int(cap.quick_slots) == 1 else "s"])
+	lines.append("Extractions: %d · Raid haul %d units (%s) · %d quick-use slot%s · Composite inserts %d" % [int(locker.extractions), int(cap.total), Storage.breakdown(cap), int(cap.quick_slots), "" if int(cap.quick_slots) == 1 else "s", int(locker.shop.composite_insert)])
 	return "\n".join(lines)
 
 func _count(locker, def_id: String) -> int:
@@ -186,7 +186,7 @@ func _materials_reason(mats: Dictionary, inventory, locker) -> String:
 	for k in mats:
 		var have: int = int(locker.shop.composite_insert) if k == "composite_insert" else inventory.amount("carried", k)
 		if have < int(mats[k]):
-			return "Needs %d carried %s (you have %d)." % [int(mats[k]), MATERIAL_NAMES.get(k, k), have] if k != "composite_insert" else "Needs a composite insert (raid-only part; drops arrive with gear PR F)."
+			return "Needs %d carried %s (you have %d)." % [int(mats[k]), MATERIAL_NAMES.get(k, k), have] if k != "composite_insert" else "Needs a composite insert (raid-only part from quality 4-5 caches; you have %d)." % have
 	return ""
 
 # ----------------------------------------------------------------- candidate

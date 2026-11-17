@@ -46,7 +46,7 @@ static func _attach_panel(host: Node, controller) -> void:
 		"emblem": "◇",
 		"role": "Tiered gear 1-4 · buy, sell, repair, upgrade, equip",
 		"tabs": ["buy", "sell", "repair", "upgrade", "equip"],
-		"help": "Tiered gear goes to your gear locker and is used in raids when equipped. Tier 2 unlocks after your first extraction, tier 3 after 5 extractions and the Stock III licence, and tier 4 is rare. The basic T0 helmet is still sold here.",
+		"help": "Tiered gear goes to your gear locker and is used in raids when equipped. Tier 2 unlocks after your first extraction, tier 3 after 5 extractions and the Stock III licence, and tier 4 is rare. Gear found in raid caches lands in your locker worn; repair it here. The basic T0 helmet is still sold here.",
 		"sale_help": "Only unequipped, unbroken tier gear and carried T0 helmets can be sold. Sells at 50%.",
 	})
 	panel.closed.connect(controller.close)
@@ -64,7 +64,7 @@ static func load_store(host: Node) -> void:
 		controller.ensure_gear_store()
 
 ## Counts a successful extraction in the gear sidecar. Downed raids don't count.
-## Minimal saved counter for Psy's unlock rules until PR F's full raid progression.
+## Found gear and composite inserts are granted by raid_loot_install.apply_return (PR F).
 static func apply_return(host: Node, outcome: Dictionary, path: String = GearStore.DEFAULT_PATH) -> bool:
 	if str(outcome.get("outcome", "")) != "extracted": return false
 	var store := GearStore.new()

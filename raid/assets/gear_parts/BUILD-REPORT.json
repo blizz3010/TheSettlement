@@ -1,0 +1,169 @@
+{
+ "composite_insert": {
+  "tris": 41808,
+  "size_m": [
+   0.276,
+   0.072,
+   0.364
+  ],
+  "materials": [
+   "Insert_back_label",
+   "Insert_composite_weave",
+   "Insert_copper",
+   "Insert_dark_steel",
+   "Insert_edge_rubber",
+   "Insert_label",
+   "Insert_webbing"
+  ],
+  "textures": [
+   {
+    "name": "copper_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "copper_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "copper_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "dark_steel_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "dark_steel_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "dark_steel_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "insert_back_label_base.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "insert_back_label_normal.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "insert_back_label_orm.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "insert_edge_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "insert_edge_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "insert_edge_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "insert_label_base.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "insert_label_normal.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "insert_label_orm.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "insert_weave_base.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "insert_weave_normal.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "insert_weave_orm.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "insert_webbing_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "insert_webbing_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "insert_webbing_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   }
+  ],
+  "tool": "tools/blender_midstyle/build_composite_insert.py (gear PR F)"
+ }
+}

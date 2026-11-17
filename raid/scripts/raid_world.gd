@@ -287,7 +287,7 @@ func _process(delta):
 		var prompts={"door":"Open %s door"%active_target.poi.get("lock",""),"clue":"Read / collect field supplies","cache":"Search supply cache","extract":"Extract and return","switch":_switch_prompt(active_target.get("number",0))}
 		hint.text=_key("interact")+"  "+prompts[active_target.kind]
 		if active_target.kind=="cache" and raid_state.searched.has(active_target.poi.id):
-			var left=LootTable.units(raid_state.cache_items(active_target.poi.id))+LootTable.units(raid_state.supplies_in(active_target.poi.id))
+			var left=LootTable.units(raid_state.cache_items(active_target.poi.id))+LootTable.units(raid_state.supplies_in(active_target.poi.id))+LootTable.units(raid_state.gear_in(active_target.poi.id))
 			hint.text=_key("interact")+"  Open cache · %d left"%left if left>0 else "Cache emptied"
 		if active_target.kind=="extract" and not raid_state.extraction_id.is_empty():hint.text=_key("interact")+"  Cancel extraction"
 
@@ -366,7 +366,7 @@ func _summary_text()->String:
 		var progress="Not visited"
 		if raid_state.visited.has(poi.id):progress="Visited · Cache not searched"
 		if raid_state.searched.has(poi.id):
-			var left=LootTable.units(raid_state.cache_items(poi.id))
+			var left=LootTable.units(raid_state.cache_loot(poi.id))
 			progress="Cache quality %d · "%raid_state.searched[poi.id]+("%d left"%left if left>0 else "emptied")
 		lines+="\n"+poi.name+": "+progress
 	lines+="\n\n"+_haul_line()
@@ -387,7 +387,7 @@ func _extraction_complete():
 	_sound("beacon_complete")
 	_scroll_text(_summary_text())
 	if raid_state.haul.is_empty():_text("You extracted empty-handed. Keys and codes reset on return. Carried supplies stay with you. Unclaimed Atlas recoveries age by one raid.")
-	else:_text("Your haul comes home: materials go to your bag, then the stash (any overflow waits at Atlas); salvage is sold at Atlas's Salvage tab. Keys and codes reset. Unclaimed Atlas recoveries age by one raid.")
+	else:_text("Your haul comes home: materials go to your bag, then the stash (any overflow waits at Atlas); salvage is sold at Atlas's Salvage tab."+(" Found gear and composite inserts go to your gear locker (Psy · Equip / Upgrade)." if not raid_state.haul_gear().is_empty() else "")+" Keys and codes reset. Unclaimed Atlas recoveries age by one raid.")
 	_button("Return to settlement",_request_return).grab_focus()
 func _nearest_target()->Dictionary:
 	var best={};var distance=3.3
@@ -559,6 +559,11 @@ func _raid_uid()->String:
 	return "%s-%d-%d-%d"%[_map_name().to_lower().replace(" ","_"),raid_state.seed_value,int(Time.get_unix_time_from_system()),Time.get_ticks_usec()%1000000]
 
 func _loot_row_text(id:String,qty:int)->String:
+	# Gear PR F: found gear and composite inserts.
+	if LootTable.is_gear(id):
+		var g=LootTable.parse_gear(id);var def=GearDefs.item(g.def)
+		return "%s × %d   (%s · %d haul units · %.1f kg · Psy buys %d)"%[LootTable.display_name(id),qty,str(def.slot).replace("_"," "),LootTable.unit_size(id),float(def.weight),int(def.sell_price)]
+	if LootTable.is_part(id):return "%s × %d   (gear part · Psy's T3 → T4 upgrade · raid-only)"%[LootTable.display_name(id),qty]
 	var tag="salvage · %d cr each"%LootTable.value(id) if LootTable.is_salvage(id) else ("material · Rook pays %d"%LootTable.value(id) if LootTable.value(id)>0 else "material · upgrades")
 	return "%s × %d   (%s)"%[LootTable.display_name(id),qty,tag]
 
@@ -570,8 +575,11 @@ func _loot_list(items:Dictionary,verb:String,callback:Callable,enabled:bool)->Sc
 		var empty=Label.new();empty.text="Nothing here.";list.add_child(empty)
 	for id in items:
 		var row=HBoxContainer.new();list.add_child(row)
+		_gear_badge(row,str(id))
 		var label=Label.new();label.text=_loot_row_text(str(id),int(items[id]));label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;row.add_child(label)
-		var button=Button.new();button.text=verb;button.custom_minimum_size=Vector2(92,36);button.disabled=not enabled;button.name="Loot_"+str(id);row.add_child(button)
+		var button=Button.new();button.text=verb;button.custom_minimum_size=Vector2(92,36);button.disabled=not enabled;button.name="Loot_"+str(id).replace("@","_c");row.add_child(button)
+		if verb=="Take" and enabled and not raid_state.fits(str(id)):
+			button.disabled=true;button.text="Needs %d"%LootTable.unit_size(str(id));button.tooltip_text="Needs %d free haul units."%LootTable.unit_size(str(id))
 		var item_id=str(id)
 		button.pressed.connect(func():
 			if _modal_callback_current(generation):callback.call(item_id))
@@ -580,7 +588,7 @@ func _loot_list(items:Dictionary,verb:String,callback:Callable,enabled:bool)->Sc
 func _cache_panel(target:Dictionary):
 	var poi:Dictionary=target.poi
 	_start_modal("%s cache · quality %d"%[poi.name,int(raid_state.searched.get(poi.id,0))])
-	var items=raid_state.cache_items(poi.id)
+	var items=raid_state.cache_loot(poi.id)
 	var space=raid_state.haul_space()
 	_text(_haul_line()+(" Haul full: drop something (Tab › Manage haul) to make room." if space<=0 else " Loot comes home only if you extract."))
 	_loot_list(items,"Take",func(id:String):
@@ -605,6 +613,23 @@ func _haul_panel():
 		_haul_panel(),true)
 	_button("Back to field notes",_field_notes)
 	_button("Close",_close_modal).grab_focus()
+
+# ------------------------------------------------- TASKS item 22, PR F: gear as raid loot
+const GearDefs=preload("res://raid/scripts/gear_tiers/gear_defs.gd")
+## Tier badge (gear) or part icon (composite insert) in front of a loot row.
+func _gear_badge(row:HBoxContainer,id:String):
+	if LootTable.is_gear(id):
+		var tier:int=int(LootTable.parse_gear(id).tier)
+		var badge=PanelContainer.new();badge.name="TierBadge";badge.custom_minimum_size=Vector2(40,36)
+		var sb=StyleBoxFlat.new();sb.bg_color=GearDefs.TIER_COLORS[tier];sb.border_color=GearDefs.TIER_TRIM[tier];sb.set_border_width_all(3);sb.set_corner_radius_all(5)
+		badge.add_theme_stylebox_override("panel",sb)
+		var t=Label.new();t.text="T%d"%tier;t.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;t.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+		t.add_theme_font_size_override("font_size",15);t.add_theme_color_override("font_color",Color("f4efe2"));badge.add_child(t);row.add_child(badge)
+	elif LootTable.is_part(id):
+		var path:="res://raid/assets/trader_icons/%s.png"%id
+		var tex=load(path) if ResourceLoader.exists(path) else null
+		if tex is Texture2D:
+			var icon=TextureRect.new();icon.texture=tex;icon.custom_minimum_size=Vector2(40,40);icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;row.add_child(icon)
 
 # ------------------------------------------------- TASKS item 22, PR D: rig/backpack storage
 const QUICK_KEYS:=[KEY_1,KEY_2,KEY_3]
