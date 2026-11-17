@@ -38,6 +38,13 @@ const ITEMS:={
 	"dye_palette_future":{"trader":"Tailor","name":"Pigment packets","src":"glb","path":"res://assets/trader_items/dye_palette_future.glb","yaw":-35.0},
 	"fishing_pole":{"trader":"Fishing","name":"Basic fishing pole","src":"glb","path":"res://assets/trader_items/fishing_pole.glb","yaw":-20.0},
 	"bait_portion":{"trader":"Fishing","name":"Bait portion","src":"glb","path":"res://assets/trader_items/bait_portion.glb","yaw":-35.0},
+	# TASKS item 13: raid salvage sold at Atlas (tools/blender_midstyle/build_salvage_items.py).
+	"salvage_copper_wire":{"trader":"Atlas","name":"Copper wire bundle","src":"glb","path":"res://raid/assets/salvage/salvage_copper_wire.glb","yaw":-30.0},
+	"salvage_sensor":{"trader":"Atlas","name":"Sensor module","src":"glb","path":"res://raid/assets/salvage/salvage_sensor.glb","yaw":-35.0},
+	"salvage_capacitor":{"trader":"Atlas","name":"Relay capacitor","src":"glb","path":"res://raid/assets/salvage/salvage_capacitor.glb","yaw":-30.0},
+	"salvage_survey_drive":{"trader":"Atlas","name":"Sealed survey drive","src":"glb","path":"res://raid/assets/salvage/salvage_survey_drive.glb","yaw":-35.0},
+	"salvage_power_cell":{"trader":"Atlas","name":"Field power cell","src":"glb","path":"res://raid/assets/salvage/salvage_power_cell.glb","yaw":-30.0},
+	"salvage_research_core":{"trader":"Atlas","name":"Research core","src":"glb","path":"res://raid/assets/salvage/salvage_research_core.glb","yaw":-35.0},
 }
 var viewport:SubViewport
 var stage:Node3D
