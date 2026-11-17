@@ -1,0 +1,43 @@
+{
+  "renderer": "Godot 4.6.3 opengl3 on llvmpipe (software, xvfb 1440x900) - relative cost only, not a GPU budget",
+  "studio_ms_per_frame": {
+    "full_body_bare": 52.96,
+    "full_body_outfit_lod0": 126.54,
+    "full_body_outfit_lod1": 103.94,
+    "closeup_bare": 60.69,
+    "closeup_outfit_lod0": 141.56
+  },
+  "select_screen_ms_per_frame": {
+    "outfit": 14.02,
+    "outfit_plus_t3_gear": 13.74
+  },
+  "settlement_play_flow_ms_per_frame_6_frames": {
+    "capsule_before": 6823.48,
+    "outfit_avatar": 6933.2,
+    "outfit_plus_t3": 8254.7,
+    "note": "whole settlement scene (1.05M grass instances) on llvmpipe; outfit adds ~110 ms (+1.6%) of a 6.8 s frame; 6-frame samples are noisy"
+  },
+  "tris": {
+    "shirt": {
+      "lod0": 18404,
+      "lod1": 7360,
+      "rest_clearance_m": 0.0035
+    },
+    "pants": {
+      "lod0": 25456,
+      "lod1": 10182,
+      "rest_clearance_m": 0.0059
+    },
+    "boots": {
+      "lod0": 30495,
+      "lod1": 12198,
+      "rest_clearance_m": 0.0056
+    },
+    "total": {
+      "lod0": 74355,
+      "lod1": 29740
+    }
+  },
+  "texture_bytes_on_disk": 11924105,
+  "bytes_gltf_bin": 4844509
+}
