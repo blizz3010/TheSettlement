@@ -74,10 +74,10 @@ func _ready():
 	var body := rig.find_child("ProofBody", true, false) as MeshInstance3D
 	if body != null and body.mesh != null:
 		for si in body.mesh.get_surface_count():
-			var m := body.get_active_material(si) as StandardMaterial3D
+			var m := body.get_active_material(si) as BaseMaterial3D
 			if m == null: continue
-			var t := m.duplicate() as StandardMaterial3D
-			t.albedo_color = t.albedo_color * Color(0.78, 0.72, 0.66)
+			var t := m.duplicate() as BaseMaterial3D
+			t.albedo_color = t.albedo_color * Color(0.66, 0.54, 0.46)
 			body.set_surface_override_material(si, t)
 	# Holder sits at the capsule centre (player.gd moves it for crouch / seat); _process keeps
 	# this node on the player's floor. Faces -Z like the player.
