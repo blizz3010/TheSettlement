@@ -64,6 +64,7 @@ TESTS = [
     ("test_gear_storage", "GEAR_STORAGE_TESTS "),
     ("test_gear_loot", "GEAR_LOOT_TESTS "),
     ("test_gear_art", "GEAR_ART_TESTS "),
+    ("test_default_outfit", "DEFAULT_OUTFIT_TESTS "),
 ]
 
 def main():

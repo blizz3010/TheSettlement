@@ -75,12 +75,12 @@ def planes_for(name, bones):
     if name == "pants": return [(Vector((0, 0, WAIST_Z)), Vector((0, 0, 1))), (Vector((0, 0, PANT_Z)), Vector((0, 0, -1)))]
     return [(Vector((0, 0, BOOT_Z)), Vector((0, 0, 1)))]
 
-DRAPE_FLOOR = {"shirt": 0.0065, "pants": 0.008}
+DRAPE_FLOOR = {"shirt": 0.0065, "pants": 0.0095}
 
 def offset_for(name, p):
     if name == "shirt":
-        if p.z < 0.905: return 0.0055
-        if p.z < 0.935: return 0.0055 + (p.z - 0.905) / 0.03 * 0.0115
+        if p.z < 0.905: return 0.004
+        if p.z < 0.935: return 0.004 + (p.z - 0.905) / 0.03 * 0.013
         if p.z < 0.985: return 0.017
         return 0.0125 if abs(p.x) < 0.17 else 0.015
     if name == "pants":
@@ -397,6 +397,26 @@ def rings_inside(body, covered, rings=2):
         inner -= edge
     return {i for i in range(len(me.vertices)) if canon[i] in inner}
 
+def raster(me, uv, polys, size, tol=0.02):
+    """Pixel indices covered by the UV triangles of `polys`."""
+    out = set()
+    for p in polys:
+        pts = [uv[i].uv for i in p.loop_indices]
+        for k in range(1, len(pts) - 1):
+            tri = (pts[0], pts[k], pts[k + 1])
+            (ax, ay), (bx, by), (cx, cy) = [(q.x * size, q.y * size) for q in tri]
+            x0, x1 = max(int(min(ax, bx, cx)), 0), min(int(max(ax, bx, cx)) + 1, size - 1)
+            y0, y1 = max(int(min(ay, by, cy)), 0), min(int(max(ay, by, cy)) + 1, size - 1)
+            den = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
+            if abs(den) < 1e-9: continue
+            for y in range(y0, y1 + 1):
+                for x in range(x0, x1 + 1):
+                    X, Y = x + 0.5, y + 0.5
+                    l1 = ((by - cy) * (X - cx) + (cx - bx) * (Y - cy)) / den
+                    l2 = ((cy - ay) * (X - cx) + (ax - cx) * (Y - cy)) / den
+                    if l1 >= -tol and l2 >= -tol and 1 - l1 - l2 >= -tol: out.add(y * size + x)
+    return out
+
 def write_masks(body, cover_sets, size=1024):
     me = body.data; uv = me.uv_layers.active.data
     names = list(cover_sets)
@@ -408,23 +428,19 @@ def write_masks(body, cover_sets, size=1024):
             if on: raw |= cover_sets[k]
         hide = rings_inside(body, raw) if raw else set()
         px = [1.0] * (size * size)
-        for p in me.polygons:
-            if not all(v in hide for v in p.vertices): continue
-            pts = [uv[i].uv for i in p.loop_indices]
-            for k in range(1, len(pts) - 1):
-                tri = (pts[0], pts[k], pts[k + 1])
-                xs = [q.x * size for q in tri]; ys = [q.y * size for q in tri]
-                x0, x1 = max(int(min(xs)), 0), min(int(max(xs)) + 1, size - 1)
-                y0, y1 = max(int(min(ys)), 0), min(int(max(ys)) + 1, size - 1)
-                (ax, ay), (bx, by), (cx, cy) = [(q.x * size, q.y * size) for q in tri]
-                den = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
-                if abs(den) < 1e-9: continue
-                for y in range(y0, y1 + 1):
-                    for x in range(x0, x1 + 1):
-                        X, Y = x + 0.5, y + 0.5
-                        l1 = ((by - cy) * (X - cx) + (cx - bx) * (Y - cy)) / den
-                        l2 = ((cy - ay) * (X - cx) + (ax - cx) * (Y - cy)) / den
-                        if l1 >= -0.02 and l2 >= -0.02 and 1 - l1 - l2 >= -0.02: px[y * size + x] = 0.0
+        hid = raster(me, uv, [p for p in me.polygons if all(v in hide for v in p.vertices)], size)
+        keep = raster(me, uv, [p for p in me.polygons if not all(v in hide for v in p.vertices)], size, tol=0.0) if hid else set()
+        # Grow the cut-out a few texels into empty atlas space (never into skin that stays
+        # visible) so filtering / mips at UV-island borders cannot open seams of skin.
+        front = set(hid)
+        for _ in range(4):
+            nxt = set()
+            for i in front:
+                x, y = i % size, i // size
+                for j in ((i - 1) if x > 0 else -1, (i + 1) if x < size - 1 else -1, i - size, i + size):
+                    if 0 <= j < size * size and j not in hid and j not in keep: nxt.add(j)
+            hid |= nxt; front = nxt
+        for i in hid - keep: px[i] = 0.0
         tag = "".join(str(c) for c in combo)
         img = bpy.data.images.new("body_mask_" + tag, size, size, alpha=True)
         flat = []
@@ -490,6 +506,8 @@ if __name__ == "__main__":
         parts, cov = fn(body, dom, bones, bsurf)
         g = finish_garment(mesh, parts, rig, body)
         built[name] = g; covers[name] = set(cov)
+        if name == "boots":   # the sole slab closes the boot: the whole foot below the shaft is covered
+            covers[name] |= {v.index for v in body.data.vertices if (body.matrix_world @ v.co).z < BOOT_Z - 0.04}
         report[name] = {"mesh": mesh, "lod0_tris": tris(g), "materials": [m.name for m in g.data.materials],
                         "clearance_m": None}
         report[name]["clearance_m"], report[name]["verts_inside_skin"] = clearance(g, bsurf, 0.05, 0.03 if name == "boots" else -1.0)

@@ -14,15 +14,15 @@
  },
  "pants": {
   "mesh": "OutfitPants",
-  "lod0_tris": 25448,
+  "lod0_tris": 25466,
   "materials": [
    "outfit_twill",
    "outfit_belt",
    "outfit_brass"
   ],
-  "clearance_m": 0.0049,
+  "clearance_m": 0.0058,
   "verts_inside_skin": 0,
-  "lod1_tris": 10179
+  "lod1_tris": 10186
  },
  "boots": {
   "mesh": "OutfitBoots",
@@ -80,6 +80,6 @@
   "textures/outfit_twill_normal.jpg",
   "textures/outfit_twill_orm.jpg"
  ],
- "bytes_gltf": 54429,
- "bytes_bin": 4780864
+ "bytes_gltf": 54426,
+ "bytes_bin": 4787564
 }
