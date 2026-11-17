@@ -11,12 +11,14 @@ const Placeholder = preload("res://raid/scripts/gear_tiers/gear_placeholder_art.
 const State = preload("res://raid/scripts/gear_tiers/gear_locker_state.gd")
 
 ## "covers": garment parts of the select-stage procedural outfit this piece sits over
-## (hidden while worn so they don't poke through).
+## (hidden while worn so they don't poke through). "hair": helmet hair - the rig hair shown
+## under the piece whatever the character's chosen style (the shell and straps are fitted over
+## it; longer styles such as the bob would come through them).
 const ART := {
 	"gear_helmet_t3": {"scene": "res://raid/assets/gear/t3/gear_helmet_t3.gltf", "mesh": "WardenHelm",
-		"icon": "res://raid/assets/trader_icons/gear_helmet_t3.png", "covers": ["helmet"], "tri_budget": 12000},
+		"icon": "res://raid/assets/trader_icons/gear_helmet_t3.png", "covers": ["helmet"], "hair": "hair_short02_v1", "tri_budget": 12000},
 	"gear_body_armor_t3": {"scene": "res://raid/assets/gear/t3/gear_body_armor_t3.gltf", "mesh": "BulwarkCarrier",
-		"icon": "res://raid/assets/trader_icons/gear_body_armor_t3.png", "covers": ["jacket_torso"], "tri_budget": 18000},
+		"icon": "res://raid/assets/trader_icons/gear_body_armor_t3.png", "covers": ["jacket_torso"], "tri_budget": 21000},
 }
 const LOD1_SUFFIX := "_LOD1"
 static var _icons := {}
@@ -32,6 +34,17 @@ static func scene_path(def_id: String) -> String:
 
 static func covers(def_id: String) -> Array:
 	return ART[def_id].get("covers", []) if ART.has(def_id) else []
+
+## Helmet hair for a worn piece ("" when the piece leaves the hair alone).
+static func helmet_hair(def_id: String) -> String:
+	return str(ART[def_id].get("hair", "")) if ART.has(def_id) else ""
+
+## Helmet hair for a whole loadout (first piece that sets one), or "".
+static func hair_for(worn_ids: Array) -> String:
+	for id in worn_ids:
+		var h := helmet_hair(str(id))
+		if h != "": return h
+	return ""
 
 ## Rendered icon, or null (callers keep their tier chip / badge).
 static func icon(def_id: String) -> Texture2D:

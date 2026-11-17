@@ -12,6 +12,8 @@ const SELF_PATH := "res://raid/scripts/gear_tiers/gear_avatar.gd"
 const GearArt = preload("res://raid/scripts/gear_tiers/gear_art.gd")
 const DefaultOutfit = preload("res://raid/scripts/outfit/default_outfit.gd")
 const SCALE := 1.12          # 1.55 m rig -> ~1.74 m, close to the 1.8 m player capsule
+const ARMS_DOWN := 38.0
+const ARMS_DOWN_VEST := 32.0
 const SPRINT_SPEED := 5.0    # player.gd: 7.0 sprinting, 4.2 walking, 2.0 crouched
 var player: Node
 var rig: Node3D
@@ -94,6 +96,9 @@ func _ready():
 		_rest_foot = skeleton.get_bone_global_rest(skeleton.find_bone("foot_r")).origin.y
 		GearArt.show_worn(skeleton, worn, 0)
 
+func _torso_gear() -> bool:
+	return "jacket_torso" in GearArt.covered(worn)
+
 func set_worn(ids: Array) -> void:
 	worn = ids.duplicate()
 	if skeleton != null: GearArt.show_worn(skeleton, worn, 0)
@@ -142,7 +147,9 @@ func apply_pose(kind: String, ph: float) -> void:
 	skeleton.reset_bone_poses()
 	var s := sin(ph)
 	var X := Vector3.RIGHT
-	var arms_down := 38.0   # A-pose (~48 deg out) -> arms hanging ~10 deg off the body
+	# A-pose (~48 deg out) -> arms hanging ~10 deg off the body; over a plate carrier they rest
+	# on its cummerbund wings instead (~16 deg off), so the upper arms don't sink into the vest.
+	var arms_down := ARMS_DOWN_VEST if _torso_gear() else ARMS_DOWN
 	_rot("upperarm_l", Vector3.FORWARD, arms_down)
 	_rot("upperarm_r", Vector3.FORWARD, -arms_down)
 	match kind:

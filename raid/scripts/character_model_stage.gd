@@ -193,6 +193,7 @@ func show_appearance(value:Dictionary)->bool:
 	for name in BROW_NAMES:rig_meshes[name].visible=name==value.brows
 	for name in EYE_NAMES:rig_meshes[name].visible=name==value.eyes
 	selected_appearance=value.duplicate(true)
+	_apply_helmet_hair()
 	appearance_result={"ok":true,"scope":"Full Appearance-Proof rig (skinned, rest pose) with refit procedural garments"}
 	redraw_preview()
 	return true
@@ -208,6 +209,7 @@ func show_gear(ids:Array)->Array:
 	if not model_ok or skeleton==null:return []
 	worn_gear=GearArt.show_worn(skeleton,ids,0)
 	_apply_gear_covers()
+	_apply_helmet_hair()
 	if is_instance_valid(camera):redraw_preview()
 	return worn_gear
 
@@ -218,6 +220,20 @@ func _apply_gear_covers():
 		for n in garments.jacket.get_children():
 			for prefix in JACKET_TORSO_PARTS:
 				if str(n.name).begins_with(prefix):_cover(n,cov.has("jacket_torso"))
+
+## Under a helmet with its own helmet hair (gear_art.gd "hair") the rig shows that hair instead
+## of the chosen style (same tint); the chosen style comes back when the helmet comes off.
+func _apply_helmet_hair():
+	if not model_ok:return
+	var want:=GearArt.hair_for(worn_gear)
+	if want.is_empty() and not rig_meshes.ProofBody.has_meta("helmet_hair"):return
+	var chosen:String=str(selected_appearance.get("hair",""))
+	for name in HAIR_NAMES:
+		var mesh:MeshInstance3D=rig_meshes[name]
+		if not want.is_empty():mesh.visible=name==want
+		elif not chosen.is_empty():mesh.visible=name==chosen
+	if want.is_empty():rig_meshes.ProofBody.remove_meta("helmet_hair")
+	else:rig_meshes.ProofBody.set_meta("helmet_hair",want)
 
 ## Hides a garment part under worn gear and gives it back (only if it was showing) when the
 ## gear comes off, so the outfit's own visibility rules are left alone.
