@@ -440,8 +440,9 @@ func _interact(target:Dictionary):
 			_notify(_switch_feedback(solved))
 		"cache":
 			if raid_state.searched.has(poi.id):
+				# Same toast as before loot persistence (the walkthroughs pin it); leftovers reopen.
+				_notify("Already searched this raid.")
 				if LootTable.units(raid_state.cache_items(poi.id))>0:_cache_panel(target)
-				else:_notify("Nothing left in this cache.")
 				return
 			var result=raid_state.search_cache(poi)
 			if not result.ok:_notify(result.reason,9);return
