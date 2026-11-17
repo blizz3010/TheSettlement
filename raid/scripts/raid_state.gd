@@ -19,6 +19,11 @@ var extracted_at:=""
 var cache_contents:Dictionary={}
 var haul:Dictionary={}
 var haul_capacity:int=LootTable.HAUL_BASE_CAPACITY
+## PR D: raid-only supplies (field dressings) per cache, and the rig quick-use slots.
+var cache_supplies:Dictionary={}
+var quick_capacity:int=0
+var quick_slots:Array=[]
+var supplies_used:int=0
 const EXTRACTION_DURATION:=8.0
 const PUZZLE_ORDER=[2,1,3]
 func _init(seed_number:int=241107):seed_value=seed_number
@@ -56,7 +61,47 @@ func search_cache(poi:Dictionary)->Dictionary:
 	searched[poi.id]=quality
 	# Same seeded RNG, drawn after the quality roll, so bands are unchanged.
 	cache_contents[poi.id]=LootTable.roll(rng,quality)
-	return {"ok":true,"quality":quality,"items":cache_contents[poi.id].duplicate(true),"preview_only":false}
+	# PR D: drawn after the items, so the item roll for a seed is unchanged.
+	cache_supplies[poi.id]=LootTable.roll_supplies(rng,quality)
+	return {"ok":true,"quality":quality,"items":cache_contents[poi.id].duplicate(true),"supplies":cache_supplies[poi.id].duplicate(),"preview_only":false}
+
+func supplies_in(poi_id:String)->Dictionary:
+	return cache_supplies.get(poi_id,{}).duplicate()
+
+## Anything left to take (items or supplies)?
+func cache_has_anything(poi_id:String)->bool:
+	return LootTable.units(cache_contents.get(poi_id,{}))+LootTable.units(cache_supplies.get(poi_id,{}))>0
+
+func quick_space()->int:return maxi(0,quick_capacity-quick_slots.size())
+
+func _pull_supply(poi_id:String,id:String)->bool:
+	if not extracted_at.is_empty() or not cache_supplies.has(poi_id):return false
+	var box:Dictionary=cache_supplies[poi_id]
+	if int(box.get(id,0))<=0:return false
+	box[id]=int(box[id])-1
+	if int(box[id])<=0:box.erase(id)
+	return true
+
+## Moves one supply from a cache into a free rig quick-use slot.
+func stow_supply(poi_id:String,id:String)->bool:
+	if quick_space()<=0 or int(cache_supplies.get(poi_id,{}).get(id,0))<=0:return false
+	if not _pull_supply(poi_id,id):return false
+	quick_slots.append(id)
+	return true
+
+## Takes one supply out of a cache to use right away. Returns true when taken.
+func use_supply_from_cache(poi_id:String,id:String)->bool:
+	if not _pull_supply(poi_id,id):return false
+	supplies_used+=1
+	return true
+
+## Empties quick-use slot index (0-based). Returns the supply id or "".
+func use_quick(index:int)->String:
+	if not extracted_at.is_empty() or index<0 or index>=quick_slots.size():return ""
+	var id:String=quick_slots[index]
+	quick_slots.remove_at(index)
+	supplies_used+=1
+	return id
 
 func cache_items(poi_id:String)->Dictionary:
 	return cache_contents.get(poi_id,{}).duplicate(true)
@@ -134,4 +179,5 @@ func summary()->Dictionary:
 	# Snapshot only. The settlement commits the haul after a successful extraction.
 	return {"seed":seed_value,"visited":visited.keys(),"searched":searched.duplicate(true),
 		"active_seconds":active_seconds,"extracted_at":extracted_at,"haul":haul.duplicate(true),
-		"haul_units":haul_units(),"haul_capacity":haul_capacity,"haul_value":haul_value(),"preview_only":false}
+		"haul_units":haul_units(),"haul_capacity":haul_capacity,"haul_value":haul_value(),
+		"quick_slots":quick_slots.duplicate(),"supplies_used":supplies_used,"preview_only":false}

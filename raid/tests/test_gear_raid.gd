@@ -187,7 +187,8 @@ func exit_save_tests():
 	if not scene.is_raid_ready(): return
 	var gear = scene.gear
 	check(gear != null and scene.health_controller.health.reduction.is_valid(), "cinder: gear active")
-	check(scene.player.get_script() == BasePlayer, "8.5 kg kit: no weight penalty, plain player.gd")
+	# PR D: a worn rig/pack uses the gear player so haul load can re-band it; at x1.0 it moves like player.gd.
+	check(scene.player.get_script() == GearPlayer and scene.player.gear_sprint_mult == 1.0 and scene.player.gear_walk_mult == 1.0, "8.5 kg kit: no weight penalty (x1.0 until haul load)")
 	var bus := AudioServer.get_bus_index(RaidGear.THREAT_BUS)
 	check(bus >= 0 and AudioServer.get_bus_effect_count(bus) == 0, "Earmuff Set: no compression")
 	var h = scene.health_controller.health

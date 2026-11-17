@@ -10,6 +10,7 @@ const Defs = preload("res://raid/scripts/gear_tiers/gear_defs.gd")
 const Store = preload("res://raid/scripts/gear_tiers/gear_locker_store.gd")
 const BasePlayer = preload("res://scripts/player.gd")
 const GearPlayer = preload("res://raid/scripts/gear_tiers/raid_gear_player.gd")
+const Storage = preload("res://raid/scripts/gear_tiers/gear_storage.gd")
 ## Unaided hearing distance for threat cues (m); headset hearing_range scales it.
 const BASE_THREAT_RANGE := 24.0
 const THREAT_BUS := "GearThreat"
@@ -43,6 +44,9 @@ var crackle_left := 0.0
 var hint_left := 0.0
 var safe_fall_bonus := 0.0
 var hazard_iframe_bonus := 0.0
+## PR D: haul carried beyond the pouch (kg) and the live movement band.
+var load_kg := 0.0
+var haul_ref: Dictionary = {}
 
 # ------------------------------------------------------------------ loading
 ## Reads the sidecar if it exists. A missing file is an empty locker and is NOT created.
@@ -56,13 +60,22 @@ func active() -> bool:
 
 func movement() -> Dictionary:
 	if not active(): return {"sprint": 1.0, "walk": 1.0}
-	var band: Dictionary = store.state.summary().band
+	var band: Dictionary = Storage.band(store.state, haul_ref)
 	return {"sprint": float(band.sprint), "walk": float(band.walk)}
 
-## player.gd unless the worn weight crosses a band.
+## player.gd unless the worn weight crosses a band, or (PR D) a rig/pack can add
+## load mid-raid. GearPlayer at x1.0 moves exactly like player.gd.
 func player_script() -> Script:
 	var m := movement()
-	return GearPlayer if (m.sprint < 1.0 or m.walk < 1.0) else BasePlayer
+	if m.sprint < 1.0 or m.walk < 1.0: return GearPlayer
+	return GearPlayer if active() and Storage.carries_load(store.state) else BasePlayer
+
+## PR D: the haul changed; re-band movement on the live player and refresh the HUD.
+func refresh_load(haul: Dictionary) -> void:
+	haul_ref = haul
+	load_kg = Storage.load_weight(haul)
+	if world != null and is_instance_valid(world.player): configure_player(world.player)
+	refresh_hud()
 
 func configure_player(p: Node) -> void:
 	if p.get_script() == GearPlayer:
@@ -249,7 +262,8 @@ func readout() -> Dictionary:
 		total += frac
 		if frac < lowest: lowest = frac; lowest_name = def.name
 	var summary: Dictionary = s.summary()
-	return {"dr": summary.dr, "weight": summary.weight, "band": summary.band,
+	var total := Storage.total_weight(s, haul_ref)
+	return {"dr": summary.dr, "weight": total, "worn_weight": summary.weight, "load": load_kg, "band": Defs.weight_band(total),
 		"durability": total / float(ids.size()) if ids.size() > 0 else 1.0,
 		"lowest": lowest if ids.size() > 0 else 1.0, "lowest_name": lowest_name}
 
@@ -261,6 +275,13 @@ func refresh_hud() -> void:
 	if r.lowest < 0.999: line2 += " · lowest %s %d%%" % [r.lowest_name, roundi(r.lowest * 100)]
 	if r.lowest <= 0.0: line2 += " (BROKEN)"
 	line2 += " · %.1f kg" % r.weight
+	if r.load > 0.0: line2 += " (load %.1f)" % r.load
 	if r.band.sprint < 1.0: line2 += " · sprint −%d%%" % roundi((1.0 - r.band.sprint) * 100)
 	if not headset.is_empty(): line2 += " · %s" % headset.name
-	hud_label.text = line1 + "\n" + line2
+	var text := line1 + "\n" + line2
+	# PR D: storage line when a rig or pack is worn.
+	var c := Storage.capacity(store.state)
+	if str(c.rig_condition) != "none" or str(c.pack_condition) != "none":
+		text += "\nStorage %d units (%s)" % [int(c.total), Storage.breakdown(c)]
+		if int(c.quick_slots) > 0: text += " · %d quick slot%s" % [int(c.quick_slots), "" if int(c.quick_slots) == 1 else "s"]
+	hud_label.text = text

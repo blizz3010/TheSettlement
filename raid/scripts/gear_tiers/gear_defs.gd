@@ -28,11 +28,14 @@ const DOWNED_DURABILITY_LOSS := 0.25
 const SELL_FRACTION := 0.5      # matches Psy helmet 24 -> 12
 const REPAIR_FRACTION := 0.30   # of buy price, times the missing durability fraction
 const UPGRADE_FEE_FRACTION := 0.10
-## Weight bands (kg of worn tiered gear). Raid-only effect, applied in PR B.
+## Weight bands (kg of worn tiered gear, plus haul load beyond the pouch from PR D).
+## Raid-only effect, applied in PR B.
 const WEIGHT_BANDS := [
 	{"over": 0.0, "sprint": 1.0, "walk": 1.0},
 	{"over": 14.0, "sprint": 0.92, "walk": 1.0},
 	{"over": 20.0, "sprint": 0.85, "walk": 0.95},
+	# PR D: a full rig + pack haul can push a heavy kit past 30 kg.
+	{"over": 30.0, "sprint": 0.78, "walk": 0.90},
 ]
 ## Where each tier comes from (PR C shop, PR F loot). Drop chance is per cache search.
 const TIER_SOURCES := {
@@ -70,6 +73,7 @@ const SLOT_DATA := {
 		"durability": [20, 35, 50, 45], "weight": [0.1, 0.2, 0.4, 0.4], "price": [12, 36, 100, 300]},
 	"tactical_rig": {"names": ["Strap Rig", "Pouch Rig", "Assault Rig", "Modular Rig"],
 		"dr": {"ballistic": [0.0, 0.01, 0.02, 0.03]}, "rig_cells": [2, 3, 4, 6],
+		"quick_slots": [1, 2, 2, 3],
 		"durability": [40, 60, 90, 80], "weight": [0.8, 1.2, 1.9, 1.5], "price": [35, 110, 290, 880]},
 	"backpack": {"names": ["Satchel", "Field Pack", "Hauler Pack", "Expedition Frame"],
 		"dr": {}, "pack_cells": [4, 6, 9, 12],
@@ -120,7 +124,7 @@ static func item(id: String) -> Dictionary:
 		"durability": int(src.durability[i]), "weight": float(src.weight[i]), "price": price,
 		"sell_price": int(floor(price * SELL_FRACTION)), "source": TIER_SOURCES[int(key.tier)].duplicate(true),
 		"wear_kind": "clothing" if slot in CLOTHING_SLOTS else "protective", "upgrade_kind": upgrade_kind(slot)}
-	for extra in ["hearing_range", "compression", "threat_direction_hint", "hazard_iframe_bonus", "rig_cells", "pack_cells", "safe_fall_bonus"]:
+	for extra in ["hearing_range", "compression", "threat_direction_hint", "hazard_iframe_bonus", "rig_cells", "pack_cells", "quick_slots", "safe_fall_bonus"]:
 		if src.has(extra): result[extra] = src[extra][i]
 	return result
 
