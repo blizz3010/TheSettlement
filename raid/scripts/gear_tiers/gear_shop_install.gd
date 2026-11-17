@@ -8,6 +8,8 @@ const GearPanel = preload("res://raid/scripts/gear_tiers/psy_gear_tier_panel.gd"
 const GearStore = preload("res://raid/scripts/gear_tiers/gear_locker_store.gd")
 const GearService = preload("res://raid/scripts/gear_tiers/gear_shop_service.gd")
 const ShopTransaction = preload("res://scripts/shop_transaction.gd")
+const GearAvatar = preload("res://raid/scripts/gear_tiers/gear_avatar.gd")
+const GearArt = preload("res://raid/scripts/gear_tiers/gear_art.gd")
 const CARRY := ["host", "gear_service", "gear_transactions", "panel", "current_id", "restore_pending",
 	"marketplace_enabled", "window_focused", "marketplace_panel", "listings_store", "listings_service",
 	"listings_transactions", "listings_message", "recovery_panel", "recovery_store", "recovery_service",
@@ -30,7 +32,14 @@ static func install(host: Node) -> bool:
 		controller.refresh_service_metadata()
 	if not is_instance_valid(controller.tier_panel): _attach_panel(host, controller)
 	host.set_meta("gear_shop_installed", true)
+	sync_avatar(host)
 	return is_instance_valid(controller.tier_panel)
+
+## Gear art E0: third-person avatar wears the worn pieces that have art (read-only locker peek).
+static func sync_avatar(host: Node, path: String = GearStore.DEFAULT_PATH) -> Node3D:
+	var p = host.get("player") if is_instance_valid(host) else null
+	if not is_instance_valid(p): return null
+	return GearAvatar.install(p, GearArt.worn_from_locker(path))
 
 static func _attach_panel(host: Node, controller) -> void:
 	var panel: Control = GearPanel.new()
@@ -62,6 +71,7 @@ static func load_store(host: Node) -> void:
 	if is_instance_valid(controller) and preload("res://raid/scripts/controller_chain.gd").inherits(controller, EXT_PATH):
 		controller.gear_store = null
 		controller.ensure_gear_store()
+	sync_avatar(host)
 
 ## Counts a successful extraction in the gear sidecar. Downed raids don't count.
 ## Found gear and composite inserts are granted by raid_loot_install.apply_return (PR F).

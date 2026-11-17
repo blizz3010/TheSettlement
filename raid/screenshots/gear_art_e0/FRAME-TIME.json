@@ -1,0 +1,9 @@
+{
+  "note": "llvmpipe (software GL, Xvfb 1440x900, Godot 4.6.3 compatibility renderer); relative numbers only, not GPU timings",
+  "settlement_third_person_ms_per_frame": {"capsule_before": 7451.51, "gear_avatar_helm_vest": 6963.29, "frames": 6, "comment": "difference is within run-to-run noise; the settlement (1.05M grass instances) dominates"},
+  "studio_closeup_ms_per_frame": {"rig_only": 59.57, "rig_plus_helm_vest_lod0": 107.87, "frames": 60, "comment": "full-screen close-up at MSAA 4x; worst case for fill/shading of the 2k textures"},
+  "select_screen_with_gear_ms": 14.02,
+  "raid_hud_relay_ridge_ms": 402.35,
+  "tris": {"gear_helmet_t3": {"lod0": 11012, "lod1": 4404}, "gear_body_armor_t3": {"lod0": 17996, "lod1": 7198}},
+  "bytes": {"gltf_plus_bin_both": 2195779, "textures_jpg_all_21": 10019764, "icons_png_both": 103367, "imported_vram_ctex_local_not_committed": 34954020}
+}

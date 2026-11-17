@@ -18,6 +18,7 @@ extends "res://scripts/character_profiles/selection_stage.gd"
 ## Pinned files are untouched; this is opt-in via the select-panel adapter.
 const SOURCE="res://models/Appearance-Proof.glb"
 const AppearanceDraft=preload("res://scripts/character_preview/creator_draft.gd")
+const GearArt=preload("res://raid/scripts/gear_tiers/gear_art.gd")
 const HAIR_NAMES=["hair_short02_v1","hair_bob01_v1"]
 const BROW_NAMES=["brow_009_v1","brow_001_v1"]
 const EYE_NAMES=["eye_brown_v1","eye_blue_v1"]
@@ -38,6 +39,8 @@ func _ready():
 	if model_ok:
 		_rebuild_garments()
 		_add_fill_light()
+		# Gear art E0: worn tiered pieces with real art, skinned to this rig (read-only peek at the locker).
+		show_gear(GearArt.worn_from_locker())
 	set_angle(angle)
 
 func _load_rig():
@@ -188,3 +191,35 @@ func show_appearance(value:Dictionary)->bool:
 	appearance_result={"ok":true,"scope":"Full Appearance-Proof rig (skinned, rest pose) with refit procedural garments"}
 	redraw_preview()
 	return true
+
+# ------------------------------------------------- TASKS item 22, gear art E0: worn tiered gear
+const JACKET_TORSO_PARTS:=["Fabric jacket body","Fixed zipper","Fabric pointed collar","Fabric chest patch pocket","Fixed pocket snap"]
+var worn_gear:Array=[]
+
+## Shows the worn tiered pieces that have real art (gear_art.gd), bound to this rig's skeleton
+## so they follow its pose. Parts of the procedural outfit they cover are hidden. Returns the
+## ids actually shown (pieces without art show nothing here, as before).
+func show_gear(ids:Array)->Array:
+	if not model_ok or skeleton==null:return []
+	worn_gear=GearArt.show_worn(skeleton,ids,0)
+	_apply_gear_covers()
+	if is_instance_valid(camera):redraw_preview()
+	return worn_gear
+
+func _apply_gear_covers():
+	var cov:Array=GearArt.covered(worn_gear)
+	if garments.has("helmet"):_cover(garments.helmet,cov.has("helmet"))
+	if garments.has("jacket"):
+		for n in garments.jacket.get_children():
+			for prefix in JACKET_TORSO_PARTS:
+				if str(n.name).begins_with(prefix):_cover(n,cov.has("jacket_torso"))
+
+## Hides a garment part under worn gear and gives it back (only if it was showing) when the
+## gear comes off, so the outfit's own visibility rules are left alone.
+func _cover(node:Node3D,covered:bool):
+	if covered and node.visible:node.visible=false;node.set_meta("gear_covered",true)
+	elif not covered and node.has_meta("gear_covered"):node.visible=true;node.remove_meta("gear_covered")
+
+func show_equipped(context:Dictionary):
+	super.show_equipped(context)
+	_apply_gear_covers()

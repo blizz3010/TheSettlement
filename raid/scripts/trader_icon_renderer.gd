@@ -49,6 +49,9 @@ const ITEMS:={
 	"field_dressing":{"trader":"Raid","name":"Field dressing","src":"glb","path":"res://raid/assets/supplies/field_dressing.glb","yaw":-30.0},
 	# TASKS item 22, gear PR F: raid-only part for Psy's T3 -> T4 upgrade (tools/blender_midstyle/build_composite_insert.py).
 	"composite_insert":{"trader":"Raid","name":"Composite insert","src":"glb","path":"res://raid/assets/gear_parts/composite_insert.glb","yaw":-28.0},
+	# TASKS item 22, gear art E0: tiered gear with real art (raid/scripts/gear_tiers/gear_art.gd), LOD0 at rest.
+	"gear_helmet_t3":{"trader":"Psy","name":"T3 Warden Helm","src":"gear","yaw":-32.0},
+	"gear_body_armor_t3":{"trader":"Psy","name":"T3 Bulwark Carrier","src":"gear","yaw":-28.0},
 }
 var viewport:SubViewport
 var stage:Node3D
@@ -101,6 +104,12 @@ func build(id:String)->Node3D:
 				for c in copy.get_children():
 					if signf(c.position.x)!=float(spec.side):c.free()
 			holder.add_child(copy)
+		"gear":
+			var art=preload("res://raid/scripts/gear_tiers/gear_art.gd").build(id,0)
+			if art!=null:
+				holder.add_child(art)
+				for mi in art.find_children("*","MeshInstance3D",true,false):
+					if not mi.visible:mi.free()
 		"rod":
 			FishingVisuals.rod(holder,Vector3(-0.55,-0.62,0),Vector3(0.55,0.62,0),0)
 	return holder

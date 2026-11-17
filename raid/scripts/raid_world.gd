@@ -616,10 +616,16 @@ func _haul_panel():
 
 # ------------------------------------------------- TASKS item 22, PR F: gear as raid loot
 const GearDefs=preload("res://raid/scripts/gear_tiers/gear_defs.gd")
+const GearArt=preload("res://raid/scripts/gear_tiers/gear_art.gd")
 ## Tier badge (gear) or part icon (composite insert) in front of a loot row.
 func _gear_badge(row:HBoxContainer,id:String):
 	if LootTable.is_gear(id):
 		var tier:int=int(LootTable.parse_gear(id).tier)
+		# Gear art E0: rendered icon for pieces with real art; tier badge for the rest.
+		var art_icon:Texture2D=GearArt.icon(GearDefs.item_id(str(LootTable.parse_gear(id).slot),tier))
+		if art_icon!=null:
+			var ic=TextureRect.new();ic.name="GearIcon";ic.texture=art_icon;ic.custom_minimum_size=Vector2(40,40);ic.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;ic.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;row.add_child(ic)
+			return
 		var badge=PanelContainer.new();badge.name="TierBadge";badge.custom_minimum_size=Vector2(40,36)
 		var sb=StyleBoxFlat.new();sb.bg_color=GearDefs.TIER_COLORS[tier];sb.border_color=GearDefs.TIER_TRIM[tier];sb.set_border_width_all(3);sb.set_corner_radius_all(5)
 		badge.add_theme_stylebox_override("panel",sb)
