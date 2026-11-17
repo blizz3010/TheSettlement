@@ -1,17 +1,17 @@
 {
  "gear_body_armor_t1": {
-  "lod0_tris": 14015,
+  "lod0_tris": 14033,
   "materials": [
    "T1_Canvas",
    "T1_Webbing",
    "T1_Steel",
    "T1_Decals"
   ],
-  "clearance_m": 0.0096,
+  "clearance_m": 0.0097,
   "verts_inside_skin": 0,
-  "shirt_clearance_m": 0.0016,
+  "shirt_clearance_m": 0.0018,
   "verts_inside_shirt": 0,
-  "lod1_tris": 5606,
+  "lod1_tris": 5612,
   "bones": [
    "clavicle_l",
    "clavicle_r",
@@ -35,8 +35,8 @@
    "textures/t1_webbing_normal.jpg",
    "textures/t1_webbing_orm.jpg"
   ],
-  "bytes_gltf": 33748,
-  "bytes_bin": 1051348,
+  "bytes_gltf": 33746,
+  "bytes_bin": 1086284,
   "tool": "tools/blender_midstyle/build_gear_e1.py (gear art E1-A)"
  },
  "gear_helmet_t1": {

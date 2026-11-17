@@ -23,7 +23,7 @@ const ART := {
 	"gear_helmet_t1": {"scene": "res://raid/assets/gear/t1/gear_helmet_t1.gltf", "mesh": "ShellCap",
 		"icon": "res://raid/assets/trader_icons/gear_helmet_t1.png", "covers": ["helmet"], "hair": "hair_short02_v1", "tri_budget": 9000},
 	"gear_body_armor_t1": {"scene": "res://raid/assets/gear/t1/gear_body_armor_t1.gltf", "mesh": "PaddedVest",
-		"icon": "res://raid/assets/trader_icons/gear_body_armor_t1.png", "covers": ["jacket_torso"], "tri_budget": 17500},
+		"icon": "res://raid/assets/trader_icons/gear_body_armor_t1.png", "covers": ["jacket_torso"], "tri_budget": 15000},
 }
 const LOD1_SUFFIX := "_LOD1"
 static var _icons := {}

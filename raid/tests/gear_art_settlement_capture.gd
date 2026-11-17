@@ -5,11 +5,13 @@ extends Node
 ## third-person camera and from a side camera (deformation), plus the capsule "before" and
 ## frame times. Writes user:// files, so use a disposable XDG profile:
 ## XDG_DATA_HOME=/tmp/x xvfb-run -a godot --rendering-driver opengl3 --path . res://raid/tests/gear_art_settlement_capture.tscn
-## Env GEAR_OUT=<abs dir> (default raid/screenshots/gear_art_e0). llvmpipe timings: relative only.
+## Env GEAR_OUT=<abs dir> (default raid/screenshots/gear_art_e0), GEAR_TIER=1|3 (default 3),
+## GEAR_FMT=jpg (review JPEGs at q88). llvmpipe timings: relative only.
 const Defs = preload("res://raid/scripts/gear_tiers/gear_defs.gd")
 const Store = preload("res://raid/scripts/gear_tiers/gear_locker_store.gd")
 const GearAvatar = preload("res://raid/scripts/gear_tiers/gear_avatar.gd")
 var out := ""
+var TIER := 3
 var world
 var timing := {}
 
@@ -22,7 +24,11 @@ func log_(s: String): print("GEAR_SETTLE ", s, "  t=", Time.get_ticks_msec() / 1
 func shot(name: String):
 	for i in 3: await get_tree().process_frame
 	await RenderingServer.frame_post_draw
-	get_viewport().get_texture().get_image().save_png(out.path_join(name + ".png"))
+	var img := get_viewport().get_texture().get_image()
+	if OS.get_environment("GEAR_FMT") == "jpg":
+		img.convert(Image.FORMAT_RGB8); img.save_jpg(out.path_join(name + ".jpg"), 0.88)
+	else:
+		img.save_png(out.path_join(name + ".png"))
 	print("GEAR_SHOT ", name)
 
 func frame_ms(frames: int) -> float:
@@ -36,7 +42,7 @@ func seed_locker(on: bool):
 	if not on: return
 	var store = Store.new(); store.path = Store.DEFAULT_PATH
 	for slot in ["helmet", "body_armor", "tactical_rig", "backpack", "gloves", "boots"]:
-		store.state.equip(store.state.grant(Defs.item_id(slot, 3)))
+		store.state.equip(store.state.grant(Defs.item_id(slot, TIER)))
 	store.save()
 
 func seed_settler():
@@ -54,6 +60,7 @@ func hide_ui():
 		if child is CanvasLayer: child.visible = false
 
 func run():
+	if OS.get_environment("GEAR_TIER").strip_edges() != "": TIER = int(OS.get_environment("GEAR_TIER"))
 	out = OS.get_environment("GEAR_OUT").strip_edges()
 	if out.is_empty(): out = ProjectSettings.globalize_path("res://raid/screenshots/gear_art_e0")
 	DirAccess.make_dir_recursive_absolute(out)
@@ -99,7 +106,7 @@ func run():
 	timing["third_person_capsule_ms"] = await frame_ms(6)
 	await shot("08_before_third_person_capsule")
 	holder.layers = 0; holder.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	av = GearAvatar.install(p, ["gear_helmet_t3", "gear_body_armor_t3"])
+	av = GearAvatar.install(p, ["gear_helmet_t%d" % TIER, "gear_body_armor_t%d" % TIER])
 	av.visible = true
 	for i in 4: await get_tree().process_frame
 	timing["third_person_gear_avatar_ms"] = await frame_ms(6)

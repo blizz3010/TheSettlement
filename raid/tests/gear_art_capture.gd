@@ -4,7 +4,8 @@ extends SceneTree
 ## and HUD, studio before/after against the PR A placeholder, close-ups, and frame times.
 ## Writes user://gear_locker.json, so use a disposable XDG profile:
 ## XDG_DATA_HOME=/tmp/x xvfb-run -a godot --rendering-driver opengl3 --path . --script res://raid/tests/gear_art_capture.gd
-## Env GEAR_OUT=<abs dir> (default raid/screenshots/gear_art_e0), GEAR_PART=ui|studio (default both).
+## Env GEAR_OUT=<abs dir> (default raid/screenshots/gear_art_e0), GEAR_PART=ui|studio (default both),
+## GEAR_TIER=1|3 (which art set is worn, default 3 = E0), GEAR_FMT=jpg (review JPEGs at q88, else PNG).
 ## Third person in the settlement: gear_art_settlement_capture.gd. Timings: llvmpipe, relative only.
 const Defs = preload("res://raid/scripts/gear_tiers/gear_defs.gd")
 const Store = preload("res://raid/scripts/gear_tiers/gear_locker_store.gd")
@@ -14,8 +15,10 @@ const Placeholder = preload("res://raid/scripts/gear_tiers/gear_placeholder_art.
 const ShopTransaction = preload("res://scripts/shop_transaction.gd")
 const DefaultOutfit = preload("res://raid/scripts/outfit/default_outfit.gd")
 const GearAvatar = preload("res://raid/scripts/gear_tiers/gear_avatar.gd")
-const HELM := "gear_helmet_t3"
-const VEST := "gear_body_armor_t3"
+var TIER := 3
+var HELM := "gear_helmet_t3"
+var VEST := "gear_body_armor_t3"
+var WAVE := "E0"
 var out := ""
 var scene
 var timing := {}
@@ -53,7 +56,14 @@ func _initialize():
 func shot(name: String, tex: Texture2D = null):
 	for i in 3: await process_frame
 	await RenderingServer.frame_post_draw
-	(tex if tex != null else root.get_texture()).get_image().save_png(out.path_join(name + ".png"))
+	save_img((tex if tex != null else root.get_texture()).get_image(), name)
+
+## Committed review shots: JPEG q88 when GEAR_FMT=jpg (from E1-A on), PNG otherwise.
+func save_img(img: Image, name: String):
+	if OS.get_environment("GEAR_FMT") == "jpg":
+		img.convert(Image.FORMAT_RGB8); img.save_jpg(out.path_join(name + ".jpg"), 0.88)
+	else:
+		img.save_png(out.path_join(name + ".png"))
 	print("GEAR_SHOT ", name)
 
 func caption(layer: CanvasLayer, text: String) -> Label:
@@ -80,7 +90,7 @@ func wipe_locker():
 	for f in [Store.DEFAULT_PATH, Store.DEFAULT_PATH + ".tmp"]:
 		if FileAccess.file_exists(f): DirAccess.remove_absolute(ProjectSettings.globalize_path(f))
 
-## T3 kit worn; only the helmet and vest have art in E0.
+## Tier-N kit worn; only the helmet and vest have art (E0 = T3, E1-A = T1).
 func seed_t3():
 	wipe_locker()
 	var store = Store.new(); store.path = Store.DEFAULT_PATH
@@ -88,12 +98,16 @@ func seed_t3():
 	st.extractions = 8
 	st.shop.stock_iii = true
 	for slot in ["helmet", "body_armor", "tactical_rig", "backpack", "gloves", "boots"]:
-		st.equip(st.grant(Defs.item_id(slot, 3)))
+		st.equip(st.grant(Defs.item_id(slot, TIER)))
 	st.grant(Defs.item_id("body_armor", 2))
 	st.grant(Defs.item_id("helmet", 2))
 	store.save()
 
 func run():
+	var tier_env := OS.get_environment("GEAR_TIER").strip_edges()
+	if tier_env != "": TIER = int(tier_env)
+	HELM = "gear_helmet_t%d" % TIER; VEST = "gear_body_armor_t%d" % TIER
+	WAVE = "E0" if TIER == 3 else "E1-A"
 	out = OS.get_environment("GEAR_OUT").strip_edges()
 	if out.is_empty(): out = ProjectSettings.globalize_path("res://raid/screenshots/gear_art_e0")
 	DirAccess.make_dir_recursive_absolute(out)
@@ -148,7 +162,7 @@ func select_shots():
 	var stage = title.character_panel.preview
 	print("GEAR_SELECT worn ", stage.worn_gear)
 	timing["select_screen_ms"] = await frame_ms(30)
-	await shot("01_select_screen_t3_helm_vest")
+	await shot("01_select_screen_t%d_helm_vest" % TIER)
 	await close_select(title)
 
 # ------------------------------------------------------------------ Psy equip tab ("inventory")
@@ -174,7 +188,7 @@ func psy_shots():
 	var ids := {}
 	for id in ctl.gear_store.state.owned: ids[ctl.gear_store.state.owned[id].def] = id
 	ctl.tier_panel._select_item(ids[VEST])
-	cap.text = "Equip tab · worn T3 Warden Helm + T3 Bulwark Carrier on the locker mannequin (LOD1); rendered icons in the rows"
+	cap.text = "Equip tab · worn %s + %s on the locker mannequin (LOD1); rendered icons in the rows" % [str(Defs.item(HELM).get("name", HELM)), str(Defs.item(VEST).get("name", VEST))]
 	for i in 6: await process_frame
 	await shot("03_inventory_psy_equip_mannequin")
 	ctl.tier_panel._select_item(ids[Defs.item_id("body_armor", 2)])
@@ -219,17 +233,17 @@ func raid_shots():
 	rs.search_cache(t.poi)
 	rs.cache_contents["relay"] = {"metal": 2, "salvage_power_cell": 1}
 	rs.cache_supplies["relay"] = {}
-	rs.cache_gear["relay"] = {"gear_helmet_t3@85": 1, "gear_body_armor_t3@60": 1, "gear_helmet_t4@80": 1}
+	rs.cache_gear["relay"] = {HELM + "@85": 1, VEST + "@60": 1, "gear_helmet_t4@80": 1}
 	scene._cache_panel(t)
 	await shot("06_raid_cache_rows_icons")
-	for id in ["gear_helmet_t3_c85", "salvage_power_cell"]:
+	for id in [HELM + "_c85", "salvage_power_cell"]:
 		var b := button("Loot_" + id)
 		if b != null and not b.disabled: b.pressed.emit()
 		await process_frame
 	scene._close_modal()
 	scene._process(0.016)
 	timing["raid_hud_ms"] = await frame_ms(60)
-	await shot("07_raid_hud_haul_found_t3")
+	await shot("07_raid_hud_haul_found_t%d" % TIER)
 	scene._haul_panel()
 	await shot("05_inventory_raid_manage_haul_icons")
 	scene.queue_free()
@@ -295,21 +309,20 @@ func view(name: String, pos: Vector3, look: Vector3, fov: float = 30.0):
 	cam3.fov = fov; cam3.position = pos; cam3.look_at(look)
 	for i in 6: await process_frame
 	await RenderingServer.frame_post_draw
-	root.get_texture().get_image().save_png(out.path_join(name + ".png"))
-	print("GEAR_SHOT ", name)
+	save_img(root.get_texture().get_image(), name)
 
 func studio_shots():
 	await studio()
-	# Before / after: PR A primitive placeholders vs the E0 art, same rig, same light.
+	# Before / after: PR A primitive placeholders vs the wave's art, same rig, same light.
 	var left := rig_at(-0.45)
 	var right := rig_at(0.45)
 	for pair in [[HELM, Vector3(0, 1.49, -0.01)], [VEST, Vector3(0, 1.18, 0.0)]]:
 		var ph := Placeholder.build(pair[0]); stage.add_child(ph); ph.position = Vector3(-0.45, 0, 0) + pair[1]
 	GearArt.show_worn(right, [HELM, VEST], 0)
-	label_pair("OLD · PR A primitive placeholder (retired)", "NEW · E0 art: Warden Helm + Bulwark Carrier")
+	label_pair("OLD · PR A primitive placeholder (retired)", "NEW · %s art: %s + %s" % [WAVE, str(Defs.item(HELM).get("name", "")), str(Defs.item(VEST).get("name", ""))])
 	await view("14_before_after_placeholder_vs_art", Vector3(0.9, 1.35, 3.1), Vector3(0, 1.05, 0), 32)
 	# Rear view: the sides swap on screen.
-	label_pair("NEW · E0 art (rear)", "OLD · PR A placeholder (rear)")
+	label_pair("NEW · %s art (rear)" % WAVE, "OLD · PR A placeholder (rear)")
 	await view("14b_before_after_placeholder_vs_art_rear", Vector3(-0.9, 1.35, -3.1), Vector3(0, 1.05, 0), 32)
 	label_pair("", "")
 	for c in stage.get_children():

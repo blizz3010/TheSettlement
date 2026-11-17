@@ -78,7 +78,8 @@ def vest_snap(v):
 
 def vest_want(p):
     if p.y < -0.04 and p.z > 1.15 and abs(p.x) < 0.075: return 0.031   # over the henley placket / collar
-    if abs(p.x) > 0.105 and p.z > 1.04: return 0.028           # arm-hole bottom: over the shirt's underarm flare
+    if abs(p.x) > 0.100:                                        # arm-hole bottom: over the shirt's underarm flare
+        t = min(1.0, max(0.0, (p.z - 1.01) / 0.05)); return 0.026 + 0.002 * t * t * (3 - 2 * t)
     return 0.026                                                # clears the shirt (<= 17 mm at the bloused waist)
 
 def torso_surf(body, dom):
@@ -156,7 +157,7 @@ def vest_shell(body, dom, bsurf):
         if loc is None: continue
         if p.z > 1.24: amp = 0.0040                       # shoulders: lighter padding
         elif abs(p.x) > 0.105: amp = 0.0030               # side panels
-        else: amp = 0.0065
+        else: amp = 0.0085
         if p.y < 0 and abs(p.x) < 0.030: amp *= max(0.0, (abs(p.x) - 0.018) / 0.012)   # placket
         _, _, dist = kd.find(p); amp *= min(1.0, max(0.0, (dist - 0.006) / 0.016))
         puff = amp * math.sin(math.pi * (p.z - HEM) / CH) ** 2
