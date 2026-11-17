@@ -14,9 +14,9 @@
    0.1215,
    0.1215
   ],
-  "clearance_m": 0.0001,
-  "verts_inside_skin": 0,
-  "strap_points": 87,
+  "clearance_m": -0.0039,
+  "verts_inside_skin": 1,
+  "strap_points": 261,
   "strap_points_in_hair": 0,
   "lod1_tris": 4404,
   "bones": [
@@ -43,8 +43,8 @@
    "textures/t3_webbing_normal.jpg",
    "textures/t3_webbing_orm.jpg"
   ],
-  "bytes_gltf": 40872,
-  "bytes_bin": 779272,
+  "bytes_gltf": 40874,
+  "bytes_bin": 779428,
   "tool": "tools/blender_midstyle/build_gear_e0.py (gear art E0)"
  },
  "gear_body_armor_t3": {

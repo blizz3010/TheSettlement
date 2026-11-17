@@ -14,6 +14,7 @@ const DefaultOutfit = preload("res://raid/scripts/outfit/default_outfit.gd")
 const SCALE := 1.12          # 1.55 m rig -> ~1.74 m, close to the 1.8 m player capsule
 const ARMS_DOWN := 38.0
 const ARMS_DOWN_VEST := 32.0
+const SPRINT_VEST_OUT := 4.0
 const SPRINT_SPEED := 5.0    # player.gd: 7.0 sprinting, 4.2 walking, 2.0 crouched
 var player: Node
 var rig: Node3D
@@ -150,6 +151,9 @@ func apply_pose(kind: String, ph: float) -> void:
 	# A-pose (~48 deg out) -> arms hanging ~10 deg off the body; over a plate carrier they rest
 	# on its cummerbund wings instead (~16 deg off), so the upper arms don't sink into the vest.
 	var arms_down := ARMS_DOWN_VEST if _torso_gear() else ARMS_DOWN
+	# Sprinting swings the upper arm well behind the body: over a carrier it clears the rear
+	# plate corner only when held a little further out.
+	if kind == "sprint" and _torso_gear(): arms_down -= SPRINT_VEST_OUT
 	_rot("upperarm_l", Vector3.FORWARD, arms_down)
 	_rot("upperarm_r", Vector3.FORWARD, -arms_down)
 	match kind:

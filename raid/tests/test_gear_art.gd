@@ -367,7 +367,9 @@ func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
 			if j < 0: continue
 			var sd: float = (v[0][k] - AP[j]).dot(AN[j])
 			arm_worst = minf(arm_worst, sd)
-			if sd < -FIT_TOL: arm_clip += 1; pc += 1
+			if sd < -FIT_TOL:
+				arm_clip += 1; pc += 1
+				if OS.get_environment("FIT_DEBUG") != "": print("FIT_DBG arm ", pose, " vest ", v[0][k], " rest ", vd.v[k], " arm ", AP[j], " ", "sleeve" if j >= a1[0].size() else "skin", " sd ", sd)
 		var t := fit_skin(ss, torso_s)
 		for pr in pairs:
 			var sd: float = (v[0][pr[0]] - t[0][pr[1]]).dot(t[1][pr[1]])
@@ -387,23 +389,34 @@ func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
 	for h in H: hs_dirs.append([(h - HC).normalized(), (h - HC).length()])
 	var ws := Skinner.new(sk, helm.skin); var wd := fit_samples(helm, 1, Callable(), "T3_Webbing")
 	var W: PackedVector3Array = fit_skin(ws, wd)[0]
-	var buried := 0; var tested := 0
+	# Strap ends tuck up under the shell rim: hair there is hidden by the shell, so skip strap
+	# verts with shell further out along the same ray.
+	var SH: PackedVector3Array = fit_skin(ws, fit_samples(helm, 1, Callable(), "T3_Shell"))[0]
+	var sh_dirs := []
+	for h in SH: sh_dirs.append([(h - HC).normalized(), (h - HC).length()])
+	var buried := 0; var tested := 0; var under_shell := 0
 	var cos_lim := cos(deg_to_rad(2.5))
 	for p in W:
 		var d := (p - HC).normalized(); var r := (p - HC).length()
+		var covered := false
+		for e in sh_dirs:
+			if (e[0] as Vector3).dot(d) > cos_lim and e[1] > r + 0.002: covered = true; break
+		if covered: under_shell += 1; continue
 		var outer := 0.0
 		for e in hs_dirs:
 			if (e[0] as Vector3).dot(d) > cos_lim: outer = maxf(outer, e[1])
 		if outer <= 0.0: continue
 		tested += 1
-		if outer > r - 0.0005: buried += 1
-	check(tested > 50 and buried == 0, "Helmet straps / harness ride over the helmet hair (%d strap verts over hair, %d buried)" % [tested, buried])
+		if outer > r - 0.0005:
+			buried += 1
+			if OS.get_environment("FIT_DEBUG") != "": print("FIT_DBG strap ", p, " r ", r, " hair ", outer)
+	check(tested > 50 and buried == 0, "Helmet straps / harness ride over the helmet hair (%d strap verts over hair, %d buried, %d tucked under the shell)" % [tested, buried, under_shell])
 	var rep = JSON.parse_string(FileAccess.get_file_as_string("res://raid/assets/gear/t3/BUILD-REPORT.json"))
 	if rep is Dictionary and rep.has(VEST):
 		check(float(rep[VEST].get("shirt_clearance_m", -1)) > 0.0 and int(rep[VEST].get("verts_inside_shirt", 1)) == 0, "BUILD-REPORT: vest clears the shirt at rest (%s m)" % str(rep[VEST].get("shirt_clearance_m")))
 		check(int(rep[HELM].get("strap_points_in_hair", 1)) == 0, "BUILD-REPORT: no strap point buried in the head/hair shell")
 	facts["fit"] = {"arm_worst_m": snappedf(arm_worst, 0.0001), "arm_clip": arm_clip, "per_pose_arm_clip": per_pose,
-		"shirt_worst_m": snappedf(shirt_worst, 0.0001), "shirt_pairs": pairs.size(), "strap_verts_tested": tested, "strap_buried": buried}
+		"shirt_worst_m": snappedf(shirt_worst, 0.0001), "shirt_pairs": pairs.size(), "strap_verts_tested": tested, "strap_buried": buried, "strap_under_shell": under_shell}
 	GearArt.detach_all(sk)
 	DefaultOutfit.undress(sk, body)
 	await process_frame

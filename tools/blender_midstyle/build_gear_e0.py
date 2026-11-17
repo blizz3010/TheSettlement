@@ -704,6 +704,15 @@ def warden_helm():
     sh_head = Surf(hb)   # straps and harness ride over the hair, not under it
     HC = Vector((0.0, -0.035, 1.425))   # head centre for radial strap placement
     strap_pts = []
+    strap_edges = []
+    import numpy as np
+    _hv = np.array([tuple(hb.matrix_world @ v.co) for v in hb.data.vertices]) - np.array(tuple(HC))
+    _hr = np.linalg.norm(_hv, axis=1); _hd = _hv / _hr[:, None]
+    _cos = math.cos(math.radians(3.0))
+    def cone_r(q):
+        """Outermost head/hair vertex within 3 deg of the ray through q (rays slip between hair cards)."""
+        d = np.array(tuple((q - HC).normalized())); m = _hd @ d > _cos
+        return float(_hr[m].max()) if m.any() else 0.0
     def outer(p, off):
         """Outermost head/hair surface along the ray from the head centre through p (the nearest
         point can sit under hair cards and bury the strap), then `off` further out."""
@@ -712,7 +721,7 @@ def warden_helm():
         if loc is None: loc, nor = sh_head.nearest(p)
         n = nor if nor.dot(d) > 0 else -nor
         return loc + d * off, n.lerp(d, 0.5).normalized()
-    def skin_path(raw, off, n=5):
+    def skin_path(raw, off, n=5, half_w=0.0085):
         path = []; nors = []
         for i in range(len(raw) - 1):
             for s in range(n):
@@ -724,6 +733,18 @@ def warden_helm():
         for p0 in sm:
             q, m = outer(p0, off)
             out.append(q if (q - HC).length > (p0 - HC).length else p0)
+        # The band is ~17 mm wide: on a curved head its edges sit inward of the centre line, so
+        # lift each point until both edges also clear the outer hair surface by 1.5 mm.
+        for i in range(len(out)):
+            t = (out[min(i + 1, len(out) - 1)] - out[max(i - 1, 0)]).normalized()
+            side = t.cross(nors[i]).normalized()
+            dr = (out[i] - HC).normalized(); lift = 0.0
+            for e in (-half_w, 0.0, half_w):
+                q = out[i] + side * e
+                h, _ = outer(q, 0.0)
+                lift = max(lift, (h - HC).length + 0.0015 - (q - HC).length, cone_r(q) + 0.0012 - (q - HC).length)
+            if lift > 0.0: out[i] = out[i] + dr * lift
+            strap_edges.extend([out[i] - side * half_w, out[i] + side * half_w])
         strap_pts.extend(out)
         return out, nors
     def rim_point(deg, sgn):
@@ -753,7 +774,7 @@ def warden_helm():
     # Rear retention dial on its harness band under the back of the shell.
     loc, nor = sh_head.ray(Vector((0, 0.4, 1.408)), Vector((0, -1, 0)))
     band_raw = [rim_point(140, -1), Vector((-0.045, loc.y - 0.004, 1.405)), Vector((0, loc.y, 1.404)), Vector((0.045, loc.y - 0.004, 1.405)), rim_point(140, 1)]
-    path, nors = skin_path(band_raw, 0.005)
+    path, nors = skin_path(band_raw, 0.005, half_w=0.009)
     hband = sweep("Harness", path, nors, [(0, -0.009), (0.0022, -0.009), (0.0022, 0.009), (0, 0.009)]); hband.data.materials.append(poly)
     finish(hband, None, smooth_angle=60); parts.append(hband)
     dial = cyl(0.017, 0.011, (0, -0.0055, 0), rot=(math.pi / 2, 0, 0), verts=48, name="Dial")
@@ -768,10 +789,10 @@ def warden_helm():
     report["clearance_m"], report["verts_inside_skin"] = clearance(helm, [hb])
     # Straps / harness: any head-or-hair surface further out than the strap along its ray = buried.
     buried = 0
-    for p in strap_pts:
+    for p, tol in [(q, 0.002) for q in strap_pts] + [(q, 0.0005) for q in strap_edges]:
         d = (p - HC).normalized(); loc, nor = sh_head.ray(HC + d * 0.4, -d)
-        if loc is not None and (loc - HC).length > (p - HC).length - 0.002: buried += 1
-    report["strap_points"] = len(strap_pts); report["strap_points_in_hair"] = buried
+        if loc is not None and (loc - HC).length > (p - HC).length - tol: buried += 1
+    report["strap_points"] = len(strap_pts) + len(strap_edges); report["strap_points_in_hair"] = buried
     for o in (head, hb): bpy.data.objects.remove(o)
     rigid_weights(helm, "head"); bind(helm, rig, None)
     lod = make_lod1(helm, LOD1_RATIO); lod.parent = rig
