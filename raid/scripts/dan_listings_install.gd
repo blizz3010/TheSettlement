@@ -19,7 +19,8 @@ static func install(host: Node) -> bool:
 	var controller = host.get("trader_previews")
 	if not is_instance_valid(controller):
 		return false
-	if _script_path(controller) in [EXT_PATH, ATLAS_EXT]:
+	# Any later extension (Atlas, Psy tiers, raid loot) already carries Dan's fields.
+	if preload("res://raid/scripts/controller_chain.gd").inherits(controller, EXT_PATH):
 		_bind_store(host, controller)
 		if is_instance_valid(controller.get("marketplace_panel")):
 			return true

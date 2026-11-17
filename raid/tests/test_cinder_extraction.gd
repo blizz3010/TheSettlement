@@ -69,7 +69,7 @@ func state_tests():
 	state.searched["caravan"]=2
 	var snapshot=state.summary();snapshot.searched["caravan"]=5;snapshot.visited.clear()
 	check(state.searched.caravan==2 and state.visited.has("caravan"),"Result snapshot cannot mutate raid ledger")
-	check(snapshot.preview_only and snapshot.seed==123,"Results explicitly disposable and seeded")
+	check(not snapshot.preview_only and snapshot.seed==123 and snapshot.haul is Dictionary and snapshot.haul_capacity==8,"Results seeded and carry the raid haul (item 13)")
 	var fresh=State.new(123)
 	check(fresh.extracted_at.is_empty() and fresh.visited.is_empty() and fresh.active_seconds==0.0,"New raid resets all session progress")
 

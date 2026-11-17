@@ -149,11 +149,14 @@ func _on_died(source: String) -> void:
 	p.velocity = Vector3.ZERO
 	if not world.raid_state.extraction_id.is_empty(): world._cancel_extraction()
 	Outcome.record({"outcome": "downed", "map": world._map_name(), "source": source,
-		"visited": world.raid_state.visited.size(), "searched": world.raid_state.searched.size(), "loot_persisted": false})
+		"visited": world.raid_state.visited.size(), "searched": world.raid_state.searched.size(), "loot_persisted": false,
+		"haul_lost": world.raid_state.haul.duplicate(true), "haul_lost_value": world.raid_state.haul_value()})
 	world._start_modal("Downed · Raid failed")
 	world._text("You were downed by the %s. The raid has failed and you are being recovered to the settlement." % source)
 	world._scroll_text(world._summary_text())
-	world._text("Raid field loot is still not persistent, so keys and sample rolls from this raid are discarded. Carried supplies you took with you can be recovered at Atlas. You return at full health.")
+	var lost: int = world.raid_state.haul_units()
+	var haul_note := "Your raid haul (%d units, about %d credits) is lost. " % [lost, world.raid_state.haul_value()] if lost > 0 else "You had no raid haul to lose. "
+	world._text(haul_note + "Keys and codes from this raid are discarded. Carried supplies you took with you can be recovered at Atlas. Equipped tier gear, if any, stays with you but loses durability. You return at full health.")
 	var button: Button = world._button("Return to settlement now", return_after_downed)
 	button.grab_focus()
 	auto_return_left = AUTO_RETURN_SECONDS

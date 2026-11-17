@@ -21,7 +21,7 @@ static func install(host: Node) -> bool:
 	if host == null or not is_instance_valid(host): return false
 	var controller = host.get("trader_previews")
 	if not is_instance_valid(controller): return false
-	if _script_path(controller) != EXT_PATH:
+	if not preload("res://raid/scripts/controller_chain.gd").inherits(controller, EXT_PATH):
 		if _script_path(controller) != ATLAS_EXT: return false
 		var saved := {}
 		for key in CARRY: saved[key] = controller.get(key)
@@ -59,7 +59,7 @@ static func _attach_panel(host: Node, controller) -> void:
 ## Reload the sidecar (after a load_game).
 static func load_store(host: Node) -> void:
 	var controller = host.get("trader_previews") if is_instance_valid(host) else null
-	if is_instance_valid(controller) and _script_path(controller) == EXT_PATH:
+	if is_instance_valid(controller) and preload("res://raid/scripts/controller_chain.gd").inherits(controller, EXT_PATH):
 		controller.gear_store = null
 		controller.ensure_gear_store()
 
@@ -72,6 +72,6 @@ static func apply_return(host: Node, outcome: Dictionary, path: String = GearSto
 	store.state.extractions += 1
 	var ok := store.save()
 	var controller = host.get("trader_previews") if is_instance_valid(host) else null
-	if ok and is_instance_valid(controller) and _script_path(controller) == EXT_PATH and controller.gear_store != null:
+	if ok and is_instance_valid(controller) and preload("res://raid/scripts/controller_chain.gd").inherits(controller, EXT_PATH) and controller.gear_store != null:
 		controller.gear_store.state.extractions = store.state.extractions
 	return ok

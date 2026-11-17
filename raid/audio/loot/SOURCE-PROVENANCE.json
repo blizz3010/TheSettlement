@@ -1,0 +1,23 @@
+{
+ "format": "Original mono PCM16 44100 Hz WAV",
+ "files": [
+  {
+   "file": "loot_cache_open.wav",
+   "bytes": 66194,
+   "sha256": "5b5aa729c678f50e54c7006c32cd06d11efb0805434ba59bbb2623ab71cc3495",
+   "source": "Original, synthesized by tools/loot_audio/make_loot_sounds.py (TASKS item 13, Nov 16, 2026)"
+  },
+  {
+   "file": "loot_pickup.wav",
+   "bytes": 37088,
+   "sha256": "3632090215bdf3feba9a6c6aac91ed3abc9275566cab63a3cdd7f32b05289aba",
+   "source": "Original, synthesized by tools/loot_audio/make_loot_sounds.py (TASKS item 13, Nov 16, 2026)"
+  },
+  {
+   "file": "loot_drop.wav",
+   "bytes": 33560,
+   "sha256": "e680e401ee1ceb8238d28c43e641041638a792378a092bbe64907b0d71ee1b8c",
+   "source": "Original, synthesized by tools/loot_audio/make_loot_sounds.py (TASKS item 13, Nov 16, 2026)"
+  }
+ ]
+}

@@ -4,7 +4,7 @@ const RAIDS := {
 	"relay_ridge": {
 		"name": "Relay Ridge",
 		"subtitle": "Forest ridge exploration",
-		"description": "Explore six sites among wooded ridges. Find keys and codes, search prototype caches, and reach either extraction beacon.",
+		"description": "Explore six sites among wooded ridges. Find keys and codes, loot supply caches, and reach either extraction beacon to bring your haul home.",
 		"scene": "res://raid/relay_ridge.tscn"
 	},
 	"cinder_basin": {

@@ -14,7 +14,7 @@ func _ready():
 		if is_instance_valid(play_button): play_button.hide()
 		call_deferred("_continue_after_preview")
 		return
-	status.text = "SHIP RAID PREVIEW • Isolated test saves only • No persistent raid loot"
+	status.text = "SHIP RAID PREVIEW • Extracted raid loot comes home"
 	status.show()
 	_layout()
 

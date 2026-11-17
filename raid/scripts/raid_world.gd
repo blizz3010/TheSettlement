@@ -41,6 +41,10 @@ var health_controller
 const RaidGear=preload("res://raid/scripts/gear_tiers/raid_gear.gd")
 var gear
 var downed:=false
+## TASKS item 13: cache loot, raid haul, and the loot cue player (own files).
+const LootTable=preload("res://raid/scripts/raid_loot/loot_table.gd")
+const LootAudio=preload("res://raid/scripts/raid_loot/raid_loot_audio.gd")
+var loot_audio
 func is_raid_ready()->bool:return ready_for_play
 func get_raid_failure()->String:return generation_failure
 # Overridable map adapters keep the first map as the default. Lifecycle, input,
@@ -54,7 +58,7 @@ func _saltflat_props()->bool:return false
 func _wild_region()->String:return "Woodland approaches"
 func _region_detail(_poi:Dictionary)->String:return ""
 func _extract_names()->Array:return ["North Gully Extract","East Service Extract"]
-func _pause_description()->String:return "Explore six POIs, two high-quality loot sites, key / keycard / code doors and a relay-sequence archive. Terrain and foliage use a repeatable seed."
+func _pause_description()->String:return "Explore six POIs, two high-quality loot sites, key / keycard / code doors and a relay-sequence archive. Loot you carry out through an extraction beacon comes home; being downed loses it. Terrain and foliage use a repeatable seed."
 func _locked_hint(poi:Dictionary)->String:return {"key":"the maintenance key","keycard":"the research keycard","puzzle":"the weather log and solve the nearby relay sequence"}[poi.lock]
 func _switch_feedback(solved:bool)->String:return "Hidden archive released. The station door can now open." if solved else "Relay sequence: %d / 3"%raid_state.switch_step
 func _switch_prompt(number:int)->String:return "Activate relay switch %s"%number
@@ -80,6 +84,7 @@ func _ready():
 	var start:Vector2=settings.SPAWN;player.position=Vector3(start.x,generator.height_at(start)+0.06,start.y);player.rotation.y=0.25
 	var game_settings=preload("res://scripts/game_settings.gd").new();game_settings.apply(game_settings.load_settings(),player,get_viewport())
 	raid_audio=preload("res://raid/scripts/raid_audio.gd").new();raid_audio.name="RaidAudio";add_child(raid_audio)
+	loot_audio=LootAudio.new();loot_audio.name="RaidLootAudio";add_child(loot_audio)
 	_build_ui()
 	health_controller=HealthController.new();add_child(health_controller);health_controller.setup(self,status.get_parent())
 	if gear.active():add_child(gear);gear.setup(self,status.get_parent())
@@ -267,16 +272,18 @@ func _process(delta):
 			var detail=_region_detail(poi)
 			if not detail.is_empty():region+="  |  "+detail
 			break
-	status.text=_map_name().to_upper()+"   /   DEVELOPMENT PREVIEW\n"+region+"\n"+_key("map")+" Map   •   Tab Field notes   •   Esc Pause   •   Visited %d/6   •   Caches %d/6"%[raid_state.visited.size(),raid_state.searched.size()]
+	status.text=_map_name().to_upper()+"   /   DEVELOPMENT PREVIEW\n"+region+"\n"+_key("map")+" Map   •   Tab Field notes   •   Esc Pause   •   Visited %d/6   •   Caches %d/6   •   Haul %d/%d"%[raid_state.visited.size(),raid_state.searched.size(),raid_state.haul_units(),raid_state.haul_capacity]
 	navigation.text=map_panel.navigation_text()
 	navigation.visible=not modal.visible and not map_panel.visible
 	if modal.visible or map_panel.visible:hint.text="";map_panel.queue_redraw();return
 	active_target=_nearest_target()
 	hint.text=""
 	if not active_target.is_empty():
-		var prompts={"door":"Open %s door"%active_target.poi.get("lock",""),"clue":"Read / collect field supplies","cache":"Inspect prototype loot cache","extract":"Extract and return","switch":_switch_prompt(active_target.get("number",0))}
+		var prompts={"door":"Open %s door"%active_target.poi.get("lock",""),"clue":"Read / collect field supplies","cache":"Search supply cache","extract":"Extract and return","switch":_switch_prompt(active_target.get("number",0))}
 		hint.text=_key("interact")+"  "+prompts[active_target.kind]
-		if active_target.kind=="cache" and raid_state.searched.has(active_target.poi.id):hint.text="Cache searched this raid"
+		if active_target.kind=="cache" and raid_state.searched.has(active_target.poi.id):
+			var left=LootTable.units(raid_state.cache_items(active_target.poi.id))
+			hint.text=_key("interact")+"  Open cache · %d left"%left if left>0 else "Cache emptied"
 		if active_target.kind=="extract" and not raid_state.extraction_id.is_empty():hint.text=_key("interact")+"  Cancel extraction"
 
 func _physics_process(delta:float):
@@ -342,7 +349,7 @@ func _begin_extraction(target:Dictionary):
 func _extraction_panel(target:Dictionary):
 	_start_modal("Request extraction?")
 	_text(target.poi.name+"\nStay grounded inside the green markers for 8 seconds. You can move and look around. Leaving the zone, opening a menu or losing focus cancels the countdown.")
-	_text("Results are a raid-only summary. No items, rewards or progression transfer to the settlement.")
+	_text(_haul_line()+" Extracting brings it home: materials go to your bag or stash, salvage is sold to Atlas.")
 	_button("Start 8-second extraction",func():_begin_extraction(target)).grab_focus()
 	_button("Keep exploring",_close_modal)
 
@@ -353,18 +360,27 @@ func _summary_text()->String:
 	for poi in generator.pois:
 		var progress="Not visited"
 		if raid_state.visited.has(poi.id):progress="Visited · Cache not searched"
-		if raid_state.searched.has(poi.id):progress="Sample quality %d"%raid_state.searched[poi.id]
+		if raid_state.searched.has(poi.id):
+			var left=LootTable.units(raid_state.cache_items(poi.id))
+			progress="Cache quality %d · "%raid_state.searched[poi.id]+("%d left"%left if left>0 else "emptied")
 		lines+="\n"+poi.name+": "+progress
+	lines+="\n\n"+_haul_line()
+	if not raid_state.haul.is_empty():lines+="\n"+LootTable.describe(raid_state.haul)
 	return lines
+
+func _haul_line()->String:
+	return "Raid haul %d / %d units · worth about %d credits."%[raid_state.haul_units(),raid_state.haul_capacity,raid_state.haul_value()]
 
 func _extraction_complete():
 	var Outcome=preload("res://raid/scripts/raid_outcome.gd")
 	if Outcome.peek().get("outcome","")!="downed":
-		Outcome.record({"outcome":"extracted","map":_map_name(),"source":"extraction","visited":raid_state.visited.size(),"searched":raid_state.searched.size(),"loot_persisted":false})
+		Outcome.record({"outcome":"extracted","map":_map_name(),"source":"extraction","visited":raid_state.visited.size(),"searched":raid_state.searched.size(),
+			"loot_persisted":true,"haul":raid_state.haul.duplicate(true),"haul_value":raid_state.haul_value(),"raid_uid":_raid_uid()})
 	_start_modal("Extraction complete")
 	_sound("beacon_complete")
 	_scroll_text(_summary_text())
-	_text("Preview results only. Keys and sample rolls reset on return. No settlement rewards. Carried supplies stay with you. Unclaimed Atlas recoveries age by one raid.")
+	if raid_state.haul.is_empty():_text("You extracted empty-handed. Keys and codes reset on return. Carried supplies stay with you. Unclaimed Atlas recoveries age by one raid.")
+	else:_text("Your haul comes home: materials go to your bag, then the stash (any overflow waits at Atlas); salvage is sold at Atlas's Salvage tab. Keys and codes reset. Unclaimed Atlas recoveries age by one raid.")
 	_button("Return to settlement",_request_return).grab_focus()
 func _nearest_target()->Dictionary:
 	var best={};var distance=3.3
@@ -423,9 +439,16 @@ func _interact(target:Dictionary):
 			if solved and not was_solved:_sound("puzzle_solved",target.node.global_position)
 			_notify(_switch_feedback(solved))
 		"cache":
+			if raid_state.searched.has(poi.id):
+				# Same toast as before loot persistence (the walkthroughs pin it); leftovers reopen.
+				_notify("Already searched this raid.")
+				if LootTable.units(raid_state.cache_items(poi.id))>0:_cache_panel(target)
+				return
 			var result=raid_state.search_cache(poi)
-			if result.ok:Props.open_cache(target.node)
-			_notify("Prototype roll: quality %d (%d-%d band). No settlement inventory changed."%[result.quality,poi.loot[0],poi.loot[1]] if result.ok else result.reason,9)
+			if not result.ok:_notify(result.reason,9);return
+			Props.open_cache(target.node)
+			_loot_sound("loot_cache_open",target.node.global_position)
+			_cache_panel(target)
 		"extract":
 			if not raid_state.extraction_id.is_empty():_cancel_extraction("Extraction cancelled. Interact with a beacon to start again.")
 			else:_extraction_panel(target)
@@ -492,14 +515,15 @@ func _field_notes():
 	for id in raid_state.notes:lines+=id.capitalize()+" code: "+raid_state.notes[id]+"\n"
 	for id in raid_state.clues:lines+=raid_state.clues[id]+"\n"
 	if lines.is_empty():lines="No keys, cards or codes found yet. Search field supplies within each POI."
-	_scroll_text(lines+"\n\n"+_summary_text());_text("Loot quality rolls are samples only. Find an extraction beacon on the map when you are ready to leave. No item transfer, combat, loss or progression yet.")
+	_scroll_text(lines+"\n\n"+_summary_text());_text("Reach an extraction beacon to bring your haul home. Being downed or leaving early loses it.")
 	_button("Close",_close_modal).grab_focus()
+	if not raid_state.haul.is_empty():_button("Manage haul (drop items)",_haul_panel)
 func _pause_menu():
 	_start_modal(_map_name()+" preview paused")
 	_text(_pause_description())
 	_button("Resume",_close_modal).grab_focus();_button("Return from preview",func():_exit_panel("Leave preview?"))
 func _exit_panel(title:String):
-	_start_modal(title);_text("The preview ends here. Keys, door states and sample loot rolls reset. Settlement items and progress are unchanged by this raid.")
+	_start_modal(title);_text("Leaving without extracting abandons this raid. Keys, door states and your raid haul (%d units) are lost. Settlement items and progress are unchanged."%raid_state.haul_units())
 	_button("Return to settlement",_request_return).grab_focus();_button("Keep exploring",_close_modal)
 func _request_return():
 	if returning or (not ready_for_play and generation_failure.is_empty()):return
@@ -517,3 +541,57 @@ func _notification(what):
 		if not modal.visible and not map_panel.visible:_pause_menu()
 		player.enabled=false
 		Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
+
+# ---------------------------------------------------------------- TASKS item 13: loot
+func _loot_sound(cue:String,position:Vector3=Vector3.INF):
+	if is_instance_valid(loot_audio):loot_audio.play(cue,position)
+
+func _raid_uid()->String:
+	return "%s-%d-%d-%d"%[_map_name().to_lower().replace(" ","_"),raid_state.seed_value,int(Time.get_unix_time_from_system()),Time.get_ticks_usec()%1000000]
+
+func _loot_row_text(id:String,qty:int)->String:
+	var tag="salvage · %d cr each"%LootTable.value(id) if LootTable.is_salvage(id) else ("material · Rook pays %d"%LootTable.value(id) if LootTable.value(id)>0 else "material · upgrades")
+	return "%s × %d   (%s)"%[LootTable.display_name(id),qty,tag]
+
+func _loot_list(items:Dictionary,verb:String,callback:Callable,enabled:bool)->ScrollContainer:
+	var generation=modal_generation
+	var scroll=ScrollContainer.new();scroll.custom_minimum_size=Vector2(490,190);scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;modal_content.add_child(scroll)
+	var list=VBoxContainer.new();list.size_flags_horizontal=Control.SIZE_EXPAND_FILL;list.custom_minimum_size.x=466;scroll.add_child(list)
+	if items.is_empty():
+		var empty=Label.new();empty.text="Nothing here.";list.add_child(empty)
+	for id in items:
+		var row=HBoxContainer.new();list.add_child(row)
+		var label=Label.new();label.text=_loot_row_text(str(id),int(items[id]));label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;row.add_child(label)
+		var button=Button.new();button.text=verb;button.custom_minimum_size=Vector2(92,36);button.disabled=not enabled;button.name="Loot_"+str(id);row.add_child(button)
+		var item_id=str(id)
+		button.pressed.connect(func():
+			if _modal_callback_current(generation):callback.call(item_id))
+	return scroll
+
+func _cache_panel(target:Dictionary):
+	var poi:Dictionary=target.poi
+	_start_modal("%s cache · quality %d"%[poi.name,int(raid_state.searched.get(poi.id,0))])
+	var items=raid_state.cache_items(poi.id)
+	var space=raid_state.haul_space()
+	_text(_haul_line()+(" Haul full: drop something (Tab › Manage haul) to make room." if space<=0 else " Loot comes home only if you extract."))
+	_loot_list(items,"Take",func(id:String):
+		var n=raid_state.take_from_cache(poi.id,id)
+		if n>0:_loot_sound("loot_pickup")
+		_cache_panel(target),space>0)
+	var take_all=_button("Take all that fits",func():
+		var taken=raid_state.take_all(poi.id)
+		if not taken.is_empty():_loot_sound("loot_pickup")
+		_cache_panel(target))
+	take_all.disabled=space<=0 or items.is_empty()
+	var close=_button("Close",_close_modal)
+	if take_all.disabled:close.grab_focus()
+	else:take_all.grab_focus()
+
+func _haul_panel():
+	_start_modal("Raid haul")
+	_text(_haul_line()+" Dropped items stay behind in this raid.")
+	_loot_list(raid_state.haul,"Drop 1",func(id:String):
+		if raid_state.drop_from_haul(id,1)>0:_loot_sound("loot_drop")
+		_haul_panel(),true)
+	_button("Back to field notes",_field_notes)
+	_button("Close",_close_modal).grab_focus()
