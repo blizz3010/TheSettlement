@@ -77,7 +77,28 @@ def planes_for(name, bones):
 
 DRAPE_FLOOR = {"shirt": 0.0065, "pants": 0.0095}
 
-def offset_for(name, p):
+def _lerp_z(z, pts):
+    """Piecewise-linear profile over z: pts = [(z0, v0), (z1, v1), ...] with z descending."""
+    if z >= pts[0][0]: return pts[0][1]
+    for (za, va), (zb, vb) in zip(pts, pts[1:]):
+        if z >= zb: return va + (vb - va) * (za - z) / (za - zb)
+    return pts[-1][1]
+
+# Cargo cut: extra ease over the skin-tight base (0.0105) by height. Seat/hips stay close so the
+# waistband, belt and shirt tuck are unchanged; thighs and knees get real volume; the shin tapers
+# and the hem stays tucked inside the boot shaft (0.0195) with a little bunching above it.
+PANTS_EASE = [(0.84, 0.0), (0.74, 0.016), (0.62, 0.024), (0.44, 0.026), (0.32, 0.020), (0.27, 0.013), (0.235, 0.004), (0.0, 0.004)]
+
+def pants_ease(p, nor):
+    e = _lerp_z(p.z, PANTS_EASE)
+    if nor is not None and p.z < 0.80:
+        # Inner leg (normal facing the other leg) keeps the base clearance where the legs are close.
+        inward = max(0.0, -math.copysign(1.0, p.x) * nor.x)
+        w = _lerp_z(p.z, [(0.62, 1.0), (0.44, 0.5), (0.0, 0.3)])
+        e *= 1.0 - inward * w
+    return e
+
+def offset_for(name, p, nor=None):
     if name == "shirt":
         if p.z < 0.905: return 0.004
         if p.z < 0.935: return 0.004 + (p.z - 0.905) / 0.03 * 0.013
@@ -87,11 +108,35 @@ def offset_for(name, p):
         # Front rise: the canvas bridges the crotch instead of following it.
         if abs(p.x) < 0.08 and 0.72 < p.z < 0.88 and p.y < 0.0:
             return 0.0105 + 0.012 * (1 - abs(p.x) / 0.08) * min(1.0, (p.z - 0.72) / 0.05, (0.88 - p.z) / 0.05)
-        if p.z > 0.46: return 0.0105
-        return 0.0105 + min(1.0, (0.46 - p.z) / 0.2) * 0.004
+        return 0.0105 + pants_ease(p, nor)
     if name == "boots":
         return 0.0195 if p.z > 0.115 else 0.011
     return 0.01
+
+def pants_folds(bm, body_surf):
+    """Outward-only fabric folds on the loose legs: diagonal drape folds on the thighs, horizontal
+    bunching at the back/front of the knee and stacked folds above the boot. Never reduces clearance."""
+    for v in bm.verts:
+        if v.is_boundary: continue
+        p = v.co
+        if p.z > 0.78 or p.z < 0.22: continue
+        loc, nor = body_surf.nearest(p)
+        if loc is None: continue
+        sx = math.copysign(1.0, p.x)
+        ang = math.atan2(p.y + 0.01, (p.x - sx * 0.095) * sx)      # around the leg
+        d = 0.0
+        if 0.50 < p.z < 0.78:   # thigh: long diagonal folds, strongest at the front/outer side
+            env = min(1.0, (p.z - 0.50) / 0.06, (0.78 - p.z) / 0.08)
+            d += 0.0036 * env * (0.5 + 0.5 * math.sin(5.0 * ang + p.z * 38.0))
+        if 0.34 < p.z < 0.52:   # knee: horizontal bunching, front and back
+            env = min(1.0, (p.z - 0.34) / 0.04, (0.52 - p.z) / 0.04) * (0.55 + 0.45 * abs(math.sin(ang)))
+            d += 0.0042 * env * (0.5 + 0.5 * math.sin(p.z / 0.042 * 2 * math.pi + 1.3 * math.sin(2 * ang)))
+        if 0.22 < p.z < 0.33:   # stacked folds above the boot
+            env = min(1.0, (p.z - 0.235) / 0.02 if p.z > 0.235 else 0.0, (0.33 - p.z) / 0.04)
+            d += 0.0046 * max(0.0, env) * (0.5 + 0.5 * math.sin(p.z / 0.024 * 2 * math.pi + 2.0 * math.sin(3 * ang)))
+        if d > 0.0:
+            n = (p - loc).normalized() if (p - loc).length > 1e-6 else nor
+            v.co = p + n * d
 
 # ------------------------------------------------------------------ shells
 def shell(name, body, dom, bones, body_surf, smooth_iter, smooth_fac):
@@ -121,7 +166,7 @@ def shell(name, body, dom, bones, body_surf, smooth_iter, smooth_fac):
         for v in bm.verts:
             loc, nor = body_surf.nearest(v.co)
             if loc is None: continue
-            want = offset_for(name, v.co)
+            want = offset_for(name, v.co, nor)
             if floor is not None: want = min(want, floor)
             s = (v.co - loc).dot(nor)
             if s < want: v.co += nor * (want - s)
@@ -133,6 +178,14 @@ def shell(name, body, dom, bones, body_surf, smooth_iter, smooth_fac):
         for v in b: snap(v)
         # Keep only a thin floor while smoothing so the cloth bridges hollows instead of hugging every muscle.
         push(DRAPE_FLOOR.get(name))
+    if name == "pants":
+        # Restore the full cargo ease that smoothing shrank, relax, then add fabric folds.
+        for it in range(4):
+            push()
+            bmesh.ops.smooth_vert(bm, verts=inner, factor=0.4, use_axis_x=True, use_axis_y=True, use_axis_z=True)
+            for v in bnd(): snap(v)
+        push()
+        pants_folds(bm, body_surf)
     if name == "boots":
         for v in bm.verts:
             if v.co.z < 0.018: v.co.z = 0.018   # foot bottom tucks into the sole slab
