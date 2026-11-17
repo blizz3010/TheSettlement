@@ -17,7 +17,7 @@ var skeleton: Skeleton3D
 var worn: Array = []
 var phase := 0.0
 var state := "idle"
-var pose_override := ""      # captures/tests: "idle", "walk", "sprint", "crouch", "crouch_walk"
+var pose_override := ""      # captures/tests: "idle", "walk", "sprint", "crouch", "crouch_walk", "seated"
 var override_phase := 0.0
 var _rest_foot := 0.0
 
@@ -32,17 +32,21 @@ static func install(p: Node, worn_ids: Array) -> Node3D:
 	if art.is_empty():
 		if existing != null:
 			holder.remove_child(existing); existing.queue_free()
-		if holder.has_meta("gear_capsule_mesh"):
-			holder.mesh = holder.get_meta("gear_capsule_mesh"); holder.remove_meta("gear_capsule_mesh")
+		if holder.has_meta("gear_capsule_look"):
+			var look: Array = holder.get_meta("gear_capsule_look")
+			holder.transparency = look[0]; holder.cast_shadow = look[1]; holder.remove_meta("gear_capsule_look")
 		return null
 	if existing == null:
 		existing = load(SELF_PATH).new()
 		existing.name = "GearAvatar"
 		existing.player = p
 		holder.add_child(existing)
-	if not holder.has_meta("gear_capsule_mesh"):
-		holder.set_meta("gear_capsule_mesh", holder.mesh)
-		holder.mesh = null
+	# player.gd keeps resizing avatar.mesh (crouch / seat), so the capsule mesh stays in place
+	# and is only made invisible (children such as this avatar are unaffected).
+	if not holder.has_meta("gear_capsule_look"):
+		holder.set_meta("gear_capsule_look", [holder.transparency, holder.cast_shadow])
+		holder.transparency = 1.0
+		holder.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	existing.set_worn(art)
 	return existing
 
@@ -75,7 +79,8 @@ func _ready():
 			var t := m.duplicate() as StandardMaterial3D
 			t.albedo_color = t.albedo_color * Color(0.78, 0.72, 0.66)
 			body.set_surface_override_material(si, t)
-	# Holder sits at capsule centre (y 0.9); stand the rig on the floor, facing -Z like the player.
+	# Holder sits at the capsule centre (player.gd moves it for crouch / seat); _process keeps
+	# this node on the player's floor. Faces -Z like the player.
 	position = Vector3(0, -0.9, 0)
 	rotation.y = PI
 	scale = Vector3.ONE * SCALE
@@ -96,13 +101,16 @@ func attached_ids() -> Array:
 
 func _process(delta: float) -> void:
 	if skeleton == null: return
+	var holder := get_parent() as Node3D
+	if holder != null: position.y = -holder.position.y
 	if not pose_override.is_empty():
 		apply_pose(pose_override, override_phase)
 		return
 	var v: Vector3 = player.get("velocity") if player != null and player.get("velocity") != null else Vector3.ZERO
 	var speed := Vector2(v.x, v.z).length()
 	var crouched: bool = player != null and player.get("crouched") == true
-	if crouched: state = "crouch_walk" if speed > 0.3 else "crouch"
+	if player != null and player.get("seated") == true: state = "seated"
+	elif crouched: state = "crouch_walk" if speed > 0.3 else "crouch"
 	elif speed > SPRINT_SPEED: state = "sprint"
 	elif speed > 0.3: state = "walk"
 	else: state = "idle"
@@ -144,6 +152,16 @@ func apply_pose(kind: String, ph: float) -> void:
 				_rot("foot_" + side, X, -24.0 + 8.0 * k)
 				_rot("upperarm_" + side, X, -22.0 + 12.0 * k)
 				_rot("lowerarm_" + side, X, -38.0)
+		"seated":
+			_rot("spine_01", X, -4.0)
+			for side in ["l", "r"]:
+				_rot("thigh_" + side, X, -88.0)
+				_rot("calf_" + side, X, 86.0)
+				_rot("upperarm_" + side, X, -14.0)
+				_rot("lowerarm_" + side, X, -48.0)
+			var pel := skeleton.get_bone_global_pose(skeleton.find_bone("pelvis")).origin.y
+			if rig != null: rig.position.y = 0.09 / SCALE - pel
+			return
 		_:   # idle: breathing sway
 			_rot("spine_03", X, 1.5 * s)
 			for side in ["l", "r"]: _rot("lowerarm_" + side, X, -10.0)
