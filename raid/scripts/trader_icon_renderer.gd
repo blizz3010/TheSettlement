@@ -52,6 +52,8 @@ const ITEMS:={
 	# TASKS item 22, gear art E0: tiered gear with real art (raid/scripts/gear_tiers/gear_art.gd), LOD0 at rest.
 	"gear_helmet_t3":{"trader":"Psy","name":"T3 Warden Helm","src":"gear","yaw":-32.0},
 	"gear_body_armor_t3":{"trader":"Psy","name":"T3 Bulwark Carrier","src":"gear","yaw":-28.0},
+	"gear_helmet_t1":{"trader":"Psy","name":"T1 Shell Cap","src":"gear","yaw":-32.0},
+	"gear_body_armor_t1":{"trader":"Psy","name":"T1 Padded Vest","src":"gear","yaw":-28.0},
 }
 var viewport:SubViewport
 var stage:Node3D
