@@ -34,7 +34,7 @@ static func install(p: Node, worn_ids: Array) -> Node3D:
 			holder.remove_child(existing); existing.queue_free()
 		if holder.has_meta("gear_capsule_look"):
 			var look: Array = holder.get_meta("gear_capsule_look")
-			holder.transparency = look[0]; holder.cast_shadow = look[1]; holder.remove_meta("gear_capsule_look")
+			holder.layers = look[0]; holder.cast_shadow = look[1]; holder.remove_meta("gear_capsule_look")
 		return null
 	if existing == null:
 		existing = load(SELF_PATH).new()
@@ -42,10 +42,10 @@ static func install(p: Node, worn_ids: Array) -> Node3D:
 		existing.player = p
 		holder.add_child(existing)
 	# player.gd keeps resizing avatar.mesh (crouch / seat), so the capsule mesh stays in place
-	# and is only made invisible (children such as this avatar are unaffected).
+	# and is only taken off every render layer (children such as this avatar are unaffected).
 	if not holder.has_meta("gear_capsule_look"):
-		holder.set_meta("gear_capsule_look", [holder.transparency, holder.cast_shadow])
-		holder.transparency = 1.0
+		holder.set_meta("gear_capsule_look", [holder.layers, holder.cast_shadow])
+		holder.layers = 0
 		holder.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	existing.set_worn(art)
 	return existing

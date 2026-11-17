@@ -294,7 +294,7 @@ func check_avatar():
 	check(GearAvatar.install(p, ["gear_helmet_t2"]) == null and p.avatar.mesh == capsule, "No worn art -> third-person capsule unchanged")
 	var a = GearAvatar.install(p, [HELM, VEST, "gear_backpack_t3"])
 	await process_frame
-	check(a != null and p.avatar.mesh == capsule and p.avatar.transparency == 1.0 and a.get_parent() == p.avatar, "Worn art -> capsule hidden (mesh kept for player.gd resizes), gear avatar under player.avatar")
+	check(a != null and p.avatar.mesh == capsule and p.avatar.layers == 0 and a.get_parent() == p.avatar, "Worn art -> capsule hidden (mesh kept for player.gd resizes), gear avatar under player.avatar")
 	if a != null:
 		check(a.attached_ids() == [HELM, VEST], "Avatar wears exactly the pieces with art")
 		a._process(0.016)
@@ -310,7 +310,7 @@ func check_avatar():
 		check(a.state == "idle" and stand_y - crouch_y > 0.2, "Crouch lowers the head (%.2f m)" % (stand_y - crouch_y))
 		p.avatar.position.y = 0.55; a._process(0.016)
 		check(is_equal_approx(a.position.y, -0.55), "Avatar stays on the floor when player.gd moves the holder (crouch capsule)")
-	check(GearAvatar.install(p, []) == null and p.avatar.mesh == capsule and p.avatar.transparency == 0.0 and p.avatar.get_node_or_null("GearAvatar") == null, "Unequipping restores the capsule")
+	check(GearAvatar.install(p, []) == null and p.avatar.mesh == capsule and p.avatar.layers == 1 and p.avatar.get_node_or_null("GearAvatar") == null, "Unequipping restores the capsule")
 	p.queue_free()
 	await process_frame
 
