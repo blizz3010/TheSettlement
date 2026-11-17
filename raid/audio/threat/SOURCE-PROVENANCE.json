@@ -1,0 +1,29 @@
+{
+  "format": "Original mono PCM16 44100 Hz WAV",
+  "files": [
+    {
+      "file": "live_cable_crackle.wav",
+      "bytes": 88244,
+      "sha256": "1f4d5009f33d55ae900ae0c8152d73f727b97eda5473f2100c97271a61b2eccb",
+      "source": "Original, procedurally synthesized by tools/gear_audio/make_threat_sounds.py (Nov 16, 2026); no samples or third-party material"
+    },
+    {
+      "file": "turret_servo_whine.wav",
+      "bytes": 61782,
+      "sha256": "7724b216b4dc3cb0dbfa32bc608741d0f88f0a864fa0ac534ffd4eb0fef05930",
+      "source": "Original, procedurally synthesized by tools/gear_audio/make_threat_sounds.py (Nov 16, 2026); no samples or third-party material"
+    },
+    {
+      "file": "turret_shot.wav",
+      "bytes": 39734,
+      "sha256": "957df36a45e80d86fe370cc734d8f606ea8c7ceacda2f184a8a4ebaffee4fdef",
+      "source": "Original, procedurally synthesized by tools/gear_audio/make_threat_sounds.py (Nov 16, 2026); no samples or third-party material"
+    },
+    {
+      "file": "turret_warmup_tone.wav",
+      "bytes": 79424,
+      "sha256": "0317b2be5c2e7e73e130eb90fb1a40e2e15e64e3666fbd76be9e02fc711619ea",
+      "source": "Original, procedurally synthesized by tools/gear_audio/make_threat_sounds.py (Nov 16, 2026); no samples or third-party material"
+    }
+  ]
+}

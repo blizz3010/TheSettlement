@@ -28,6 +28,8 @@ var last_position := Vector3.INF
 var downed := false
 var auto_return_left := -1.0
 var placement: Dictionary = {}
+## Landing speed that starts to hurt. Tiered boots raise it in the raid (PR B); default unchanged.
+var safe_fall_speed := SAFE_FALL_SPEED
 
 func setup(raid_world: Node, ui_parent: Control) -> void:
 	name = "RaidHealth"
@@ -127,8 +129,8 @@ func _physics_process(delta: float) -> void:
 
 ## Applies fall damage for a landing at impact_speed m/s. Returns damage applied (0 if safe).
 func land(impact_speed: float) -> float:
-	if impact_speed <= SAFE_FALL_SPEED or not combat_active(): return 0.0
-	var amount := (impact_speed - SAFE_FALL_SPEED) * FALL_DAMAGE_PER_MS
+	if impact_speed <= safe_fall_speed or not combat_active(): return 0.0
+	var amount := (impact_speed - safe_fall_speed) * FALL_DAMAGE_PER_MS
 	return amount if health.damage(amount, "fall") else 0.0
 
 ## Called by the raid world instead of a silent respawn when the player leaves the map.

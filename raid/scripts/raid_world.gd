@@ -37,6 +37,9 @@ const EXTRACTION_RADIUS:=4.0
 ## Health and damage (raid_health_controller.gd). Downed ends the raid through _request_return.
 const HealthController=preload("res://raid/scripts/raid_health_controller.gd")
 var health_controller
+## Tiered gear (TASKS item 22, PR B). Only added to the tree when something is equipped.
+const RaidGear=preload("res://raid/scripts/gear_tiers/raid_gear.gd")
+var gear
 var downed:=false
 func is_raid_ready()->bool:return ready_for_play
 func get_raid_failure()->String:return generation_failure
@@ -72,12 +75,15 @@ func _ready():
 	if not build_result.foliage.get("ok",false):_fail_generation(build_result.foliage.reason);return
 	for poi in generator.pois:_build_poi(poi)
 	_build_edges_and_extracts()
-	player=preload("res://scripts/player.gd").new();player.name="RaidPlayer";player.enabled=false;add_child(player)
+	gear=RaidGear.new();gear.load_locker()
+	player=gear.player_script().new();gear.configure_player(player);player.name="RaidPlayer";player.enabled=false;add_child(player)
 	var start:Vector2=settings.SPAWN;player.position=Vector3(start.x,generator.height_at(start)+0.06,start.y);player.rotation.y=0.25
 	var game_settings=preload("res://scripts/game_settings.gd").new();game_settings.apply(game_settings.load_settings(),player,get_viewport())
 	raid_audio=preload("res://raid/scripts/raid_audio.gd").new();raid_audio.name="RaidAudio";add_child(raid_audio)
 	_build_ui()
 	health_controller=HealthController.new();add_child(health_controller);health_controller.setup(self,status.get_parent())
+	if gear.active():add_child(gear);gear.setup(self,status.get_parent())
+	else:gear.free();gear=null
 	# Node-bound one-shot callbacks disappear when a loading raid is freed.
 	# A suspended _ready coroutine retains its Variant stack on cancellation in
 	# Godot 4.6.3. Keep the same two-physics-tick collision barrier without it.

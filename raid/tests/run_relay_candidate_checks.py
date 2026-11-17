@@ -58,6 +58,7 @@ TESTS = [
     ("test_far_scenery", "FAR_SCENERY_TESTS "),
     ("test_town_hall_stall", "TOWN_HALL_STALL_TESTS "),
     ("test_gear_tiers", "GEAR_TIERS_TESTS "),
+    ("test_gear_raid", "GEAR_RAID_TESTS "),
 ]
 
 def main():
