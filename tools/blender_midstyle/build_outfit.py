@@ -24,7 +24,7 @@ ROOT = E.ROOT
 E.OUT = os.path.join(ROOT, "raid", "assets", "outfit")
 E.TEX = os.path.join(E.OUT, "textures")
 E.TMP = os.environ.get("OUTFIT_TMP", "/tmp/outfit_export")
-E.TILE = {"outfit_knit": 0.22, "outfit_rib": 0.10, "outfit_twill": 0.30, "outfit_leather": 0.30,
+E.TILE = {"outfit_knit": 0.22, "outfit_rib": 0.10, "outfit_twill": 0.45, "outfit_leather": 0.30,
           "outfit_belt": 0.20, "outfit_rubber": 0.20, "outfit_cord": 0.04, "outfit_brass": 0.05}
 sel, tris, mesh_obj, sweep, rrect, Surf = E.sel, E.tris, E.mesh_obj, E.sweep, E.rrect, E.Surf
 ARMS = ("lowerarm", "hand", "thumb", "index", "middle", "ring", "pinky")
@@ -84,10 +84,13 @@ def offset_for(name, p):
         if p.z < 0.985: return 0.017
         return 0.0125 if abs(p.x) < 0.17 else 0.015
     if name == "pants":
+        # Front rise: the canvas bridges the crotch instead of following it.
+        if abs(p.x) < 0.08 and 0.72 < p.z < 0.88 and p.y < 0.0:
+            return 0.0105 + 0.012 * (1 - abs(p.x) / 0.08) * min(1.0, (p.z - 0.72) / 0.05, (0.88 - p.z) / 0.05)
         if p.z > 0.46: return 0.0105
-        return 0.0105 + min(1.0, (0.46 - p.z) / 0.2) * 0.0075
+        return 0.0105 + min(1.0, (0.46 - p.z) / 0.2) * 0.004
     if name == "boots":
-        return 0.026 if p.z > 0.115 else 0.011
+        return 0.0195 if p.z > 0.115 else 0.011
     return 0.01
 
 # ------------------------------------------------------------------ shells
@@ -277,7 +280,7 @@ def build_shirt(body, dom, bones, bsurf):
     return [p for p in parts if p], cov
 
 def build_pants(body, dom, bones, bsurf):
-    pa, cov = shell("pants", body, dom, bones, bsurf, 8, 0.5)
+    pa, cov = shell("pants", body, dom, bones, bsurf, 18, 0.5)
     ps = Surf(pa); parts = [pa]
     loops = boundary_loops(pa)
     top = max(loops, key=lambda l: sum(p.z for p in l) / len(l))
@@ -355,11 +358,11 @@ def build_boots(body, dom, bones, bsurf):
         parts.append(tg)
         eye = []
         for k in range(5):
-            t = 0.05 + k * 0.2
+            t = 0.04 + k * 0.15
             c = a.lerp(b, t)
             row = []
             for sgn in (-1, 1):
-                p = c + Vector((sgn * 0.021, -0.06, 0.03))
+                p = c + Vector((sgn * 0.027, -0.06, 0.03))
                 loc, nor = bsf.nearest(p)
                 e = E.cyl(0.0042, 0.0028, (0, 0, 0), rot=(math.pi / 2, 0, 0), verts=14, name="Eyelet")
                 E.orient(e, loc + nor * 0.0016, nor); E.finish(e, [mat("outfit_brass")], bevel=0.0007, segs=1)

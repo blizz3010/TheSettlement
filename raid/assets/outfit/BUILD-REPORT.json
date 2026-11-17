@@ -14,19 +14,19 @@
  },
  "pants": {
   "mesh": "OutfitPants",
-  "lod0_tris": 25466,
+  "lod0_tris": 25456,
   "materials": [
    "outfit_twill",
    "outfit_belt",
    "outfit_brass"
   ],
-  "clearance_m": 0.0058,
+  "clearance_m": 0.0059,
   "verts_inside_skin": 0,
-  "lod1_tris": 10186
+  "lod1_tris": 10182
  },
  "boots": {
   "mesh": "OutfitBoots",
-  "lod0_tris": 30778,
+  "lod0_tris": 30495,
   "materials": [
    "outfit_leather",
    "outfit_rubber",
@@ -36,7 +36,7 @@
   "clearance_m": 0.0056,
   "verts_inside_skin": 0,
   "clearance_note": "verts below z 0.03 skipped: the sole slab wraps the masked foot sole by design",
-  "lod1_tris": 12311
+  "lod1_tris": 12198
  },
  "body_masks": {
   "000": "raid/assets/outfit/textures/body_mask_000.png",
@@ -80,6 +80,6 @@
   "textures/outfit_twill_normal.jpg",
   "textures/outfit_twill_orm.jpg"
  ],
- "bytes_gltf": 54426,
- "bytes_bin": 4787564
+ "bytes_gltf": 54413,
+ "bytes_bin": 4790096
 }

@@ -49,7 +49,7 @@ def knit(name, col, seed, n=2048, rib=False):
     base = base + 0.05 * pill[..., None] + 0.06 * wear[..., None]
     save(name, base, 0.86 + 0.06 * (1 - h) + 0.04 * pill, np.zeros((n, n)), h * 0.9 + 0.2 * heather + 0.2 * pill, 2.6, 0.80 + 0.2 * h)
 
-def twill(name, col, seed, n=2048, period=7):
+def twill(name, col, seed, n=2048, period=12):
     """Cotton canvas 2/1 twill (diagonal wale), washed fade, knee/seat wear, dust."""
     y, x = np.mgrid[0:n, 0:n].astype(np.float32)
     d = (x + y) % period / period
@@ -60,7 +60,8 @@ def twill(name, col, seed, n=2048, period=7):
     fade = fbm(n, seed + 1, 6, 3); dust = fbm(n, seed + 2, 5, 6)
     wear = np.clip(fbm(n, seed + 3, 5, 5) - 0.58, 0, 1) * 2.0
     c = srgb(col)[None, None, :]
-    base = c * (0.80 + 0.28 * h[..., None]) * (0.9 + 0.14 * slub[..., None]) * (0.86 + 0.22 * fade[..., None])
+    # Weave contrast lives mostly in the normal map; a strong albedo wale moires at distance.
+    base = c * (0.92 + 0.10 * h[..., None]) * (0.9 + 0.14 * slub[..., None]) * (0.86 + 0.22 * fade[..., None])
     base = base + 0.08 * wear[..., None] * srgb("#b8a888")[None, None, :] + 0.06 * np.clip(dust - 0.55, 0, 1)[..., None]
     save(name, base, 0.82 + 0.08 * (1 - h) - 0.04 * wear, np.zeros((n, n)), h * 0.9 + 0.25 * slub, 2.4, 0.82 + 0.18 * h)
 
@@ -105,9 +106,9 @@ def brass(name, col, seed, n=512):
 if __name__ == "__main__":
     knit("outfit_knit", "#8a5d48", 501)            # clay-rust jersey shirt
     knit("outfit_rib", "#6f4a3a", 502, n=1024, rib=True)
-    twill("outfit_twill", "#5f5443", 503)          # washed brown-khaki work canvas
+    twill("outfit_twill", "#545037", 503)          # washed olive-brown work canvas
     leather("outfit_leather", "#5b3b27", 504)      # oiled brown leather
     leather("outfit_belt", "#3d2a1e", 505, n=1024)
     rubber("outfit_rubber", "#2b2826", 506)
-    cord("outfit_cord", "#b49a72", 507)            # tan laces / contrast thread
+    cord("outfit_cord", "#9a7f58", 507)            # tan laces / contrast thread
     brass("outfit_brass", "#9b7b45", 508)
