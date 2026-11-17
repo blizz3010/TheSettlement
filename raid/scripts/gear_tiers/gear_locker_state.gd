@@ -3,7 +3,9 @@ extends RefCounted
 ## Persisted by gear_locker_store.gd as the user://gear_locker.json sidecar.
 ## Never reads or writes the pinned settlement inventory/equipment save.
 const Defs = preload("res://raid/scripts/gear_tiers/gear_defs.gd")
-const VERSION := 1
+## v2 (PR C) adds the "shop" record. v1 files (PR A/B) still load and migrate.
+const VERSION := 2
+const DEFAULT_SHOP := {"stock_iii": false, "t4_window_bought": -1, "composite_insert": 0}
 const LOCATIONS := ["locker", "equipped"]
 const MAX_ITEMS := 512
 
@@ -13,6 +15,8 @@ var owned: Dictionary = {}
 var slots: Dictionary = {}
 var next_serial := 1
 var extractions := 0
+## Psy progress: Stock III licence paid, last T4 rotation window bought, raid-only parts.
+var shop: Dictionary = DEFAULT_SHOP.duplicate()
 var last_error := ""
 
 func _init() -> void:
@@ -24,6 +28,7 @@ func clear() -> void:
 	for slot in Defs.SLOTS: slots[slot] = ""
 	next_serial = 1
 	extractions = 0
+	shop = DEFAULT_SHOP.duplicate()
 
 # ------------------------------------------------------------------ ownership
 ## Adds a new full-durability instance to the locker. Returns its id or "".
@@ -144,7 +149,7 @@ func data() -> Dictionary:
 	for id in owned:
 		var r: Dictionary = owned[id]
 		items.append({"id": r.id, "def": r.def, "durability": snappedf(float(r.durability), 0.001), "location": r.location})
-	return {"version": VERSION, "next_serial": next_serial, "extractions": extractions, "items": items, "slots": slots.duplicate()}
+	return {"version": VERSION, "next_serial": next_serial, "extractions": extractions, "items": items, "slots": slots.duplicate(), "shop": shop.duplicate()}
 
 static func _int(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and float(value) == floor(float(value))
@@ -152,8 +157,17 @@ static func _int(value: Variant) -> bool:
 ## Strict, all-or-nothing restore. On failure the current state is unchanged.
 func restore(value: Variant) -> bool:
 	last_error = "Invalid gear locker."
-	if not value is Dictionary or value.size() != 5: return false
-	if not _int(value.get("version")) or int(value.version) != VERSION: return false
+	if not value is Dictionary or not _int(value.get("version")): return false
+	var version := int(value.version)
+	if not version in [1, 2] or value.size() != (5 if version == 1 else 6): return false
+	var next_shop: Dictionary = DEFAULT_SHOP.duplicate()
+	if version == 2:
+		var sh = value.get("shop")
+		if not sh is Dictionary or sh.size() != DEFAULT_SHOP.size(): return false
+		if not sh.get("stock_iii") is bool: return false
+		if not _int(sh.get("t4_window_bought")) or int(sh.t4_window_bought) < -1: return false
+		if not _int(sh.get("composite_insert")) or int(sh.composite_insert) < 0 or int(sh.composite_insert) > 999: return false
+		next_shop = {"stock_iii": sh.stock_iii, "t4_window_bought": int(sh.t4_window_bought), "composite_insert": int(sh.composite_insert)}
 	if not _int(value.get("next_serial")) or int(value.next_serial) < 1: return false
 	if not _int(value.get("extractions")) or int(value.extractions) < 0 or int(value.extractions) > 1000000: return false
 	if not value.get("items") is Array or value.items.size() > MAX_ITEMS: return false
@@ -183,5 +197,6 @@ func restore(value: Variant) -> bool:
 	slots = next_slots
 	next_serial = int(value.next_serial)
 	extractions = int(value.extractions)
+	shop = next_shop
 	last_error = ""
 	return true

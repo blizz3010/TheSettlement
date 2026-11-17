@@ -14,6 +14,7 @@ const MidstyleRollout2 = preload("res://raid/scripts/midstyle_rollout2.gd")
 const TraderBuyMenus = preload("res://raid/scripts/trader_buy_menus.gd")
 const DanListings = preload("res://raid/scripts/dan_listings_install.gd")
 const AtlasRecovery = preload("res://raid/scripts/atlas_recovery_install.gd")
+const GearShop = preload("res://raid/scripts/gear_tiers/gear_shop_install.gd")
 const RaidOutcome = preload("res://raid/scripts/raid_outcome.gd")
 const ShipTakeoff = preload("res://raid/scripts/ship_takeoff_cutscene.gd")
 var ship_takeoff: Node
@@ -44,11 +45,15 @@ func _initialize_world():
 	# Item 13: Atlas recovery. Runs after Dan so it can extend that controller.
 	if world_initialized and not startup_cancel_requested:
 		AtlasRecovery.install(self)
+	# Item 22 PR C: Psy's tier gear shop. Runs after Atlas so it can extend that controller.
+	if world_initialized and not startup_cancel_requested:
+		GearShop.install(self)
 	# Health/damage: live source for the existing HUD vitals bar; full health on return.
 	if world_initialized and not startup_cancel_requested and is_instance_valid(player):
 		player_health = SettlementHealth.attach(player)
 		var raid_outcome: Dictionary = RaidOutcome.peek()
 		var atlas_note := AtlasRecovery.apply_return(self, raid_outcome)
+		GearShop.apply_return(self, raid_outcome)
 		var note := SettlementHealth.on_return(player_health)
 		if not atlas_note.is_empty():
 			note = (note + " " + atlas_note).strip_edges() if not note.is_empty() else atlas_note
@@ -243,6 +248,9 @@ func activate_loaded_world():
 	# Item 13 Atlas recovery, second pass (after Dan, so the controller stays extended).
 	if world_activated and not startup_cancel_requested:
 		AtlasRecovery.install(self)
+	# Item 22 PR C: Psy tier shop, second pass (after Atlas).
+	if world_activated and not startup_cancel_requested:
+		GearShop.install(self)
 	# TASKS item 9: far scenery (option B) is on by default in the normal game.
 	# FAR_SCENERY_OPTION=off turns it off for tests and benches. Runs after
 	# the lake fix so MiddleRidge keeps PR #5's reshape (lake_cut off).
@@ -276,4 +284,5 @@ func load_game(show_notice := true) -> bool:
 	if ok:
 		DanListings.load_store(self)
 		AtlasRecovery.load_store(self)
+		GearShop.load_store(self)
 	return ok

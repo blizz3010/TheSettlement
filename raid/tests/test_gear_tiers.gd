@@ -142,7 +142,7 @@ func persistence_tests():
 	var t2 = base.duplicate(true); t2.slots.helmet = t2.slots.body_armor; bad_cases["wrong slot"] = t2
 	var t3 = base.duplicate(true); t3.items[0].location = "locker"; bad_cases["equipped mismatch"] = t3
 	var t4 = base.duplicate(true); t4.items[0].def = "helmet_basic"; bad_cases["non-tier def"] = t4
-	var t5 = base.duplicate(true); t5.version = 2; bad_cases["unknown version"] = t5
+	var t5 = base.duplicate(true); t5.version = 3; bad_cases["unknown version"] = t5
 	var t6 = base.duplicate(true); t6.next_serial = 1; bad_cases["serial collision"] = t6
 	var t7 = base.duplicate(true); t7["extra"] = 1; bad_cases["extra key"] = t7
 	for label in bad_cases:
