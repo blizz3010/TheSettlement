@@ -114,12 +114,12 @@ func check_scene():
 				var path := str(set[i].resource_path)
 				if not (path.begins_with(TEX_DIR + "outfit_") and path.ends_with(".jpg")): ext_ok = false
 				var cfg := import_cfg(path)
-				if int(cfg.get_value("params", "compress/mode", -1)) != 2: vram_ok = false
+				if int(cfg.get_value("params", "compress/mode", -1)) != 2 or not bool(cfg.get_value("params", "mipmaps/generate", false)): vram_ok = false
 				if i == 1 and int(cfg.get_value("params", "compress/normal_map", -1)) != 1: vram_ok = false
 		check(max_w == 4, p + " uses 4 weights per vertex")
 		check(mats.size() >= 2, "%s has %d PBR material surfaces %s" % [p, mats.size(), str(mats)])
 		check(ext_ok, p + " albedo/normal/ORM are external JPGs under " + TEX_DIR)
-		check(vram_ok, p + " textures import VRAM-compressed (normals as normal maps)")
+		check(vram_ok, p + " textures import VRAM-compressed with mipmaps (normals as normal maps)")
 		facts[p] = {"lod0_tris": t0, "lod1_tris": t1, "materials": mats}
 	check(total <= TOTAL_BUDGET, "Whole outfit LOD0 %d tris <= %d" % [total, TOTAL_BUDGET])
 	facts["total_lod0_tris"] = total
