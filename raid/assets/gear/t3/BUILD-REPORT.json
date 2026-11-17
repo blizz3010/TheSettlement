@@ -1,0 +1,94 @@
+{
+ "gear_helmet_t3": {
+  "lod0_tris": 11012,
+  "materials": [
+   "T3_Shell",
+   "T3_Loop",
+   "T3_Polymer",
+   "T3_Steel",
+   "T3_Decals",
+   "T3_Webbing"
+  ],
+  "radii_m": [
+   0.1085,
+   0.1215,
+   0.1215
+  ],
+  "clearance_m": -0.0059,
+  "verts_inside_skin": 1,
+  "lod1_tris": 4404,
+  "bones": [
+   "head"
+  ],
+  "gltf": "raid/assets/gear/t3/gear_helmet_t3.gltf",
+  "images": [
+   "textures/t3_decals_base.jpg",
+   "textures/t3_decals_normal.jpg",
+   "textures/t3_decals_orm.jpg",
+   "textures/t3_loop_base.jpg",
+   "textures/t3_loop_normal.jpg",
+   "textures/t3_loop_orm.jpg",
+   "textures/t3_polymer_base.jpg",
+   "textures/t3_polymer_normal.jpg",
+   "textures/t3_polymer_orm.jpg",
+   "textures/t3_shell_base.jpg",
+   "textures/t3_shell_normal.jpg",
+   "textures/t3_shell_orm.jpg",
+   "textures/t3_steel_base.jpg",
+   "textures/t3_steel_normal.jpg",
+   "textures/t3_steel_orm.jpg",
+   "textures/t3_webbing_base.jpg",
+   "textures/t3_webbing_normal.jpg",
+   "textures/t3_webbing_orm.jpg"
+  ],
+  "bytes_gltf": 40873,
+  "bytes_bin": 783900,
+  "tool": "tools/blender_midstyle/build_gear_e0.py (gear art E0)"
+ },
+ "gear_body_armor_t3": {
+  "lod0_tris": 17996,
+  "materials": [
+   "T3_Cordura",
+   "T3_Webbing",
+   "T3_Steel",
+   "T3_Loop",
+   "T3_Decals",
+   "T3_Polymer"
+  ],
+  "clearance_m": 0.0117,
+  "verts_inside_skin": 0,
+  "lod1_tris": 7198,
+  "bones": [
+   "clavicle_l",
+   "clavicle_r",
+   "pelvis",
+   "spine_01",
+   "spine_02",
+   "spine_03"
+  ],
+  "gltf": "raid/assets/gear/t3/gear_body_armor_t3.gltf",
+  "images": [
+   "textures/t3_cordura_base.jpg",
+   "textures/t3_cordura_normal.jpg",
+   "textures/t3_cordura_orm.jpg",
+   "textures/t3_decals_base.jpg",
+   "textures/t3_decals_normal.jpg",
+   "textures/t3_decals_orm.jpg",
+   "textures/t3_loop_base.jpg",
+   "textures/t3_loop_normal.jpg",
+   "textures/t3_loop_orm.jpg",
+   "textures/t3_polymer_base.jpg",
+   "textures/t3_polymer_normal.jpg",
+   "textures/t3_polymer_orm.jpg",
+   "textures/t3_steel_base.jpg",
+   "textures/t3_steel_normal.jpg",
+   "textures/t3_steel_orm.jpg",
+   "textures/t3_webbing_base.jpg",
+   "textures/t3_webbing_normal.jpg",
+   "textures/t3_webbing_orm.jpg"
+  ],
+  "bytes_gltf": 40934,
+  "bytes_bin": 1330072,
+  "tool": "tools/blender_midstyle/build_gear_e0.py (gear art E0)"
+ }
+}
