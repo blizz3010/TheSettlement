@@ -19,6 +19,7 @@ extends "res://scripts/character_profiles/selection_stage.gd"
 const SOURCE="res://models/Appearance-Proof.glb"
 const AppearanceDraft=preload("res://scripts/character_preview/creator_draft.gd")
 const GearArt=preload("res://raid/scripts/gear_tiers/gear_art.gd")
+const DefaultOutfit=preload("res://raid/scripts/outfit/default_outfit.gd")
 const HAIR_NAMES=["hair_short02_v1","hair_bob01_v1"]
 const BROW_NAMES=["brow_009_v1","brow_001_v1"]
 const EYE_NAMES=["eye_brown_v1","eye_blue_v1"]
@@ -39,6 +40,10 @@ func _ready():
 	if model_ok:
 		_rebuild_garments()
 		_add_fill_light()
+		# Default outfit (shirt / pants / boots) under everything; a piece steps aside for an
+		# equipped clothing-slot garment (see _apply_default_outfit).
+		DefaultOutfit.dress(skeleton,DefaultOutfit.ORDER,0,null)
+		_apply_default_outfit()
 		# Gear art E0: worn tiered pieces with real art, skinned to this rig (read-only peek at the locker).
 		show_gear(GearArt.worn_from_locker())
 	set_angle(angle)
@@ -223,3 +228,18 @@ func _cover(node:Node3D,covered:bool):
 func show_equipped(context:Dictionary):
 	super.show_equipped(context)
 	_apply_gear_covers()
+	_apply_default_outfit()
+
+## Default-outfit pieces whose clothing slot (jacket / pants / boots) has no equipped garment.
+func default_outfit_pieces()->Array:
+	var out:=[]
+	for piece in DefaultOutfit.ORDER:
+		var slot:String=DefaultOutfit.SLOT[piece]
+		if garments.has(slot) and (garments[slot] as Node3D).visible:continue
+		out.append(piece)
+	return out
+
+func _apply_default_outfit():
+	if not model_ok or skeleton==null:return
+	DefaultOutfit.show_pieces(skeleton,rig_meshes.ProofBody,default_outfit_pieces())
+	if is_instance_valid(camera):redraw_preview()

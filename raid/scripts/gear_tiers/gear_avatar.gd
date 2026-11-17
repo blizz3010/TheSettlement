@@ -1,6 +1,7 @@
 extends Node3D
 ## Third-person gear avatar (TASKS item 22, gear art E0). When the player wears a tiered
-## piece that has real art (gear_art.gd), the third-person stand-in capsule of the pinned
+## piece that has real art (gear_art.gd) - or always, once the default outfit
+## (raid/scripts/outfit/default_outfit.gd) is available - the third-person stand-in capsule of the pinned
 ## player.gd is swapped for the Appearance-Proof character rig wearing the skinned gear,
 ## driven by a small procedural walk / sprint / crouch cycle read from the player's own
 ## velocity and crouch state (pinned player.gd is untouched; this node only lives under its
@@ -9,6 +10,7 @@ extends Node3D
 const SOURCE := "res://models/Appearance-Proof.glb"
 const SELF_PATH := "res://raid/scripts/gear_tiers/gear_avatar.gd"
 const GearArt = preload("res://raid/scripts/gear_tiers/gear_art.gd")
+const DefaultOutfit = preload("res://raid/scripts/outfit/default_outfit.gd")
 const SCALE := 1.12          # 1.55 m rig -> ~1.74 m, close to the 1.8 m player capsule
 const SPRINT_SPEED := 5.0    # player.gd: 7.0 sprinting, 4.2 walking, 2.0 crouched
 var player: Node
@@ -29,7 +31,9 @@ static func install(p: Node, worn_ids: Array) -> Node3D:
 	var art := []
 	for id in worn_ids:
 		if GearArt.has_art(str(id)): art.append(str(id))
-	if art.is_empty():
+	# With the default outfit available the character always shows (dressed, no gear);
+	# without it, no worn art keeps the capsule as before.
+	if art.is_empty() and not DefaultOutfit.available():
 		if existing != null:
 			holder.remove_child(existing); existing.queue_free()
 		if holder.has_meta("gear_capsule_look"):
@@ -79,6 +83,8 @@ func _ready():
 			var t := m.duplicate() as BaseMaterial3D
 			t.albedo_color = t.albedo_color * Color(0.66, 0.54, 0.46)
 			body.set_surface_override_material(si, t)
+	# Default outfit under the gear; the skin it covers is cut out of the body.
+	if skeleton != null: DefaultOutfit.dress(skeleton, DefaultOutfit.ORDER, 0, body)
 	# Holder sits at the capsule centre (player.gd moves it for crouch / seat); _process keeps
 	# this node on the player's floor. Faces -Z like the player.
 	position = Vector3(0, -0.9, 0)
@@ -91,6 +97,9 @@ func _ready():
 func set_worn(ids: Array) -> void:
 	worn = ids.duplicate()
 	if skeleton != null: GearArt.show_worn(skeleton, worn, 0)
+
+func outfit_pieces() -> Array:
+	return DefaultOutfit.pieces_on(skeleton)
 
 func attached_ids() -> Array:
 	var out := []

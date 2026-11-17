@@ -291,7 +291,10 @@ func check_select_stage():
 func check_avatar():
 	var p := FakePlayer.new(); root.add_child(p)
 	var capsule := p.avatar.mesh
-	check(GearAvatar.install(p, ["gear_helmet_t2"]) == null and p.avatar.mesh == capsule, "No worn art -> third-person capsule unchanged")
+	# Default outfit available -> the dressed character replaces the capsule even with no art.
+	var bare = GearAvatar.install(p, ["gear_helmet_t2"])
+	await process_frame
+	check(bare != null and bare.attached_ids().is_empty() and bare.outfit_pieces() == ["shirt", "pants", "boots"] and p.avatar.mesh == capsule and p.avatar.layers == 0, "No worn art -> avatar in the default outfit, no gear (capsule mesh kept, hidden)")
 	var a = GearAvatar.install(p, [HELM, VEST, "gear_backpack_t3"])
 	await process_frame
 	check(a != null and p.avatar.mesh == capsule and p.avatar.layers == 0 and a.get_parent() == p.avatar, "Worn art -> capsule hidden (mesh kept for player.gd resizes), gear avatar under player.avatar")
@@ -310,7 +313,8 @@ func check_avatar():
 		check(a.state == "idle" and stand_y - crouch_y > 0.2, "Crouch lowers the head (%.2f m)" % (stand_y - crouch_y))
 		p.avatar.position.y = 0.55; a._process(0.016)
 		check(is_equal_approx(a.position.y, -0.55), "Avatar stays on the floor when player.gd moves the holder (crouch capsule)")
-	check(GearAvatar.install(p, []) == null and p.avatar.mesh == capsule and p.avatar.layers == 1 and p.avatar.get_node_or_null("GearAvatar") == null, "Unequipping restores the capsule")
+	var off = GearAvatar.install(p, [])
+	check(off != null and off == a and off.attached_ids().is_empty() and off.outfit_pieces().size() == 3 and p.avatar.layers == 0, "Unequipping leaves the avatar in its default outfit")
 	p.queue_free()
 	await process_frame
 
