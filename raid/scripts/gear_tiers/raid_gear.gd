@@ -262,8 +262,8 @@ func readout() -> Dictionary:
 		total += frac
 		if frac < lowest: lowest = frac; lowest_name = def.name
 	var summary: Dictionary = s.summary()
-	var total := Storage.total_weight(s, haul_ref)
-	return {"dr": summary.dr, "weight": total, "worn_weight": summary.weight, "load": load_kg, "band": Defs.weight_band(total),
+	var carried_kg := Storage.total_weight(s, haul_ref)
+	return {"dr": summary.dr, "weight": carried_kg, "worn_weight": summary.weight, "load": load_kg, "band": Defs.weight_band(carried_kg),
 		"durability": total / float(ids.size()) if ids.size() > 0 else 1.0,
 		"lowest": lowest if ids.size() > 0 else 1.0, "lowest_name": lowest_name}
 
