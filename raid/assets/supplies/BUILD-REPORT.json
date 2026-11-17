@@ -1,0 +1,15 @@
+{
+  "tool": "tools/blender_midstyle/build_field_dressing.py",
+  "blender": "4.2.9 LTS",
+  "units": "meters",
+  "items": {
+    "field_dressing": {
+      "tris": 10692,
+      "size_m": [
+        0.17,
+        0.096,
+        0.034
+      ]
+    }
+  }
+}

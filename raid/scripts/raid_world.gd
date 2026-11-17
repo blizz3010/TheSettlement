@@ -654,6 +654,11 @@ func _supply_rows(target:Dictionary):
 	var generation=modal_generation
 	for id in supplies:
 		var row=HBoxContainer.new();modal_content.add_child(row)
+		# Plain load (no static icon cache) so raid scenes never hold textures past exit.
+		var icon_path:="res://raid/assets/trader_icons/%s.png"%str(id)
+		var tex=load(icon_path) if ResourceLoader.exists(icon_path) else null
+		if tex is Texture2D:
+			var icon=TextureRect.new();icon.texture=tex;icon.custom_minimum_size=Vector2(40,40);icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;row.add_child(icon)
 		var label=Label.new();label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 		label.text="%s × %d   (restores %d health · raid-only)"%[LootTable.supply_name(id),int(supplies[id]),int(LootTable.SUPPLIES[id].heal)];row.add_child(label)
 		var stow=Button.new();stow.name="Stow_"+str(id);stow.custom_minimum_size=Vector2(118,36);row.add_child(stow)
