@@ -1,10 +1,11 @@
 extends SubViewportContainer
 ## Psy equip-tab loadout mannequin (TASKS item 22, gear art E0). A neutral grey dress form
-## built from the Appearance-Proof rig (hair/face hidden) wearing the LOD1 meshes of the worn
+## built from the Appearance-Proof rig (hair/face hidden) in the default outfit (LOD1), wearing the LOD1 meshes of the worn
 ## tiered pieces that have real art, plus the selected piece as a try-on. Own world, renders
 ## only when the loadout changes.
 const SOURCE := "res://models/Appearance-Proof.glb"
 const GearArt = preload("res://raid/scripts/gear_tiers/gear_art.gd")
+const DefaultOutfit = preload("res://raid/scripts/outfit/default_outfit.gd")
 const HIDE := ["hair_short02_v1", "hair_bob01_v1", "brow_009_v1", "brow_001_v1", "eye_brown_v1", "eye_blue_v1"]
 var viewport: SubViewport
 var skeleton: Skeleton3D
@@ -37,6 +38,8 @@ func _ready():
 	for mi in rig.find_children("*", "MeshInstance3D", true, false):
 		if str(mi.name) in HIDE: mi.visible = false
 		elif str(mi.name) == "ProofBody": mi.material_override = form
+	# Default outfit (LOD1) dresses the form under the gear; covered form is cut out.
+	DefaultOutfit.dress(skeleton, DefaultOutfit.ORDER, 1, rig.find_child("ProofBody", true, false) as MeshInstance3D)
 	# Dress-form stand under the pelvis.
 	var stand := MeshInstance3D.new(); var cyl := CylinderMesh.new(); cyl.top_radius = 0.018; cyl.bottom_radius = 0.018; cyl.height = 0.8
 	stand.mesh = cyl; stand.position = Vector3(0, 0.4, -0.06); stand.material_override = form; root.add_child(stand)
@@ -50,6 +53,9 @@ func show_loadout(ids: Array) -> Array:
 	var out := GearArt.show_worn(skeleton, ids, 1)
 	if viewport != null: viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 	return out
+
+func outfit_pieces() -> Array:
+	return DefaultOutfit.pieces_on(skeleton)
 
 func attached_ids() -> Array:
 	var out := []

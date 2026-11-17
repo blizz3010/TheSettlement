@@ -1,0 +1,85 @@
+{
+ "tool": "tools/blender_midstyle/build_outfit.py (default outfit)",
+ "shirt": {
+  "mesh": "OutfitShirt",
+  "lod0_tris": 18404,
+  "materials": [
+   "outfit_knit",
+   "outfit_rib",
+   "outfit_brass"
+  ],
+  "clearance_m": 0.0035,
+  "verts_inside_skin": 0,
+  "lod1_tris": 7360
+ },
+ "pants": {
+  "mesh": "OutfitPants",
+  "lod0_tris": 25456,
+  "materials": [
+   "outfit_twill",
+   "outfit_belt",
+   "outfit_brass"
+  ],
+  "clearance_m": 0.0059,
+  "verts_inside_skin": 0,
+  "lod1_tris": 10182
+ },
+ "boots": {
+  "mesh": "OutfitBoots",
+  "lod0_tris": 30495,
+  "materials": [
+   "outfit_leather",
+   "outfit_rubber",
+   "outfit_brass",
+   "outfit_cord"
+  ],
+  "clearance_m": 0.0056,
+  "verts_inside_skin": 0,
+  "clearance_note": "verts below z 0.03 skipped: the sole slab wraps the masked foot sole by design",
+  "lod1_tris": 12198
+ },
+ "body_masks": {
+  "000": "raid/assets/outfit/textures/body_mask_000.png",
+  "001": "raid/assets/outfit/textures/body_mask_001.png",
+  "010": "raid/assets/outfit/textures/body_mask_010.png",
+  "011": "raid/assets/outfit/textures/body_mask_011.png",
+  "100": "raid/assets/outfit/textures/body_mask_100.png",
+  "101": "raid/assets/outfit/textures/body_mask_101.png",
+  "110": "raid/assets/outfit/textures/body_mask_110.png",
+  "111": "raid/assets/outfit/textures/body_mask_111.png"
+ },
+ "mask_order": [
+  "shirt",
+  "pants",
+  "boots"
+ ],
+ "gltf": "raid/assets/outfit/default_outfit.gltf",
+ "images": [
+  "textures/outfit_belt_base.jpg",
+  "textures/outfit_belt_normal.jpg",
+  "textures/outfit_belt_orm.jpg",
+  "textures/outfit_brass_base.jpg",
+  "textures/outfit_brass_normal.jpg",
+  "textures/outfit_brass_orm.jpg",
+  "textures/outfit_cord_base.jpg",
+  "textures/outfit_cord_normal.jpg",
+  "textures/outfit_cord_orm.jpg",
+  "textures/outfit_knit_base.jpg",
+  "textures/outfit_knit_normal.jpg",
+  "textures/outfit_knit_orm.jpg",
+  "textures/outfit_leather_base.jpg",
+  "textures/outfit_leather_normal.jpg",
+  "textures/outfit_leather_orm.jpg",
+  "textures/outfit_rib_base.jpg",
+  "textures/outfit_rib_normal.jpg",
+  "textures/outfit_rib_orm.jpg",
+  "textures/outfit_rubber_base.jpg",
+  "textures/outfit_rubber_normal.jpg",
+  "textures/outfit_rubber_orm.jpg",
+  "textures/outfit_twill_base.jpg",
+  "textures/outfit_twill_normal.jpg",
+  "textures/outfit_twill_orm.jpg"
+ ],
+ "bytes_gltf": 54413,
+ "bytes_bin": 4790096
+}
