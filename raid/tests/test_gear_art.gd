@@ -333,7 +333,7 @@ func nearest_in(g: Dictionary, P: PackedVector3Array, p: Vector3, cell: float) -
 ## The T3 vest over the default-outfit shirt and the arms (idle / walk / sprint / crouch, the
 ## avatar's own cycles), and the helmet straps over the short helmet hair.
 func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
-	check(DefaultOutfit.dress(sk, ["shirt"], 0, body) == ["shirt"], "Default-outfit shirt binds under the gear")
+	check(DefaultOutfit.dress(sk, ["shirt", "pants"], 0, body) == ["shirt", "pants"], "Default-outfit shirt + pants bind under the gear")
 	var vest := GearArt.attach(sk, VEST, 0)
 	var helm := GearArt.attach(sk, HELM, 0)
 	await process_frame
@@ -344,6 +344,8 @@ func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
 	var bs := Skinner.new(sk, body.skin); var arm_b := fit_samples(body, 1, is_arm)
 	var ss := Skinner.new(sk, shirt.skin); var arm_s := fit_samples(shirt, 1, is_arm)
 	var torso_s := fit_samples(shirt, 1, is_torso, "outfit_knit")
+	var pants := sk.get_node("Outfit_pants") as MeshInstance3D
+	var ps := Skinner.new(sk, pants.skin); var waist_p := fit_samples(pants, 1)
 	var av = GearAvatar.new(); av.skeleton = sk; av.worn = [VEST, HELM]
 	var arm_clip := 0; var arm_worst := 1.0; var shirt_clip := 0; var shirt_worst := 1.0
 	var per_pose := {}
@@ -355,9 +357,28 @@ func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
 	for k in v_rest[0].size():
 		var j := nearest_in(tg, t_rest[0], v_rest[0][k], 0.03)
 		if j >= 0 and (v_rest[0][k] - t_rest[0][j]).dot(t_rest[1][j]) > -0.01: pairs.append([k, j])
+	# Vest -> pants (waistband / belt / hips) pairs, same rule, only where the vest hangs low.
+	var p_rest := fit_skin(ps, waist_p)
+	var wp := PackedVector3Array(); var wn := PackedVector3Array(); var widx := []
+	for k in p_rest[0].size():
+		if p_rest[0][k].y > 0.86: wp.append(p_rest[0][k]); wn.append(p_rest[1][k]); widx.append(k)
+	var wg := grid_of(wp, 0.03)
+	var vp_pairs := []
+	for k in v_rest[0].size():
+		if v_rest[0][k].y > 1.0: continue
+		var j := nearest_in(wg, wp, v_rest[0][k], 0.03)
+		if j >= 0 and (v_rest[0][k] - wp[j]).dot(wn[j]) > -0.01: vp_pairs.append([k, widx[j]])
+	var pants_clip := 0; var pants_worst := 1.0
 	for pose in FIT_POSES:
 		av.apply_pose(pose[0], pose[1])
 		var v := fit_skin(vs, vd)
+		var pw := fit_skin(ps, waist_p)
+		for pr in vp_pairs:
+			var sd: float = (v[0][pr[0]] - pw[0][pr[1]]).dot(pw[1][pr[1]])
+			pants_worst = minf(pants_worst, sd)
+			if sd < -FIT_TOL:
+				pants_clip += 1
+				if OS.get_environment("FIT_DEBUG") != "" and pants_clip % 25 == 1: print("FIT_DBG pants ", pose, " vest_rest ", v_rest[0][pr[0]], " pants_rest ", p_rest[0][pr[1]], " sd ", sd)
 		var a1 := fit_skin(bs, arm_b); var a2 := fit_skin(ss, arm_s)
 		var AP: PackedVector3Array = a1[0] + a2[0]; var AN: PackedVector3Array = a1[1] + a2[1]
 		var g := grid_of(AP, 0.03)
@@ -379,6 +400,7 @@ func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
 	sk.reset_bone_poses()
 	av.free()
 	check(arm_clip == 0, "Vest clears the arms (body + shirt sleeves) in idle/walk/sprint/crouch (%d samples past %.0f mm, worst %.1f mm)" % [arm_clip, FIT_TOL * 1000, arm_worst * 1000])
+	check(pants_clip == 0, "Vest stays over the cargo pants waist in every pose (%d pairs, worst %.1f mm)" % [vp_pairs.size(), pants_worst * 1000 if vp_pairs.size() > 0 else 0.0])
 	check(pairs.size() > 200 and shirt_clip == 0, "Vest stays over the default-outfit shirt in every pose (%d pairs, worst %.1f mm)" % [pairs.size(), shirt_worst * 1000])
 	# Helmet straps vs the short helmet hair: radially, nothing of the hair may lie outside a strap.
 	var HC := Vector3(0.0, 1.425, 0.035)
@@ -416,7 +438,7 @@ func check_fit_over_outfit(sk: Skeleton3D, body: MeshInstance3D):
 		check(float(rep[VEST].get("shirt_clearance_m", -1)) > 0.0 and int(rep[VEST].get("verts_inside_shirt", 1)) == 0, "BUILD-REPORT: vest clears the shirt at rest (%s m)" % str(rep[VEST].get("shirt_clearance_m")))
 		check(int(rep[HELM].get("strap_points_in_hair", 1)) == 0, "BUILD-REPORT: no strap point buried in the head/hair shell")
 	facts["fit"] = {"arm_worst_m": snappedf(arm_worst, 0.0001), "arm_clip": arm_clip, "per_pose_arm_clip": per_pose,
-		"shirt_worst_m": snappedf(shirt_worst, 0.0001), "shirt_pairs": pairs.size(), "strap_verts_tested": tested, "strap_buried": buried, "strap_under_shell": under_shell}
+		"shirt_worst_m": snappedf(shirt_worst, 0.0001), "shirt_pairs": pairs.size(), "strap_verts_tested": tested, "strap_buried": buried, "strap_under_shell": under_shell, "pants_pairs": vp_pairs.size(), "pants_worst_m": snappedf(pants_worst, 0.0001)}
 	GearArt.detach_all(sk)
 	DefaultOutfit.undress(sk, body)
 	await process_frame

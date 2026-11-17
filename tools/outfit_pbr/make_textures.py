@@ -104,8 +104,8 @@ def brass(name, col, seed, n=512):
     save(name, base, 0.42 + 0.2 * pat - 0.2 * wear, np.full((n, n), 0.9), 0.4 * spk - 0.5 * wear, 1.4)
 
 if __name__ == "__main__":
-    knit("outfit_knit", "#8a5d48", 501)            # clay-rust jersey shirt
-    knit("outfit_rib", "#6f4a3a", 502, n=1024, rib=True)
+    knit("outfit_knit", "#4a5661", 501)            # slate blue-grey jersey shirt (reads as cloth, not skin)
+    knit("outfit_rib", "#363f47", 502, n=1024, rib=True)   # darker slate rib collar/cuffs
     twill("outfit_twill", "#545037", 503)          # washed olive-brown work canvas
     leather("outfit_leather", "#5b3b27", 504)      # oiled brown leather
     leather("outfit_belt", "#3d2a1e", 505, n=1024)

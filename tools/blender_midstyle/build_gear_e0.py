@@ -432,7 +432,9 @@ def bulwark_carrier():
             if not out or (abs(out[-1][0] - p[0]) > 1e-5 or abs(out[-1][1] - p[1]) > 1e-5): out.append(p)
         return out
     panels = {}
-    for side, y, pdir, z0, z1, cutz in (("Front", -0.45, 1, 0.905, 1.218, 1.125), ("Back", 0.45, -1, 0.905, 1.250, 1.150)):
+    # Bottom edges ride above the default-outfit belt (belt/waistband top z 0.932) instead of
+    # sinking into it.
+    for side, y, pdir, z0, z1, cutz in (("Front", -0.45, 1, 0.945, 1.218, 1.125), ("Back", 0.45, -1, 0.945, 1.250, 1.150)):
         # Plate wraps the ribs (sagitta 2.4 x^2) instead of reading as a flat slab.
         g = grid_panel("PlateBag" + side, plate_outline(z0, z1, 0.126, 0.064, cutz), y, (24, 30), pdir, torso, 0.025, plate_curve=2.4)
         set_mats(g, [cord, cord, web])
@@ -452,7 +454,7 @@ def bulwark_carrier():
             a = 2 * math.pi * i / NA
             # Wings drop to 1.030 under the arms (was 1.065) so hanging / swinging arms clear them.
             top = 1.065 - 0.035 * abs(math.sin(a)) ** 2
-            z = 0.922 + (top - 0.922) * j / NZ
+            z = 0.948 + (top - 0.948) * j / NZ
             ring.append((0.16 * math.sin(a), -0.045 + 0.13 * -math.cos(a), z))
     for j in range(NZ):
         for i in range(NA):

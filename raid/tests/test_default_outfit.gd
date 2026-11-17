@@ -3,7 +3,7 @@ extends SceneTree
 ## LOD1, triangle budgets, external VRAM-compressed PBR textures), the skin against the
 ## Appearance-Proof rig (bind names, rest-pose fit, 4 weights), the body cut-out masks, the
 ## hooks (select stage, third-person avatar, Psy mannequin) and pose clipping: the rig is posed
-## with the avatar's own idle / walk / sprint cycles and both garments and body are CPU-skinned;
+## with the avatar's own idle / walk / sprint / crouch cycles and both garments and body are CPU-skinned;
 ## no visible skin may come out through a garment, the tucked shirt must stay under the pants
 ## and the trouser hem inside the boot shafts.
 ## Disposable profile from the runner (writes nothing).
@@ -16,7 +16,8 @@ const BUDGET := {"shirt": 22000, "pants": 30000, "boots": 35000}
 const TOTAL_BUDGET := 85000
 const TOL := 0.002          # metres of skin allowed past a garment surface before it counts as clipping
 const POSES := [["idle", 0.0], ["idle", 1.5708], ["idle", 4.7124], ["walk", 0.0], ["walk", 1.5708], ["walk", 3.1416], ["walk", 4.7124],
-	["sprint", 0.0], ["sprint", 1.5708], ["sprint", 3.1416], ["sprint", 4.7124]]
+	["sprint", 0.0], ["sprint", 1.5708], ["sprint", 3.1416], ["sprint", 4.7124],
+	["crouch", 0.0], ["crouch_walk", 1.5708], ["crouch_walk", 4.7124]]
 var failures: Array = []
 var checks := 0
 var facts := {}
@@ -50,6 +51,23 @@ func import_cfg(path: String) -> ConfigFile:
 	c.load(path + ".import")
 	return c
 
+## Cargo cut (loose legs, not skin-tight) and a shirt colour that can't be mistaken for skin.
+func check_cut_and_colour():
+	var rep = JSON.parse_string(FileAccess.get_file_as_string("res://raid/assets/outfit/BUILD-REPORT.json"))
+	var ease := float(rep.pants.get("leg_ease_median_m", 0.0)) if rep is Dictionary else 0.0
+	check(ease >= 0.02, "Cargo pants hang loose over the thigh/knee (median %.1f mm off the skin, >= 20 mm)" % (ease * 1000))
+	facts["pants_leg_ease_median_m"] = ease
+	var img := Image.load_from_file(ProjectSettings.globalize_path("res://raid/assets/outfit/textures/outfit_knit_base.jpg"))
+	img.resize(16, 16, Image.INTERPOLATE_BILINEAR)
+	var c := Color(0, 0, 0)
+	for y in 16:
+		for x in 16: c += img.get_pixel(x, y)
+	c /= 256.0
+	# Skin tones are red > green > blue with a warm hue (0-50 deg); the shirt must sit well away from that.
+	var warm := c.r > c.g and c.g > c.b and (c.h < 0.14 or c.h > 0.97)
+	check(not warm and c.b >= c.r, "Shirt albedo is a cool slate, not a skin tone (avg %s, hue %.0f deg)" % [c.to_html(false), c.h * 360.0])
+	facts["shirt_albedo_avg"] = c.to_html(false)
+
 func run():
 	check(DefaultOutfit.available(), "Default outfit scene is present")
 	check(DefaultOutfit.mask_tag(["boots", "shirt"]) == "101" and DefaultOutfit.mask_tag([]) == "000", "Mask tags follow shirt/pants/boots order")
@@ -59,6 +77,7 @@ func run():
 	check(masks_ok, "All 8 body cut-out masks are present")
 	check_scene()
 	check_masks()
+	check_cut_and_colour()
 	var rig: Node3D = (load(RIG) as PackedScene).instantiate()
 	root.add_child(rig)
 	var sk := rig.find_child("Skeleton3D", true, false) as Skeleton3D
@@ -341,7 +360,7 @@ func check_clipping(sk: Skeleton3D, body: MeshInstance3D):
 			tuck_worst = minf(tuck_worst, sd)
 			if sd < -TOL:
 				tuck_out += 1
-				if OS.has_environment("OUTFIT_DEBUG") and pose[0] == "idle" and pose[1] == 0.0: print("TUCK s=", tuck_rest[0][tuck_keep[i]], " p=", tw[0][j], " pn=", tw[1][j], " sd=", sd)
+				if OS.has_environment("OUTFIT_DEBUG"): print("TUCK ", pose, " s=", tuck_rest[0][tuck_keep[i]], " p=", tw[0][j], " pn=", tw[1][j], " sd=", sd)
 		var hs: Array = skin_all(layers.pants.sm, hem)
 		var lb: Array = subset(skin_all(layers.boots.sm, leather), leather_out)
 		for i in hem_pair.size():
@@ -358,7 +377,7 @@ func check_clipping(sk: Skeleton3D, body: MeshInstance3D):
 	for p in DefaultOutfit.ORDER:
 		var st: Dictionary = stats[p]
 		check(st.visible_pairs > 100, "%s: %d garment/visible-skin pairs tested over %d poses" % [p, st.visible_pairs, POSES.size()])
-		check(st.visible_clip == 0, "%s: no visible skin through the garment (worn alone) in idle/walk/sprint (%d samples past %.0f mm, worst %.1f mm)" % [p, st.visible_clip, TOL * 1000, st.worst_visible_m * 1000])
+		check(st.visible_clip == 0, "%s: no visible skin through the garment (worn alone) in idle/walk/sprint/crouch (%d samples past %.0f mm, worst %.1f mm)" % [p, st.visible_clip, TOL * 1000, st.worst_visible_m * 1000])
 		st.worst_visible_m = snappedf(st.worst_visible_m, 0.0001); st.worst_hidden_m = snappedf(st.worst_hidden_m, 0.0001)
 	check(tuck_pair.size() > 20 and tuck_out == 0, "Tucked shirt stays under the pants in every pose (%d pairs, worst %.1f mm)" % [tuck_pair.size(), tuck_worst * 1000])
 	check(hem_pair.size() > 20 and hem_out == 0, "Trouser hems stay inside the boot shafts in every pose (%d pairs, worst %.1f mm)" % [hem_pair.size(), hem_worst * 1000])
