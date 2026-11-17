@@ -12,7 +12,7 @@ func _region_detail(poi:Dictionary)->String:
 	if poi.id!="obsidian":return ""
 	return preload("res://raid/scripts/archive_wayfinding.gd").location_hint(get_node("obsidian").to_local(player.global_position))
 func _extract_names()->Array:return ["Siltway Lift Extract","Caldera Rim Extract"]
-func _pause_description()->String:return "Cross pale salt flats and black basalt outcrops. Explore six abandoned desert sites, two high-quality caches, service key / archive card / calibration-code doors and the Echo Cistern valve puzzle. Geology and dry vegetation use independent repeatable seed streams."
+func _pause_description()->String:return "Cross pale salt flats and black basalt outcrops. Explore six abandoned desert sites, two high-quality caches, service key / archive card / calibration-code doors and the Echo Cistern valve puzzle. Loot you carry out through an extraction beacon comes home; being downed loses it. Geology and dry vegetation use independent repeatable seed streams."
 func _locked_hint(poi:Dictionary)->String:return {"key":"the glasskiln service key","keycard":"the Obsidian Archive clearance card","puzzle":"the cistern service log and solve the three-valve sequence"}[poi.lock]
 func _switch_feedback(solved:bool)->String:return "Reservoir archive released. The cistern partition can now open." if solved else "Valve sequence: %d / 3"%raid_state.switch_step
 func _switch_prompt(number:int)->String:return "Turn cistern valve %d"%number
