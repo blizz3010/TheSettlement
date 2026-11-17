@@ -6,6 +6,7 @@ extends "res://raid/scripts/atlas_recovery_controller_ext.gd"
 const GearPanel = preload("res://raid/scripts/gear_tiers/psy_gear_tier_panel.gd")
 const GearStore = preload("res://raid/scripts/gear_tiers/gear_locker_store.gd")
 const GearService = preload("res://raid/scripts/gear_tiers/gear_shop_service.gd")
+const GearAvatar = preload("res://raid/scripts/gear_tiers/gear_avatar.gd")
 
 var tier_panel: Control
 var gear_store: GearStore
@@ -71,6 +72,10 @@ func render_tiers(pending: Dictionary = {}, message: String = "") -> void:
 	ensure_gear_store()
 	var rows: Array = tier_service.rows(tier_panel.action, host.state, host.inventory, gear_store.state)
 	tier_panel.set_loadout_help(tier_service.loadout_text(gear_store.state))
+	# Gear art E0: equip-tab mannequin + third-person avatar follow the worn loadout.
+	var worn: Array = GearAvatar.worn_defs(gear_store.state)
+	tier_panel.set_worn(worn)
+	if is_instance_valid(host) and is_instance_valid(host.get("player")): GearAvatar.install(host.player, worn)
 	tier_panel.render_state(host.state, host.inventory, rows, pending, message)
 
 func eligible() -> bool:

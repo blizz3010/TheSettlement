@@ -63,6 +63,7 @@ TESTS = [
     ("test_raid_loot", "RAID_LOOT_TESTS "),
     ("test_gear_storage", "GEAR_STORAGE_TESTS "),
     ("test_gear_loot", "GEAR_LOOT_TESTS "),
+    ("test_gear_art", "GEAR_ART_TESTS "),
 ]
 
 def main():
