@@ -42,20 +42,21 @@ O.mat = mat
 
 # ================================================================== T1 VEST: Padded Vest
 HEM = 0.945                       # rides above the outfit belt (waistband top z 0.932), like the T3 carrier
-ARM_YC, ARM_ZC, ARM_RY, ARM_RZ, ARM_X = -0.012, 1.205, 0.072, 0.118, 0.118
-NECK_X = 0.070
+ARM_YC, ARM_ZC, ARM_RY, ARM_RZ, ARM_X = -0.012, 1.205, 0.072, 0.118, 0.100
+NECK_X = 0.062
 def zf(x): return 1.19 + 0.11 * (x / NECK_X) ** 2         # front V/scoop
-def zb(x): return 1.292 + 0.02 * (x / NECK_X) ** 2        # back neckline
+def zb(x): return 1.262 + 0.045 * (x / NECK_X) ** 2       # back neckline (under the shirt collar rib)
 def arm_x(z):
-    """Arm-hole edge: full side panel below the underarm, a rounded scoop up to the shoulder strap."""
-    if z <= 1.085: return 0.148
-    t = min(1.0, (z - 1.085) / 0.065); return ARM_X + (0.148 - ARM_X) * (1 - t) ** 2
+    """Arm-hole edge (skin x): full side panel below 1.00, a deep rounded scoop up to the shoulder
+    strap so the hanging / swinging arms (avatar 32 deg + sprint swing) clear the padded sides."""
+    if z <= 1.00: return 0.148
+    t = min(1.0, (z - 1.00) / 0.09); return ARM_X + (0.148 - ARM_X) * (1 - t) ** 2
 def arm_e(p): return ((p.y - ARM_YC) / ARM_RY) ** 2 + ((p.z - ARM_ZC) / ARM_RZ) ** 2
 SKIP = ("upperarm", "lowerarm", "hand", "thumb", "index", "middle", "ring", "pinky", "thigh", "calf", "foot", "ball", "neck", "head")
 
 def torso_vert(p, d):
     """Torso skin incl. the shoulder tops / neck base (those verts are partly neck/upperarm weighted)."""
-    if abs(p.x) < 0.125 and 1.2 < p.z < 1.37 and not d.startswith(("head", "hand")): return True
+    if abs(p.x) < 0.110 and 1.2 < p.z < 1.37 and not d.startswith(("head", "hand")): return True
     return not d.startswith(SKIP)
 
 def vest_keep(p, d):
@@ -69,14 +70,15 @@ def vest_keep(p, d):
 def vest_snap(v):
     p = v.co
     if abs(p.z - HEM) < 0.025: p.z = HEM; return
-    if p.z > 1.09 and abs(abs(p.x) - arm_x(p.z)) < 0.02:
+    if p.z > 1.0 and abs(abs(p.x) - arm_x(p.z)) < 0.02:
         p.x = math.copysign(arm_x(p.z), p.x); return
     if abs(p.x) < NECK_X + 0.012:
         if p.y < -0.02 and abs(p.z - zf(p.x)) < 0.03: p.z = zf(p.x)
         elif p.y >= -0.02 and abs(p.z - zb(p.x)) < 0.03: p.z = zb(p.x)
 
 def vest_want(p):
-    if abs(p.x) > 0.105 and p.z > 0.98: return 0.023           # under the arms: thinner side panels
+    if p.y < -0.04 and p.z > 1.15 and abs(p.x) < 0.075: return 0.031   # over the henley placket / collar
+    if abs(p.x) > 0.105 and p.z > 1.04: return 0.028           # arm-hole bottom: over the shirt's underarm flare
     return 0.026                                                # clears the shirt (<= 17 mm at the bloused waist)
 
 def torso_surf(body, dom):
@@ -202,7 +204,7 @@ def padded_vest():
     # Binding tape over every edge (hem, arm holes, neckline + front V).
     for i, loop in enumerate(O.boundary_loops(shell)):
         path = O.resample(O.smooth_path(loop, 4), 0.011); nn = [ss.nearest(p)[1] for p in path]
-        prof = [(-0.0022, -0.011), (0.0024, -0.0095), (0.0036, 0.0), (0.0024, 0.0095), (-0.0022, 0.011)]
+        prof = [(-0.0012, -0.011), (0.0024, -0.0095), (0.0036, 0.0), (0.0024, 0.0095), (-0.0012, 0.011)]
         b = sweep("Binding%d" % i, path, nn, prof, closed=True, cap=False); E.finish(b, [web], smooth_angle=70)
         parts.append(b)
     # Front placket (closure strip) with five snaps.
@@ -225,10 +227,10 @@ def padded_vest():
     parts.append(flap); parts.append(O.cyl_on("FlapSnap", Surf(flap), Vector((0.068, -0.3, 1.118)), 0.0055, 0.003, "t1_steel", off=0.0002))
     for s in (1, -1):
         parts += stitched("Welt", ss, Vector((s * 0.072, -0.2, 0.990)), Vector((1, 0, -0.35 * s)), Vector((0.35 * s, 0, 1)), 0.110, 0.020, 0.0010, 0.0035, 0.006)
-    # Side cinch straps (two per side) with roller buckles at the front end.
+    # Side cinch strap (one per side) with roller buckles at the front end.
     for s in (1, -1):
-        for z in (1.000, 1.050):
-            pts, nn = around(ss, z, -62, 60, 24, s, 0.0012)
+        for z in (0.984,):   # below the arm-hole scoop (starts at 1.00)
+            pts, nn = around(ss, z, -42, 58, 20, s, 0.0012)
             st = sweep("Cinch", pts, nn, rrect(0.0028, 0.024, 0.0010, 1)); E.finish(st, [web], smooth_angle=60); parts.append(st)
             p0, n0 = pts[1], nn[1]
             bpy.ops.mesh.primitive_torus_add(major_radius=0.016, minor_radius=0.0022, major_segments=16, minor_segments=6, location=(0, 0, 0), rotation=(math.pi / 2, 0, 0))
@@ -243,7 +245,7 @@ def padded_vest():
         if loc is None: continue
         hp.append(loc + nor * (0.003 if k in (0, 4) else 0.011)); hn.append(Vector((0, 1, 0)))
     dh = sweep("CarryLoop", hp, hn, rrect(0.0030, 0.020, 0.0012, 2)); E.finish(dh, [web], smooth_angle=60); parts.append(dh)
-    sten = O.patch("BackStencil", ss, Vector((0, 0.3, 1.165)), Vector((-1, 0, 0)), Vector((0, 0, 1)), 0.210, 0.040, 0.0009, "t1_canvas", thick=0.0, res=0.006, r=0.002)
+    sten = O.patch("BackStencil", ss, Vector((0, 0.3, 1.165)), Vector((-1, 0, 0)), Vector((0, 0, 1)), 0.150, 0.0285, 0.0009, "t1_canvas", thick=0.0, res=0.006, r=0.002)
     E.set_mats(sten, [dec]); E.decal_uv(sten, (0, 0, 1024, 192), Vector((-1, 0, 0)), Vector((0, 0, 1))); parts.append(sten)
     tag = O.patch("CareTag", ss, Vector((0.105, -0.2, 0.975)), Vector((0.6, -0.8, 0)), Vector((0, 0, 1)), 0.048, 0.030, 0.0016, "t1_canvas", thick=0.0, res=0.006, r=0.002)
     E.set_mats(tag, [dec]); E.decal_uv(tag, (512, 192, 1024, 512), Vector((0.6, -0.8, 0)), Vector((0, 0, 1))); parts.append(tag)
@@ -255,6 +257,13 @@ def padded_vest():
     report = {"lod0_tris": tris(vest), "materials": [m.name for m in vest.data.materials]}
     report["clearance_m"], report["verts_inside_skin"] = E.clearance(vest, [body])
     report["shirt_clearance_m"], report["verts_inside_shirt"] = E.layer_clearance(vest, shirt, body)
+    if os.environ.get("GEAR_E1_DEBUG"):
+        sb, su = Surf(body), Surf(shirt)
+        for v in vest.data.vertices:
+            q, _ = su.nearest(v.co)
+            if q is None or (q - v.co).length > 0.03: continue
+            h = lambda p: (p - sb.nearest(p)[0]).dot(sb.nearest(p)[1])
+            if h(v.co) - h(q) < 0: print("SHIRT_IN", tuple(round(x, 3) for x in v.co), round(h(v.co) - h(q), 4), vest.data.materials[0].name)
     bpy.data.objects.remove(shirt)
     E.transfer_weights(vest, body, {"pelvis", "spine_01", "spine_02", "spine_03", "clavicle_l", "clavicle_r"})
     E.bind(vest, rig, None)
