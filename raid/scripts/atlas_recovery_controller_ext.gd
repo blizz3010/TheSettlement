@@ -4,8 +4,6 @@ extends "res://raid/scripts/dan_listings_controller_ext.gd"
 const AtlasPanel = preload("res://raid/scripts/atlas_recovery_panel.gd")
 const AtlasStore = preload("res://raid/scripts/atlas_recovery_store.gd")
 const AtlasService = preload("res://raid/scripts/atlas_recovery_service.gd")
-const ShopTransaction = preload("res://scripts/shop_transaction.gd")
-const SaveCodec = preload("res://scripts/save_codec.gd")
 
 var recovery_panel: Control
 var recovery_store: AtlasStore
