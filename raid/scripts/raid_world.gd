@@ -577,7 +577,7 @@ func _loot_list(items:Dictionary,verb:String,callback:Callable,enabled:bool)->Sc
 		var row=HBoxContainer.new();list.add_child(row)
 		_gear_badge(row,str(id))
 		var label=Label.new();label.text=_loot_row_text(str(id),int(items[id]));label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;row.add_child(label)
-		var button=Button.new();button.text=verb;button.custom_minimum_size=Vector2(92,36);button.disabled=not enabled;button.name="Loot_"+str(id);row.add_child(button)
+		var button=Button.new();button.text=verb;button.custom_minimum_size=Vector2(92,36);button.disabled=not enabled;button.name="Loot_"+str(id).replace("@","_c");row.add_child(button)
 		if verb=="Take" and enabled and not raid_state.fits(str(id)):
 			button.disabled=true;button.text="Needs %d"%LootTable.unit_size(str(id));button.tooltip_text="Needs %d free haul units."%LootTable.unit_size(str(id))
 		var item_id=str(id)
