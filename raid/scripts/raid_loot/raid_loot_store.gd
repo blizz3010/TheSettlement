@@ -110,7 +110,9 @@ func load_or_create(character_save_path: String) -> bool:
 		clear()
 		return true
 	if FileAccess.file_exists(path):
-		var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+		# JSON instance parse: a corrupt file is reported quietly, not as an engine error.
+		var json := JSON.new()
+		var parsed = json.data if json.parse(FileAccess.get_file_as_string(path)) == OK else null
 		if restore(parsed):
 			return true
 		var backup := path + ".invalid-backup"
