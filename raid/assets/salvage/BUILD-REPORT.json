@@ -8,12 +8,173 @@
   ]
  },
  "salvage_sensor": {
-  "tris": 7456,
+  "tris": 16250,
   "size_m": [
-   0.101,
-   0.143,
-   0.167
-  ]
+   0.096,
+   0.106,
+   0.173
+  ],
+  "materials": [
+   "Sensor_collar",
+   "Sensor_copper",
+   "Sensor_dark_steel",
+   "Sensor_dome",
+   "Sensor_label",
+   "Sensor_lens",
+   "Sensor_rubber",
+   "Sensor_status_led",
+   "Sensor_steel"
+  ],
+  "textures": [
+   {
+    "name": "dark_steel_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "dark_steel_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "dark_steel_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "drive_rubber_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "drive_rubber_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "drive_rubber_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "gold_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "gold_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "gold_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "sensor_collar_base.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "sensor_collar_normal.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "sensor_collar_orm.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "sensor_dome_base.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "sensor_dome_normal.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "sensor_dome_orm.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "sensor_label_base.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "sensor_label_normal.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "sensor_label_orm.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "steel_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "steel_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "steel_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   }
+  ],
+  "tool": "tools/blender_midstyle/build_salvage_pbr.py (PBR redo)"
  },
  "salvage_capacitor": {
   "tris": 4468,
@@ -24,12 +185,150 @@
   ]
  },
  "salvage_survey_drive": {
-  "tris": 4216,
+  "tris": 12082,
   "size_m": [
-   0.13,
-   0.09,
-   0.031
-  ]
+   0.169,
+   0.106,
+   0.043
+  ],
+  "materials": [
+   "Drive_case_paint",
+   "Drive_contacts_gold",
+   "Drive_dark_steel",
+   "Drive_label",
+   "Drive_rubber",
+   "Drive_status_led",
+   "Drive_steel"
+  ],
+  "textures": [
+   {
+    "name": "dark_steel_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "dark_steel_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "dark_steel_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "drive_case_base.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "drive_case_normal.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "drive_case_orm.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "drive_label_base.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "drive_label_normal.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "drive_label_orm.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "drive_rubber_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "drive_rubber_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "drive_rubber_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "gold_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "gold_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "gold_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "steel_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "steel_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "steel_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   }
+  ],
+  "tool": "tools/blender_midstyle/build_salvage_pbr.py (PBR redo)"
  },
  "salvage_power_cell": {
   "tris": 7752,
@@ -40,11 +339,150 @@
   ]
  },
  "salvage_research_core": {
-  "tris": 5392,
+  "tris": 23674,
   "size_m": [
-   0.155,
-   0.162,
-   0.202
-  ]
+   0.124,
+   0.124,
+   0.165
+  ],
+  "materials": [
+   "Core_case",
+   "Core_dark_steel",
+   "Core_gold",
+   "Core_label",
+   "Core_rubber",
+   "Core_status_led",
+   "Core_steel",
+   "Core_window_glow"
+  ],
+  "textures": [
+   {
+    "name": "core_case_base.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "core_case_normal.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "core_case_orm.png",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "name": "core_label_base.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "core_label_normal.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "core_label_orm.png",
+    "px": [
+     1024,
+     512
+    ]
+   },
+   {
+    "name": "dark_steel_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "dark_steel_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "dark_steel_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "drive_rubber_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "drive_rubber_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "drive_rubber_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "gold_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "gold_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "gold_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "steel_base.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "steel_normal.png",
+    "px": [
+     512,
+     512
+    ]
+   },
+   {
+    "name": "steel_orm.png",
+    "px": [
+     512,
+     512
+    ]
+   }
+  ],
+  "tool": "tools/blender_midstyle/build_salvage_pbr.py (PBR redo)"
  }
 }
