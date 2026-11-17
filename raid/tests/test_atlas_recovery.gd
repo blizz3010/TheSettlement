@@ -179,7 +179,7 @@ func run() -> void:
 	var ui := AtlasPanel.new()
 	var rows: Array = ui.recover_rows(store, s.inventory)
 	# timber and stone already recovered in this store copy after confirm
-	check(ui.help_rows()[0].description.to_lower().contains("field loot still does not persist"), "Help defers field-loot persistence")
+	check(ui.help_rows()[0].description.to_lower().contains("salvage tab"), "Help points extracted raid loot to the Salvage tab (item 13)")
 	check(ui.help_rows()[0].description.to_lower().contains("healing") and ui._review_label("recover") == "Review recovery", "Help defers healing; review label is recovery")
 	ui.free()
 

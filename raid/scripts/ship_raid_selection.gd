@@ -53,7 +53,7 @@ func _ready():
 		raid_buttons[raid_id] = button
 	destination = _label(details, "", 23, Color("8ee0bc"))
 	description = _label(details, "", 17)
-	_label(details, "Development previews: no enemies or persistent loot. Deploy saves your settlement first. Extraction returns the same character at Town Hall.", 16, Color("cfbf9e"))
+	_label(details, "Development previews: no enemies yet. Loot you extract comes home; being downed loses it. Deploy saves your settlement first. Extraction returns the same character at Town Hall.", 16, Color("cfbf9e"))
 	var actions = HBoxContainer.new()
 	actions.add_theme_constant_override("separation", 14)
 	column.add_child(actions)

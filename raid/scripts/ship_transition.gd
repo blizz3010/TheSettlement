@@ -99,5 +99,5 @@ func _restore_title():
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		# Departure save is already committed; preview loot has no persistence.
+		# Departure save is already committed; a raid haul only comes home through extraction.
 		get_tree().quit()

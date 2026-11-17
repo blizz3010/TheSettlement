@@ -20,7 +20,7 @@ static func install(host: Node) -> bool:
 	var controller = host.get("trader_previews")
 	if not is_instance_valid(controller):
 		return false
-	if _script_path(controller) == EXT_PATH:
+	if preload("res://raid/scripts/controller_chain.gd").inherits(controller, EXT_PATH):
 		_bind_store(host, controller)
 		if is_instance_valid(controller.get("recovery_panel")):
 			return true
@@ -80,7 +80,7 @@ static func _attach_panel(host: Node, controller) -> void:
 		"emblem": "▣",
 		"role": "Item recovery · carried losses from a failed raid",
 		"tabs": ["recover", "how it works"],
-		"help": "Pay to recover carried supplies lost when you were downed. Stash, Lockbox and equipped clothing stay at home. Raid field loot still does not persist.",
+		"help": "Pay to recover carried supplies lost when you were downed. Stash, Lockbox and equipped clothing stay at home. A raid haul lost when downed is not recoverable.",
 	})
 	panel.closed.connect(controller.close)
 	panel.review_requested.connect(controller.review_recovery)

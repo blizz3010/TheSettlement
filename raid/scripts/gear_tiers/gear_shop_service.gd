@@ -126,7 +126,7 @@ func rows(action: String, plot, inventory, locker) -> Array:
 				if int(next.tier) < 4: reason = lock_reason(int(next.tier), locker)
 				if reason.is_empty(): reason = _materials_reason(mats, inventory, locker)
 				var text := "Reinforce into T%d %s.\nAfter: %s\nCost: price difference + 10%%, plus %s. The piece comes back at full durability." % [int(next.tier), next.name, stats_line(next), _materials_text(mats)]
-				if int(next.tier) == 4: text += "\nComposite inserts are raid-only parts (raid loot arrives with item 13); none can drop yet."
+				if int(next.tier) == 4: text += "\nComposite inserts are raid-only parts; they start dropping from top-tier raid caches with the loot-table update (gear PR F)."
 				result.append(_instance_row(id, r, def, Defs.upgrade_cost(r.def), reason, text))
 		"equip":
 			for id in _sorted_ids(locker):
@@ -183,7 +183,7 @@ func _materials_reason(mats: Dictionary, inventory, locker) -> String:
 	for k in mats:
 		var have: int = int(locker.shop.composite_insert) if k == "composite_insert" else inventory.amount("carried", k)
 		if have < int(mats[k]):
-			return "Needs %d carried %s (you have %d)." % [int(mats[k]), MATERIAL_NAMES.get(k, k), have] if k != "composite_insert" else "Needs a composite insert (raid-only part; none can drop until raid loot persists, item 13)."
+			return "Needs %d carried %s (you have %d)." % [int(mats[k]), MATERIAL_NAMES.get(k, k), have] if k != "composite_insert" else "Needs a composite insert (raid-only part; drops arrive with gear PR F)."
 	return ""
 
 # ----------------------------------------------------------------- candidate
