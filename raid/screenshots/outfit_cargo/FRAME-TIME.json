@@ -1,0 +1,65 @@
+{
+  "renderer": "Godot 4.6.3 opengl3 on llvmpipe (software) - relative only; main and branch captured back to back",
+  "studio_ms": {
+    "main": {
+      "full_body_bare": 50.57,
+      "full_body_outfit_lod0": 125.99,
+      "full_body_outfit_lod1": 104.02,
+      "closeup_bare": 58.44,
+      "closeup_outfit_lod0": 127.85,
+      "select_screen_outfit": 13.12,
+      "select_screen_outfit_t3": 13.73
+    },
+    "branch": {
+      "full_body_bare": 50.79,
+      "full_body_outfit_lod0": 134.43,
+      "full_body_outfit_lod1": 101.86,
+      "closeup_bare": 56.1,
+      "closeup_outfit_lod0": 128.52,
+      "select_screen_outfit": 14.49,
+      "select_screen_outfit_t3": 15.04
+    }
+  },
+  "settlement_play_flow_ms_6_frames": {
+    "main_earlier_run": {
+      "capsule": 6823.48,
+      "outfit_avatar": 6933.2,
+      "outfit_plus_t3": 8254.7
+    },
+    "branch": {
+      "capsule": 7056.78,
+      "outfit_avatar": 7039.29,
+      "outfit_plus_t3": 8633.34
+    }
+  },
+  "tris": {
+    "shirt": {
+      "lod0": 18404,
+      "lod1": 7360
+    },
+    "pants": {
+      "lod0": 25686,
+      "lod1": 10274
+    },
+    "boots": {
+      "lod0": 30495,
+      "lod1": 12198
+    },
+    "total_lod0": 74585
+  },
+  "tris_main": {
+    "pants": {
+      "lod0": 25456,
+      "lod1": 10182
+    },
+    "vest": {
+      "lod0": 20104,
+      "lod1": 8040
+    }
+  },
+  "vest": {
+    "lod0": 19988,
+    "lod1": 7995
+  },
+  "pants_leg_ease_median_m": 0.0369
+}
