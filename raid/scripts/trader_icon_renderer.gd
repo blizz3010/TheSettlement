@@ -47,6 +47,8 @@ const ITEMS:={
 	"salvage_research_core":{"trader":"Atlas","name":"Research core","src":"glb","path":"res://raid/assets/salvage/salvage_research_core.glb","yaw":-35.0},
 	# TASKS item 22, PR D: raid-only quick-use supply (tools/blender_midstyle/build_field_dressing.py).
 	"field_dressing":{"trader":"Raid","name":"Field dressing","src":"glb","path":"res://raid/assets/supplies/field_dressing.glb","yaw":-30.0},
+	# TASKS item 22, gear PR F: raid-only part for Psy's T3 -> T4 upgrade (tools/blender_midstyle/build_composite_insert.py).
+	"composite_insert":{"trader":"Raid","name":"Composite insert","src":"glb","path":"res://raid/assets/gear_parts/composite_insert.glb","yaw":-28.0},
 }
 var viewport:SubViewport
 var stage:Node3D
