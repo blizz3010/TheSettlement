@@ -6,6 +6,7 @@ extends RefCounted
 ## scripts/psy_gear_purchase.gd, so it keeps working exactly as before.
 const Defs = preload("res://raid/scripts/gear_tiers/gear_defs.gd")
 const State = preload("res://raid/scripts/gear_tiers/gear_locker_state.gd")
+const Storage = preload("res://raid/scripts/gear_tiers/gear_storage.gd")
 const Plot = preload("res://scripts/plot_state.gd")
 const Inventory = preload("res://scripts/inventory_state.gd")
 const Request = preload("res://scripts/request_state.gd")
@@ -51,8 +52,9 @@ static func stats_line(def: Dictionary) -> String:
 	for cls in Defs.DAMAGE_CLASSES:
 		if float(def.dr[cls]) > 0.0: parts.append("%s %d%%" % [cls.capitalize(), roundi(float(def.dr[cls]) * 100)])
 	if def.has("hearing_range"): parts.append("hearing +%d%% · %s compression" % [roundi(def.hearing_range * 100), def.compression])
-	if def.has("rig_cells"): parts.append("+%d rig cells (raid storage, PR D)" % def.rig_cells)
-	if def.has("pack_cells"): parts.append("+%d pack cells (raid storage, PR D)" % def.pack_cells)
+	if def.has("rig_cells"): parts.append("+%d raid haul slots" % def.rig_cells)
+	if def.has("quick_slots"): parts.append("%d quick-use slot%s" % [def.quick_slots, "" if int(def.quick_slots) == 1 else "s"])
+	if def.has("pack_cells"): parts.append("+%d raid haul slots" % def.pack_cells)
 	if def.has("safe_fall_bonus") and float(def.safe_fall_bonus) > 0.0: parts.append("safe fall +%.1f m/s" % def.safe_fall_bonus)
 	if def.has("hazard_iframe_bonus") and float(def.hazard_iframe_bonus) > 0.0: parts.append("hazard i-frames +%.1f s" % def.hazard_iframe_bonus)
 	return " · ".join(parts) + "\nDurability %d · %.1f kg · sells for %d" % [def.durability, def.weight, def.sell_price]
@@ -151,7 +153,8 @@ func loadout_text(locker) -> String:
 		lines.append("%s: %s" % [SLOT_LABELS[slot], text])
 	var s: Dictionary = locker.summary()
 	lines.append("Protection: ballistic %d%% · hazard %d%% · fall %d%% · %.1f kg" % [roundi(s.dr.ballistic * 100), roundi(s.dr.hazard * 100), roundi(s.dr.fall * 100), s.weight])
-	lines.append("Extractions: %d" % int(locker.extractions))
+	var cap: Dictionary = Storage.capacity(locker)
+	lines.append("Extractions: %d · Raid haul %d units (%s) · %d quick-use slot%s" % [int(locker.extractions), int(cap.total), Storage.breakdown(cap), int(cap.quick_slots), "" if int(cap.quick_slots) == 1 else "s"])
 	return "\n".join(lines)
 
 func _count(locker, def_id: String) -> int:

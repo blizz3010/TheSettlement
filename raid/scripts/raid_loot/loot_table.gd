@@ -6,7 +6,7 @@ extends RefCounted
 ## kept in the raid_haul.json sidecar and sold to Atlas for credits.
 ## [guess] numbers, tuned for about one T2 gear piece per full six-cache raid.
 
-const HAUL_BASE_CAPACITY := 8 ## raid pouch units with no rig or backpack (PR D adds cells)
+const HAUL_BASE_CAPACITY := 8 ## raid pouch units; an equipped rig and backpack add cells (PR D, gear_storage.gd)
 const STACKS_BY_QUALITY := [2, 2, 3, 3, 4] ## stacks rolled per cache, quality 1..5
 
 ## kind: "material" (real inventory item) or "salvage" (sidecar valuable).
@@ -36,6 +36,43 @@ const ITEMS := {
 	"salvage_research_core": {"kind": "salvage", "name": "Research core", "value": 110, "weights": [0, 0, 0, 0, 6], "qty": [1, 1],
 		"description": "Shielded compute core from a top-tier site. Rare."},
 }
+
+## PR D: kg per unit. Only load beyond the 8-unit pouch counts toward weight bands
+## (gear_storage.gd), so a pouch-only raid moves exactly as before.
+const UNIT_WEIGHT := {"timber": 1.5, "stone": 2.0, "metal": 1.2, "cloth_linen": 0.3, "thread_spool": 0.1,
+	"salvage_copper_wire": 0.6, "salvage_sensor": 0.5, "salvage_capacitor": 0.9, "salvage_survey_drive": 0.4,
+	"salvage_power_cell": 1.4, "salvage_research_core": 2.2}
+
+## PR D: raid-only consumables. Found in caches, kept in rig quick-use slots (keys 1-3)
+## or used on the spot. They never join the haul and never go home.
+## chance: per cache search by quality 1..5 (drawn after the item roll, so item rolls are unchanged).
+const SUPPLIES := {
+	"field_dressing": {"name": "Field dressing", "heal": 30.0, "chance": [0.30, 0.35, 0.45, 0.55, 0.65],
+		"description": "Sealed pressure dressing. Restores 30 health. Raid-only."},
+}
+
+static func unit_weight(id: String) -> float:
+	return float(UNIT_WEIGHT.get(id, 1.0))
+
+static func total_weight(items: Dictionary) -> float:
+	var kg := 0.0
+	for id in items:
+		kg += unit_weight(str(id)) * int(items[id])
+	return snappedf(kg, 0.01)
+
+static func is_supply(id: String) -> bool:
+	return SUPPLIES.has(id)
+
+static func supply_name(id: String) -> String:
+	return str(SUPPLIES.get(id, {}).get("name", id.capitalize()))
+
+## Draw supplies for one cache with the caller's RNG, after roll(). Returns {supply_id: n}.
+static func roll_supplies(rng: RandomNumberGenerator, quality: int) -> Dictionary:
+	var q := clampi(quality, 1, 5)
+	var found := {}
+	for id in SUPPLIES:
+		if rng.randf() < float(SUPPLIES[id].chance[q - 1]): found[id] = 1
+	return found
 
 static func has_item(id: String) -> bool:
 	return ITEMS.has(id)

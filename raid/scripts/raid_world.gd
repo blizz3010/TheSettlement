@@ -45,6 +45,9 @@ var downed:=false
 const LootTable=preload("res://raid/scripts/raid_loot/loot_table.gd")
 const LootAudio=preload("res://raid/scripts/raid_loot/raid_loot_audio.gd")
 var loot_audio
+## PR D: rig/backpack storage (haul capacity, quick-use slots, load weight).
+const Storage=preload("res://raid/scripts/gear_tiers/gear_storage.gd")
+var storage:Dictionary={}
 func is_raid_ready()->bool:return ready_for_play
 func get_raid_failure()->String:return generation_failure
 # Overridable map adapters keep the first map as the default. Lifecycle, input,
@@ -80,6 +83,8 @@ func _ready():
 	for poi in generator.pois:_build_poi(poi)
 	_build_edges_and_extracts()
 	gear=RaidGear.new();gear.load_locker()
+	storage=Storage.capacity(gear.store.state)
+	raid_state.haul_capacity=int(storage.total);raid_state.quick_capacity=int(storage.quick_slots)
 	player=gear.player_script().new();gear.configure_player(player);player.name="RaidPlayer";player.enabled=false;add_child(player)
 	var start:Vector2=settings.SPAWN;player.position=Vector3(start.x,generator.height_at(start)+0.06,start.y);player.rotation.y=0.25
 	var game_settings=preload("res://scripts/game_settings.gd").new();game_settings.apply(game_settings.load_settings(),player,get_viewport())
@@ -272,7 +277,7 @@ func _process(delta):
 			var detail=_region_detail(poi)
 			if not detail.is_empty():region+="  |  "+detail
 			break
-	status.text=_map_name().to_upper()+"   /   DEVELOPMENT PREVIEW\n"+region+"\n"+_key("map")+" Map   •   Tab Field notes   •   Esc Pause   •   Visited %d/6   •   Caches %d/6   •   Haul %d/%d"%[raid_state.visited.size(),raid_state.searched.size(),raid_state.haul_units(),raid_state.haul_capacity]
+	status.text=_map_name().to_upper()+"   /   DEVELOPMENT PREVIEW\n"+region+"\n"+_key("map")+" Map   •   Tab Field notes   •   Esc Pause   •   Visited %d/6   •   Caches %d/6   •   Haul %d/%d"%[raid_state.visited.size(),raid_state.searched.size(),raid_state.haul_units(),raid_state.haul_capacity]+_quick_status()
 	navigation.text=map_panel.navigation_text()
 	navigation.visible=not modal.visible and not map_panel.visible
 	if modal.visible or map_panel.visible:hint.text="";map_panel.queue_redraw();return
@@ -282,7 +287,7 @@ func _process(delta):
 		var prompts={"door":"Open %s door"%active_target.poi.get("lock",""),"clue":"Read / collect field supplies","cache":"Search supply cache","extract":"Extract and return","switch":_switch_prompt(active_target.get("number",0))}
 		hint.text=_key("interact")+"  "+prompts[active_target.kind]
 		if active_target.kind=="cache" and raid_state.searched.has(active_target.poi.id):
-			var left=LootTable.units(raid_state.cache_items(active_target.poi.id))
+			var left=LootTable.units(raid_state.cache_items(active_target.poi.id))+LootTable.units(raid_state.supplies_in(active_target.poi.id))
 			hint.text=_key("interact")+"  Open cache · %d left"%left if left>0 else "Cache emptied"
 		if active_target.kind=="extract" and not raid_state.extraction_id.is_empty():hint.text=_key("interact")+"  Cancel extraction"
 
@@ -369,7 +374,9 @@ func _summary_text()->String:
 	return lines
 
 func _haul_line()->String:
-	return "Raid haul %d / %d units · worth about %d credits."%[raid_state.haul_units(),raid_state.haul_capacity,raid_state.haul_value()]
+	var load_kg:=Storage.load_weight(raid_state.haul)
+	var load_text:=" · load %.1f kg"%load_kg if load_kg>0.0 else ""
+	return "Raid haul %d / %d units (%s)%s · worth about %d credits."%[raid_state.haul_units(),raid_state.haul_capacity,Storage.breakdown(_storage()),load_text,raid_state.haul_value()]
 
 func _extraction_complete():
 	var Outcome=preload("res://raid/scripts/raid_outcome.gd")
@@ -409,6 +416,8 @@ func _unhandled_input(event):
 				map_panel.close_key=_key("map");map_panel.show();map_panel.grab_focus();player.enabled=false;player.velocity=Vector3.ZERO;Input.mouse_mode=Input.MOUSE_MODE_VISIBLE;map_panel.queue_redraw()
 			get_viewport().set_input_as_handled();return
 		if event.physical_keycode==KEY_TAB and not modal.visible and not map_panel.visible:_field_notes();get_viewport().set_input_as_handled();return
+		if event.physical_keycode in QUICK_KEYS and not modal.visible and not map_panel.visible and raid_state.quick_capacity>0:
+			use_quick_slot(QUICK_KEYS.find(event.physical_keycode));get_viewport().set_input_as_handled();return
 		if event.is_action_pressed("interact") and not modal.visible and not map_panel.visible and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED:
 			var target=_nearest_target()
 			if not target.is_empty():_interact(target)
@@ -442,7 +451,7 @@ func _interact(target:Dictionary):
 			if raid_state.searched.has(poi.id):
 				# Same toast as before loot persistence (the walkthroughs pin it); leftovers reopen.
 				_notify("Already searched this raid.")
-				if LootTable.units(raid_state.cache_items(poi.id))>0:_cache_panel(target)
+				if raid_state.cache_has_anything(poi.id):_cache_panel(target)
 				return
 			var result=raid_state.search_cache(poi)
 			if not result.ok:_notify(result.reason,9);return
@@ -515,7 +524,7 @@ func _field_notes():
 	for id in raid_state.notes:lines+=id.capitalize()+" code: "+raid_state.notes[id]+"\n"
 	for id in raid_state.clues:lines+=raid_state.clues[id]+"\n"
 	if lines.is_empty():lines="No keys, cards or codes found yet. Search field supplies within each POI."
-	_scroll_text(lines+"\n\n"+_summary_text());_text("Reach an extraction beacon to bring your haul home. Being downed or leaving early loses it.")
+	_scroll_text(lines+"\n\n"+_summary_text());_text(_haul_line()+" "+_quick_line()+" Reach an extraction beacon to bring your haul home. Being downed or leaving early loses it.")
 	_button("Close",_close_modal).grab_focus()
 	if not raid_state.haul.is_empty():_button("Manage haul (drop items)",_haul_panel)
 func _pause_menu():
@@ -576,11 +585,12 @@ func _cache_panel(target:Dictionary):
 	_text(_haul_line()+(" Haul full: drop something (Tab › Manage haul) to make room." if space<=0 else " Loot comes home only if you extract."))
 	_loot_list(items,"Take",func(id:String):
 		var n=raid_state.take_from_cache(poi.id,id)
-		if n>0:_loot_sound("loot_pickup")
+		if n>0:_loot_sound("loot_pickup");_haul_changed()
 		_cache_panel(target),space>0)
+	_supply_rows(target)
 	var take_all=_button("Take all that fits",func():
 		var taken=raid_state.take_all(poi.id)
-		if not taken.is_empty():_loot_sound("loot_pickup")
+		if not taken.is_empty():_loot_sound("loot_pickup");_haul_changed()
 		_cache_panel(target))
 	take_all.disabled=space<=0 or items.is_empty()
 	var close=_button("Close",_close_modal)
@@ -591,7 +601,77 @@ func _haul_panel():
 	_start_modal("Raid haul")
 	_text(_haul_line()+" Dropped items stay behind in this raid.")
 	_loot_list(raid_state.haul,"Drop 1",func(id:String):
-		if raid_state.drop_from_haul(id,1)>0:_loot_sound("loot_drop")
+		if raid_state.drop_from_haul(id,1)>0:_loot_sound("loot_drop");_haul_changed()
 		_haul_panel(),true)
 	_button("Back to field notes",_field_notes)
 	_button("Close",_close_modal).grab_focus()
+
+# ------------------------------------------------- TASKS item 22, PR D: rig/backpack storage
+const QUICK_KEYS:=[KEY_1,KEY_2,KEY_3]
+func _storage()->Dictionary:
+	if storage.is_empty():storage=Storage.capacity(null)
+	return storage
+
+## Haul changed: refresh the load-based movement band and the gear HUD.
+func _haul_changed():
+	if gear!=null and is_instance_valid(gear):gear.refresh_load(raid_state.haul)
+
+func _quick_status()->String:
+	if raid_state.quick_capacity<=0:return ""
+	var parts:PackedStringArray=[]
+	for i in raid_state.quick_capacity:
+		parts.append("[%d] %s"%[i+1,LootTable.supply_name(raid_state.quick_slots[i]) if i<raid_state.quick_slots.size() else "—"])
+	return "   •   Quick "+"  ".join(parts)
+
+func _quick_line()->String:
+	if raid_state.quick_capacity<=0:return "No rig quick-use slots: field dressings are used on the spot."
+	return "Rig quick-use: %d / %d filled (keys 1-%d)."%[raid_state.quick_slots.size(),raid_state.quick_capacity,raid_state.quick_capacity]
+
+func _health_full()->bool:
+	var h=health_controller.health if health_controller!=null else null
+	return h==null or h.current()>=h.max_hp-0.001
+
+func _heal_with(id:String)->float:
+	var h=health_controller.health
+	var restored:float=h.heal(float(LootTable.SUPPLIES[id].heal))
+	_loot_sound("loot_pickup")
+	return restored
+
+## Uses rig quick-use slot index (0-based). Returns health restored (0 if nothing used).
+func use_quick_slot(index:int)->float:
+	if index<0 or index>=raid_state.quick_slots.size():_notify("Quick slot %d is empty."%(index+1),3);return 0.0
+	if _health_full():_notify("Already at full health.",3);return 0.0
+	var id=raid_state.use_quick(index)
+	if id.is_empty():return 0.0
+	var restored=_heal_with(id)
+	_notify("%s used · +%d health."%[LootTable.supply_name(id),roundi(restored)],4)
+	return restored
+
+func _supply_rows(target:Dictionary):
+	var poi:Dictionary=target.poi
+	var supplies=raid_state.supplies_in(poi.id)
+	if supplies.is_empty():return
+	var generation=modal_generation
+	for id in supplies:
+		var row=HBoxContainer.new();modal_content.add_child(row)
+		# Plain load (no static icon cache) so raid scenes never hold textures past exit.
+		var icon_path:="res://raid/assets/trader_icons/%s.png"%str(id)
+		var tex=load(icon_path) if ResourceLoader.exists(icon_path) else null
+		if tex is Texture2D:
+			var icon=TextureRect.new();icon.texture=tex;icon.custom_minimum_size=Vector2(40,40);icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;row.add_child(icon)
+		var label=Label.new();label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		label.text="%s × %d   (restores %d health · raid-only)"%[LootTable.supply_name(id),int(supplies[id]),int(LootTable.SUPPLIES[id].heal)];row.add_child(label)
+		var stow=Button.new();stow.name="Stow_"+str(id);stow.custom_minimum_size=Vector2(118,36);row.add_child(stow)
+		stow.text="Stow in rig" if raid_state.quick_capacity>0 else "No rig"
+		if raid_state.quick_capacity>0 and raid_state.quick_space()<=0:stow.text="Rig slots full"
+		stow.disabled=raid_state.quick_space()<=0
+		var use=Button.new();use.name="UseNow_"+str(id);use.text="Use now";use.custom_minimum_size=Vector2(92,36);use.disabled=_health_full();row.add_child(use)
+		var sid=str(id)
+		stow.pressed.connect(func():
+			if not _modal_callback_current(generation):return
+			if raid_state.stow_supply(poi.id,sid):_loot_sound("loot_pickup")
+			_cache_panel(target))
+		use.pressed.connect(func():
+			if not _modal_callback_current(generation):return
+			if not _health_full() and raid_state.use_supply_from_cache(poi.id,sid):_heal_with(sid)
+			_cache_panel(target))

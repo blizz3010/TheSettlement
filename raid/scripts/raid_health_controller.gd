@@ -156,6 +156,7 @@ func _on_died(source: String) -> void:
 	world._scroll_text(world._summary_text())
 	var lost: int = world.raid_state.haul_units()
 	var haul_note := "Your raid haul (%d units, about %d credits) is lost. " % [lost, world.raid_state.haul_value()] if lost > 0 else "You had no raid haul to lose. "
+	if not world.raid_state.quick_slots.is_empty(): haul_note += "Unused field dressings in your rig stay behind. "
 	world._text(haul_note + "Keys and codes from this raid are discarded. Carried supplies you took with you can be recovered at Atlas. Equipped tier gear, if any, stays with you but loses durability. You return at full health.")
 	var button: Button = world._button("Return to settlement now", return_after_downed)
 	button.grab_focus()

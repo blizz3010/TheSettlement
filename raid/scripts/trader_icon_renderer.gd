@@ -45,6 +45,8 @@ const ITEMS:={
 	"salvage_survey_drive":{"trader":"Atlas","name":"Sealed survey drive","src":"glb","path":"res://raid/assets/salvage/salvage_survey_drive.glb","yaw":-35.0},
 	"salvage_power_cell":{"trader":"Atlas","name":"Field power cell","src":"glb","path":"res://raid/assets/salvage/salvage_power_cell.glb","yaw":-30.0},
 	"salvage_research_core":{"trader":"Atlas","name":"Research core","src":"glb","path":"res://raid/assets/salvage/salvage_research_core.glb","yaw":-35.0},
+	# TASKS item 22, PR D: raid-only quick-use supply (tools/blender_midstyle/build_field_dressing.py).
+	"field_dressing":{"trader":"Raid","name":"Field dressing","src":"glb","path":"res://raid/assets/supplies/field_dressing.glb","yaw":-30.0},
 }
 var viewport:SubViewport
 var stage:Node3D
