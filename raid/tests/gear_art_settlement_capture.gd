@@ -90,12 +90,17 @@ func run():
 	# Face along the open plaza; the game's third-person camera sits 3.5 m behind, 1 m up.
 	p.update_camera_view()
 	for i in 3: await get_tree().process_frame
-	# Before: no worn art -> the old capsule stand-in.
-	GearAvatar.install(p, [])
+	# Before: the old capsule stand-in (the avatar now always shows in the default outfit, so it
+	# is hidden and the capsule put back on its layers for this one shot).
+	if av != null: av.visible = false
+	var look: Array = holder.get_meta("gear_capsule_look") if holder.has_meta("gear_capsule_look") else [1, GeometryInstance3D.SHADOW_CASTING_SETTING_ON]
+	holder.layers = look[0]; holder.cast_shadow = look[1]
 	for i in 4: await get_tree().process_frame
 	timing["third_person_capsule_ms"] = await frame_ms(6)
 	await shot("08_before_third_person_capsule")
+	holder.layers = 0; holder.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	av = GearAvatar.install(p, ["gear_helmet_t3", "gear_body_armor_t3"])
+	av.visible = true
 	for i in 4: await get_tree().process_frame
 	timing["third_person_gear_avatar_ms"] = await frame_ms(6)
 	var side := Camera3D.new(); side.fov = 40; side.near = 0.05; world.add_child(side)

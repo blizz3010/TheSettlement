@@ -12,6 +12,8 @@ const Install = preload("res://raid/scripts/gear_tiers/gear_shop_install.gd")
 const GearArt = preload("res://raid/scripts/gear_tiers/gear_art.gd")
 const Placeholder = preload("res://raid/scripts/gear_tiers/gear_placeholder_art.gd")
 const ShopTransaction = preload("res://scripts/shop_transaction.gd")
+const DefaultOutfit = preload("res://raid/scripts/outfit/default_outfit.gd")
+const GearAvatar = preload("res://raid/scripts/gear_tiers/gear_avatar.gd")
 const HELM := "gear_helmet_t3"
 const VEST := "gear_body_armor_t3"
 var out := ""
@@ -268,7 +270,26 @@ func rig_at(x: float) -> Skeleton3D:
 			var t := m.duplicate() as BaseMaterial3D
 			t.albedo_color = t.albedo_color * Color(0.66, 0.54, 0.46)
 			body.set_surface_override_material(si, t)
-	return rig.find_child("Skeleton3D", true, false) as Skeleton3D
+	var sk := rig.find_child("Skeleton3D", true, false) as Skeleton3D
+	# Gear is worn over the default outfit (raid/scripts/outfit/default_outfit.gd).
+	DefaultOutfit.dress(sk, DefaultOutfit.ORDER, 0, body)
+	return sk
+
+var labels: CanvasLayer
+
+## Big top-left / top-right panel labels (shot 14: which side is the old placeholder).
+func label_pair(left: String, right: String):
+	if labels != null: labels.queue_free(); labels = null
+	if left == "" and right == "": return
+	labels = CanvasLayer.new(); root.add_child(labels)
+	for pr in [[left, 0.0], [right, 0.5]]:
+		if pr[0] == "": continue
+		var bar := ColorRect.new(); bar.color = Color(0.07, 0.1, 0.09, 0.82)
+		bar.position = Vector2(1440 * pr[1] + 24, 20); bar.size = Vector2(560, 44); labels.add_child(bar)
+		var l := Label.new(); l.text = pr[0]
+		l.add_theme_font_size_override("font_size", 24)
+		l.add_theme_color_override("font_color", Color("ffb36b") if str(pr[0]).begins_with("OLD") else Color("bff0c8"))
+		l.position = Vector2(12, 6); bar.add_child(l)
 
 func view(name: String, pos: Vector3, look: Vector3, fov: float = 30.0):
 	cam3.fov = fov; cam3.position = pos; cam3.look_at(look)
@@ -285,8 +306,12 @@ func studio_shots():
 	for pair in [[HELM, Vector3(0, 1.49, -0.01)], [VEST, Vector3(0, 1.18, 0.0)]]:
 		var ph := Placeholder.build(pair[0]); stage.add_child(ph); ph.position = Vector3(-0.45, 0, 0) + pair[1]
 	GearArt.show_worn(right, [HELM, VEST], 0)
+	label_pair("OLD · PR A primitive placeholder (retired)", "NEW · E0 art: Warden Helm + Bulwark Carrier")
 	await view("14_before_after_placeholder_vs_art", Vector3(0.9, 1.35, 3.1), Vector3(0, 1.05, 0), 32)
+	# Rear view: the sides swap on screen.
+	label_pair("NEW · E0 art (rear)", "OLD · PR A placeholder (rear)")
 	await view("14b_before_after_placeholder_vs_art_rear", Vector3(-0.9, 1.35, -3.1), Vector3(0, 1.05, 0), 32)
+	label_pair("", "")
 	for c in stage.get_children():
 		if c is Node3D and not (c is Camera3D or c is DirectionalLight3D or c is WorldEnvironment or c is MeshInstance3D): c.queue_free()
 		elif c is Node3D and c.has_meta("placeholder"): c.queue_free()
@@ -297,9 +322,18 @@ func studio_shots():
 	await view("16_closeup_helmet_rear_side", Vector3(-0.5, 1.58, -0.42), Vector3(0, 1.46, 0), 28)
 	await view("17_closeup_vest_front", Vector3(0.55, 1.35, 1.15), Vector3(0, 1.16, 0), 30)
 	await view("18_closeup_vest_back", Vector3(-0.6, 1.4, -1.1), Vector3(0, 1.16, 0), 30)
+	# Fit: the avatar's own walk / sprint cycles with the vest worn (arms over the carrier).
+	var av = GearAvatar.new(); av.skeleton = sk; av.worn = [HELM, VEST]
+	for pr in [["idle", 0.0, "19a"], ["walk", PI * 0.5, "19b"], ["sprint", PI * 0.5, "19c"], ["sprint", PI * 1.5, "19d"]]:
+		av.apply_pose(pr[0], pr[1])
+		await view("%s_fit_%s_front" % [pr[2], pr[0]], Vector3(0.7, 1.25, 1.9), Vector3(0, 1.1, 0), 32)
+		await view("%s_fit_%s_side" % [pr[2], pr[0]], Vector3(2.0, 1.25, 0.3), Vector3(0, 1.1, 0), 32)
+	sk.reset_bone_poses()
+	av.free()
+	await view("19e_fit_helmet_straps_side", Vector3(0.62, 1.46, 0.12), Vector3(0, 1.43, 0.01), 28)
 	cam3.position = Vector3(0.55, 1.35, 1.15); cam3.look_at(Vector3(0, 1.16, 0))
 	timing["studio_closeup_with_art_ms"] = await frame_ms(60)
 	GearArt.detach_all(sk)
-	timing["studio_closeup_rig_only_ms"] = await frame_ms(60)
+	timing["studio_closeup_rig_outfit_no_gear_ms"] = await frame_ms(60)
 	stage.queue_free()
 	await process_frame

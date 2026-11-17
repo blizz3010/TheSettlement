@@ -1,0 +1,32 @@
+{
+  "renderer": "Godot 4.6.3 opengl3 on llvmpipe (software, xvfb 1440x900) - relative only",
+  "ms_per_frame": {
+    "select_screen_outfit_t3": 12.84,
+    "studio_closeup_rig_outfit_no_gear": 119.37,
+    "studio_closeup_rig_outfit_t3": 173.94,
+    "raid_hud": 400.8
+  },
+  "tris": {
+    "gear_body_armor_t3": {
+      "lod0": 20104,
+      "lod1": 8040,
+      "clearance_m": 0.0147,
+      "verts_inside_skin": 0
+    },
+    "gear_helmet_t3": {
+      "lod0": 11012,
+      "lod1": 4404,
+      "clearance_m": -0.0039,
+      "verts_inside_skin": 1
+    }
+  },
+  "vest_over_shirt": {
+    "shirt_clearance_m": 0.0032,
+    "verts_inside_shirt": 0
+  },
+  "helmet_straps": {
+    "strap_points": 261,
+    "strap_points_in_hair": 0
+  },
+  "note": "helmet verts_inside_skin 1 = nearest-normal sign flip on a hair card back face at the ear; the radial strap-vs-hair check finds 0 buried"
+}

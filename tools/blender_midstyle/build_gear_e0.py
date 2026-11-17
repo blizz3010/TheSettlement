@@ -257,6 +257,12 @@ def grid_panel(name, points2d, y, res, project_dir, target, off, plate_curve=Non
     g.data.update()
     return g
 
+def smooth_pts(pts, it=2):
+    """Open-path smoothing, ends fixed."""
+    for _ in range(it):
+        pts = [pts[0]] + [(pts[i - 1] + pts[i] * 2 + pts[i + 1]) / 4 for i in range(1, len(pts) - 1)] + [pts[-1]]
+    return pts
+
 def arc_pts(cx, cz, r, a0, a1, n):
     return [(cx + r * math.cos(math.radians(a0 + (a1 - a0) * i / n)), cz + r * math.sin(math.radians(a0 + (a1 - a0) * i / n))) for i in range(n + 1)]
 
@@ -373,9 +379,44 @@ def export(name, objs, rig):
             "bytes_gltf": os.path.getsize(os.path.join(OUT, name + ".gltf")), "bytes_bin": os.path.getsize(os.path.join(OUT, name + ".bin"))}
 
 # ================================================================== T3 VEST: Bulwark Carrier
+OUTFIT = os.path.join(ROOT, "raid", "assets", "outfit", "default_outfit.gltf")
+
+def outfit_shirt():
+    """The default outfit's shirt (rest pose, world space) as a plain mesh object."""
+    before = set(bpy.data.objects)
+    bpy.ops.import_scene.gltf(filepath=OUTFIT)
+    new = set(bpy.data.objects) - before
+    shirt = None
+    for o in new:
+        if o.type == "MESH" and o.name == "OutfitShirt": shirt = o
+    for o in new:
+        if o is not shirt: bpy.data.objects.remove(o)
+    for md in list(shirt.modifiers): shirt.modifiers.remove(md)
+    shirt.parent = None
+    return shirt
+
+def layer_clearance(obj, under, body, max_d=0.03):
+    """How far `obj` stays outside the garment `under`, both measured as height over the skin
+    (robust to the garment's own inner faces / patch backs). Negative = `obj` dips into it."""
+    sb = Surf(body); su = Surf(under)
+    def height(p):
+        loc, nor = sb.nearest(p); return (p - loc).dot(nor)
+    worst = 1.0; inside = 0
+    for v in obj.data.vertices:
+        p = obj.matrix_world @ v.co
+        q, _ = su.nearest(p)
+        if q is None or (q - p).length > max_d: continue
+        d = height(p) - height(q)
+        worst = min(worst, d); inside += d < 0
+    return round(worst, 4), inside
+
 def bulwark_carrier():
     reset()
     rig = bpy.data.objects["AppearanceProofRig"]; body = bpy.data.objects["ProofBody"]
+    # Worn over the default outfit's shirt (raid/assets/outfit, up to 17 mm off the skin at the
+    # bloused waist, 12-15 mm on the chest / shoulders): offsets below are skin offsets that clear
+    # the shirt, checked against the real shirt shell (shirt_clearance_m in the report).
+    shirt = outfit_shirt()
     torso = proxy_from([body], "TorsoProxy", keep=lambda c: 0.80 < c.z < 1.36 and abs(c.x) < 0.215, smooth_iter=14)
     cord = pbr("T3_Cordura", "t3_cordura", 0.8); web = pbr("T3_Webbing", "t3_webbing", 0.9)
     poly = pbr("T3_Polymer", "t3_polymer", 0.8); steel = pbr("T3_Steel", "t3_steel", 0.7)
@@ -383,7 +424,7 @@ def bulwark_carrier():
     parts = []
     # Plate bags: front and back, plate-cut shoulders, padded rounded edges with binding (rim).
     def plate_outline(z0, z1, half, top_half, cut_z):
-        r = arc_pts(half - 0.028, z0 + 0.028, 0.028, 270, 360, 4) + [(half, cut_z)]
+        r = arc_pts(half - 0.038, z0 + 0.038, 0.038, 270, 360, 5) + [(half, cut_z)]
         r += [(half - (half - top_half) * (1 - math.cos(math.pi / 2 * t / 6)), cut_z + (z1 - cut_z - 0.02) * math.sin(math.pi / 2 * t / 6)) for t in range(1, 7)]
         r += arc_pts(top_half - 0.02, z1 - 0.02, 0.02, 0, 90, 3)[1:]
         out = []
@@ -392,12 +433,13 @@ def bulwark_carrier():
         return out
     panels = {}
     for side, y, pdir, z0, z1, cutz in (("Front", -0.45, 1, 0.905, 1.218, 1.125), ("Back", 0.45, -1, 0.905, 1.250, 1.150)):
-        g = grid_panel("PlateBag" + side, plate_outline(z0, z1, 0.128, 0.064, cutz), y, (22, 28), pdir, torso, 0.020, plate_curve=1.6)
+        # Plate wraps the ribs (sagitta 2.4 x^2) instead of reading as a flat slab.
+        g = grid_panel("PlateBag" + side, plate_outline(z0, z1, 0.126, 0.064, cutz), y, (24, 30), pdir, torso, 0.025, plate_curve=2.4)
         set_mats(g, [cord, cord, web])
         so = g.modifiers.new("Solid", "SOLIDIFY"); so.thickness = 0.024; so.offset = 1.0; so.use_even_offset = True
         so.use_rim = True; so.material_offset_rim = 2
         apply_all(g)
-        finish(g, None, bevel=0.0065, segs=2, smooth_angle=50)
+        finish(g, None, bevel=0.0085, segs=3, smooth_angle=50)
         panels[side] = g; parts.append(g)
         vs = [g.matrix_world @ v.co for v in g.data.vertices]
         print("PANEL", side, len(vs), [round(min(v[i] for v in vs), 3) for i in range(3)], [round(max(v[i] for v in vs), 3) for i in range(3)])
@@ -406,20 +448,23 @@ def bulwark_carrier():
     # Cummerbund: elastic side wings round the waist, tucked under both plate bags.
     ring = []; faces = []; NA, NZ = 44, 4
     for j in range(NZ + 1):
-        z = 0.922 + (1.065 - 0.922) * j / NZ
         for i in range(NA):
-            a = 2 * math.pi * i / NA; ring.append((0.16 * math.sin(a), -0.045 + 0.13 * -math.cos(a), z))
+            a = 2 * math.pi * i / NA
+            # Wings drop to 1.030 under the arms (was 1.065) so hanging / swinging arms clear them.
+            top = 1.065 - 0.035 * abs(math.sin(a)) ** 2
+            z = 0.922 + (top - 0.922) * j / NZ
+            ring.append((0.16 * math.sin(a), -0.045 + 0.13 * -math.cos(a), z))
     for j in range(NZ):
         for i in range(NA):
             k = (i + 1) % NA; faces.append((j * NA + i, j * NA + k, (j + 1) * NA + k, (j + 1) * NA + i))
     cb = mesh_obj("Cummerbund", ring, faces)
-    shrink(cb, torso, 0.024); apply_all(cb)
+    shrink(cb, torso, 0.028); apply_all(cb)
     bm = bmesh.new(); bm.from_mesh(cb.data)
     bmesh.ops.delete(bm, geom=[f for f in bm.faces if abs(f.calc_center_median().x) < 0.085], context="FACES")
     bm.to_mesh(cb.data); bm.free()
     sel(cb); bpy.ops.object.mode_set(mode="EDIT"); bpy.ops.mesh.select_all(action="SELECT"); bpy.ops.mesh.normals_make_consistent(inside=False); bpy.ops.object.mode_set(mode="OBJECT")
     set_mats(cb, [cord, cord, web])
-    so = cb.modifiers.new("Solid", "SOLIDIFY"); so.thickness = 0.011; so.offset = 1.0; so.use_rim = True; so.material_offset_rim = 2
+    so = cb.modifiers.new("Solid", "SOLIDIFY"); so.thickness = 0.009; so.offset = 1.0; so.use_rim = True; so.material_offset_rim = 2
     apply_all(cb); finish(cb, None, bevel=0.003, segs=2, smooth_angle=50); parts.append(cb)
     scb = Surf(cb)
     # MOLLE: webbing rows (bar-tacked every 38 mm) on the back bag and both cummerbund wings.
@@ -489,8 +534,8 @@ def bulwark_carrier():
         path = []; nors = []
         for i in range(len(raw) - 1):
             for s in range(4):
-                p = raw[i].lerp(raw[i + 1], s / 4); loc, nor = st.nearest(p); path.append(loc + nor * 0.022); nors.append(nor)
-        loc, nor = st.nearest(raw[-1]); path.append(loc + nor * 0.022); nors.append(nor)
+                p = raw[i].lerp(raw[i + 1], s / 4); loc, nor = st.nearest(p); path.append(loc + nor * 0.025); nors.append(nor)
+        loc, nor = st.nearest(raw[-1]); path.append(loc + nor * 0.025); nors.append(nor)
         strap = sweep("Strap", path, nors, rrect(0.012, 0.058, 0.004, 2)); strap.data.materials.append(cord)
         finish(strap, None, smooth_angle=60); parts.append(strap)
         # Buckle (male+female, polymer) where the strap meets the front bag.
@@ -522,7 +567,8 @@ def bulwark_carrier():
     sel(vest); bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
     report = {"lod0_tris": tris(vest), "materials": [m.name for m in vest.data.materials]}
     report["clearance_m"], report["verts_inside_skin"] = clearance(vest, [body])
-    bpy.data.objects.remove(torso)
+    report["shirt_clearance_m"], report["verts_inside_shirt"] = layer_clearance(vest, shirt, body)
+    bpy.data.objects.remove(torso); bpy.data.objects.remove(shirt)
     transfer_weights(vest, body, {"pelvis", "spine_01", "spine_02", "spine_03", "clavicle_l", "clavicle_r"})
     bind(vest, rig, None)
     lod = make_lod1(vest, LOD1_RATIO); lod.parent = rig
@@ -656,13 +702,51 @@ def warden_helm():
     finish(rp, None, uv=False); parts.append(rp)
     # Retention: front + rear straps per side meeting at a jaw junction, chin strap with buckle, chin cup.
     sh_head = Surf(hb)   # straps and harness ride over the hair, not under it
-    def skin_path(raw, off, n=5):
+    HC = Vector((0.0, -0.035, 1.425))   # head centre for radial strap placement
+    strap_pts = []
+    strap_edges = []
+    import numpy as np
+    _hv = np.array([tuple(hb.matrix_world @ v.co) for v in hb.data.vertices]) - np.array(tuple(HC))
+    _hr = np.linalg.norm(_hv, axis=1); _hd = _hv / _hr[:, None]
+    _cos = math.cos(math.radians(3.0))
+    def cone_r(q):
+        """Outermost head/hair vertex within 3 deg of the ray through q (rays slip between hair cards)."""
+        d = np.array(tuple((q - HC).normalized())); m = _hd @ d > _cos
+        return float(_hr[m].max()) if m.any() else 0.0
+    def outer(p, off):
+        """Outermost head/hair surface along the ray from the head centre through p (the nearest
+        point can sit under hair cards and bury the strap), then `off` further out."""
+        d = (p - HC).normalized()
+        loc, nor = sh_head.ray(HC + d * 0.4, -d)
+        if loc is None: loc, nor = sh_head.nearest(p)
+        n = nor if nor.dot(d) > 0 else -nor
+        return loc + d * off, n.lerp(d, 0.5).normalized()
+    def skin_path(raw, off, n=5, half_w=0.0085):
         path = []; nors = []
         for i in range(len(raw) - 1):
             for s in range(n):
-                p = raw[i].lerp(raw[i + 1], s / n); loc, nor = sh_head.nearest(p); path.append(loc + nor * off); nors.append(nor)
-        loc, nor = sh_head.nearest(raw[-1]); path.append(loc + nor * off); nors.append(nor)
-        return path, nors
+                q, m = outer(raw[i].lerp(raw[i + 1], s / n), off); path.append(q); nors.append(m)
+        q, m = outer(raw[-1], off); path.append(q); nors.append(m)
+        sm = smooth_pts(path)
+        # Smoothing pulls a convex path inward: keep whichever is further out.
+        out = []
+        for p0 in sm:
+            q, m = outer(p0, off)
+            out.append(q if (q - HC).length > (p0 - HC).length else p0)
+        # The band is ~17 mm wide: on a curved head its edges sit inward of the centre line, so
+        # lift each point until both edges also clear the outer hair surface by 1.5 mm.
+        for i in range(len(out)):
+            t = (out[min(i + 1, len(out) - 1)] - out[max(i - 1, 0)]).normalized()
+            side = t.cross(nors[i]).normalized()
+            dr = (out[i] - HC).normalized(); lift = 0.0
+            for e in (-half_w, 0.0, half_w):
+                q = out[i] + side * e
+                h, _ = outer(q, 0.0)
+                lift = max(lift, (h - HC).length + 0.0015 - (q - HC).length, cone_r(q) + 0.0012 - (q - HC).length)
+            if lift > 0.0: out[i] = out[i] + dr * lift
+            strap_edges.extend([out[i] - side * half_w, out[i] + side * half_w])
+        strap_pts.extend(out)
+        return out, nors
     def rim_point(deg, sgn):
         th = sgn * math.radians(deg); p = surf_pt(th, phi_rim(th)); return p - Vector((0, 0, 0.004))
     sprof = [(0, -0.0085), (0.0016, -0.0085), (0.0016, 0.0085), (0, 0.0085)]
@@ -671,10 +755,10 @@ def warden_helm():
         for deg in (62, 128):
             a = rim_point(deg, sgn)
             mid = a.lerp(j, 0.5); mid = mid + Vector((sgn * 0.01, 0, 0))
-            path, nors = skin_path([a, mid, j], 0.0062)
+            path, nors = skin_path([a, mid, j], 0.0045)
             s = sweep("Strap", path, nors, sprof); s.data.materials.append(web); finish(s, None, smooth_angle=60); parts.append(s)
         chin = [j, Vector((sgn * 0.045, -0.135, 1.352)), Vector((0.0, -0.150, 1.345))]
-        path, nors = skin_path(chin, 0.0050)
+        path, nors = skin_path(chin, 0.0045)
         s = sweep("ChinStrap", path, nors, sprof); s.data.materials.append(web); finish(s, None, smooth_angle=60); parts.append(s)
         jn = box((0.020, 0.006, 0.020), (0, 0, 0), name="Junction"); loc, nor = sh_head.nearest(j)
         orient(jn, loc + nor * 0.0085, nor); finish(jn, [poly], bevel=0.0018, segs=2); parts.append(jn)
@@ -690,7 +774,7 @@ def warden_helm():
     # Rear retention dial on its harness band under the back of the shell.
     loc, nor = sh_head.ray(Vector((0, 0.4, 1.408)), Vector((0, -1, 0)))
     band_raw = [rim_point(140, -1), Vector((-0.045, loc.y - 0.004, 1.405)), Vector((0, loc.y, 1.404)), Vector((0.045, loc.y - 0.004, 1.405)), rim_point(140, 1)]
-    path, nors = skin_path(band_raw, 0.006)
+    path, nors = skin_path(band_raw, 0.005, half_w=0.009)
     hband = sweep("Harness", path, nors, [(0, -0.009), (0.0022, -0.009), (0.0022, 0.009), (0, 0.009)]); hband.data.materials.append(poly)
     finish(hband, None, smooth_angle=60); parts.append(hband)
     dial = cyl(0.017, 0.011, (0, -0.0055, 0), rot=(math.pi / 2, 0, 0), verts=48, name="Dial")
@@ -703,6 +787,12 @@ def warden_helm():
     sel(helm); bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
     report = {"lod0_tris": tris(helm), "materials": [m.name for m in helm.data.materials], "radii_m": [round(x, 4) for x in R]}
     report["clearance_m"], report["verts_inside_skin"] = clearance(helm, [hb])
+    # Straps / harness: any head-or-hair surface further out than the strap along its ray = buried.
+    buried = 0
+    for p, tol in [(q, 0.002) for q in strap_pts] + [(q, 0.0005) for q in strap_edges]:
+        d = (p - HC).normalized(); loc, nor = sh_head.ray(HC + d * 0.4, -d)
+        if loc is not None and (loc - HC).length > (p - HC).length - tol: buried += 1
+    report["strap_points"] = len(strap_pts) + len(strap_edges); report["strap_points_in_hair"] = buried
     for o in (head, hb): bpy.data.objects.remove(o)
     rigid_weights(helm, "head"); bind(helm, rig, None)
     lod = make_lod1(helm, LOD1_RATIO); lod.parent = rig
