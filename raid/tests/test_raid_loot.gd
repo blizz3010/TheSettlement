@@ -190,7 +190,7 @@ func scene_tests():
 	scene._process(0.016)
 	check(scene.status.text.contains("Haul %d/8" % units), "HUD shows the haul")
 	scene._interact(target)
-	var left := LootTable.units(scene.raid_state.cache_items("camp"))
+	var left := LootTable.units(scene.raid_state.cache_items("camp")) + LootTable.units(scene.raid_state.supplies_in("camp"))  # PR D: dressings count too
 	check(scene.modal.visible == (left > 0), "a searched cache reopens only while loot is left")
 	scene._close_modal()
 	scene._field_notes()
