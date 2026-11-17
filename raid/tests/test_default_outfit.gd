@@ -360,7 +360,7 @@ func check_clipping(sk: Skeleton3D, body: MeshInstance3D):
 			tuck_worst = minf(tuck_worst, sd)
 			if sd < -TOL:
 				tuck_out += 1
-				if OS.has_environment("OUTFIT_DEBUG") and pose[0] == "idle" and pose[1] == 0.0: print("TUCK s=", tuck_rest[0][tuck_keep[i]], " p=", tw[0][j], " pn=", tw[1][j], " sd=", sd)
+				if OS.has_environment("OUTFIT_DEBUG"): print("TUCK ", pose, " s=", tuck_rest[0][tuck_keep[i]], " p=", tw[0][j], " pn=", tw[1][j], " sd=", sd)
 		var hs: Array = skin_all(layers.pants.sm, hem)
 		var lb: Array = subset(skin_all(layers.boots.sm, leather), leather_out)
 		for i in hem_pair.size():

@@ -48,7 +48,7 @@
   "tool": "tools/blender_midstyle/build_gear_e0.py (gear art E0)"
  },
  "gear_body_armor_t3": {
-  "lod0_tris": 20104,
+  "lod0_tris": 19988,
   "materials": [
    "T3_Cordura",
    "T3_Webbing",
@@ -61,7 +61,7 @@
   "verts_inside_skin": 0,
   "shirt_clearance_m": 0.0032,
   "verts_inside_shirt": 0,
-  "lod1_tris": 8040,
+  "lod1_tris": 7995,
   "bones": [
    "clavicle_l",
    "clavicle_r",
@@ -91,8 +91,8 @@
    "textures/t3_webbing_normal.jpg",
    "textures/t3_webbing_orm.jpg"
   ],
-  "bytes_gltf": 40935,
-  "bytes_bin": 1445272,
+  "bytes_gltf": 40943,
+  "bytes_bin": 1469008,
   "tool": "tools/blender_midstyle/build_gear_e0.py (gear art E0)"
  }
 }

@@ -84,10 +84,10 @@ def _lerp_z(z, pts):
         if z >= zb: return va + (vb - va) * (za - z) / (za - zb)
     return pts[-1][1]
 
-# Cargo cut: extra ease over the skin-tight base (0.0105) by height. Seat/hips stay close so the
-# waistband, belt and shirt tuck are unchanged; thighs and knees get real volume; the shin tapers
+# Cargo cut: extra ease over the skin-tight base (0.0105) by height. The seat/hips get a little
+# (4-8 mm: room for the tucked shirt when crouching); thighs and knees get real volume; the shin tapers
 # and the hem stays tucked inside the boot shaft (0.0195) with a little bunching above it.
-PANTS_EASE = [(0.84, 0.0), (0.74, 0.016), (0.62, 0.024), (0.44, 0.026), (0.32, 0.020), (0.27, 0.013), (0.235, 0.004), (0.0, 0.004)]
+PANTS_EASE = [(0.92, 0.004), (0.86, 0.008), (0.74, 0.016), (0.62, 0.024), (0.44, 0.026), (0.32, 0.020), (0.27, 0.013), (0.235, 0.004), (0.0, 0.004)]
 
 def pants_ease(p, nor):
     e = _lerp_z(p.z, PANTS_EASE)
@@ -107,7 +107,7 @@ def offset_for(name, p, nor=None):
     if name == "pants":
         # Front rise: the canvas bridges the crotch instead of following it.
         if abs(p.x) < 0.08 and 0.72 < p.z < 0.88 and p.y < 0.0:
-            return 0.0105 + 0.012 * (1 - abs(p.x) / 0.08) * min(1.0, (p.z - 0.72) / 0.05, (0.88 - p.z) / 0.05)
+            return 0.0105 + pants_ease(p, nor) + 0.012 * (1 - abs(p.x) / 0.08) * min(1.0, (p.z - 0.72) / 0.05, (0.88 - p.z) / 0.05)
         return 0.0105 + pants_ease(p, nor)
     if name == "boots":
         return 0.0195 if p.z > 0.115 else 0.011
