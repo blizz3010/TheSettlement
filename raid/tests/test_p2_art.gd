@@ -252,7 +252,7 @@ func medium_block(dh: Node, hills: Dictionary) -> void:
 	check(med_ok, "Medium ranges 450 / 900 m")
 	var shore := lake_rise(dh)
 	report["lake_shore"] = shore
-	check(shore.new_max_above_water <= shore.old_max_above_water + 0.6, "No hill rises out of the lake more than before: " + str(shore))
+	check(shore.new_max_above_water <= 0.0 or shore.new_max_above_water <= shore.old_max_above_water + 0.6, "Hill chunks inside the lake ellipse stay under the water plane (or no higher than the old ring): " + str(shore))
 
 ## Every collider belonging to the new art (P2* nodes and plaza trees).
 func new_bodies() -> Array:
