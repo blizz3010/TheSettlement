@@ -97,6 +97,15 @@ func run() -> void:
 	if sw == null or th == null or lips == null: finish(); return
 	for n in [sw, th, lips]:
 		check(n.find_children("*", "CollisionObject3D", true, false).is_empty(), "%s adds no colliders" % n.name)
+	# The inn screens visible scenery for overlap; the lips must not block it.
+	var inn_deadline := Time.get_ticks_msec() + 120000
+	while world.inn_site != null and not bool(world.inn_site.attempted) and Time.get_ticks_msec() < inn_deadline:
+		await process_frame
+	for i in 3: await process_frame
+	var inn_result: Dictionary = world.inn_site.result if world.inn_site != null else {}
+	report["inn"] = {"ok": inn_result.get("ok", false), "reason": inn_result.get("reason", "")}
+	check(bool(inn_result.get("inn_published", false)), "Inn still publishes with the P1 fixes installed (%s)" % str(inn_result.get("reason", "ok")))
+	check(lips.visible and bool(lips.get_meta("revealed_after_inn", false)), "Grass edge lips shown once the inn has installed")
 	# ---- 2. stairwell
 	var H: Rect2 = Layout.HOLE
 	var lining: MeshInstance3D = sw.get_node("Shaft limestone lining")
