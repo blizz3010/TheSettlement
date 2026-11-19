@@ -205,7 +205,7 @@ static func in_pockets(n: Node) -> bool:
 static func bed_rocks(world: Node3D) -> Dictionary:
 	var batches := []
 	for mmi in world.find_children("small_rock_group*", "MultiMeshInstance3D", true, false):
-		if mmi.has_meta("p2_bed_rocks") or mmi.has_meta("p2_rock_lod") or mmi.multimesh == null:
+		if mmi.has_meta("p2_bed_rocks") or mmi.has_meta("p2_rock_lod") or mmi.multimesh == null or not mmi.visible:
 			continue
 		batches.append(mmi)
 	if batches.is_empty():
