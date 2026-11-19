@@ -146,7 +146,7 @@ func run() -> void:
 	for b in world.find_children("BedRock_*", "MultiMeshInstance3D", true, false):
 		var lod := int(b.get_meta("p2_rock_lod", -1))
 		new_count[lod] = new_count.get(lod, 0) + b.multimesh.instance_count
-		variants[String(b.name).substr(9, 1)] = true
+		variants[String(b.name).substr(8, 1)] = true
 		var pocket := P2.in_pockets(b)
 		if pocket and lod == 0: pocket_lod0 += 1
 		if not pocket:
