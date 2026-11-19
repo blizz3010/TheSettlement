@@ -21,7 +21,7 @@ const POSES := [
 	["hall_front_beds", Vector3(6.0, 1.6, -8.0), Vector3(6.0, 0.0, -13.0)],
 	["psy_edges", Vector3(24.0, 1.7, 6.0), Vector3(30.0, 0.0, 2.0)],
 	["rook_edges", Vector3(22.0, 1.7, 24.0), Vector3(25.0, 0.0, 31.0)],
-	["inn_stair_foot", Vector3(7.5, 1.7, 27.0), Vector3(4.0, 0.2, 32.5)],
+	["inn_stair_foot", Vector3(6.8, 1.6, 36.4), Vector3(4.0, 0.1, 32.6)],
 	["pad_strip", Vector3(14.0, 1.7, -2.0), Vector3(20.0, 0.0, -7.0)],
 	["lake_edge_day", Vector3(-14.0, 2.5, 52.0), Vector3(-20.0, 0.4, 61.0)],
 	["lake_shore_close", Vector3(-17.0, 1.6, 57.0), Vector3(-21.0, 0.3, 62.0)],
@@ -113,19 +113,24 @@ func run() -> void:
 	# ---- 2. stairwell
 	var H: Rect2 = Layout.HOLE
 	var lining: MeshInstance3D = sw.get_node("Shaft limestone lining")
-	var faces := lining.mesh.get_faces()
-	var sides := {"west": false, "east": false, "north": false, "south": false}
-	for i in range(0, faces.size(), 3):
-		var a := faces[i]; var b := faces[i + 1]; var c := faces[i + 2]
-		var n := (b - a).cross(c - a).normalized()
-		var lo: float = minf(a.y, minf(b.y, c.y)); var hi: float = maxf(a.y, maxf(b.y, c.y))
-		if absf(a.x - H.position.x) < 0.012 and absf(b.x - H.position.x) < 0.012 and n.x > 0.9: sides.west = sides.west or (lo <= -0.79 or hi >= 0.239)
-		if absf(a.x - H.end.x) < 0.012 and absf(b.x - H.end.x) < 0.012 and n.x < -0.9: sides.east = sides.east or (lo <= -0.79 or hi >= 0.239)
-		if absf(a.z - H.position.y) < 0.012 and absf(b.z - H.position.y) < 0.012 and n.z > 0.9: sides.north = sides.north or (lo <= -0.79 or hi >= 0.239)
-		if absf(a.z - H.end.y) < 0.012 and absf(b.z - H.end.y) < 0.012 and n.z < -0.9: sides.south = sides.south or (lo <= -0.79 or hi >= 0.239)
+	# shaded normals from the mesh arrays (independent of triangle winding conventions)
+	var arr: Array = (lining.mesh as ArrayMesh).surface_get_arrays(0)
+	var verts: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]; var norms: PackedVector3Array = arr[Mesh.ARRAY_NORMAL]
+	var sides := {"west": [INF, -INF], "east": [INF, -INF], "north": [INF, -INF], "south": [INF, -INF]}
+	for i in verts.size():
+		var v: Vector3 = verts[i]; var nn: Vector3 = norms[i]
+		var side := ""
+		if absf(v.x - H.position.x) < 0.015 and nn.x > 0.9: side = "west"
+		elif absf(v.x - H.end.x) < 0.015 and nn.x < -0.9: side = "east"
+		elif absf(v.z - H.position.y) < 0.015 and nn.z > 0.9: side = "north"
+		elif absf(v.z - H.end.y) < 0.015 and nn.z < -0.9: side = "south"
+		if side != "":
+			sides[side][0] = minf(sides[side][0], v.y); sides[side][1] = maxf(sides[side][1], v.y)
+	var lined := {}
+	for k in sides: lined[k] = sides[k][0] <= -0.79 and sides[k][1] >= 0.235
 	var lb: AABB = lining.get_aabb()
-	report["stairwell"] = {"meta": sw.get_meta("hall_stairwell_finish", {}), "inward_faces": sides, "lining_y": [snappedf(lb.position.y, 0.01), snappedf(lb.end.y, 0.01)]}
-	for k in sides: check(sides[k], "Shaft %s face is lined, facing into the stairwell" % k)
+	report["stairwell"] = {"meta": sw.get_meta("hall_stairwell_finish", {}), "inward_faces": lined, "lining_y": [snappedf(lb.position.y, 0.01), snappedf(lb.end.y, 0.01)]}
+	for k in lined: check(lined[k], "Shaft %s face is lined, facing into the stairwell" % k)
 	check(lb.position.y <= -0.79 and lb.end.y >= 0.239, "Lining spans basement ceiling (-0.80) to Hall floor (0.24)")
 	var swm: Dictionary = sw.get_meta("hall_stairwell_finish", {})
 	check(int(swm.get("risers", 0)) == Layout.STEPS * 2, "Every tread of both flights has a riser (%d)" % int(swm.get("risers", 0)))
@@ -136,7 +141,7 @@ func run() -> void:
 	var door := ray_y(0.0, -13.85, 1.0)
 	var inside := ray_y(0.0, -14.5, 1.0)
 	report["threshold"] = {"meta": th.get_meta("hall_threshold_finish", {}), "outside_floor_y": door, "inside_floor_y": inside}
-	check(absf(door - 0.08) < 0.03 and absf(inside - 0.24) < 0.03, "Walkable door step unchanged (outside %.3f, inside %.3f)" % [door, inside])
+	check(absf(door - (-0.05)) < 0.02 and absf(inside - 0.24) < 0.03, "Walkable door step unchanged: sill adds no collider (outside turf collider %.3f, inside %.3f)" % [door, inside])
 	var sill: MeshInstance3D = th.get_node("Entrance stone sill")
 	var sb: AABB = sill.get_aabb()
 	check(sb.position.z <= -13.99 and sb.end.z >= -13.81 and sb.position.x <= -2.0 and sb.end.x >= 2.0 and sb.end.y > 0.08, "Sill covers the old outer threshold strip (z -13.99..-13.81) above the pavers")

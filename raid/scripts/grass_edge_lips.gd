@@ -81,6 +81,26 @@ static func reed_mesh() -> ArrayMesh:
 	st.generate_normals()
 	return st.commit()
 
+## Pulls a rim vertex back so it lies at most `tuck` past the nearest edge point of its kind.
+static func keep_off_hard(q: Vector2, kind: int, tuck: float, pts: Array, cell: Dictionary) -> Vector2:
+	for it in 2:
+		var best := INF; var bn := Vector2.ZERO; var bdn := 0.0
+		var key := Vector2i(floori(q.x), floori(q.y))
+		for dx in [-1, 0, 1]:
+			for dz in [-1, 0, 1]:
+				var lst = cell.get(key + Vector2i(dx, dz))
+				if lst == null: continue
+				for j in lst:
+					var p: Array = pts[j]
+					if int(p[5]) != kind: continue
+					var d := Vector2(q.x - p[0], q.y - p[2])
+					var dd := d.length_squared()
+					if dd < best:
+						best = dd; bn = Vector2(p[3], p[4]); bdn = d.dot(bn)
+		if best == INF or bdn >= -tuck: return q
+		q += bn * (-tuck - bdn + 0.002)
+	return q
+
 static func install(world: Node3D) -> Dictionary:
 	var pts := load_points()
 	if pts.is_empty(): return {"ok": false, "reason": "no bake data"}
@@ -100,6 +120,11 @@ static func install(world: Node3D) -> Dictionary:
 	var pebbles := {}    # Vector2i tile -> Array[Transform3D, Color]
 	var reeds := {}
 	var widths := PackedFloat32Array(); widths.resize(pts.size())
+	var cell := {}   # 1 m hash of edge points, used to keep patch rims off the paving at corners
+	for j in pts.size():
+		var ck := Vector2i(floori(pts[j][0]), floori(pts[j][2]))
+		if not cell.has(ck): cell[ck] = PackedInt32Array()
+		cell[ck].append(j)
 	var stats := {"points": pts.size(), "patches": 0, "pebbles": 0, "reeds": 0}
 	for i in pts.size():
 		var p: Array = pts[i]
@@ -124,7 +149,7 @@ static func install(world: Node3D) -> Dictionary:
 			var a := TAU * k / SEGMENTS
 			var r := 1.0 + noise.get_noise_2d(c.x * 7.0 + k * 3.1, c.y * 7.0) * 0.32
 			var o := t * cos(a) * along * r + n * sin(a) * half * r
-			var q := c + o
+			var q := keep_off_hard(c + o, kind, tuck, pts, cell)
 			var d_in := clampf(o.dot(n) + (half - tuck), 0.0, reach)
 			var y := lerpf(gy, gy_in, d_in / reach) + lift
 			var edge_side := o.dot(n) < 0.0
