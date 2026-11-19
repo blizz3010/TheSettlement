@@ -79,8 +79,9 @@ func build() -> void:
 	add_child(ring)
 	ring.global_position = ship.to_global(ZONE_LOCAL + Vector3(0, 0.012, 0))
 	# Ramp-side pocket beds.
-	var stone := mat(Color(0.55, 0.53, 0.49))
-	var hedge := mat(Color(0.20, 0.34, 0.15))
+	var stone := mat(Color(0.50, 0.48, 0.44))
+	var hedge := mat(Color(0.15, 0.26, 0.10))
+	var hedge_light := mat(Color(0.20, 0.33, 0.13))
 	for side in [-1.0, 1.0]:
 		var body := StaticBody3D.new()
 		body.name = "RampPocketBed" + ("West" if side < 0 else "East")
@@ -92,7 +93,21 @@ func build() -> void:
 		var cs := CollisionShape3D.new(); var bs := BoxShape3D.new(); bs.size = size
 		cs.shape = bs; body.add_child(cs)
 		box(body, "Kerb", Vector3(0, -BED_HEIGHT * 0.5 + 0.21, 0), Vector3(size.x, 0.42, size.z), stone)
-		box(body, "Hedge", Vector3(0, -BED_HEIGHT * 0.5 + 0.42 + 0.36, 0), Vector3(size.x - 0.14, 0.72, size.z - 0.14), hedge)
+		# Clipped shrub clumps (two staggered rows) rather than a flat block.
+		var shrub := SphereMesh.new(); shrub.radius = 0.42; shrub.height = 0.72; shrub.radial_segments = 10; shrub.rings = 5
+		var rows := 2
+		var per_row := int(floor((size.z - 0.2) / 0.56))
+		for r in rows:
+			for k in per_row:
+				var mi := MeshInstance3D.new(); mi.name = "Shrub%d_%d" % [r, k]
+				mi.mesh = shrub
+				mi.material_override = hedge if (r + k) % 3 != 0 else hedge_light
+				var x := (r - (rows - 1) * 0.5) * (size.x * 0.48)
+				var z := -size.z * 0.5 + 0.38 + k * 0.56 + (0.2 if r == 1 else 0.0)
+				var sc := 0.92 + 0.12 * float((r * 7 + k * 3) % 5) / 4.0
+				mi.scale = Vector3(sc, sc, sc)
+				mi.position = Vector3(x, -BED_HEIGHT * 0.5 + 0.42 + 0.3, clampf(z, -size.z * 0.5 + 0.3, size.z * 0.5 - 0.3))
+				body.add_child(mi)
 
 func make_sign(n: String, at: Vector3, yaw: float, wood: Material, plank: Material, ink: Material) -> void:
 	var root := Node3D.new()
