@@ -1,0 +1,451 @@
+{
+ "asset_id": "tailor_dyes_stall",
+ "gltf": "tailor_dyes_stall.gltf (GLTF_SEPARATE: .gltf + .bin + textures/*.jpg)",
+ "tool": "build/build_tailor_dyes_stall.py (Blender 4.2.9 LTS, -b --factory-startup) + build/make_textures_tds.py (numpy/PIL)",
+ "nodes": [
+  "tailor_dyes_stall_LOD0",
+  "tailor_dyes_stall_LOD1",
+  "tailor_dyes_stall_col"
+ ],
+ "lod0_tris": 44434,
+ "lod1_tris": 17690,
+ "lod1_ratio": 0.398,
+ "col_tris": 168,
+ "col": "tailor_dyes_stall_col = union of 14 closed boxes (floor deck, rear/side walls, entry posts, counter, cutting table, bolt shelving, dye vats, crock, bolt crate, roof slab for the camera). Node carries KHR_node_visibility visible=false so Godot 4.6 imports it hidden (StaticBody3D + ConcavePolygonShape3D still generated).",
+ "budget_lod0": "building facade 25-45k (hero)",
+ "surfaces_per_lod": 18,
+ "units": "metres; Blender Z-up exported +Y up; transforms applied; origin = base centre on ground; front (customer side) = Godot local +Z",
+ "bounds_godot_local_m": {
+  "x": [
+   -2.485,
+   2.46
+  ],
+  "y": [
+   0.0,
+   3.423
+  ],
+  "z": [
+   -2.282,
+   2.473
+  ]
+ },
+ "footprint": {
+  "source": "scripts/tailor_atelier.gd (FOOTPRINT Rect2(-29.5,-6.4,4.5,4.8), CLEARANCE Rect2(-29.6,-6.5,5.6,5.0), ANCHOR (-27.25,0,-4), node TailorAtelier rotation.y=PI/2) on main 97efe00 / reference repo",
+  "kept": "4.8 m (local X) x 4.5 m (local Z) floor deck centred on the origin; walls/posts on the blockout lines (side walls x=+-2.30, entry posts z=+2.10, rear wall z=-2.17); canopy overhangs to z=+2.47 like the v097 canopy (2.45); everything inside CLEARANCE (local x +-2.5, z -2.35..3.25)",
+  "kept_positions_godot_local": {
+   "floor_top_y": 0.063,
+   "counter_center": [
+    0.55,
+    0.85
+   ],
+   "counter_top_y": 1.18,
+   "cutting_table_center": [
+    -1.2,
+    -0.4
+   ],
+   "dye_vat_center": [
+    1.62,
+    -1.15
+   ],
+   "actor_spot_clear": [
+    0.7,
+    0.055,
+    -0.3
+   ],
+   "dress_form_region_empty": "AABB((-.42,.05,-1.62),(.84,2.12,.54)) for midstyle_swap.gd",
+   "sign_face_z": 2.235,
+   "accessibility_ray_to_TARGET_(0,1.5,1.2)": "clear of collision"
+  }
+ },
+ "materials": [
+  {
+   "name": "TDS_Stone",
+   "base": "textures/tds_stone_base.jpg",
+   "baseColorFactor": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": null
+  },
+  {
+   "name": "TDS_Oak",
+   "base": "textures/tds_wood_base.jpg",
+   "baseColorFactor": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": null
+  },
+  {
+   "name": "TDS_DarkTimber",
+   "base": "textures/tds_wood_base.jpg",
+   "baseColorFactor": [
+    0.4,
+    0.33,
+    0.28,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": null
+  },
+  {
+   "name": "TDS_Iron",
+   "base": "textures/tds_metal_base.jpg",
+   "baseColorFactor": [
+    0.3,
+    0.3,
+    0.32,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": null
+  },
+  {
+   "name": "TDS_ClothIndigo",
+   "base": "textures/tds_cloth_base.jpg",
+   "baseColorFactor": [
+    0.0513,
+    0.0802,
+    0.2016,
+    1
+   ],
+   "doubleSided": true,
+   "emissive": null
+  },
+  {
+   "name": "TDS_ClothLinen",
+   "base": "textures/tds_cloth_base.jpg",
+   "baseColorFactor": [
+    0.8632,
+    0.7835,
+    0.6038,
+    1
+   ],
+   "doubleSided": true,
+   "emissive": null
+  },
+  {
+   "name": "TDS_ClothWeld",
+   "base": "textures/tds_cloth_base.jpg",
+   "baseColorFactor": [
+    0.6584,
+    0.3613,
+    0.0482,
+    1
+   ],
+   "doubleSided": true,
+   "emissive": null
+  },
+  {
+   "name": "TDS_Bronze",
+   "base": "textures/tds_metal_base.jpg",
+   "baseColorFactor": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": null
+  },
+  {
+   "name": "TDS_Plaster",
+   "base": "textures/tds_plaster_base.jpg",
+   "baseColorFactor": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": null
+  },
+  {
+   "name": "TDS_Sign",
+   "base": "textures/tds_sign_base.jpg",
+   "baseColorFactor": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": null
+  },
+  {
+   "name": "TDS_PaintIndigo",
+   "base": "textures/tds_plaster_base.jpg",
+   "baseColorFactor": [
+    0.0595,
+    0.0953,
+    0.2542,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": null
+  },
+  {
+   "name": "TDS_ClothMadder",
+   "base": "textures/tds_cloth_base.jpg",
+   "baseColorFactor": [
+    0.4179,
+    0.0578,
+    0.0369,
+    1
+   ],
+   "doubleSided": true,
+   "emissive": null
+  },
+  {
+   "name": "TDS_ClothTeal",
+   "base": "textures/tds_cloth_base.jpg",
+   "baseColorFactor": [
+    0.0482,
+    0.2159,
+    0.1946,
+    1
+   ],
+   "doubleSided": true,
+   "emissive": null
+  },
+  {
+   "name": "TDS_ClothPlum",
+   "base": "textures/tds_cloth_base.jpg",
+   "baseColorFactor": [
+    0.1746,
+    0.0513,
+    0.1441,
+    1
+   ],
+   "doubleSided": true,
+   "emissive": null
+  },
+  {
+   "name": "TDS_DyeIndigo",
+   "base": "textures/tds_dye_base.jpg",
+   "baseColorFactor": [
+    0.0176,
+    0.0296,
+    0.1119,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": null
+  },
+  {
+   "name": "TDS_DyeMadder",
+   "base": "textures/tds_dye_base.jpg",
+   "baseColorFactor": [
+    0.2159,
+    0.0176,
+    0.0116,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": null
+  },
+  {
+   "name": "TDS_Clay",
+   "base": "textures/tds_stone_base.jpg",
+   "baseColorFactor": [
+    0.95,
+    0.62,
+    0.45,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": null
+  },
+  {
+   "name": "TDS_LampGlass",
+   "base": "textures/tds_dye_base.jpg",
+   "baseColorFactor": [
+    1,
+    0.7605,
+    0.3916,
+    1
+   ],
+   "doubleSided": false,
+   "emissive": [
+    1,
+    0.7799999713897705,
+    0.44999998807907104
+   ]
+  }
+ ],
+ "textures": {
+  "textures/tds_cloth_base.jpg": {
+   "px": [
+    2048,
+    2048
+   ],
+   "bytes": 720081
+  },
+  "textures/tds_cloth_normal.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 515495
+  },
+  "textures/tds_cloth_orm.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 65397
+  },
+  "textures/tds_dye_base.jpg": {
+   "px": [
+    512,
+    512
+   ],
+   "bytes": 7780
+  },
+  "textures/tds_dye_normal.jpg": {
+   "px": [
+    512,
+    512
+   ],
+   "bytes": 5281
+  },
+  "textures/tds_dye_orm.jpg": {
+   "px": [
+    512,
+    512
+   ],
+   "bytes": 7614
+  },
+  "textures/tds_metal_base.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 51540
+  },
+  "textures/tds_metal_normal.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 46763
+  },
+  "textures/tds_metal_orm.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 52432
+  },
+  "textures/tds_plaster_base.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 116794
+  },
+  "textures/tds_plaster_normal.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 218662
+  },
+  "textures/tds_plaster_orm.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 102144
+  },
+  "textures/tds_sign_base.jpg": {
+   "px": [
+    2048,
+    512
+   ],
+   "bytes": 128666
+  },
+  "textures/tds_sign_normal.jpg": {
+   "px": [
+    1024,
+    256
+   ],
+   "bytes": 43512
+  },
+  "textures/tds_sign_orm.jpg": {
+   "px": [
+    1024,
+    256
+   ],
+   "bytes": 6653
+  },
+  "textures/tds_stone_base.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 142074
+  },
+  "textures/tds_stone_normal.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 268002
+  },
+  "textures/tds_stone_orm.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 121960
+  },
+  "textures/tds_wood_base.jpg": {
+   "px": [
+    2048,
+    2048
+   ],
+   "bytes": 430319
+  },
+  "textures/tds_wood_normal.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 211209
+  },
+  "textures/tds_wood_orm.jpg": {
+   "px": [
+    1024,
+    1024
+   ],
+   "bytes": 148297
+  }
+ },
+ "texture_sets": "tds_wood 2048 base / 1024 ORM+normal (oak, dark timber via factor); tds_cloth 2048/1024 (undyed linen weave, 6 dye colours via baseColorFactor); tds_plaster, tds_stone, tds_metal 1024 (plaster also used for indigo paint, stone for clay jars, metal for iron); tds_dye 512 (dye baths + lamp glass); tds_sign 2048x512 / 1024x256. ORM = R occlusion, G roughness, B metallic; normals OpenGL +Y.",
+ "bytes": {
+  "gltf": 51219,
+  "bin": 2815136,
+  "textures": 3410675
+ },
+ "total_MB": 5.99,
+ "previews": {
+  "front": "previews/tailor_dyes_stall_front.jpg",
+  "three_quarter": "previews/tailor_dyes_stall_threequarter.jpg",
+  "close_up": "previews/tailor_dyes_stall_closeup.jpg (dye vats + jar shelf)",
+  "scale": "previews/tailor_dyes_stall_scale.jpg (beside Dan-PlacementStudy.glb and kit/west_trader.glb)",
+  "extra": [
+   "previews/extra/tailor_dyes_stall_closeup_counter.jpg",
+   "previews/extra/tailor_dyes_stall_threequarter_LOD1.jpg"
+  ],
+  "render_setup": "Cycles CPU 128 spp + denoise, 1600x1000, JPEG q88; context (read-only from repo): tailor_dress_form.gltf at the midstyle_swap spot, ProvisionalStaff.glb at the actor spot"
+ },
+ "reproducible": "two consecutive builds give a byte-identical .bin (seeded random + mathutils noise)",
+ "godot_check": "Imported in a scratch Godot 4.6.3 project (headless): LOD0 44434 tris / 18 surfaces, LOD1 17690, col hidden mesh + StaticBody3D/ConcavePolygonShape3D, StandardMaterial3D with albedo/normal/AO/roughness textures."
+}

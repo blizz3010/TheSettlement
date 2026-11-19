@@ -1,0 +1,437 @@
+{
+ "asset_set": "distant_hills",
+ "units": "metres",
+ "up": "+Y (glTF)",
+ "origin": "each file: root node at the world origin (place at (0,0,0) under the world, like ValleyBackdrop); chunk nodes <id>_sNN_LODk sit at their sector centroid on y=0",
+ "chunking": "16 angular sectors per ring (22.5 deg), sector k spans angle [k, k+1]*22.5 deg from +X toward +Z; ridges file has _near (r 320) and _far (r 510) rings -> 32 chunks",
+ "collision": "none (unreachable scenery; the originals had none either)",
+ "budget": {
+  "note": "far rings, whole 360 deg; with frustum culling only ~5-7 of 16 sectors per ring draw",
+  "LOD0_tris_per_chunk_max": 4200,
+  "LOD1_target_ratio": 0.4,
+  "LOD2_target": "<= 0.12 of LOD0 (very light)"
+ },
+ "lod_ranges_m": {
+  "by_scenery_quality": {
+   "0_low": [
+    300,
+    650
+   ],
+   "1_medium": [
+    450,
+    900
+   ],
+   "2_high": [
+    650,
+    1200
+   ],
+   "3_ultra": [
+    900,
+    1600
+   ]
+  },
+  "meaning": "[LOD0 end, LOD1 end]; LOD2 has no end",
+  "margin": 15.0,
+  "set_by": "place_distant_hills.gd set_quality() via group distant_scenery_quality"
+ },
+ "texture_policy": "two shared tileable 1024^2 sets (DH_Ground canopy/meadow detail, DH_Rock strata/gullies); 1 tile = 48 m; neutral luminance (linear mean 0.80) multiplied by COLOR_0, which carries the current far-paint palette + aerial haze; ORM = R occl / G rough / B metal; normal OpenGL. 2048 not justified: at 180-850 m a 48 m tile at 1024 is already ~4.7 cm/texel",
+ "normals": "baked from the analytic surface (finite differences on the full-resolution height function) and shared by LOD0/1/2 -> identical shading across LODs; flat per-face normals of the originals removed",
+ "assets": {
+  "distant_hills_foothills": {
+   "replaces": "ValleyBackdrop/OuterFoothills (scripts/distant_mountains.gd ring: inner 180, crest 300, outer 490 m, height 80, 384x12 grid, 9216 flat-shaded tris)",
+   "original_tris": 9216,
+   "tris": {
+    "LOD0": {
+     "total": 41472,
+     "chunks": 16,
+     "per_chunk_avg": 2592,
+     "per_chunk_max": 2592
+    },
+    "LOD1": {
+     "total": 16896,
+     "chunks": 16,
+     "per_chunk_avg": 1056,
+     "per_chunk_max": 1056
+    },
+    "LOD2": {
+     "total": 3840,
+     "chunks": 16,
+     "per_chunk_avg": 240,
+     "per_chunk_max": 240
+    }
+   },
+   "lod1_ratio": 0.407,
+   "lod2_ratio": 0.093,
+   "bounds_godot_m": [
+    [
+     -490.0,
+     -8.0,
+     -490.0
+    ],
+    [
+     490.0,
+     53.62,
+     490.0
+    ]
+   ],
+   "surface_deviation_vs_original_m": {
+    "dense_samples": 5000,
+    "dy_mean": -0.065,
+    "dy_abs_p95": 0.27,
+    "dy_abs_max": 0.506,
+    "far_trees_on_ring": 1559,
+    "tree_dy_abs_p95": 0.159,
+    "tree_dy_abs_max": 0.509,
+    "tree_dy_min": -0.361
+   },
+   "materials": [
+    {
+     "name": "DH_Ground",
+     "doubleSided": false
+    },
+    {
+     "name": "DH_Rock",
+     "doubleSided": false
+    }
+   ],
+   "vertex_attributes": [
+    "COLOR_0",
+    "NORMAL",
+    "POSITION",
+    "TEXCOORD_0"
+   ],
+   "bytes_gltf_bin": 1861723
+  },
+  "distant_hills_alpine": {
+   "replaces": "ValleyBackdrop/DistantAlpineRange (scripts/distant_mountains.gd ring: inner 370, crest 570, outer 850 m, height 199, 384x12 grid, 9216 flat-shaded tris)",
+   "original_tris": 9216,
+   "tris": {
+    "LOD0": {
+     "total": 66560,
+     "chunks": 16,
+     "per_chunk_avg": 4160,
+     "per_chunk_max": 4160
+    },
+    "LOD1": {
+     "total": 28288,
+     "chunks": 16,
+     "per_chunk_avg": 1768,
+     "per_chunk_max": 1768
+    },
+    "LOD2": {
+     "total": 5120,
+     "chunks": 16,
+     "per_chunk_avg": 320,
+     "per_chunk_max": 320
+    }
+   },
+   "lod1_ratio": 0.425,
+   "lod2_ratio": 0.077,
+   "bounds_godot_m": [
+    [
+     -850.0,
+     -8.0,
+     -850.0
+    ],
+    [
+     850.0,
+     184.16,
+     850.0
+    ]
+   ],
+   "surface_deviation_vs_original_m": {
+    "dense_samples": 5000,
+    "dy_mean": -0.164,
+    "dy_abs_p95": 0.678,
+    "dy_abs_max": 1.604
+   },
+   "materials": [
+    {
+     "name": "DH_Ground",
+     "doubleSided": false
+    },
+    {
+     "name": "DH_Rock",
+     "doubleSided": false
+    }
+   ],
+   "vertex_attributes": [
+    "COLOR_0",
+    "NORMAL",
+    "POSITION",
+    "TEXCOORD_0"
+   ],
+   "bytes_gltf_bin": 3288570
+  },
+  "distant_hills_ridges": {
+   "replaces": "FarScenery/FarSceneryLayerRidges (raid/scripts/far_scenery_options.gd: rings r 320 h 72 x40 segs + r 510 h 118 x36 segs, 608 flat tris, vis end 1400)",
+   "original_tris": 608,
+   "tris": {
+    "LOD0": {
+     "total": 21504,
+     "chunks": 32,
+     "per_chunk_avg": 672,
+     "per_chunk_max": 672
+    },
+    "LOD1": {
+     "total": 10240,
+     "chunks": 32,
+     "per_chunk_avg": 320,
+     "per_chunk_max": 320
+    },
+    "LOD2": {
+     "total": 2560,
+     "chunks": 32,
+     "per_chunk_avg": 80,
+     "per_chunk_max": 80
+    }
+   },
+   "lod1_ratio": 0.476,
+   "lod2_ratio": 0.119,
+   "bounds_godot_m": [
+    [
+     -532.46,
+     2.18,
+     -581.6
+    ],
+    [
+     572.92,
+     84.8,
+     578.89
+    ]
+   ],
+   "surface_deviation_vs_original_m": {
+    "dense_samples": 1530,
+    "dy_mean": 1.202,
+    "dy_abs_p95": 7.771,
+    "dy_abs_max": 15.934
+   },
+   "materials": [
+    {
+     "name": "DH_Rock",
+     "doubleSided": false
+    },
+    {
+     "name": "DH_Ground",
+     "doubleSided": false
+    }
+   ],
+   "vertex_attributes": [
+    "COLOR_0",
+    "NORMAL",
+    "POSITION",
+    "TEXCOORD_0"
+   ],
+   "bytes_gltf_bin": 1161691
+  }
+ },
+ "medium_draw_estimate": {
+  "note": "chunks inside the horizontal FOV (103 deg) at Medium ranges; originals drew 19,040 tris in 3 draw calls (no culling benefit: one mesh per ring)",
+  "shot79_dan_marketplace": {
+   "tris_drawn_medium": 32112,
+   "chunks_drawn": 24,
+   "draw_calls": 31
+  },
+  "plaza_centre_east": {
+   "tris_drawn_medium": 26760,
+   "chunks_drawn": 20,
+   "draw_calls": 23
+  }
+ },
+ "textures": {
+  "dh_ground_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "mode": "RGB",
+   "bytes": 110868
+  },
+  "dh_ground_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "mode": "RGB",
+   "bytes": 54361
+  },
+  "dh_ground_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "mode": "RGB",
+   "bytes": 47617
+  },
+  "dh_rock_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "mode": "RGB",
+   "bytes": 53229
+  },
+  "dh_rock_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "mode": "RGB",
+   "bytes": 60834
+  },
+  "dh_rock_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "mode": "RGB",
+   "bytes": 60106
+  }
+ },
+ "total_MB_runtime": 6.699,
+ "godot_check": {
+  "engine": "Godot 4.6.3 headless",
+  "import": {
+   "distant_hills_foothills": {
+    "0": 41472,
+    "1": 16896,
+    "2": 3840
+   },
+   "distant_hills_alpine": {
+    "0": 66560,
+    "1": 28288,
+    "2": 5120
+   },
+   "distant_hills_ridges": {
+    "0": 21504,
+    "1": 10240,
+    "2": 2560
+   }
+  },
+  "materials": {
+   "DH_Ground": {
+    "albedo_tex": true,
+    "ao": true,
+    "cull": 0,
+    "normal": true,
+    "rough_tex": true,
+    "vc_albedo": true,
+    "vc_srgb": false
+   },
+   "DH_Rock": {
+    "albedo_tex": true,
+    "ao": true,
+    "cull": 0,
+    "normal": true,
+    "rough_tex": true,
+    "vc_albedo": true,
+    "vc_srgb": false
+   }
+  },
+  "colliders_imported": 0,
+  "runtime_swap": {
+   "build_ms": 402.457,
+   "chunks": 192,
+   "lod0_tris": {
+    "distant_hills_alpine": 66560,
+    "distant_hills_foothills": 41472,
+    "distant_hills_ridges": 21504
+   },
+   "ok": true,
+   "quality": 2,
+   "replaced": [
+    "OuterFoothills",
+    "DistantAlpineRange",
+    "FarSceneryLayerRidges"
+   ],
+   "smoothed": [
+    "MiddleRidge",
+    "ScenicGroundApron"
+   ]
+  },
+  "originals_visible_after": {
+   "DistantAlpineRange": false,
+   "FarSceneryLayerRidges": false,
+   "MiddleRidge": true,
+   "OuterFoothills": false
+  },
+  "MiddleRidge_faces_identical_after_smoothing": true,
+  "terrain_vertices_unchanged": true,
+  "quality_switch_sample": {
+   "0": [
+    [
+     "distant_hills_foothills_s00_LOD0",
+     0.0,
+     300.0
+    ],
+    [
+     "distant_hills_foothills_s05_LOD1",
+     300.0,
+     650.0
+    ],
+    [
+     "distant_hills_foothills_s10_LOD2",
+     650.0,
+     0.0
+    ]
+   ],
+   "1": [
+    [
+     "distant_hills_foothills_s00_LOD0",
+     0.0,
+     450.0
+    ],
+    [
+     "distant_hills_foothills_s05_LOD1",
+     450.0,
+     900.0
+    ],
+    [
+     "distant_hills_foothills_s10_LOD2",
+     900.0,
+     0.0
+    ]
+   ],
+   "2": [
+    [
+     "distant_hills_foothills_s00_LOD0",
+     0.0,
+     650.0
+    ],
+    [
+     "distant_hills_foothills_s05_LOD1",
+     650.0,
+     1200.0
+    ],
+    [
+     "distant_hills_foothills_s10_LOD2",
+     1200.0,
+     0.0
+    ]
+   ],
+   "3": [
+    [
+     "distant_hills_foothills_s00_LOD0",
+     0.0,
+     900.0
+    ],
+    [
+     "distant_hills_foothills_s05_LOD1",
+     900.0,
+     1600.0
+    ],
+    [
+     "distant_hills_foothills_s10_LOD2",
+     1600.0,
+     0.0
+    ]
+   ]
+  },
+  "reinstall_guard": {
+   "ok": true,
+   "reason": "already installed",
+   "skipped": true
+  }
+ },
+ "total_MB_folder": 8.116
+}
