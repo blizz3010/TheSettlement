@@ -71,8 +71,11 @@ func boot() -> bool:
 func set_q(q: int) -> void:
 	if q == quality: return
 	quality = q
-	Settings.new().apply_scenery_quality(world, q)
-	for i in 20: await process_frame
+	# Only the hill chunks are switched: the real apply_scenery_quality() also rebuilds the far forests, which costs
+	# minutes on llvmpipe. The Medium look (thinned forests) is covered by the Medium shots from the shot probe.
+	var dh := world.get_node_or_null("DistantHills")
+	if dh: dh.set_quality(q)
+	for i in 3: await process_frame
 
 func lod_ok(root: Node, lod0_end: float) -> bool:
 	var n := 0
@@ -393,6 +396,7 @@ func take_shots(shots: String) -> void:
 	world.player.global_position = Vector3(0, -50, 0)
 	poses.sort_custom(func(x, y): return int(x.get("quality", 2)) > int(y.get("quality", 2)))
 	for p in poses:
+		if int(p.get("quality", 2)) != 2 and OS.get_environment("P2_Q1_SHOTS") != "1": continue
 		await set_q(int(p.get("quality", 2)))
 		cam.fov = p.get("fov", 70.0)
 		cam.global_position = Vector3(p.eye[0], p.eye[1], p.eye[2]); cam.look_at(Vector3(p.at[0], p.at[1], p.at[2])); cam.current = true
