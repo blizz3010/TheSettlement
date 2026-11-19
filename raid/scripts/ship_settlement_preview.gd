@@ -22,6 +22,9 @@ var ship_takeoff: Node
 const SettlementHealth = preload("res://raid/scripts/settlement_health.gd")
 const TownHallRecovery = preload("res://raid/scripts/town_hall_recovery.gd")
 const GrassViewCulling = preload("res://raid/scripts/grass_view_culling.gd")
+const HudTitleFade = preload("res://raid/scripts/hud_title_fade.gd")
+const FirstRunGuide = preload("res://raid/scripts/first_run_guide.gd")
+const JumpTuning = preload("res://raid/scripts/jump_tuning.gd")
 var player_health: Node
 
 func _initialize_world():
@@ -56,6 +59,7 @@ func _initialize_world():
 	if world_initialized and not startup_cancel_requested and is_instance_valid(player):
 		player_health = SettlementHealth.attach(player)
 		var raid_outcome: Dictionary = RaidOutcome.peek()
+		set_meta("returned_from_raid", not raid_outcome.is_empty())
 		var atlas_note := AtlasRecovery.apply_return(self, raid_outcome)
 		GearShop.apply_return(self, raid_outcome)
 		var loot_note := RaidLoot.apply_return(self, raid_outcome)
@@ -69,6 +73,10 @@ func _initialize_world():
 	if world_initialized and not startup_cancel_requested:
 		TownHallRecovery.install(self)
 		GrassViewCulling.install(self)
+		# Queue item 2 (Ori playtest2): higher jump, HUD title fade, first-run guidance.
+		if is_instance_valid(player): JumpTuning.attach(player)
+		HudTitleFade.install(self)
+		FirstRunGuide.install(self)
 
 func modal_open(include_cooking:bool=true,include_fishing_trader:bool=true,include_preview_traders:bool=true) -> bool:
 	# Hide gameplay HUD (minimap, vitals, hotbar) for the duration of takeoff.
@@ -274,6 +282,10 @@ func activate_loaded_world():
 	if world_activated and not startup_cancel_requested:
 		TownHallRecovery.install(self)
 		GrassViewCulling.install(self)
+		# Queue item 2 (Ori playtest2): higher jump, HUD title fade, first-run guidance.
+		if is_instance_valid(player): JumpTuning.attach(player)
+		HudTitleFade.install(self)
+		FirstRunGuide.install(self)
 
 func save_payload(payload: Dictionary, show_notice := true, writer_override = null) -> bool:
 	var ok := super.save_payload(payload, show_notice, writer_override)

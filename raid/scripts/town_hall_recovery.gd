@@ -55,6 +55,9 @@ var latched := {}
 var latches := 0
 var panics := 0
 var last_return: Dictionary = {}
+## Queue item 2c (Ori, playtest2): the recovery line points at the ship as well as the plaza.
+## The hall door faces south onto the plaza; the ship pad is east of the plaza (stone path).
+const RECOVERY_TOAST := "Back at the Town Hall entrance. The plaza is straight ahead; the ship is east of it, along the stone path."
 ## Tests replace this so a quit does not end the test run.
 var quit_handler: Callable
 var quits := 0
@@ -296,7 +299,7 @@ func return_to_entrance(reason := "api") -> Dictionary:
 	if options != null and options.has_signal("closed"): options.closed.emit()
 	p.enabled = true
 	if world.get("cooking_window_focused") != false: Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	if world.has_method("message"): world.message("Back at the Town Hall entrance. The plaza is straight ahead.")
+	if world.has_method("message"): world.message(RECOVERY_TOAST)
 	last_return = {"ok": true, "used": used, "position": foot, "reason": reason}
 	print("TOWN_HALL_RECOVERY return used=%s position=%s reason=%s" % [used, str(foot), reason])
 	return last_return
