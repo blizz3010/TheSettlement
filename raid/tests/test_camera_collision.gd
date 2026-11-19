@@ -16,15 +16,16 @@ const MARKER := "CAMERA_COLLISION_TESTS "
 const Audit = preload("res://raid/tests/camera_clip_audit.gd")
 const CC = preload("res://raid/scripts/camera_collision.gd")
 const SEEDS := [Vector3(0, 0.24, -17.2), Vector3(0, 0.2, -6), Vector3(22, 1.28, -11.2), Vector3(2.6, 0.3, 30), Vector3(2.6, 2.0, 38), Vector3(-8, 3.4, 44), Vector3(6, 0.1, 19), Vector3(-20, 0.2, 0), Vector3(20, 0.2, 5), Vector3(-30, 0.2, 10)]
-## name, foot (x, z), heading index (yaw = i * TAU / 8), visual-pass reference
+## name, foot (x, z), heading index (yaw = i * TAU / 8), visual-pass reference, pinned camera
+## clips there on main f618de2 (the rail and foundation spots are context shots only)
 const SPOTS := [
-	["ship_walkway_lamp", Vector2(22.5, 0.8), 1, "playtest2 149/156/157"],
-	["ship_walkway_rail", Vector2(15.8, -9.7), 3, "playtest2 149/156/157"],
-	["inn_lawn_tree_green_plane", Vector2(-17.2, 31.5), 2, "visualpass 109/110"],
-	["inn_approach_railing", Vector2(2.3, 34.5), 1, "visualpass 231/232"],
-	["inn_front_foundation", Vector2(-1.5, 45.0), 0, "visualpass 110 (foundation)"],
-	["trees_east_of_rook", Vector2(18.8, 31.5), 1, "visualpass 209"],
-	["ship_hull", Vector2(21.0, -11.2), 3, "ship pad"],
+	["ship_walkway_lamp", Vector2(22.5, 0.8), 1, "playtest2 149/156/157", true],
+	["ship_walkway_rail", Vector2(15.8, -9.7), 3, "playtest2 149/156/157", false],
+	["inn_lawn_tree_green_plane", Vector2(-17.2, 31.5), 2, "visualpass 109/110", true],
+	["inn_approach_railing", Vector2(2.3, 34.5), 1, "visualpass 231/232", true],
+	["inn_front_foundation", Vector2(-1.5, 45.0), 0, "visualpass 110 (foundation)", false],
+	["trees_east_of_rook", Vector2(18.8, 31.5), 1, "visualpass 209", true],
+	["ship_hull", Vector2(21.0, -11.2), 3, "ship pad", true],
 ]
 var checks := 0
 var failures: Array = []
@@ -184,7 +185,7 @@ func run() -> void:
 		var k := verdict(cam)
 		spots[s[0]] = {"ref": s[3], "foot": [snappedf(foot.x, 0.01), snappedf(foot.y, 0.01), snappedf(foot.z, 0.01)], "camera": [snappedf(cam.x, 0.01), snappedf(cam.y, 0.01), snappedf(cam.z, 0.01)], "boom_m": snappedf(cam.distance_to(pivot), 0.01), "pinned_clip": pk, "shown_clip": k}
 		log_("spot %s %s" % [s[0], spots[s[0]]])
-		if baseline: check(not pk.is_empty(), "Pinned camera clips at %s (spot reproduces)" % s[0])
+		if baseline and s[4]: check(not pk.is_empty(), "Pinned camera clips at %s (spot reproduces)" % s[0])
 		if not baseline: check(k.is_empty(), "Shown camera is clear at %s (%s)" % [s[0], k])
 		await shot(("before_" if baseline else "after_") + s[0])
 	report["spots"] = spots
