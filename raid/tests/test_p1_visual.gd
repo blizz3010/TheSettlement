@@ -167,7 +167,7 @@ func run() -> void:
 		var key := Vector2i(floori(pts[i][0]), floori(pts[i][2]))
 		if not hash.has(key): hash[key] = []
 		hash[key].append(i)
-	var worst := 0.0; var nverts := 0
+	var worst := 0.0; var nverts := 0; var worst_at := []
 	for mi in lips.get_children():
 		if not (mi is MeshInstance3D): continue
 		var shore: bool = str(mi.name).ends_with("shore")
@@ -184,8 +184,9 @@ func run() -> void:
 						var d := Vector2(v.x - p[0], v.z - p[2])
 						if d.length_squared() < best: best = d.length_squared(); dn = d.dot(Vector2(p[3], p[4]))
 			if best < INF:
+				if dn < worst: worst_at = [snappedf(v.x, 0.01), snappedf(v.z, 0.01), str(mi.name)]
 				worst = minf(worst, dn); nverts += 1
-	report["lip_hard_side_worst_m"] = snappedf(worst, 0.001)
+	report["lip_hard_side_worst_m"] = snappedf(worst, 0.001); report["lip_hard_side_worst_at"] = worst_at
 	check(nverts > 1000 and worst > -0.16, "No lip vertex lies more than the tuck onto the paving (worst %.3f m, %d sampled)" % [worst, nverts])
 	# irregular lawn edge: distance from edge to the first full-height blade varies along the edge
 	var gaps := []

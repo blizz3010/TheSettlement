@@ -83,7 +83,7 @@ static func reed_mesh() -> ArrayMesh:
 
 ## Pulls a rim vertex back so it lies at most `tuck` past the nearest edge point of its kind.
 static func keep_off_hard(q: Vector2, kind: int, tuck: float, pts: Array, cell: Dictionary) -> Vector2:
-	for it in 2:
+	for it in 4:
 		var best := INF; var bn := Vector2.ZERO; var bdn := 0.0
 		var key := Vector2i(floori(q.x), floori(q.y))
 		for dx in [-1, 0, 1]:
@@ -139,7 +139,7 @@ static func install(world: Node3D) -> Dictionary:
 		var lift := clampf(room - 0.012, 0.004, 0.014) if kind == 0 else 0.012
 		var along := rng.randf_range(0.17, 0.26)
 		var half := (w + tuck) * 0.5
-		var c := e + n * (half - tuck)
+		var c := keep_off_hard(e + n * (half - tuck), kind, 0.0, pts, cell)
 		var key := Vector3i(floori(e.x / TILE), floori(e.y / TILE), kind)
 		if not tiles.has(key):
 			var s := SurfaceTool.new(); s.begin(Mesh.PRIMITIVE_TRIANGLES); tiles[key] = s
