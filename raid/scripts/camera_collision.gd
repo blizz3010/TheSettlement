@@ -15,7 +15,6 @@ const PROBE_RADIUS := 0.24
 const CLEARANCE_RADIUS := 0.10
 const BOOM := Vector3(0, 1.0, 3.5)
 const PIVOT_LIFT := 0.02
-const MIN_BOOM := 0.25
 const EASE_OUT_SPEED := 5.0
 ## Settlement region mirrored for the camera (m). Far scenery and the sky shell are left out.
 const REGION_X := Vector2(-75, 75)
@@ -186,25 +185,34 @@ func pivot() -> Vector3:
 func desired() -> Vector3:
 	return pivot() + player.basis * BOOM
 
-## Safe fraction of the sweep from a to b for the probe sphere in one space.
-func sweep(state: PhysicsDirectSpaceState3D, a: Vector3, b: Vector3, exclude: Array) -> float:
+## Safe fraction of the sweep from a to b for a sphere of radius r in one space.
+func sweep(state: PhysicsDirectSpaceState3D, a: Vector3, b: Vector3, exclude: Array, r: float) -> float:
 	var q := PhysicsShapeQueryParameters3D.new()
+	sphere.radius = r
 	q.shape = sphere
 	q.transform = Transform3D(Basis(), a)
 	q.motion = b - a
 	q.exclude = exclude
-	var r: PackedFloat32Array = state.cast_motion(q)
-	return r[0] if r.size() > 0 else 1.0
+	var res: PackedFloat32Array = state.cast_motion(q)
+	return res[0] if res.size() > 0 else 1.0
+
+func sweep_both(a: Vector3, b: Vector3, r: float) -> float:
+	var safe := sweep(player.get_world_3d().direct_space_state, a, b, [player.get_rid()], r)
+	if space.is_valid() and safe > 0.0: safe = minf(safe, sweep(mirror_state(), a, b, [], r))
+	return safe
 
 ## Boom length the probe allows right now (no smoothing).
 func solve_length() -> float:
 	return solve_for(pivot(), desired())
 
+## The full-size sphere first; if the pivot itself is already that close to something (a low
+## beam, a canopy), a slimmer sphere that still encloses the near plane; else stay at the pivot.
 func solve_for(a: Vector3, b: Vector3) -> float:
 	var full := a.distance_to(b)
-	var safe := sweep(player.get_world_3d().direct_space_state, a, b, [player.get_rid()])
-	if space.is_valid(): safe = minf(safe, sweep(mirror_state(), a, b, []))
-	return maxf(full * safe, minf(MIN_BOOM, full))
+	for r in [PROBE_RADIUS, CLEARANCE_RADIUS + 0.02]:
+		var safe := sweep_both(a, b, r)
+		if safe > 0.0: return full * safe
+	return 0.0
 
 func place(dt: float) -> void:
 	if not enabled or not is_instance_valid(player) or not player.third_person or player.camera == null: 
