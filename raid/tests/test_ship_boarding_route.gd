@@ -8,8 +8,8 @@ extends SceneTree
 ## of the ramp, between the ramp side and the pad's retaining wall, for a wedge trap.
 ## Needs a display (xvfb-run, --rendering-driver opengl3): headless cannot capture the mouse,
 ## and production ship_can_embark() requires a captured mouse. The runner launches it that way.
-## env: BOARD_SHOTS=<dir> also writes JPEG (q88) review shots; BOARD_EXPECT_FIX=1 also checks
-## the wayfinding added by raid/scripts/ship_boarding_wayfinding.gd.
+## env: BOARD_SHOTS=<dir> also writes JPEG (q88) review shots; BOARD_BASELINE=1 skips the checks
+## for raid/scripts/ship_boarding_wayfinding.gd (used for the "before" run on main).
 const MARKER := "SHIP_BOARDING_ROUTE_TESTS "
 const SHIP_ZONE := Vector3(22.0, 1.28, -11.2)
 ## Plaza (east of the fountain) -> StoneConnector0 start -> 1 -> 2 -> stub -> ramp -> pad zone.
@@ -23,6 +23,7 @@ var expect_fix := false
 ## Rendering is not needed for the physics walk: with BOARD_FAST (default on) the 3D view is
 ## switched off between shots so llvmpipe does not throttle physics frames to ~1 fps.
 var fast := true
+var hint_seen_at := -1.0
 
 func _initialize(): call_deferred("run")
 
@@ -90,6 +91,9 @@ func walk(target: Vector2, reach := 0.45, max_s := 0.0, sprint := false) -> Dict
 			if still >= 4:
 				result.stuck = true
 				break
+		if f % 10 == 0 and hint_seen_at < 0.0 and world.prompt_panel.visible and str(world.prompt.text).to_lower().contains("ship") and not str(world.prompt.text).contains("Select raid"):
+			hint_seen_at = Vector2(p.global_position.x, p.global_position.z).distance_to(Vector2(SHIP_ZONE.x, SHIP_ZONE.z))
+			report["hint_text"] = str(world.prompt.text)
 		if f % 20 == 0:
 			var n := floor_name()
 			if not n.is_empty(): report["floors"][n] = true
@@ -121,7 +125,7 @@ func interact_event() -> InputEventKey:
 
 func run() -> void:
 	shots = OS.get_environment("BOARD_SHOTS").strip_edges()
-	expect_fix = OS.get_environment("BOARD_EXPECT_FIX") == "1"
+	expect_fix = OS.get_environment("BOARD_BASELINE") != "1"
 	fast = OS.get_environment("BOARD_FAST") != "0"
 	if not shots.is_empty(): DirAccess.make_dir_recursive_absolute(shots)
 	report["floors"] = {}
@@ -164,13 +168,17 @@ func run() -> void:
 	check(Input.mouse_mode == Input.MOUSE_MODE_CAPTURED, "Mouse capture works under this display")
 	report["jump_velocity"] = 6.0
 	root.get_viewport().disable_3d = fast
+	if expect_fix:
+		var wf = world.get_node_or_null("ShipBoardingWayfinding")
+		check(wf != null, "Boarding wayfinding is installed in the Play-flow settlement")
+		for n in ["ShipSignPlaza", "ShipSignRampTurn", "BoardingRing", "RampPocketBedWest", "RampPocketBedEast"]:
+			check(wf != null and wf.get_node_or_null(n) != null, "Wayfinding has " + n)
 	# ---- A. plaza -> concrete path -> ramp -> PadDeck, real controller and collision
 	await place(Vector2(5.0, -6.0), ROUTE[0])
 	report["start"] = [p.global_position.x, p.global_position.y, p.global_position.z]
 	await shot("route_01_plaza_start")
 	var legs := []
 	var ok_route := true
-	var hint_seen_at := -1.0
 	for i in ROUTE.size():
 		var reach := 0.6 if i < ROUTE.size() - 1 else 0.5
 		var r := await walk(ROUTE[i], reach)
@@ -178,8 +186,6 @@ func run() -> void:
 		r["floor"] = floor_name()
 		legs.append(r)
 		log_("leg %d -> %s: %s" % [i, ROUTE[i], r])
-		if expect_fix and hint_seen_at < 0.0 and world.prompt_panel.visible and str(world.prompt.text).contains("ship"):
-			hint_seen_at = Vector2(p.global_position.x, p.global_position.z).distance_to(Vector2(SHIP_ZONE.x, SHIP_ZONE.z))
 		if i == 3: await shot("route_02_path_turn_to_ramp")
 		if i == 5: await shot("route_03_ramp_foot")
 		if not r.reached:
