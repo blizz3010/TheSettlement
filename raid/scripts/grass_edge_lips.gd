@@ -189,7 +189,7 @@ static func install(world: Node3D) -> Dictionary:
 
 ## Blade batches: the plaza composition grass (before GrassViewCulling splits it) and the
 ## continuous lawn chunks. Blades on the lip are zero-scaled, the next FADE m are shortened.
-static func grass_batches(world: Node3D) -> Array:
+static func grass_batches(world: Node3D, include_split := false) -> Array:
 	var out := []
 	for rootname in ["PlazaIslandComposition", "ContinuousGrass"]:
 		var r := world.get_node_or_null(rootname)
@@ -197,7 +197,7 @@ static func grass_batches(world: Node3D) -> Array:
 		for n in r.find_children("*", "MultiMeshInstance3D", true, false):
 			var mm: MultiMesh = n.multimesh
 			if mm == null or mm.mesh == null or mm.instance_count < 64 or mm.transform_format != MultiMesh.TRANSFORM_3D: continue
-			if n.has_meta("grass_view_culling_split"): continue
+			if n.has_meta("grass_view_culling_split") and not include_split: continue
 			var mat = n.material_override
 			var code := ""
 			if mat is ShaderMaterial and mat.shader: code = mat.shader.resource_path
