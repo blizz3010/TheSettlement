@@ -33,6 +33,8 @@ var space: RID
 var shapes := {}          # Mesh -> ConcavePolygonShape3D (shared by instances)
 var entries: Array = []   # [body RID, MeshInstance3D, last Transform3D]
 var pending: Array = []   # MeshInstance3D still to mirror
+var known := {}           # instance id -> true for every mesh queued or mirrored
+var added: Array = []     # nodes that entered the tree since the last frame
 var built := false
 var build_ms := 0.0
 var mirrored_tris := 0
@@ -48,7 +50,10 @@ var sphere := SphereShape3D.new()
 static func attach(p: Node, scan_root: Node = null) -> Node:
 	if not is_instance_valid(p) or not (p is CharacterBody3D) or p.get("camera") == null: return null
 	var existing = p.get_node_or_null(NAME)
-	if existing != null: return existing
+	if existing != null:
+		# Second install pass (staged startup): pick up whatever the world added since.
+		existing.rescan(scan_root if scan_root != null else p.get_parent())
+		return existing
 	var n = load("res://raid/scripts/camera_collision.gd").new()
 	n.name = NAME
 	n.player = p
@@ -65,6 +70,8 @@ func start(scan_root: Node) -> void:
 	space = PhysicsServer3D.space_create()
 	PhysicsServer3D.space_set_active(space, true)
 	pending = collect(scan_root)
+	for m in pending: known[m.get_instance_id()] = true
+	get_tree().node_added.connect(_on_node_added)
 	# Nearest first, so the area around the player is covered in the first frames.
 	var at: Vector3 = player.global_position
 	pending.sort_custom(func(a, b): return a.global_position.distance_squared_to(at) > b.global_position.distance_squared_to(at))
@@ -81,6 +88,36 @@ func collect(scan_root: Node) -> Array:
 		for c in node.get_children(): stack.append(c)
 		if node is MeshInstance3D and mirrorable(node, w3d): out.append(node)
 	return out
+
+func rescan(scan_root: Node) -> void:
+	for m in collect(scan_root):
+		if known.has(m.get_instance_id()): continue
+		known[m.get_instance_id()] = true
+		pending.append(m)
+	built = pending.is_empty() and built
+
+## Props, gardens and player builds created after the first scan are mirrored on the next frame
+## (their transforms are final by then).
+func _on_node_added(n: Node) -> void:
+	if n is MeshInstance3D: added.append(n)
+
+func take_added() -> void:
+	if added.is_empty(): return
+	var w3d: World3D = player.get_world_3d()
+	for n in added:
+		if not is_instance_valid(n) or known.has(n.get_instance_id()): continue
+		if player.is_ancestor_of(n) or not mirrorable(n, w3d) or skipped(n): continue
+		known[n.get_instance_id()] = true
+		pending.append(n)
+	added.clear()
+	if not pending.is_empty(): built = false
+
+func skipped(n: Node) -> bool:
+	var a: Node = n
+	while a != null:
+		if a is CanvasLayer or a is SubViewport or str(a.name) in SKIP_NAMES: return true
+		a = a.get_parent()
+	return false
 
 static func region_hit(a: AABB) -> bool:
 	return a.end.x > REGION_X.x and a.position.x < REGION_X.y and a.end.z > REGION_Z.x and a.position.z < REGION_Z.y \
@@ -186,6 +223,7 @@ func place(dt: float) -> void:
 	solves += 1
 
 func _physics_process(delta: float) -> void:
+	take_added()
 	if not built: build_step(BUILD_BUDGET_MS)
 	else: refresh_step()
 	place(delta)
@@ -197,5 +235,6 @@ func _process(delta: float) -> void:
 func _exit_tree() -> void:
 	for e in entries: PhysicsServer3D.free_rid(e[0])
 	entries.clear()
+	if get_tree() != null and get_tree().node_added.is_connected(_on_node_added): get_tree().node_added.disconnect(_on_node_added)
 	if space.is_valid(): PhysicsServer3D.free_rid(space)
 	space = RID()

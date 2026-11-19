@@ -4,7 +4,7 @@ extends RefCounted
 ## judges a camera position against the camera mirror (visible meshes) and the physics world:
 ##   touch  - a 0.10 m sphere (encloses the 76 deg near plane) overlaps geometry;
 ##   inside - the camera is under turf or inside a closed mesh (rays see back faces).
-const CELL := 1.0
+const CELL := 0.75
 const MAX_STEP := 0.45
 const LEVELS := 3
 var world: Node
@@ -47,18 +47,22 @@ func capsule_clear(foot: Vector3) -> bool:
 	q.collision_mask = world.player.collision_mask
 	return main.intersect_shape(q, 1).is_empty()
 
-## Flood fill from start over the region (x0..x1, z0..z1). Returns the reachable feet.
-func flood(start: Vector3, x0: float, x1: float, z0: float, z1: float) -> Array:
-	var key0 := Vector2i(roundi(start.x / CELL), roundi(start.z / CELL))
+## Flood fill from the seeds over the region (x0..x1, z0..z1). Returns the reachable feet.
+func flood(seeds: Array, x0: float, x1: float, z0: float, z1: float) -> Array:
 	var seen := {}
 	var queue: Array = []
-	var f0 := floors_at(key0.x * CELL, key0.y * CELL)
-	var best := -1
-	for i in f0.size():
-		if best < 0 or absf(f0[i] - start.y) < absf(f0[best] - start.y): best = i
-	if best < 0: return []
-	queue.append([key0, f0[best]])
-	seen["%d,%d,%d" % [key0.x, key0.y, roundi(f0[best] * 4)]] = true
+	for start in seeds:
+		var key0 := Vector2i(roundi(start.x / CELL), roundi(start.z / CELL))
+		if not cells.has(key0): cells[key0] = floors_at(key0.x * CELL, key0.y * CELL)
+		var f0: Array = cells[key0]
+		var best := -1
+		for i in f0.size():
+			if best < 0 or absf(f0[i] - start.y) < absf(f0[best] - start.y): best = i
+		if best < 0 or absf(f0[best] - start.y) > 1.0: continue
+		var sk0 := "%d,%d,%d" % [key0.x, key0.y, roundi(f0[best] * 4)]
+		if seen.has(sk0): continue
+		seen[sk0] = true
+		queue.append([key0, f0[best]])
 	var head := 0
 	while head < queue.size():
 		var cur: Array = queue[head]; head += 1
