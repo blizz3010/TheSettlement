@@ -220,6 +220,7 @@ func run() -> void:
 			check(dist >= r + 0.25, "Player is stopped outside the trunk of %s (%.2f m, radius %.2f)" % [col.name, dist, r])
 		report["trunk_walks"] = walked
 		check(walked.size() >= 2, "Walked into at least two solid trunks")
+	if baseline: finish(); return
 	# ---- 5. frame time at the walkway lamp spot, 3D on
 	var s0: Array = SPOTS[0]
 	var f0 := Vector3(s0[1].x, 0, s0[1].y)
