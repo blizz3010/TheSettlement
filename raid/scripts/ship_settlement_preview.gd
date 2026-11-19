@@ -26,6 +26,7 @@ const ShipBoardingWayfinding = preload("res://raid/scripts/ship_boarding_wayfind
 const HudTitleFade = preload("res://raid/scripts/hud_title_fade.gd")
 const FirstRunGuide = preload("res://raid/scripts/first_run_guide.gd")
 const JumpTuning = preload("res://raid/scripts/jump_tuning.gd")
+const P1VisualFixes = preload("res://raid/scripts/p1_visual_fixes.gd")
 const CameraCollision = preload("res://raid/scripts/camera_collision.gd")
 const SolidProps = preload("res://raid/scripts/solid_props.gd")
 var player_health: Node
@@ -82,6 +83,9 @@ func _initialize_world():
 		if is_instance_valid(player): JumpTuning.attach(player)
 		HudTitleFade.install(self)
 		FirstRunGuide.install(self)
+		# Queue item 4: P1 visual fixes (stairwell, grass edge lips, threshold). Same frame as
+		# GrassViewCulling.install, before it splits the grass it trims. SETTLEMENT_P1_VISUAL=off skips.
+		if OS.get_environment("SETTLEMENT_P1_VISUAL") != "off": P1VisualFixes.install(self)
 		# Queue item 3: third-person camera spring arm + camera-only mirror of visible meshes.
 		SolidProps.install(self)
 		if is_instance_valid(player): CameraCollision.attach(player, self)
@@ -296,6 +300,8 @@ func activate_loaded_world():
 		if is_instance_valid(player): JumpTuning.attach(player)
 		HudTitleFade.install(self)
 		FirstRunGuide.install(self)
+		# Queue item 4, second pass for the staged start (idempotent: trims only new grass batches).
+		if OS.get_environment("SETTLEMENT_P1_VISUAL") != "off": P1VisualFixes.install(self)
 		# Queue item 3: third-person camera spring arm + camera-only mirror of visible meshes.
 		SolidProps.install(self)
 		if is_instance_valid(player): CameraCollision.attach(player, self)
