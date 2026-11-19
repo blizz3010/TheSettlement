@@ -8,7 +8,7 @@ Pinned files are changed through overrides in `raid/scripts`, as every PR has do
 ## 4.1 One connected diagram
 
 ```mermaid
-flowchart LR
+flowchart TB
   subgraph HOME["Settlement (home base, unchanged size)"]
     CC[Character creation<br/>profile_model.gd · creation_panel.gd<br/>STR/INT/DEX stored]
     ST[Stats + skills<br/>skills_overview.gd · skills_panel.gd<br/>NEW: use-based XP]
