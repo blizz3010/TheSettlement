@@ -86,6 +86,8 @@ func _ready():
 	storage=Storage.capacity(gear.store.state)
 	raid_state.haul_capacity=int(storage.total);raid_state.quick_capacity=int(storage.quick_slots)
 	player=gear.player_script().new();gear.configure_player(player);player.name="RaidPlayer";player.enabled=false;add_child(player)
+	# Queue item 2a: same raised jump as the settlement (player.gd is pinned).
+	preload("res://raid/scripts/jump_tuning.gd").attach(player)
 	var start:Vector2=settings.SPAWN;player.position=Vector3(start.x,generator.height_at(start)+0.06,start.y);player.rotation.y=0.25
 	var game_settings=preload("res://scripts/game_settings.gd").new();game_settings.apply(game_settings.load_settings(),player,get_viewport())
 	raid_audio=preload("res://raid/scripts/raid_audio.gd").new();raid_audio.name="RaidAudio";add_child(raid_audio)

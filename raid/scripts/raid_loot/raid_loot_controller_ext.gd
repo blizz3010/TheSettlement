@@ -10,6 +10,11 @@ var haul_store: HaulStore
 var loot_service: LootService
 var loot_transactions: ShopTransaction
 var loot_message: String = ""
+const TraderReach = preload("res://raid/scripts/trader_reach.gd")
+
+## Queue item 2 (d): reach the trader from the counter face and a little farther out.
+func accessible(id: String) -> bool:
+	return super.accessible(id) or TraderReach.reachable(self, id)
 
 func prompt_text() -> String:
 	if nearest() == "atlas":
