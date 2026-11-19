@@ -23,6 +23,7 @@ var checks := 0
 var failures: Array = []
 var report := {}
 var world: Node3D
+var quality := 2     # scenery quality is switched as rarely as possible: each switch rebuilds far forests (minutes on llvmpipe)
 
 func _initialize(): call_deferred("run")
 
@@ -66,6 +67,12 @@ func boot() -> bool:
 		await process_frame
 	world = current_scene
 	return true
+
+func set_q(q: int) -> void:
+	if q == quality: return
+	quality = q
+	Settings.new().apply_scenery_quality(world, q)
+	for i in 20: await process_frame
 
 func lod_ok(root: Node, lod0_end: float) -> bool:
 	var n := 0
@@ -218,17 +225,6 @@ func run() -> void:
 			var txt := FileAccess.get_file_as_string("res://assets/%s.gltf.import" % f)
 			if not txt.contains("meshes/generate_lods=false"): imp_ok = false
 		check(imp_ok, "generate_lods off on the hill and tree imports")
-		Settings.new().apply_scenery_quality(world, 1)
-		var med_ok := true
-		for c in dh.chunks:
-			var mi: MeshInstance3D = c[0]
-			if int(c[1]) == 0 and not is_equal_approx(mi.visibility_range_end, 450.0): med_ok = false
-			if int(c[1]) == 2 and not is_equal_approx(mi.visibility_range_begin, 900.0): med_ok = false
-		check(med_ok, "Medium ranges 450 / 900 m")
-		var shore := lake_rise(dh)
-		report["lake_shore"] = shore
-		check(shore.new_max_above_water <= shore.old_max_above_water + 0.6, "No hill rises out of the lake more than before: " + str(shore))
-		Settings.new().apply_scenery_quality(world, 2)
 	# ---- ship pad route (#31): none of the new colliders sit on the boarding approach
 	var route_hits := route_blocks()
 	report["pad_route_hits"] = route_hits
@@ -237,8 +233,23 @@ func run() -> void:
 	var shots := OS.get_environment("P2_SHOTS")
 	if shots != "":
 		await take_shots(shots)
+	var dh2 := world.get_node_or_null("DistantHills")
+	if dh2: await medium_block(dh2, hills)
 	await frame_times()
+	await set_q(2)
 	finish()
+
+func medium_block(dh: Node, hills: Dictionary) -> void:
+	await set_q(1)
+	var med_ok := true
+	for c in dh.chunks:
+		var mi: MeshInstance3D = c[0]
+		if int(c[1]) == 0 and not is_equal_approx(mi.visibility_range_end, 450.0): med_ok = false
+		if int(c[1]) == 2 and not is_equal_approx(mi.visibility_range_begin, 900.0): med_ok = false
+	check(med_ok, "Medium ranges 450 / 900 m")
+	var shore := lake_rise(dh)
+	report["lake_shore"] = shore
+	check(shore.new_max_above_water <= shore.old_max_above_water + 0.6, "No hill rises out of the lake more than before: " + str(shore))
 
 ## Every collider belonging to the new art (P2* nodes and plaza trees).
 func new_bodies() -> Array:
@@ -346,10 +357,10 @@ func frame_times() -> void:
 	root.size = Vector2i(960, 600)
 	var cam := Camera3D.new(); cam.fov = 70.0; cam.far = 4000.0; world.add_child(cam)
 	root.get_viewport().disable_3d = false
-	var views := [["plaza", Vector3(2.0, 1.7, 2.0), Vector3(-8.0, 1.0, -8.0), 2], ["hills_medium", Vector3(6.0, 1.68, 12.0), Vector3(300.0, 30.0, -150.0), 1]]
+	var views := [["plaza", Vector3(2.0, 1.7, 2.0), Vector3(-8.0, 1.0, -8.0), 1], ["hills_medium", Vector3(6.0, 1.68, 12.0), Vector3(300.0, 30.0, -150.0), 1]]
 	var out := {}
 	for v in views:
-		Settings.new().apply_scenery_quality(world, v[3])
+		await set_q(v[3])
 		cam.global_position = v[1]; cam.look_at(v[2]); cam.current = true
 		var times := {"on": [], "off": []}
 		for block in 4:
@@ -362,11 +373,10 @@ func frame_times() -> void:
 		out[v[0]] = {"on": avg(times.on), "off": avg(times.off), "blocks": times}
 		log_("frame %s %s" % [v[0], out[v[0]]])
 	set_p2(true)
-	Settings.new().apply_scenery_quality(world, 2)
 	cam.queue_free()
 	root.get_viewport().disable_3d = true
 	root.size = Vector2i(1440, 900)
-	out["note"] = "llvmpipe software GL, 960x600; relative only. Old plaza trees are freed by the swap, so 'off' draws no plaza trees."
+	out["note"] = "Medium scenery, llvmpipe software GL, 960x600; relative only. Old plaza trees are freed by the swap, so 'off' draws no plaza trees."
 	report["frame_time"] = out
 
 func take_shots(shots: String) -> void:
@@ -381,8 +391,9 @@ func take_shots(shots: String) -> void:
 	root.get_viewport().disable_3d = false
 	var keep_pos: Vector3 = world.player.global_position
 	world.player.global_position = Vector3(0, -50, 0)
+	poses.sort_custom(func(x, y): return int(x.get("quality", 2)) > int(y.get("quality", 2)))
 	for p in poses:
-		Settings.new().apply_scenery_quality(world, int(p.get("quality", 2)))
+		await set_q(int(p.get("quality", 2)))
 		cam.fov = p.get("fov", 70.0)
 		cam.global_position = Vector3(p.eye[0], p.eye[1], p.eye[2]); cam.look_at(Vector3(p.at[0], p.at[1], p.at[2])); cam.current = true
 		for i in 4: await process_frame
@@ -390,7 +401,6 @@ func take_shots(shots: String) -> void:
 		var img := root.get_viewport().get_texture().get_image(); img.convert(Image.FORMAT_RGB8)
 		img.save_jpg(shots.path_join("after_" + p.name + ".jpg"), 0.88)
 		log_("shot " + p.name)
-	Settings.new().apply_scenery_quality(world, 2)
 	world.player.global_position = keep_pos
 	cam.queue_free()
 	root.get_viewport().disable_3d = true
