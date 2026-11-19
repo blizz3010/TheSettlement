@@ -39,11 +39,11 @@ flowchart TB
     X2{{Dock smuggler}}
     X3{{Rooftop pickup}}
   end
-  N == "Highway (2+2 lanes), ~3.5 km" ==> C
-  C == "Highway → tunnel / bridge B1" ==> S
-  DT <-- "B1" --> SB
-  NM <-- "B2" --> PH
-  DK <-- "B3" --> PH
+  N ==>|"Highway, 2+2 lanes, ~3.5 km"| C
+  C ==>|"Highway to tunnel and bridge B1"| S
+  DT <-->|B1| SB
+  NM <-->|B2| PH
+  DK <-->|B3| PH
 ```
 
 - **Small town:** easy early jobs (corner store, ATMs, a small bank) and low police (sheriff only, max effective heat 3 until backup arrives from the city after 4 min). It suits new players.
@@ -60,7 +60,7 @@ The early guess was 2–4 km. That fits the **city alone**. City **plus region**
 | Whole region | **4 km × 6 km** (24 km²), north up | Room for a ~3.5 km highway drive between the towns |
 | Big city | ~3.0 × 1.6 km incl. river | 5 districts, 3 bridges |
 | Small town | ~0.75 × 0.65 km | 15–25 buildings |
-| Phase 1 district | **~0.6 × 0.5 km core** plus a ~1.6 km wide river crossing strip (Neon Market + bank block + bridge B2) | About 4–6× the area of Relay Ridge's 292 m play square (`PLAY_HALF := 146.0`, `raid/scripts/relay_config.gd`) |
+| Phase 1 slice | **~1.6 × 0.6 km**: Neon Market (~0.6 × 0.4 km core) + the bank block + bridge B2 + the east bridgehead | About 10× the area of Relay Ridge's 292 m play square, but most of it is street, river and backdrop (`PLAY_HALF := 146.0`, `raid/scripts/relay_config.gd`) |
 | Settlement | **unchanged** | Home base stays its current size |
 
 Speed check (metres per second; player on foot today is 4.2 walk / 7.0 sprint in `scripts/player.gd`):

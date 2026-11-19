@@ -64,7 +64,7 @@ R(700, 5400, 1750, 5750, fill="#59544a"); text(1220, 5575, "INDUSTRIAL DOCKS", f
 R(2350, 4350, 3450, 5000, fill="#4d6a44"); text(2900, 4675, "SUBURBS", f_b)
 R(2350, 5050, 3450, 5750, fill="#555c62"); text(2900, 5300, "POLICE HQ · HOSPITAL", f_b); text(2900, 5340, "garage · delivery depot")
 d.ellipse([P(2400,4380), P(2800,4620)], fill="#3f7a3a"); text(2600, 4500, "CITY PARK")
-R(720, 4700, 2330, 5330, outline="#ffd36b", width=4); text(800, 5290, "PHASE 1 slice (~0.6 x 0.5 km core)", f_s, "#ffd36b", "lm")
+R(720, 4700, 2330, 5330, outline="#ffd36b", width=4); text(800, 5290, "PHASE 1 slice (~1.6 x 0.6 km)", f_s, "#ffd36b", "lm")
 for (y, n) in [(4520,"B1"),(4980,"B2"),(5450,"B3")]: text(2050, y-55, n, f_b, "#ffd36b")
 # extracts
 def mark(x, y, c, t):
