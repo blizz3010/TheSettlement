@@ -295,6 +295,8 @@ func activate_loaded_world():
 		if is_instance_valid(player): JumpTuning.attach(player)
 		HudTitleFade.install(self)
 		FirstRunGuide.install(self)
+		# Queue item 4, second pass for the staged start (idempotent: trims only new grass batches).
+		if OS.get_environment("SETTLEMENT_P1_VISUAL") != "off": P1VisualFixes.install(self)
 
 func save_payload(payload: Dictionary, show_notice := true, writer_override = null) -> bool:
 	var ok := super.save_payload(payload, show_notice, writer_override)

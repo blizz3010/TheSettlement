@@ -49,7 +49,7 @@ static func begin() -> SurfaceTool:
 	var st := SurfaceTool.new(); st.begin(Mesh.PRIMITIVE_TRIANGLES); return st
 
 static func install(world: Node3D) -> Dictionary:
-	if world.has_node(NAME): world.get_node(NAME).free()
+	if world.has_node(NAME): return world.get_node(NAME).get_meta("hall_stairwell_finish", {"ok": true, "reused": true})
 	if not world.has_node("HallBasementBlockout"): return {"ok": false, "reason": "no basement stairwell"}
 	var root := Node3D.new(); root.name = NAME; world.add_child(root)
 	var H: Rect2 = Layout.HOLE

@@ -13,6 +13,9 @@ static func install(world: Node3D) -> Dictionary:
 	var r := {"stairwell": Stairwell.install(world), "threshold": Threshold.install(world), "lips": Lips.install(world)}
 	_defer_lips(world)
 	r["install_ms"] = snappedf((Time.get_ticks_usec() - t0) / 1000.0, 0.1)
+	var prev: Dictionary = world.get_meta(META, {})
+	r["passes"] = int(prev.get("passes", 0)) + 1
+	r["install_ms_total"] = snappedf(float(prev.get("install_ms_total", 0.0)) + r.install_ms, 0.1)
 	world.set_meta(META, r)
 	return r
 
@@ -34,8 +37,9 @@ static func controllers_settled(world: Node3D) -> bool:
 
 static func _defer_lips(world: Node3D) -> void:
 	var node := world.get_node_or_null("GrassEdgeLips") as Node3D
-	if node == null or not world.is_inside_tree():
+	if node == null or not world.is_inside_tree() or node.has_meta("p1_reveal_pending") or node.has_meta("revealed_after_inn"):
 		return
+	node.set_meta("p1_reveal_pending", true)
 	node.visible = false
 	var tree := world.get_tree()
 	var state := {"cb": Callable(), "settled_frames": 0, "activated_ms": -1}
@@ -51,5 +55,6 @@ static func _defer_lips(world: Node3D) -> void:
 		if state.settled_frames >= 3 or timed_out:
 			node.visible = true
 			node.set_meta("revealed_after_inn", settled)
+			node.remove_meta("p1_reveal_pending")
 			tree.process_frame.disconnect(state.cb)
 	tree.process_frame.connect(state.cb)

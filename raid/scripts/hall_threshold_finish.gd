@@ -23,7 +23,7 @@ static func mat(c: Color, rough := 0.85) -> Material:
 	return m
 
 static func install(world: Node3D) -> Dictionary:
-	if world.has_node(NAME): world.get_node(NAME).free()
+	if world.has_node(NAME): return world.get_node(NAME).get_meta("hall_threshold_finish", {"ok": true, "reused": true})
 	var root := Node3D.new(); root.name = NAME; world.add_child(root)
 	var riser: SurfaceTool = S.begin(); var sill: SurfaceTool = S.begin(); var joint: SurfaceTool = S.begin()
 	# riser facing: 12 mm proud of the slab face, paver top to just under the threshold cap

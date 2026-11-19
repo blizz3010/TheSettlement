@@ -82,9 +82,16 @@ static func reed_mesh() -> ArrayMesh:
 	return st.commit()
 
 static func install(world: Node3D) -> Dictionary:
-	if world.has_node(NAME): world.get_node(NAME).free()
 	var pts := load_points()
 	if pts.is_empty(): return {"ok": false, "reason": "no bake data"}
+	if world.has_node(NAME):
+		# second startup pass (staged start): keep the built lips, trim only batches added since
+		var old: Node = world.get_node(NAME)
+		var prev: Dictionary = old.get_meta("grass_edge_lips", {})
+		var again := trim_grass(world, pts, old.get_meta("lip_widths", PackedFloat32Array()))
+		for k in again: prev[k] = int(prev.get(k, 0)) + int(again[k])
+		old.set_meta("grass_edge_lips", prev)
+		return prev
 	var t0 := Time.get_ticks_usec()
 	var root := Node3D.new(); root.name = NAME; world.add_child(root)
 	var noise := FastNoiseLite.new(); noise.seed = 4; noise.frequency = 0.9
@@ -184,6 +191,7 @@ static func install(world: Node3D) -> Dictionary:
 	stats["nodes"] = root.get_child_count()
 	stats["build_ms"] = snappedf((Time.get_ticks_usec() - t0) / 1000.0, 0.1)
 	stats["ok"] = true
+	root.set_meta("lip_widths", widths)
 	root.set_meta("grass_edge_lips", stats)
 	return stats
 
@@ -198,6 +206,7 @@ static func grass_batches(world: Node3D, include_split := false) -> Array:
 			var mm: MultiMesh = n.multimesh
 			if mm == null or mm.mesh == null or mm.instance_count < 64 or mm.transform_format != MultiMesh.TRANSFORM_3D: continue
 			if n.has_meta("grass_view_culling_split") and not include_split: continue
+			if n.has_meta("p1_trimmed") and not include_split: continue
 			var mat = n.material_override
 			var code := ""
 			if mat is ShaderMaterial and mat.shader: code = mat.shader.resource_path
@@ -231,6 +240,7 @@ static func trim_grass(world: Node3D, pts: Array, widths: PackedFloat32Array) ->
 			for kz in range(floori((bb.position.z - 1.0) / 0.5), floori((bb.end.z + 1.0) / 0.5) + 1):
 				if hash.has(Vector2i(kx, kz)): any = true; break
 			if any: break
+		n.set_meta("p1_trimmed", true)
 		if not any: continue
 		batches += 1
 		var changed := false
