@@ -1,0 +1,1 @@
+Before/after review shots for PR "P2 art" (JPEG q88, left = main f618de2, right = this branch). Same camera, late-morning light, 1440x900 before downscaling to 2/3. Rendered with llvmpipe. `*_medium` poses use scenery quality Medium. Poses: raid/tests/p2_art_poses.json. `.gdignore` keeps Godot from importing these.
