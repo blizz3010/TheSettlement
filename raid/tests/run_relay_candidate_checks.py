@@ -65,8 +65,9 @@ TESTS = [
     ("test_gear_loot", "GEAR_LOOT_TESTS "),
     ("test_gear_art", "GEAR_ART_TESTS "),
     ("test_default_outfit", "DEFAULT_OUTFIT_TESTS "),
-    ("test_jump_tuning", "JUMP_TUNING_TESTS "),
     # Rendered: real Play flow + mouse capture (xvfb-run, opengl3). Skipped with SKIP_RENDERED=1.
+    ("test_ship_boarding_route", "SHIP_BOARDING_ROUTE_TESTS ", "rendered"),
+    ("test_jump_tuning", "JUMP_TUNING_TESTS "),
     ("test_playtest_bundle", "PLAYTEST_BUNDLE_TESTS ", "rendered"),
 ]
 RENDERED_TIMEOUT = 1800
