@@ -3,6 +3,7 @@ extends SceneTree
 ## Run rendered from the repo root (the Play-flow world does not load headless):
 ##   xvfb-run -a -s "-screen 0 1440x900x24" godot --path . --rendering-driver opengl3 \
 ##     -s res://raid/tools/bake_grass_edges.gd
+## Run it with SETTLEMENT_P1_VISUAL=off so the lips themselves are not sampled.
 ## Writes res://assets/p1_visual/grass_edges.json, read at runtime by raid/scripts/grass_edge_lips.gd.
 ## Method: mirror the visible near-ground surfaces into a private physics space; on a 0.25 m grid
 ## classify each cell by stacked down rays (lowest hit = ground; a flat surface <= 0.45 m above
@@ -49,7 +50,7 @@ func skip(n: Node) -> bool:
 	var p := n
 	while p != null and p != world:
 		if p is CanvasLayer or p is SubViewport or p == world.player: return true
-		if str(p.name) in ["DomeSurface", "AmbientWildlife", "ValleyBackdrop", "P1VisualFixes"]: return true
+		if str(p.name) in ["DomeSurface", "AmbientWildlife", "ValleyBackdrop", "GrassEdgeLips", "HallStairwellFinish", "HallThresholdFinish"]: return true
 		p = p.get_parent()
 	return false
 
