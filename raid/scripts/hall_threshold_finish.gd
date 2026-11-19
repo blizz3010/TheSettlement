@@ -8,6 +8,7 @@ extends RefCounted
 ##   - a flush stone sill (4 mm proud of the pavers, 1 cm bevel) that covers the sliver and meets
 ##     the front foundation courses at both ends;
 ##   - a dark shadow joint between sill and pavers so the change of material reads as intended.
+const S = preload("res://raid/scripts/hall_stairwell_finish.gd")
 const NAME := "HallThresholdFinish"
 const DOOR_X := 2.36
 const FACE_Z := -14.0
@@ -24,8 +25,7 @@ static func mat(c: Color, rough := 0.85) -> Material:
 static func install(world: Node3D) -> Dictionary:
 	if world.has_node(NAME): world.get_node(NAME).free()
 	var root := Node3D.new(); root.name = NAME; world.add_child(root)
-	var S = load("res://raid/scripts/hall_stairwell_finish.gd")
-	var riser := S.begin(); var sill := S.begin(); var joint := S.begin()
+	var riser: SurfaceTool = S.begin(); var sill: SurfaceTool = S.begin(); var joint: SurfaceTool = S.begin()
 	# riser facing: 12 mm proud of the slab face, paver top to just under the threshold cap
 	S.add_box(riser, Vector3(0, (PAVER_TOP + HALL_FLOOR) * 0.5 - 0.002, FACE_Z + 0.006), Vector3(DOOR_X * 2, HALL_FLOOR - PAVER_TOP - 0.004, 0.012))
 	# sill: main slab plus a bevel strip at the outer edge
