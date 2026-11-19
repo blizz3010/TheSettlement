@@ -121,5 +121,5 @@ Plan **3 animation LODs**: full skeleton ≤ 25 m, reduced bones ≤ 60 m, and v
 | City block facade set | 30–50k / building | 10k | block impostor |
 | Player vehicle | 40–70k | 15k | 4k |
 | Traffic vehicle | 15–25k | 6k | 1.5k |
-| Pedestrian / police | 12–18k (like gear budgets, 12–18k in `gear_defs.gd` ART rows) | 6k | 1.5k |
+| Pedestrian / police (body + outfit) | 12–18k (in line with the per-piece `tri_budget` values in `raid/scripts/gear_tiers/gear_art.gd`: helmets 9–12k, vests 15–21k) | 6k | 1.5k |
 | Statue landmark | 60k | 15k | 2k / impostor |
