@@ -136,6 +136,9 @@ func mirror(m: MeshInstance3D) -> void:
 	if sh == null:
 		sh = m.mesh.create_trimesh_shape()
 		if sh == null: return
+		# Leaves, canopy lobes and one-sided cards are met from behind as often as from the front;
+		# without this the sweep passes through a back face and stops on the far side of it.
+		sh.backface_collision = true
 		shapes[m.mesh] = sh
 		mirrored_tris += sh.get_faces().size() / 3
 	var b := PhysicsServer3D.body_create()
@@ -211,20 +214,64 @@ func solve_for(a: Vector3, b: Vector3) -> float:
 	var full := a.distance_to(b)
 	for r in [PROBE_RADIUS, CLEARANCE_RADIUS + 0.02]:
 		var safe := sweep_both(a, b, r)
-		if safe > 0.0: return full * safe
+		if safe > 0.0: return settle(a, b, full * safe)
 	return 0.0
+
+## A game collider met from behind (one-sided concave shape, e.g. a balcony slab) does not stop
+## the sweep; step the end back toward the start until a slim sphere there is clear.
+const SETTLE_STEP := 0.1
+func settle(a: Vector3, b: Vector3, length: float) -> float:
+	var dir := (b - a).normalized()
+	var l := length
+	while l > 0.0 and overlaps(a + dir * l, CLEARANCE_RADIUS + 0.02):
+		l -= SETTLE_STEP
+	return maxf(l, 0.0)
+
+## Head in foliage, under a low overhang or against a hull: the eye itself is within the slim
+## sphere of something, so no boom from it is clear. Move the boom start inside the player's own
+## capsule (the body is not in the mirror and is excluded from physics): down the axis first,
+## then off-axis by up to 0.2 m, and take the first clear point.
+const PIVOT_DROPS := [0.15, 0.3, 0.45, 0.6]
+const PIVOT_SIDES := [Vector3.ZERO, Vector3(0.2, 0, 0), Vector3(-0.2, 0, 0), Vector3(0, 0, 0.2), Vector3(0, 0, -0.2)]
+
+func overlaps(c: Vector3, r: float) -> bool:
+	var q := PhysicsShapeQueryParameters3D.new()
+	sphere.radius = r
+	q.shape = sphere
+	q.transform = Transform3D(Basis(), c)
+	q.exclude = [player.get_rid()]
+	if not player.get_world_3d().direct_space_state.intersect_shape(q, 1).is_empty(): return true
+	q.exclude = []
+	return space.is_valid() and not mirror_state().intersect_shape(q, 1).is_empty()
+
+## [start, length]: the boom start (the pivot, or one moved inside the body) and the clear length.
+func solve_point(a: Vector3, b: Vector3) -> Array:
+	var boom := solve_for(a, b)
+	if boom > 0.0 or not overlaps(a, CLEARANCE_RADIUS + 0.02): return [a, boom]
+	for side in PIVOT_SIDES:
+		for d in ([0.0] if side != Vector3.ZERO else []) + PIVOT_DROPS:
+			var off: Vector3 = side - Vector3(0, d, 0)
+			if overlaps(a + off, CLEARANCE_RADIUS + 0.02): continue
+			return [a + off, solve_for(a + off, b + off)]
+	return [a, 0.0]
 
 func place(dt: float) -> void:
 	if not enabled or not is_instance_valid(player) or not player.third_person or player.camera == null: 
 		boom_length = -1.0
 		return
 	var t0 := Time.get_ticks_usec()
-	var target := solve_length()
-	if boom_length < 0.0 or target < boom_length: boom_length = target
-	else: boom_length = move_toward(boom_length, target, EASE_OUT_SPEED * maxf(dt, 0.0))
 	var a := pivot()
-	var dir := (desired() - a).normalized()
-	player.camera.global_position = a + dir * boom_length
+	var b := desired()
+	var dir := (b - a).normalized()
+	var sol := solve_point(a, b)
+	if sol[0] != a:
+		player.camera.global_position = sol[0] + dir * float(sol[1])
+		boom_length = 0.0   # ease back out once the eye is clear again
+	else:
+		var target: float = sol[1]
+		if boom_length < 0.0 or target < boom_length: boom_length = target
+		else: boom_length = move_toward(boom_length, target, EASE_OUT_SPEED * maxf(dt, 0.0))
+		player.camera.global_position = a + dir * boom_length
 	last_solve_us = Time.get_ticks_usec() - t0
 	max_solve_us = maxi(max_solve_us, last_solve_us)
 	total_solve_us += last_solve_us

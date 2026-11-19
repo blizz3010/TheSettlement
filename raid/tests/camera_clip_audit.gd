@@ -121,4 +121,5 @@ func pinned_camera(pivot: Vector3, desired: Vector3) -> Vector3:
 	return h.position + h.normal * 0.2 if not h.is_empty() else desired
 
 func probe_camera(pivot: Vector3, desired: Vector3) -> Vector3:
-	return pivot + (desired - pivot).normalized() * cc.solve_for(pivot, desired)
+	var sol: Array = cc.solve_point(pivot, desired)
+	return sol[0] + (desired - pivot).normalized() * float(sol[1])

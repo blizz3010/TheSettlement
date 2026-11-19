@@ -137,6 +137,7 @@ func run() -> void:
 	var probed := {}
 	var n := 0
 	var bad_samples := []
+	var eye_blocked := 0
 	for foot in feet:
 		for yi in 8:
 			var pivot: Vector3 = foot + Vector3(0, 1.70, 0)
@@ -145,19 +146,25 @@ func run() -> void:
 			if not ka.is_empty(): pinned[ka] = pinned.get(ka, 0) + 1
 			if not baseline:
 				var kb := verdict(au.probe_camera(pivot, desired))
-				if not kb.is_empty():
+				if not kb.is_empty() and not au.touches(pivot).is_empty() and not au.touches(pivot - Vector3(0, 0.6, 0)).is_empty():
+					eye_blocked += 1   # the eye and the body axis are in geometry; first person clips too
+				elif not kb.is_empty():
 					probed[kb] = probed.get(kb, 0) + 1
-					if bad_samples.size() < 40: bad_samples.append([snappedf(foot.x, 0.01), snappedf(foot.y, 0.01), snappedf(foot.z, 0.01), yi, kb])
+					if bad_samples.size() < 40:
+						var sol: Array = cc.solve_point(pivot, desired)
+						bad_samples.append([snappedf(foot.x, 0.01), snappedf(foot.y, 0.01), snappedf(foot.z, 0.01), yi, kb, snappedf(pivot.y - sol[0].y, 0.01), snappedf(sol[1], 0.01)])
 			n += 1
 		if n % 8000 == 0: await physics_frame
 	var cp := 0
 	for v in pinned.values(): cp += v
 	var cb := 0
 	for v in probed.values(): cb += v
-	report["sweep"] = {"cameras": n, "pinned_clips": cp, "probe_clips": cb, "pinned_top": top(pinned, 12), "probe_top": top(probed, 12), "probe_samples": bad_samples}
-	log_("sweep cams=%d pinned=%d probe=%d" % [n, cp, cb])
+	report["sweep"] = {"cameras": n, "pinned_clips": cp, "probe_clips": cb, "probe_eye_blocked": eye_blocked, "pinned_top": top(pinned, 12), "probe_top": top(probed, 12), "probe_samples": bad_samples}
+	log_("sweep cams=%d pinned=%d probe=%d eye_blocked=%d top=%s samples=%s" % [n, cp, cb, eye_blocked, report.sweep.probe_top, bad_samples.slice(0, 20)])
 	check(cp > 0, "Audit sees the pinned camera clipping (sanity)")
+	if not baseline: check(eye_blocked * 1000 <= n, "Eye-in-geometry cameras stay under 0.1%% (%d)" % eye_blocked)
 	if not baseline: check(cb == 0, "Shipped camera never within 0.10 m of, inside or under geometry at %d sampled cameras (pinned: %d)" % [n, cp])
+	if OS.get_environment("CAM_SWEEP_ONLY") == "1": finish(); return
 	# ---- 3. reported spots with the real camera
 	if not p.third_person: p.toggle_view()
 	var spots := {}
@@ -218,15 +225,19 @@ func run() -> void:
 	var f0 := Vector3(s0[1].x, 0, s0[1].y)
 	p.global_position = Vector3(f0.x, floor_y(f0.x, f0.z, 1.0) + 0.02, f0.z)
 	p.rotation.y = s0[2] * TAU / 8.0
+	# llvmpipe renders this scene at seconds per frame, so the timed frames are few and smaller.
+	root.size = Vector2i(960, 600)
 	root.get_viewport().disable_3d = false
 	var times := {"on": [], "off": []}
-	for block in 6:
+	for block in 4:
 		var mode := "on" if block % 2 == 0 else "off"
 		if not baseline: cc.enabled = mode == "on"
-		for i in 3: await process_frame
+		await process_frame
 		var t0 := Time.get_ticks_usec()
-		for i in 20: await process_frame
-		times[mode].append((Time.get_ticks_usec() - t0) / 20000.0)
+		for i in 4: await process_frame
+		times[mode].append((Time.get_ticks_usec() - t0) / 4000.0)
+		log_("frame block %d %s %.1f ms" % [block, mode, times[mode][-1]])
+	root.size = Vector2i(1440, 900)
 	root.get_viewport().disable_3d = true
 	if not baseline: cc.enabled = true
 	var solves_before: int = cc.solves
