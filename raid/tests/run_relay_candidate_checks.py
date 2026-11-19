@@ -69,6 +69,7 @@ TESTS = [
     ("test_ship_boarding_route", "SHIP_BOARDING_ROUTE_TESTS ", "rendered"),
     ("test_jump_tuning", "JUMP_TUNING_TESTS "),
     ("test_playtest_bundle", "PLAYTEST_BUNDLE_TESTS ", "rendered"),
+    ("test_p2_art", "P2_ART_TESTS ", "rendered"),
 ]
 RENDERED_TIMEOUT = 1800
 
