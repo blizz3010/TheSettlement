@@ -16,23 +16,40 @@ static func install(world: Node3D) -> Dictionary:
 	world.set_meta(META, r)
 	return r
 
-## The inn installs a few frames later and screens visible scenery for overlap with its approach
-## treads (scripts/inn_site_install.gd, pinned). The stair-foot lips are baked against those treads,
-## so the lip node stays hidden until the inn has attempted its install, then shows (max 45 s).
+## The inn and the garden controllers install after activation and screen visible scenery for
+## overlap (scripts/inn_site_install.gd, market_edge_gardens.gd, ... pinned). The lips are baked
+## against the finished layout, so the lip node stays hidden until the world is activated and every
+## startup controller (a child with `attempted`) has finished, then shows.
+static func controllers_settled(world: Node3D) -> bool:
+	if world.get("world_activated") != true:
+		return false
+	for c in world.get_children():
+		if not "attempted" in c:
+			continue
+		if not bool(c.get("attempted")):
+			return false
+		if "result" in c and c.get("result") is Dictionary and (c.get("result") as Dictionary).is_empty():
+			return false
+	return true
+
 static func _defer_lips(world: Node3D) -> void:
 	var node := world.get_node_or_null("GrassEdgeLips") as Node3D
 	if node == null or not world.is_inside_tree():
 		return
 	node.visible = false
-	var started := Time.get_ticks_msec()
 	var tree := world.get_tree()
-	var state := {"cb": Callable()}
+	var state := {"cb": Callable(), "settled_frames": 0, "activated_ms": -1}
 	state.cb = func() -> void:
-		var inn = world.get("inn_site")
-		var done: bool = inn == null or not is_instance_valid(inn) or bool(inn.get("attempted"))
-		if done or Time.get_ticks_msec() - started > 45000:
-			if is_instance_valid(node):
-				node.visible = true
-				node.set_meta("revealed_after_inn", done)
+		if not is_instance_valid(world) or not is_instance_valid(node):
+			tree.process_frame.disconnect(state.cb)
+			return
+		if world.get("world_activated") == true and state.activated_ms < 0:
+			state.activated_ms = Time.get_ticks_msec()
+		var settled := controllers_settled(world)
+		state.settled_frames = state.settled_frames + 1 if settled else 0
+		var timed_out: bool = state.activated_ms >= 0 and Time.get_ticks_msec() - state.activated_ms > 900000
+		if state.settled_frames >= 3 or timed_out:
+			node.visible = true
+			node.set_meta("revealed_after_inn", settled)
 			tree.process_frame.disconnect(state.cb)
 	tree.process_frame.connect(state.cb)
