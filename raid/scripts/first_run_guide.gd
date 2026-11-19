@@ -82,7 +82,7 @@ func text_for(s: String) -> String:
 
 func title_cleared() -> bool:
 	var fade = world.get_node_or_null("HudTitleFade")
-	return fade == null or fade.fade_started_ms >= 0 or fade.done
+	return fade == null or fade.done
 
 func refresh() -> void:
 	if not is_instance_valid(label): return
