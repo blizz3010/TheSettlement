@@ -65,7 +65,12 @@ TESTS = [
     ("test_gear_loot", "GEAR_LOOT_TESTS "),
     ("test_gear_art", "GEAR_ART_TESTS "),
     ("test_default_outfit", "DEFAULT_OUTFIT_TESTS "),
+    # Rendered: real Play flow + mouse capture (xvfb-run, opengl3). Skipped with SKIP_RENDERED=1.
+    ("test_ship_boarding_route", "SHIP_BOARDING_ROUTE_TESTS ", "rendered"),
+    ("test_jump_tuning", "JUMP_TUNING_TESTS "),
+    ("test_playtest_bundle", "PLAYTEST_BUNDLE_TESTS ", "rendered"),
 ]
+RENDERED_TIMEOUT = 1800
 
 def main():
     if len(sys.argv) != 2 or not Path(sys.argv[1]).is_absolute():
@@ -75,15 +80,21 @@ def main():
     profiles = Path(tempfile.mkdtemp(prefix="relay-candidate-checks-"))
     results = []
 
-    def invoke(name, args):
+    def invoke(name, args, rendered=False):
         env = os.environ.copy()
         for variable, directory in [("XDG_DATA_HOME", "data"), ("XDG_CONFIG_HOME", "config"), ("XDG_CACHE_HOME", "cache")]:
             path = profiles / name / directory
             path.mkdir(parents=True)
             env[variable] = str(path)
         try:
-            process = subprocess.run(["godot", *args], cwd=PROJECT, env=env, capture_output=True, text=True, timeout=180)
-            log = process.stdout + process.stderr
+            command = ["xvfb-run", "-a", "-s", "-screen 0 1440x900x24", "godot", *args] if rendered else ["godot", *args]
+            if rendered:
+                # One interleaved stream, so errors can be ordered against the marker line.
+                process = subprocess.run(command, cwd=PROJECT, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=RENDERED_TIMEOUT)
+                log = process.stdout
+            else:
+                process = subprocess.run(command, cwd=PROJECT, env=env, capture_output=True, text=True, timeout=180)
+                log = process.stdout + process.stderr
             code = process.returncode
         except subprocess.TimeoutExpired as error:
             log = "CHECK TIMED OUT\n" + str(error)
@@ -96,16 +107,28 @@ def main():
         raise SystemExit("Godot 4.6.3 required. See engine-version.log.")
     tests = list(TESTS)
     tests += [(f"{biome}-matrix-case-{i}", f"{biome.upper()}_SEED_MATRIX_TESTS ") for biome in ("relay", "cinder") for i in range(6)]
-    for name, marker in tests:
+    for entry in tests:
+        name, marker = entry[0], entry[1]
+        rendered = len(entry) > 2 and entry[2] == "rendered"
+        if rendered and os.environ.get("SKIP_RENDERED") == "1":
+            continue
         matrix = "-matrix-case-" in name
         script = "test_" + name.split("-", 1)[0] + "_seed_matrix" if matrix else name
-        args = ["--headless", "--fixed-fps", "60", "--path", str(PROJECT), "--script", f"res://raid/tests/{script}.gd"]
+        if rendered:
+            args = ["--rendering-driver", "opengl3", "--path", str(PROJECT), "--script", f"res://raid/tests/{script}.gd"]
+        else:
+            args = ["--headless", "--fixed-fps", "60", "--path", str(PROJECT), "--script", f"res://raid/tests/{script}.gd"]
         if matrix:
             args += ["--", f"--matrix-index={name.rsplit('-', 1)[1]}"]
-        code, log = invoke(name, args)
+        code, log = invoke(name, args, rendered)
         line = next((line for line in log.splitlines() if line.startswith(marker)), "")
         result = {"test": name, "exit_code": code, "marker_found": bool(line), "checks": 0}
         result["errors"] = [line for line in log.splitlines() if re.match(r"^(SCRIPT ERROR|ERROR):", line)]
+        if rendered and line:
+            # GLES3 teardown of the full settlement reports GPU buffer/RID leaks at exit, after the
+            # marker line. Only errors logged before the marker (during the test) count.
+            before = log.split(line, 1)[0]
+            result["errors"] = [l for l in before.splitlines() if re.match(r"^(SCRIPT ERROR|ERROR):", l)]
         try:
             payload = line[len(marker):]
             if marker.startswith("Ship "):
