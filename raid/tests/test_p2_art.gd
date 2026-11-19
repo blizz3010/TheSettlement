@@ -366,6 +366,7 @@ func frame_times() -> void:
 		await set_q(v[3])
 		cam.global_position = v[1]; cam.look_at(v[2]); cam.current = true
 		var times := {"on": [], "off": []}
+		var info := {}
 		for block in 4:
 			var mode := "on" if block % 2 == 0 else "off"
 			set_p2(mode == "on")
@@ -373,7 +374,10 @@ func frame_times() -> void:
 			var t0 := Time.get_ticks_usec()
 			for i in 4: await process_frame
 			times[mode].append((Time.get_ticks_usec() - t0) / 4000.0)
-		out[v[0]] = {"on": avg(times.on), "off": avg(times.off), "blocks": times}
+			var vp := root.get_viewport().get_viewport_rid()
+			info[mode] = {"draw_calls": RenderingServer.viewport_get_render_info(vp, RenderingServer.VIEWPORT_RENDER_INFO_TYPE_VISIBLE, RenderingServer.VIEWPORT_RENDER_INFO_DRAW_CALLS_IN_FRAME),
+				"primitives": RenderingServer.viewport_get_render_info(vp, RenderingServer.VIEWPORT_RENDER_INFO_TYPE_VISIBLE, RenderingServer.VIEWPORT_RENDER_INFO_PRIMITIVES_IN_FRAME)}
+		out[v[0]] = {"on": avg(times.on), "off": avg(times.off), "blocks": times, "render_info": info}
 		log_("frame %s %s" % [v[0], out[v[0]]])
 	set_p2(true)
 	cam.queue_free()
