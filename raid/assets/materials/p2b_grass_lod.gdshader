@@ -54,8 +54,8 @@ void vertex() {
  float hm=hill_mask(root_world.xz);
  if (hm>0.0) {
   vec2 p=root_world.xz;
-  float dry=smoothstep(.52,.74,hill_noise(p*.115+vec2(3.1,9.7)));
-  float clover=smoothstep(.56,.80,hill_noise(p*.205+vec2(11.3,4.2)))*(1.0-dry);
+  float dry=smoothstep(.80,.88,hill_noise(p*.115+vec2(3.1,9.7)));
+  float clover=smoothstep(.64,.76,hill_noise(p*.205+vec2(11.3,4.2)))*(1.0-dry);
   float mottle=hill_noise(p*.62+vec2(1.7,5.3));
   // Dry patches: shorter, thinner turf (about 40 % of tufts dropped at the patch core); clover a bit fuller.
   float kept=step(hill_hash(floor(p*4.3)+vec2(7.0,2.0)),1.0-.42*dry);

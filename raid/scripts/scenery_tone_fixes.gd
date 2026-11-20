@@ -4,7 +4,7 @@ extends RefCounted
 ##    averaging RGB 88/123/0) clash with Artie's plaza trees and the darker garden trees. Their leaf surface
 ##    gets a per-instance override (raid/assets/materials/p2b_leaf_tone.gdshader, same texture, alpha
 ##    scissor and UVs) that remaps it to a natural mid green. Only crowns taller than 2 m in
-##    PlazaIslandComposition (14 trees) change; bushes and the shared material resource are untouched.
+##    PlazaIslandComposition (13 crowns) change; bushes and the shared material resource are untouched.
 ##  planet: the valley body in the day/night sky is ~31 % smaller and washes out by day
 ##    (raid/assets/materials/p2b_day_night_sky.gdshader, an unpinned copy; DayNightCycle keeps driving it).
 const LEAF_SHADER := preload("res://raid/assets/materials/p2b_leaf_tone.gdshader")

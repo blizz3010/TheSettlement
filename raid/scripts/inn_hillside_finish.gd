@@ -101,8 +101,8 @@ static func hill_mask(p: Vector2) -> float:
 	return _ss(-27.0, -22.0, p.x) * (1.0 - _ss(24.0, 29.0, p.x)) * _ss(22.0, 27.0, p.y) * (1.0 - _ss(49.0, 53.0, p.y))
 ## {mask, dry, clover, mottle} at world xz p.
 static func patch(p: Vector2) -> Dictionary:
-	var dry := _ss(0.52, 0.74, hill_noise(p * 0.115 + Vector2(3.1, 9.7)))
-	var clover := _ss(0.56, 0.80, hill_noise(p * 0.205 + Vector2(11.3, 4.2))) * (1.0 - dry)
+	var dry := _ss(0.80, 0.88, hill_noise(p * 0.115 + Vector2(3.1, 9.7)))
+	var clover := _ss(0.64, 0.76, hill_noise(p * 0.205 + Vector2(11.3, 4.2))) * (1.0 - dry)
 	return {"mask": hill_mask(p), "dry": dry, "clover": clover, "mottle": hill_noise(p * 0.62 + Vector2(1.7, 5.3))}
 
 static func tint(p: Vector2) -> Color:

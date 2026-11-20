@@ -51,8 +51,8 @@ void fragment() {
  // P2B inn hillside patches (see header). hill_noise is mirrored in GDScript for the blade tint.
  float hill_mask=smoothstep(-27.0,-22.0,p.x)*(1.0-smoothstep(24.0,29.0,p.x))*smoothstep(22.0,27.0,p.y)*(1.0-smoothstep(49.0,53.0,p.y))*inn_hill_variation;
  if (hill_mask>0.0) {
-  float dry=smoothstep(.52,.74,hill_noise(p*.115+vec2(3.1,9.7)));
-  float clover=smoothstep(.56,.80,hill_noise(p*.205+vec2(11.3,4.2)))*(1.0-dry);
+  float dry=smoothstep(.80,.88,hill_noise(p*.115+vec2(3.1,9.7)));
+  float clover=smoothstep(.64,.76,hill_noise(p*.205+vec2(11.3,4.2)))*(1.0-dry);
   float mottle=hill_noise(p*.62+vec2(1.7,5.3));
   float rise=smoothstep(.4,2.6,world_position.y);
   vec3 hill=turf*mix(.86,1.16,mottle);
