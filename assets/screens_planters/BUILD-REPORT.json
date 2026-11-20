@@ -1,0 +1,457 @@
+{
+ "asset_group": "screens_planters",
+ "units": "meters",
+ "up": "+Y (glTF)",
+ "front": "+Z (glTF) = Blender -Y",
+ "origin": "base centre on ground (min Y = 0)",
+ "assets": {
+  "request_board_woven": {
+   "replaces": "assets/midstyle_rollout2/request_board.gltf (RequestBoard art; the 'thatch screen' in shots 38/41/45)",
+   "nodes": {
+    "request_board_woven_LOD0": {
+     "tris": 6124,
+     "size_xyz_m": [
+      2.04,
+      2.218,
+      0.359
+     ],
+     "min": [
+      -1.02,
+      0,
+      -0.179
+     ],
+     "max": [
+      1.02,
+      2.218,
+      0.179
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "request_board_woven_LOD1": {
+     "tris": 2448,
+     "size_xyz_m": [
+      2.032,
+      2.213,
+      0.356
+     ],
+     "min": [
+      -1.016,
+      0.004,
+      -0.178
+     ],
+     "max": [
+      1.016,
+      2.217,
+      0.178
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "request_board_woven_col": {
+     "tris": 36,
+     "size_xyz_m": [
+      1.98,
+      2.19,
+      0.16
+     ],
+     "min": [
+      -0.99,
+      0,
+      -0.08
+     ],
+     "max": [
+      0.99,
+      2.19,
+      0.08
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "lod1_ratio": 0.4,
+   "materials": [
+    "SP_Timber",
+    "SP_TimberDark",
+    "SP_Stone",
+    "SP_Iron",
+    "SP_Bronze",
+    "SP_WickerDark",
+    "SP_Wicker",
+    "SP_Ink",
+    "SP_Paper"
+   ],
+   "textures": [
+    "textures/sp_stone_base.jpg",
+    "textures/sp_stone_normal.jpg",
+    "textures/sp_stone_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/sp_wicker_base.jpg",
+    "textures/sp_wicker_normal.jpg",
+    "textures/sp_wicker_orm.jpg"
+   ],
+   "bytes_gltf_bin": 500335
+  },
+  "woven_screen": {
+   "replaces": "none (optional new freestanding screen)",
+   "nodes": {
+    "woven_screen_LOD0": {
+     "tris": 5524,
+     "size_xyz_m": [
+      1.359,
+      1.8,
+      0.114
+     ],
+     "min": [
+      -0.68,
+      0,
+      -0.057
+     ],
+     "max": [
+      0.68,
+      1.8,
+      0.057
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "woven_screen_LOD1": {
+     "tris": 2208,
+     "size_xyz_m": [
+      1.359,
+      1.801,
+      0.114
+     ],
+     "min": [
+      -0.68,
+      0,
+      -0.057
+     ],
+     "max": [
+      0.68,
+      1.801,
+      0.057
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "woven_screen_col": {
+     "tris": 12,
+     "size_xyz_m": [
+      1.32,
+      1.8,
+      0.12
+     ],
+     "min": [
+      -0.66,
+      0,
+      -0.06
+     ],
+     "max": [
+      0.66,
+      1.8,
+      0.06
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "lod1_ratio": 0.4,
+   "materials": [
+    "SP_Timber",
+    "SP_TimberDark",
+    "SP_WickerDark",
+    "SP_Wicker"
+   ],
+   "textures": [
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/sp_wicker_base.jpg",
+    "textures/sp_wicker_normal.jpg",
+    "textures/sp_wicker_orm.jpg"
+   ],
+   "bytes_gltf_bin": 357810
+  },
+  "plaza_planter": {
+   "replaces": "assets/kit/planter.glb",
+   "nodes": {
+    "plaza_planter_LOD0": {
+     "tris": 3612,
+     "size_xyz_m": [
+      1.49,
+      1.126,
+      1.49
+     ],
+     "min": [
+      -0.747,
+      0,
+      -0.741
+     ],
+     "max": [
+      0.742,
+      1.126,
+      0.749
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "plaza_planter_LOD1": {
+     "tris": 1443,
+     "size_xyz_m": [
+      1.49,
+      1.121,
+      1.49
+     ],
+     "min": [
+      -0.747,
+      0.005,
+      -0.741
+     ],
+     "max": [
+      0.742,
+      1.126,
+      0.749
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "plaza_planter_col": {
+     "tris": 12,
+     "size_xyz_m": [
+      1.0,
+      0.56,
+      1.0
+     ],
+     "min": [
+      -0.5,
+      0,
+      -0.5
+     ],
+     "max": [
+      0.5,
+      0.56,
+      0.5
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "lod1_ratio": 0.4,
+   "materials": [
+    "SP_Stone",
+    "SP_Timber",
+    "SP_Bronze",
+    "SP_Soil",
+    "SP_LeafTeal",
+    "SP_LeafGreen",
+    "SP_LeafPlum"
+   ],
+   "textures": [
+    "textures/sp_leaf_base.jpg",
+    "textures/sp_leaf_normal.jpg",
+    "textures/sp_leaf_orm.jpg",
+    "textures/sp_soil_base.jpg",
+    "textures/sp_soil_normal.jpg",
+    "textures/sp_soil_orm.jpg",
+    "textures/sp_stone_base.jpg",
+    "textures/sp_stone_normal.jpg",
+    "textures/sp_stone_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg"
+   ],
+   "bytes_gltf_bin": 195659
+  },
+  "plaza_planter_fern": {
+   "replaces": "assets/kit/planter_fern_variant.glb",
+   "nodes": {
+    "plaza_planter_fern_LOD0": {
+     "tris": 6796,
+     "size_xyz_m": [
+      1.273,
+      1.025,
+      1.283
+     ],
+     "min": [
+      -0.63,
+      0,
+      -0.649
+     ],
+     "max": [
+      0.642,
+      1.025,
+      0.634
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "plaza_planter_fern_LOD1": {
+     "tris": 2718,
+     "size_xyz_m": [
+      1.272,
+      1.022,
+      1.282
+     ],
+     "min": [
+      -0.63,
+      0.004,
+      -0.649
+     ],
+     "max": [
+      0.642,
+      1.025,
+      0.633
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "plaza_planter_fern_col": {
+     "tris": 12,
+     "size_xyz_m": [
+      1.0,
+      0.56,
+      1.0
+     ],
+     "min": [
+      -0.5,
+      0,
+      -0.5
+     ],
+     "max": [
+      0.5,
+      0.56,
+      0.5
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "lod1_ratio": 0.4,
+   "materials": [
+    "SP_Stone",
+    "SP_Timber",
+    "SP_Bronze",
+    "SP_Soil",
+    "SP_LeafDeep",
+    "SP_LeafGreen",
+    "SP_LeafTeal",
+    "SP_LeafPlum"
+   ],
+   "textures": [
+    "textures/sp_leaf_base.jpg",
+    "textures/sp_leaf_normal.jpg",
+    "textures/sp_leaf_orm.jpg",
+    "textures/sp_soil_base.jpg",
+    "textures/sp_soil_normal.jpg",
+    "textures/sp_soil_orm.jpg",
+    "textures/sp_stone_base.jpg",
+    "textures/sp_stone_normal.jpg",
+    "textures/sp_stone_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg"
+   ],
+   "bytes_gltf_bin": 393544
+  }
+ },
+ "textures": {
+  "sp_leaf_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 76120
+  },
+  "sp_leaf_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 57316
+  },
+  "sp_leaf_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 81324
+  },
+  "sp_soil_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 173286
+  },
+  "sp_soil_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 340997
+  },
+  "sp_soil_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 104279
+  },
+  "sp_stone_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 189406
+  },
+  "sp_stone_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 246671
+  },
+  "sp_stone_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 165564
+  },
+  "sp_timber_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 91033
+  },
+  "sp_timber_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 189649
+  },
+  "sp_timber_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 86063
+  },
+  "sp_wicker_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 83276
+  },
+  "sp_wicker_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 140560
+  },
+  "sp_wicker_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 78496
+  }
+ },
+ "total_MB_runtime": 3.551,
+ "total_MB_folder": 4.401
+}

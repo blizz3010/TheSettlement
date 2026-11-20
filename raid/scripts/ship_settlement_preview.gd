@@ -26,6 +26,7 @@ const ShipBoardingWayfinding = preload("res://raid/scripts/ship_boarding_wayfind
 const HudTitleFade = preload("res://raid/scripts/hud_title_fade.gd")
 const FirstRunGuide = preload("res://raid/scripts/first_run_guide.gd")
 const JumpTuning = preload("res://raid/scripts/jump_tuning.gd")
+const P2Art = preload("res://raid/scripts/p2_art.gd")
 const P1VisualFixes = preload("res://raid/scripts/p1_visual_fixes.gd")
 const CameraCollision = preload("res://raid/scripts/camera_collision.gd")
 const SolidProps = preload("res://raid/scripts/solid_props.gd")
@@ -83,6 +84,8 @@ func _initialize_world():
 		if is_instance_valid(player): JumpTuning.attach(player)
 		HudTitleFade.install(self)
 		FirstRunGuide.install(self)
+		# TASKS item 5: Artie's P2 art swaps, applied once every startup controller has settled.
+		P2Art.install(self)
 		# Queue item 4: P1 visual fixes (stairwell, grass edge lips, threshold). Same frame as
 		# GrassViewCulling.install, before it splits the grass it trims. SETTLEMENT_P1_VISUAL=off skips.
 		if OS.get_environment("SETTLEMENT_P1_VISUAL") != "off": P1VisualFixes.install(self)
@@ -289,6 +292,8 @@ func activate_loaded_world():
 		var far_opt: Dictionary = preload("res://raid/scripts/far_scenery_options.gd").apply(self)
 		if not far_opt.get("skipped", false) and not far_opt.get("ok", false):
 			push_warning("Far scenery skipped: " + str(far_opt.get("reason", far_opt)))
+		# TASKS item 5 (f): smooth distant hill chunks replace the faceted far rings. DISTANT_HILLS=off / P2_HILLS=off.
+		P2Art.install_distant_hills(self)
 	# TASKS item 21: pause-menu recovery + Escape/quit/mouse safety net, and grass view
 	# culling (the Town Hall "stall" was ~16.5M grass-heavy primitives per frame).
 	if world_activated and not startup_cancel_requested:
@@ -300,6 +305,8 @@ func activate_loaded_world():
 		if is_instance_valid(player): JumpTuning.attach(player)
 		HudTitleFade.install(self)
 		FirstRunGuide.install(self)
+		# TASKS item 5: Artie's P2 art swaps, applied once every startup controller has settled.
+		P2Art.install(self)
 		# Queue item 4, second pass for the staged start (idempotent: trims only new grass batches).
 		if OS.get_environment("SETTLEMENT_P1_VISUAL") != "off": P1VisualFixes.install(self)
 		# Queue item 3: third-person camera spring arm + camera-only mirror of visible meshes.

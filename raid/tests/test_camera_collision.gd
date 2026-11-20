@@ -125,7 +125,12 @@ func run() -> void:
 			var sp: Dictionary = report.solid_props
 			check(int(sp.get("trees", 0)) + int(sp.get("trunks", 0)) >= 10, "At least 10 tree trunks made solid")
 	var t_build := Time.get_ticks_msec()
-	if cc != null: cc.build_all()
+	if cc != null:
+		# Regression (found merging P2 art): a mesh freed after it was queued must be skipped, not crash the build.
+		var ghost := MeshInstance3D.new(); ghost.mesh = BoxMesh.new(); root.add_child(ghost)
+		cc.pending.append(ghost); cc.built = false; ghost.free()
+		cc.build_all()
+		check(cc.built and cc.pending.is_empty(), "A mesh freed while queued is skipped by the mirror build")
 	for i in 4: await physics_frame
 	report["mirror"] = {"bodies": cc.entries.size(), "tris": cc.mirrored_tris, "build_ms": snappedf(cc.build_ms, 0.1), "finish_ms": Time.get_ticks_msec() - t_build}
 	log_("mirror %s" % report.mirror)

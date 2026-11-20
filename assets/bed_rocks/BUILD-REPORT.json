@@ -1,0 +1,156 @@
+{
+ "asset_id": "bed_rocks",
+ "replaces": "assets/planting_dense/small_rock_group.glb (84 tris, faceted)",
+ "units": "meters",
+ "up": "+Y (glTF)",
+ "origin": "base centre on ground (min Y = 0)",
+ "material": "BedRock (shared): baseColor x COLOR_0 vertex colour, ORM (R occl, G rough, B metal), OpenGL normal",
+ "collision": "none (bed rocks: no _col, matching the original's 0 colliders)",
+ "variants": {
+  "bed_rock_a": {
+   "LOD0": {
+    "node": "bed_rock_a_LOD0",
+    "tris": 4800,
+    "size_xyz_m": [
+     0.48,
+     0.255,
+     0.401
+    ],
+    "min_y": 0
+   },
+   "LOD1": {
+    "node": "bed_rock_a_LOD1",
+    "tris": 1920,
+    "size_xyz_m": [
+     0.48,
+     0.255,
+     0.401
+    ],
+    "min_y": 0.0
+   },
+   "lod1_ratio": 0.4,
+   "bytes": 213878
+  },
+  "bed_rock_b": {
+   "LOD0": {
+    "node": "bed_rock_b_LOD0",
+    "tris": 4800,
+    "size_xyz_m": [
+     0.627,
+     0.182,
+     0.455
+    ],
+    "min_y": 0
+   },
+   "LOD1": {
+    "node": "bed_rock_b_LOD1",
+    "tris": 1920,
+    "size_xyz_m": [
+     0.627,
+     0.182,
+     0.455
+    ],
+    "min_y": -0.0
+   },
+   "lod1_ratio": 0.4,
+   "bytes": 213927
+  },
+  "bed_rock_c": {
+   "LOD0": {
+    "node": "bed_rock_c_LOD0",
+    "tris": 4332,
+    "size_xyz_m": [
+     0.36,
+     0.279,
+     0.398
+    ],
+    "min_y": 0
+   },
+   "LOD1": {
+    "node": "bed_rock_c_LOD1",
+    "tris": 1732,
+    "size_xyz_m": [
+     0.36,
+     0.28,
+     0.398
+    ],
+    "min_y": 0.0
+   },
+   "lod1_ratio": 0.4,
+   "bytes": 196124
+  },
+  "bed_rock_d": {
+   "LOD0": {
+    "node": "bed_rock_d_LOD0",
+    "tris": 4920,
+    "size_xyz_m": [
+     0.658,
+     0.229,
+     0.369
+    ],
+    "min_y": 0
+   },
+   "LOD1": {
+    "node": "bed_rock_d_LOD1",
+    "tris": 1968,
+    "size_xyz_m": [
+     0.659,
+     0.229,
+     0.369
+    ],
+    "min_y": 0.0001
+   },
+   "lod1_ratio": 0.4,
+   "bytes": 225887
+  },
+  "bed_rock_e": {
+   "LOD0": {
+    "node": "bed_rock_e_LOD0",
+    "tris": 5400,
+    "size_xyz_m": [
+     0.705,
+     0.204,
+     0.529
+    ],
+    "min_y": 0
+   },
+   "LOD1": {
+    "node": "bed_rock_e_LOD1",
+    "tris": 2160,
+    "size_xyz_m": [
+     0.705,
+     0.204,
+     0.529
+    ],
+    "min_y": 0.0
+   },
+   "lod1_ratio": 0.4,
+   "bytes": 252529
+  }
+ },
+ "textures": {
+  "bed_rock_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 246204
+  },
+  "bed_rock_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 305415
+  },
+  "bed_rock_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 139392
+  }
+ },
+ "total_MB_runtime": 1.793,
+ "total_MB_folder": 2.182
+}
