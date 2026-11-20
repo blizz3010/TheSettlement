@@ -108,9 +108,9 @@ static func patch(p: Vector2) -> Dictionary:
 static func tint(p: Vector2) -> Color:
 	var q := patch(p)
 	var m: float = q.mottle
-	var t := Vector3.ONE * lerpf(0.88, 1.12, m)
-	t = t.lerp(Vector3(1.32, 1.18, 0.62), q.dry * 0.75)
-	t = t.lerp(Vector3(0.70, 0.86, 0.72), q.clover * 0.8)
+	var t := Vector3.ONE * lerpf(0.80, 1.24, m) * 1.08
+	t = t.lerp(Vector3(1.45, 1.30, 0.58), q.dry * 0.85)
+	t = t.lerp(Vector3(0.62, 0.80, 0.64), q.clover * 0.85)
 	t = Vector3.ONE.lerp(t, q.mask)
 	return Color(t.x, t.y, t.z)
 

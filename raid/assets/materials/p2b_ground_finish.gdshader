@@ -55,8 +55,8 @@ void fragment() {
   float clover=smoothstep(.64,.76,hill_noise(p*.205+vec2(11.3,4.2)))*(1.0-dry);
   float mottle=hill_noise(p*.62+vec2(1.7,5.3));
   float rise=smoothstep(.4,2.6,world_position.y);
-  vec3 hill=turf*mix(.86,1.16,mottle);
-  hill=mix(hill,vec3(.232,.226,.118)*(.9+.2*broad),dry*.58);
+  vec3 hill=turf*mix(.80,1.22,mottle);
+  hill=mix(hill,vec3(.232,.226,.118)*(.9+.2*broad),dry*.70);
   hill=mix(hill,vec3(.074,.132,.066),clover*.50);
   hill*=mix(1.0,1.06,rise*(1.0-clover));
   turf=mix(turf,hill,hill_mask);

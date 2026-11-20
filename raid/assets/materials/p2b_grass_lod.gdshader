@@ -58,13 +58,13 @@ void vertex() {
   float clover=smoothstep(.64,.76,hill_noise(p*.205+vec2(11.3,4.2)))*(1.0-dry);
   float mottle=hill_noise(p*.62+vec2(1.7,5.3));
   // Dry patches: shorter, thinner turf (about 40 % of tufts dropped at the patch core); clover a bit fuller.
-  float kept=step(hill_hash(floor(p*4.3)+vec2(7.0,2.0)),1.0-.42*dry);
-  float h=mix(1.0,mix(.58,1.0,1.0-dry)*mix(1.0,1.12,clover)*mix(.9,1.08,mottle)*kept,hm);
+  float kept=step(hill_hash(floor(p*4.3)+vec2(7.0,2.0)),1.0-.5*dry);
+  float h=mix(1.0,mix(.5,1.0,1.0-dry)*mix(1.0,1.12,clover)*mix(.9,1.08,mottle)*kept,hm);
   VERTEX.y*=h;
   VERTEX.xz*=mix(1.0,kept,hm);
-  vec3 t=vec3(mix(.88,1.12,mottle));
-  t=mix(t,vec3(1.32,1.18,.62),dry*.75);
-  t=mix(t,vec3(.70,.86,.72),clover*.8);
+  vec3 t=vec3(mix(.80,1.24,mottle)*1.08);
+  t=mix(t,vec3(1.45,1.30,.58),dry*.85);
+  t=mix(t,vec3(.62,.80,.64),clover*.85);
   p2b_tint=mix(vec3(1.0),t,hm);
  }
  // Zero-height rejected tufts must not leave broad flat green cards on soil.
