@@ -127,7 +127,7 @@ func run() -> void:
 	var t_build := Time.get_ticks_msec()
 	if cc != null:
 		# Regression (found merging P2 art): a mesh freed after it was queued must be skipped, not crash the build.
-		var ghost := MeshInstance3D.new(); ghost.mesh = BoxMesh.new(); add_child(ghost)
+		var ghost := MeshInstance3D.new(); ghost.mesh = BoxMesh.new(); root.add_child(ghost)
 		cc.pending.append(ghost); cc.built = false; ghost.free()
 		cc.build_all()
 		check(cc.built and cc.pending.is_empty(), "A mesh freed while queued is skipped by the mirror build")
