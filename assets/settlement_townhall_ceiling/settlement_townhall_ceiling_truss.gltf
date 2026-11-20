@@ -1,0 +1,635 @@
+{
+ "asset": {
+  "generator": "Khronos glTF Blender I/O v4.2.83",
+  "version": "2.0"
+ },
+ "scene": 0,
+ "scenes": [
+  {
+   "name": "Scene",
+   "nodes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "mesh": 0,
+   "name": "settlement_townhall_ceiling_truss_LOD1"
+  },
+  {
+   "mesh": 1,
+   "name": "settlement_townhall_ceiling_truss_LOD2"
+  },
+  {
+   "mesh": 2,
+   "name": "settlement_townhall_ceiling_truss_LOD0"
+  },
+  {
+   "name": "snap_start",
+   "rotation": [
+    0,
+    -1,
+    0,
+    4.371138828673793e-08
+   ],
+   "translation": [
+    0,
+    6,
+    -0.12999999523162842
+   ]
+  },
+  {
+   "name": "snap_end",
+   "translation": [
+    0,
+    6,
+    0.12999999523162842
+   ]
+  },
+  {
+   "name": "mk_column_a",
+   "translation": [
+    -3,
+    7.050000190734863,
+    0
+   ]
+  },
+  {
+   "name": "mk_column_b",
+   "translation": [
+    3,
+    7.050000190734863,
+    0
+   ]
+  },
+  {
+   "name": "mk_ridge",
+   "translation": [
+    0,
+    9,
+    0
+   ]
+  },
+  {
+   "name": "mk_wall_a",
+   "rotation": [
+    0,
+    0.7071068286895752,
+    0,
+    0.7071068286895752
+   ],
+   "translation": [
+    -8.600000381469727,
+    6,
+    0
+   ]
+  },
+  {
+   "name": "mk_wall_b",
+   "rotation": [
+    0,
+    -0.7071068286895752,
+    0,
+    0.7071068286895752
+   ],
+   "translation": [
+    8.600000381469727,
+    6,
+    0
+   ]
+  }
+ ],
+ "materials": [
+  {
+   "name": "SS_Oak",
+   "normalTexture": {
+    "index": 0,
+    "scale": 0.800000011920929
+   },
+   "occlusionTexture": {
+    "index": 1
+   },
+   "pbrMetallicRoughness": {
+    "baseColorFactor": [
+     0.6600000262260437,
+     0.5600000023841858,
+     0.46000000834465027,
+     1
+    ],
+    "baseColorTexture": {
+     "index": 2
+    },
+    "metallicRoughnessTexture": {
+     "index": 1
+    }
+   }
+  },
+  {
+   "name": "SS_Iron",
+   "normalTexture": {
+    "index": 3
+   },
+   "occlusionTexture": {
+    "index": 4
+   },
+   "pbrMetallicRoughness": {
+    "baseColorTexture": {
+     "index": 5
+    },
+    "metallicRoughnessTexture": {
+     "index": 4
+    }
+   }
+  },
+  {
+   "name": "SS_Bronze",
+   "normalTexture": {
+    "index": 6,
+    "scale": 0.6000000238418579
+   },
+   "occlusionTexture": {
+    "index": 7
+   },
+   "pbrMetallicRoughness": {
+    "baseColorFactor": [
+     0.7799999713897705,
+     0.699999988079071,
+     0.5799999833106995,
+     1
+    ],
+    "baseColorTexture": {
+     "index": 8
+    },
+    "metallicRoughnessTexture": {
+     "index": 7
+    }
+   }
+  }
+ ],
+ "meshes": [
+  {
+   "name": "settlement_townhall_ceiling_truss_LOD1",
+   "primitives": [
+    {
+     "attributes": {
+      "POSITION": 0,
+      "NORMAL": 1,
+      "TEXCOORD_0": 2
+     },
+     "indices": 3,
+     "material": 0
+    }
+   ]
+  },
+  {
+   "name": "settlement_townhall_ceiling_truss_LOD2",
+   "primitives": [
+    {
+     "attributes": {
+      "POSITION": 4,
+      "NORMAL": 5,
+      "TEXCOORD_0": 6
+     },
+     "indices": 7,
+     "material": 0
+    }
+   ]
+  },
+  {
+   "name": "settlement_townhall_ceiling_truss_LOD0",
+   "primitives": [
+    {
+     "attributes": {
+      "POSITION": 8,
+      "NORMAL": 9,
+      "TEXCOORD_0": 10
+     },
+     "indices": 11,
+     "material": 0
+    },
+    {
+     "attributes": {
+      "POSITION": 12,
+      "NORMAL": 13,
+      "TEXCOORD_0": 14
+     },
+     "indices": 15,
+     "material": 1
+    },
+    {
+     "attributes": {
+      "POSITION": 16,
+      "NORMAL": 17,
+      "TEXCOORD_0": 18
+     },
+     "indices": 19,
+     "material": 2
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "sampler": 0,
+   "source": 0
+  },
+  {
+   "sampler": 0,
+   "source": 1
+  },
+  {
+   "sampler": 0,
+   "source": 2
+  },
+  {
+   "sampler": 0,
+   "source": 3
+  },
+  {
+   "sampler": 0,
+   "source": 4
+  },
+  {
+   "sampler": 0,
+   "source": 5
+  },
+  {
+   "sampler": 0,
+   "source": 6
+  },
+  {
+   "sampler": 0,
+   "source": 7
+  },
+  {
+   "sampler": 0,
+   "source": 8
+  }
+ ],
+ "images": [
+  {
+   "mimeType": "image/jpeg",
+   "name": "sp_timber_normal",
+   "uri": "../screens_planters/textures/sp_timber_normal.jpg"
+  },
+  {
+   "mimeType": "image/jpeg",
+   "name": "sp_timber_orm",
+   "uri": "../screens_planters/textures/sp_timber_orm.jpg"
+  },
+  {
+   "mimeType": "image/jpeg",
+   "name": "sp_timber_base",
+   "uri": "../screens_planters/textures/sp_timber_base.jpg"
+  },
+  {
+   "mimeType": "image/jpeg",
+   "name": "ct_dark_normal",
+   "uri": "../settlement_shared_textures/ct_dark_normal.jpg"
+  },
+  {
+   "mimeType": "image/jpeg",
+   "name": "ct_dark_orm",
+   "uri": "../settlement_shared_textures/ct_dark_orm.jpg"
+  },
+  {
+   "mimeType": "image/jpeg",
+   "name": "ct_dark_base",
+   "uri": "../settlement_shared_textures/ct_dark_base.jpg"
+  },
+  {
+   "mimeType": "image/jpeg",
+   "name": "tds_metal_normal",
+   "uri": "../tailor_dyes_stall/textures/tds_metal_normal.jpg"
+  },
+  {
+   "mimeType": "image/jpeg",
+   "name": "tds_metal_orm",
+   "uri": "../tailor_dyes_stall/textures/tds_metal_orm.jpg"
+  },
+  {
+   "mimeType": "image/jpeg",
+   "name": "tds_metal_base",
+   "uri": "../tailor_dyes_stall/textures/tds_metal_base.jpg"
+  }
+ ],
+ "accessors": [
+  {
+   "bufferView": 0,
+   "componentType": 5126,
+   "count": 408,
+   "max": [
+    8.560286521911621,
+    8.902921676635742,
+    0.17000000178813934
+   ],
+   "min": [
+    -8.560286521911621,
+    5.980000019073486,
+    -0.17000000178813934
+   ],
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 1,
+   "componentType": 5126,
+   "count": 408,
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 2,
+   "componentType": 5126,
+   "count": 408,
+   "type": "VEC2"
+  },
+  {
+   "bufferView": 3,
+   "componentType": 5123,
+   "count": 612,
+   "type": "SCALAR"
+  },
+  {
+   "bufferView": 4,
+   "componentType": 5126,
+   "count": 192,
+   "max": [
+    8.560286521911621,
+    8.899999618530273,
+    0.11000020802021027
+   ],
+   "min": [
+    -8.560286521911621,
+    5.980000019073486,
+    -0.11000020802021027
+   ],
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 5,
+   "componentType": 5126,
+   "count": 192,
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 6,
+   "componentType": 5126,
+   "count": 192,
+   "type": "VEC2"
+  },
+  {
+   "bufferView": 7,
+   "componentType": 5123,
+   "count": 288,
+   "type": "SCALAR"
+  },
+  {
+   "bufferView": 8,
+   "componentType": 5126,
+   "count": 1312,
+   "max": [
+    8.5600004196167,
+    8.899999618530273,
+    0.17000000178813934
+   ],
+   "min": [
+    -8.5600004196167,
+    5.980000019073486,
+    -0.17000000178813934
+   ],
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 9,
+   "componentType": 5126,
+   "count": 1312,
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 10,
+   "componentType": 5126,
+   "count": 1312,
+   "type": "VEC2"
+  },
+  {
+   "bufferView": 11,
+   "componentType": 5123,
+   "count": 3588,
+   "type": "SCALAR"
+  },
+  {
+   "bufferView": 12,
+   "componentType": 5126,
+   "count": 944,
+   "max": [
+    8.489999771118164,
+    8.179999351501465,
+    0.14499999582767487
+   ],
+   "min": [
+    -8.489999771118164,
+    5.900000095367432,
+    -0.14499999582767487
+   ],
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 13,
+   "componentType": 5126,
+   "count": 944,
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 14,
+   "componentType": 5126,
+   "count": 944,
+   "type": "VEC2"
+  },
+  {
+   "bufferView": 15,
+   "componentType": 5123,
+   "count": 1776,
+   "type": "SCALAR"
+  },
+  {
+   "bufferView": 16,
+   "componentType": 5126,
+   "count": 656,
+   "max": [
+    3.9220001697540283,
+    7.910000324249268,
+    0.1599999964237213
+   ],
+   "min": [
+    -3.9220001697540283,
+    6.109999656677246,
+    -0.1599999964237213
+   ],
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 17,
+   "componentType": 5126,
+   "count": 656,
+   "type": "VEC3"
+  },
+  {
+   "bufferView": 18,
+   "componentType": 5126,
+   "count": 656,
+   "type": "VEC2"
+  },
+  {
+   "bufferView": 19,
+   "componentType": 5123,
+   "count": 1224,
+   "type": "SCALAR"
+  }
+ ],
+ "bufferViews": [
+  {
+   "buffer": 0,
+   "byteLength": 4896,
+   "byteOffset": 0,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 4896,
+   "byteOffset": 4896,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 3264,
+   "byteOffset": 9792,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 1224,
+   "byteOffset": 13056,
+   "target": 34963
+  },
+  {
+   "buffer": 0,
+   "byteLength": 2304,
+   "byteOffset": 14280,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 2304,
+   "byteOffset": 16584,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 1536,
+   "byteOffset": 18888,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 576,
+   "byteOffset": 20424,
+   "target": 34963
+  },
+  {
+   "buffer": 0,
+   "byteLength": 15744,
+   "byteOffset": 21000,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 15744,
+   "byteOffset": 36744,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 10496,
+   "byteOffset": 52488,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 7176,
+   "byteOffset": 62984,
+   "target": 34963
+  },
+  {
+   "buffer": 0,
+   "byteLength": 11328,
+   "byteOffset": 70160,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 11328,
+   "byteOffset": 81488,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 7552,
+   "byteOffset": 92816,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 3552,
+   "byteOffset": 100368,
+   "target": 34963
+  },
+  {
+   "buffer": 0,
+   "byteLength": 7872,
+   "byteOffset": 103920,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 7872,
+   "byteOffset": 111792,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 5248,
+   "byteOffset": 119664,
+   "target": 34962
+  },
+  {
+   "buffer": 0,
+   "byteLength": 2448,
+   "byteOffset": 124912,
+   "target": 34963
+  }
+ ],
+ "samplers": [
+  {
+   "magFilter": 9729,
+   "minFilter": 9987
+  }
+ ],
+ "buffers": [
+  {
+   "byteLength": 127360,
+   "uri": "settlement_townhall_ceiling_truss.bin"
+  }
+ ],
+ "extensionsUsed": [
+  "KHR_node_visibility"
+ ]
+}

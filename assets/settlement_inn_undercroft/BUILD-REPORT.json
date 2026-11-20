@@ -1,0 +1,4971 @@
+{
+ "asset_group": "settlement_inn_undercroft",
+ "units": "meters",
+ "up": "+Y (glTF)",
+ "front": "+Z (glTF) = Blender -Y",
+ "budget_source": "docs/raid_city/05_tech_and_budgets.md + city_asset_plan.md section 3",
+ "vram_model": "RGBA8 with full mip chain = w*h*4*4/3 bytes (uncompressed); VRAM-compressed (BC7/DXT) estimated at 1/4. Textures shared between assets are counted once in the folder total and in full for each asset that uses them.",
+ "low_budget_vram_MB": 1500,
+ "assets": {
+  "settlement_inn_undercroft_barrel_stack": {
+   "nodes": {
+    "settlement_inn_undercroft_barrel_stack_LOD1": {
+     "tris": 2576,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      1.96,
+      1.527,
+      0.8
+     ],
+     "min": [
+      -0.98,
+      0,
+      -0.4
+     ],
+     "max": [
+      0.98,
+      1.527,
+      0.4
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_barrel_stack_LOD2": {
+     "tris": 48,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      1.8,
+      1.52,
+      0.8
+     ],
+     "min": [
+      -0.9,
+      0,
+      -0.4
+     ],
+     "max": [
+      0.9,
+      1.52,
+      0.4
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_barrel_stack_LOD0": {
+     "tris": 8024,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      1.96,
+      1.54,
+      0.8
+     ],
+     "min": [
+      -0.98,
+      0,
+      -0.4
+     ],
+     "max": [
+      0.98,
+      1.54,
+      0.4
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_barrel_stack_col": {
+     "tris": 36,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      1.7,
+      1.52,
+      0.8
+     ],
+     "min": [
+      -0.85,
+      0,
+      -0.4
+     ],
+     "max": [
+      0.85,
+      1.52,
+      0.4
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "markers": {
+    "mk_stand": {
+     "translation_m": [
+      0,
+      0,
+      0.9
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_loot": {
+     "translation_m": [
+      0,
+      1,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.321,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 3,
+   "materials": [
+    "SS_Timber",
+    "SS_Iron",
+    "SS_Pile"
+   ],
+   "draw_calls_per_LOD": 3,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 33.6,
+    "vram_compressed_est": 8.4
+   },
+   "bytes_gltf": 12596,
+   "bytes_bin": 392400,
+   "sha256": {
+    "settlement_inn_undercroft_barrel_stack.gltf": "07e5240dc860d8ff7299909ab2cdc88ffae410c3232b62d58d15264090a024c4",
+    "settlement_inn_undercroft_barrel_stack.bin": "3a545bb42224b2baf08eba14b8eea067dc640ff1355b0192d971dfc3fa5af61f"
+   },
+   "tris_all_nodes": {
+    "LOD0": 8024,
+    "LOD1": 2576,
+    "LOD2": 48
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 3,
+    "LOD1": 3,
+    "LOD2": 2
+   },
+   "gameplay_markers": [
+    "mk_loot",
+    "mk_stand"
+   ],
+   "col_bodies": [
+    {
+     "node": "settlement_inn_undercroft_barrel_stack",
+     "tris": 36,
+     "child_of_leaf_node": false
+    }
+   ]
+  },
+  "settlement_inn_undercroft_bay_3p25": {
+   "nodes": {
+    "settlement_inn_undercroft_bay_3p25_LOD1": {
+     "tris": 536,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      3.25,
+      2.382,
+      4.1
+     ],
+     "min": [
+      -1.625,
+      -2.382,
+      0
+     ],
+     "max": [
+      1.625,
+      0,
+      4.1
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_bay_3p25_LOD2": {
+     "tris": 36,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      3.25,
+      2.18,
+      4.1
+     ],
+     "min": [
+      -1.625,
+      -2.18,
+      0
+     ],
+     "max": [
+      1.625,
+      0,
+      4.1
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_bay_3p25_LOD0": {
+     "tris": 5280,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      3.25,
+      2.38,
+      4.1
+     ],
+     "min": [
+      -1.625,
+      -2.38,
+      0
+     ],
+     "max": [
+      1.625,
+      0,
+      4.1
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_bay_3p25_col": {
+     "tris": 60,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      3.25,
+      2.18,
+      4.1
+     ],
+     "min": [
+      -1.625,
+      -2.18,
+      0
+     ],
+     "max": [
+      1.625,
+      0,
+      4.1
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "markers": {
+    "mk_deck_underside": {
+     "translation_m": [
+      0,
+      0,
+      2.05
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_waterline": {
+     "translation_m": [
+      0,
+      -2.47,
+      2.05
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_pile_a": {
+     "translation_m": [
+      -1.625,
+      0,
+      3.7
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_pile_b": {
+     "translation_m": [
+      1.625,
+      0,
+      3.7
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_landing_walk": {
+     "translation_m": [
+      0,
+      -1.97,
+      2.425
+     ],
+     "rotation_quat": [
+      0,
+      0.7071,
+      0,
+      0.7071
+     ]
+    },
+    "mk_prop_crate_stack_1": {
+     "translation_m": [
+      -0.2,
+      -1.97,
+      2
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_net_rack_1": {
+     "translation_m": [
+      0.1,
+      -1.97,
+      2.95
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_boat_hung_1": {
+     "translation_m": [
+      0,
+      -0.18,
+      0.8
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_lantern_hung_1": {
+     "translation_m": [
+      -1,
+      -0.48,
+      3.7
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_lantern_hung_2": {
+     "translation_m": [
+      1,
+      -0.48,
+      3.7
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_ladder_dock_1": {
+     "translation_m": [
+      0.675,
+      -1.97,
+      3.35
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_stand_landing": {
+     "translation_m": [
+      0,
+      -1.97,
+      2.425
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_swim_exit": {
+     "translation_m": [
+      0.675,
+      -2.47,
+      3.7
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {
+    "snap_start": {
+     "translation_m": [
+      -1.625,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      -0.7071,
+      0,
+      0.7071
+     ]
+    },
+    "snap_end": {
+     "translation_m": [
+      1.625,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0.7071,
+      0,
+      0.7071
+     ]
+    }
+   },
+   "lod1_ratio": 0.102,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 4,
+   "materials": [
+    "SS_Pile",
+    "SS_Iron",
+    "SS_Plank",
+    "SS_Timber"
+   ],
+   "draw_calls_per_LOD": 4,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 33.6,
+    "vram_compressed_est": 8.4
+   },
+   "bytes_gltf": 16867,
+   "bytes_bin": 265736,
+   "sha256": {
+    "settlement_inn_undercroft_bay_3p25.gltf": "2fbe99275ee67984deb94ed1dbde2869efd8c750980acd81cdc215c52032ef23",
+    "settlement_inn_undercroft_bay_3p25.bin": "f9355bb6009d10717300a56ad30baaed438e74dd2ef0282895ecfac7c3d11900"
+   },
+   "tris_all_nodes": {
+    "LOD0": 5280,
+    "LOD1": 536,
+    "LOD2": 36
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 4,
+    "LOD1": 4,
+    "LOD2": 2
+   },
+   "gameplay_markers": [
+    "mk_deck_underside",
+    "mk_landing_walk",
+    "mk_pile_a",
+    "mk_pile_b",
+    "mk_prop_boat_hung_1",
+    "mk_prop_crate_stack_1",
+    "mk_prop_ladder_dock_1",
+    "mk_prop_lantern_hung_1",
+    "mk_prop_lantern_hung_2",
+    "mk_prop_net_rack_1",
+    "mk_stand_landing",
+    "mk_swim_exit",
+    "mk_waterline"
+   ],
+   "col_bodies": [
+    {
+     "node": "settlement_inn_undercroft_bay_3p25",
+     "tris": 60,
+     "child_of_leaf_node": false
+    }
+   ]
+  },
+  "settlement_inn_undercroft_bay_4m": {
+   "nodes": {
+    "settlement_inn_undercroft_bay_4m_LOD1": {
+     "tris": 560,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      4,
+      2.383,
+      4.3
+     ],
+     "min": [
+      -2,
+      -2.383,
+      0
+     ],
+     "max": [
+      2,
+      0,
+      4.3
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_bay_4m_LOD2": {
+     "tris": 36,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      4,
+      2.18,
+      4.3
+     ],
+     "min": [
+      -2,
+      -2.18,
+      0
+     ],
+     "max": [
+      2,
+      0,
+      4.3
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_bay_4m_LOD0": {
+     "tris": 5716,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      4,
+      2.382,
+      4.3
+     ],
+     "min": [
+      -2,
+      -2.382,
+      0
+     ],
+     "max": [
+      2,
+      0,
+      4.3
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_bay_4m_col": {
+     "tris": 60,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      4,
+      2.18,
+      4.3
+     ],
+     "min": [
+      -2,
+      -2.18,
+      0
+     ],
+     "max": [
+      2,
+      0,
+      4.3
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "markers": {
+    "mk_deck_underside": {
+     "translation_m": [
+      0,
+      0,
+      2.15
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_waterline": {
+     "translation_m": [
+      0,
+      -2.47,
+      2.15
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_pile_a": {
+     "translation_m": [
+      -2,
+      0,
+      3.9
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_pile_b": {
+     "translation_m": [
+      2,
+      0,
+      3.9
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_landing_walk": {
+     "translation_m": [
+      0,
+      -1.97,
+      2.65
+     ],
+     "rotation_quat": [
+      0,
+      0.7071,
+      0,
+      0.7071
+     ]
+    },
+    "mk_prop_shelf_unit_1": {
+     "translation_m": [
+      -1.15,
+      -1.97,
+      2.05
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_barrel_stack_1": {
+     "translation_m": [
+      1.1,
+      -1.97,
+      2.27
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_crab_pots_1": {
+     "translation_m": [
+      -0.95,
+      -1.97,
+      3.23
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_boat_hung_1": {
+     "translation_m": [
+      0,
+      -0.18,
+      0.925
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_lantern_hung_1": {
+     "translation_m": [
+      -1,
+      -0.48,
+      3.9
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_lantern_hung_2": {
+     "translation_m": [
+      1,
+      -0.48,
+      3.9
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_ladder_dock_1": {
+     "translation_m": [
+      1.05,
+      -1.97,
+      3.55
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_stand_landing": {
+     "translation_m": [
+      0,
+      -1.97,
+      2.65
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_swim_exit": {
+     "translation_m": [
+      1.05,
+      -2.47,
+      3.9
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {
+    "snap_start": {
+     "translation_m": [
+      -2,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      -0.7071,
+      0,
+      0.7071
+     ]
+    },
+    "snap_end": {
+     "translation_m": [
+      2,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0.7071,
+      0,
+      0.7071
+     ]
+    }
+   },
+   "lod1_ratio": 0.098,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 4,
+   "materials": [
+    "SS_Pile",
+    "SS_Iron",
+    "SS_Plank",
+    "SS_Timber"
+   ],
+   "draw_calls_per_LOD": 4,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 33.6,
+    "vram_compressed_est": 8.4
+   },
+   "bytes_gltf": 16942,
+   "bytes_bin": 286416,
+   "sha256": {
+    "settlement_inn_undercroft_bay_4m.gltf": "22f7d81ea271ec900d30f1a3e04891da3332560eac7fa2fd9038bd8d314c02a2",
+    "settlement_inn_undercroft_bay_4m.bin": "94f1f3f0209879726e86bd338f7a07d8d8ca2a63fcbea428b2c38258ecbe3812"
+   },
+   "tris_all_nodes": {
+    "LOD0": 5716,
+    "LOD1": 560,
+    "LOD2": 36
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 4,
+    "LOD1": 4,
+    "LOD2": 2
+   },
+   "gameplay_markers": [
+    "mk_deck_underside",
+    "mk_landing_walk",
+    "mk_pile_a",
+    "mk_pile_b",
+    "mk_prop_barrel_stack_1",
+    "mk_prop_boat_hung_1",
+    "mk_prop_crab_pots_1",
+    "mk_prop_ladder_dock_1",
+    "mk_prop_lantern_hung_1",
+    "mk_prop_lantern_hung_2",
+    "mk_prop_shelf_unit_1",
+    "mk_stand_landing",
+    "mk_swim_exit",
+    "mk_waterline"
+   ],
+   "col_bodies": [
+    {
+     "node": "settlement_inn_undercroft_bay_4m",
+     "tris": 60,
+     "child_of_leaf_node": false
+    }
+   ]
+  },
+  "settlement_inn_undercroft_boat_hung": {
+   "nodes": {
+    "settlement_inn_undercroft_boat_hung_LOD1": {
+     "tris": 884,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      3.08,
+      1.036,
+      1.18
+     ],
+     "min": [
+      -1.54,
+      -1.03,
+      -0.59
+     ],
+     "max": [
+      1.54,
+      0.006,
+      0.59
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_boat_hung_LOD2": {
+     "tris": 24,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      2.9,
+      0.8,
+      1.16
+     ],
+     "min": [
+      -1.45,
+      -0.8,
+      -0.58
+     ],
+     "max": [
+      1.45,
+      0,
+      0.58
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_boat_hung_LOD0": {
+     "tris": 4888,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      3.08,
+      1.036,
+      1.193
+     ],
+     "min": [
+      -1.54,
+      -1.03,
+      -0.597
+     ],
+     "max": [
+      1.54,
+      0.006,
+      0.597
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_boat_hung_col": {
+     "tris": 12,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      3.0,
+      0.7,
+      1.2
+     ],
+     "min": [
+      -1.5,
+      -1,
+      -0.6
+     ],
+     "max": [
+      1.5,
+      -0.3,
+      0.6
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "markers": {
+    "mk_hook_a": {
+     "translation_m": [
+      -0.8,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_hook_b": {
+     "translation_m": [
+      0.8,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_loot": {
+     "translation_m": [
+      0,
+      -0.9,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.181,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 4,
+   "materials": [
+    "SS_Timber",
+    "SS_Plank",
+    "SS_Rope",
+    "SS_Iron"
+   ],
+   "draw_calls_per_LOD": 4,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/sp_wicker_base.jpg",
+    "textures/sp_wicker_normal.jpg",
+    "textures/sp_wicker_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 50.3,
+    "vram_compressed_est": 12.6
+   },
+   "bytes_gltf": 15425,
+   "bytes_bin": 218512,
+   "sha256": {
+    "settlement_inn_undercroft_boat_hung.gltf": "f498b74889a5907c0b059d2a4a88f8748a702b396e9749ac157f717fc2220d08",
+    "settlement_inn_undercroft_boat_hung.bin": "53be3f77a4da33b1e9364320caae40ecd818d9463a750c8b5ac28b4cfc149cdb"
+   },
+   "tris_all_nodes": {
+    "LOD0": 4888,
+    "LOD1": 884,
+    "LOD2": 24
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 4,
+    "LOD1": 4,
+    "LOD2": 2
+   },
+   "gameplay_markers": [
+    "mk_hook_a",
+    "mk_hook_b",
+    "mk_loot"
+   ],
+   "col_bodies": [
+    {
+     "node": "settlement_inn_undercroft_boat_hung",
+     "tris": 12,
+     "child_of_leaf_node": false
+    }
+   ]
+  },
+  "settlement_inn_undercroft_crab_pots": {
+   "nodes": {
+    "settlement_inn_undercroft_crab_pots_LOD1": {
+     "tris": 756,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      1.72,
+      1.12,
+      0.61
+     ],
+     "min": [
+      -0.63,
+      -0.2,
+      -0.3
+     ],
+     "max": [
+      1.09,
+      0.92,
+      0.31
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_crab_pots_LOD2": {
+     "tris": 36,
+     "primitives": 1,
+     "materials": 1,
+     "size_xyz_m": [
+      1.73,
+      0.92,
+      0.7
+     ],
+     "min": [
+      -0.63,
+      0,
+      -0.3
+     ],
+     "max": [
+      1.1,
+      0.92,
+      0.4
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_crab_pots_LOD0": {
+     "tris": 4688,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      1.732,
+      1.12,
+      0.638
+     ],
+     "min": [
+      -0.642,
+      -0.2,
+      -0.312
+     ],
+     "max": [
+      1.09,
+      0.92,
+      0.326
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_crab_pots_col": {
+     "tris": 36,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      1.73,
+      0.92,
+      0.7
+     ],
+     "min": [
+      -0.63,
+      0,
+      -0.3
+     ],
+     "max": [
+      1.1,
+      0.92,
+      0.4
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "markers": {
+    "mk_stand": {
+     "translation_m": [
+      0,
+      0,
+      1
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_loot": {
+     "translation_m": [
+      0,
+      0.5,
+      0.1
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.161,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 4,
+   "materials": [
+    "SS_Wicker",
+    "SS_Rope",
+    "SS_Timber",
+    "SS_Iron"
+   ],
+   "draw_calls_per_LOD": 4,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/sp_wicker_base.jpg",
+    "textures/sp_wicker_normal.jpg",
+    "textures/sp_wicker_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 50.3,
+    "vram_compressed_est": 12.6
+   },
+   "bytes_gltf": 12248,
+   "bytes_bin": 236560,
+   "sha256": {
+    "settlement_inn_undercroft_crab_pots.gltf": "886173c27b8e94d61483ab9241d61df8f55ed1f800c5ebcc1253a42a64a84b39",
+    "settlement_inn_undercroft_crab_pots.bin": "f2489074f3a44611daca9260031ea9fda37c28c8c1f3835759baac91570b0f80"
+   },
+   "tris_all_nodes": {
+    "LOD0": 4688,
+    "LOD1": 756,
+    "LOD2": 36
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 4,
+    "LOD1": 2,
+    "LOD2": 1
+   },
+   "gameplay_markers": [
+    "mk_loot",
+    "mk_stand"
+   ],
+   "col_bodies": [
+    {
+     "node": "settlement_inn_undercroft_crab_pots",
+     "tris": 36,
+     "child_of_leaf_node": false
+    }
+   ]
+  },
+  "settlement_inn_undercroft_crate_stack": {
+   "nodes": {
+    "settlement_inn_undercroft_crate_stack_LOD1": {
+     "tris": 1256,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      2.418,
+      1.16,
+      1.042
+     ],
+     "min": [
+      -1.021,
+      -0.22,
+      -0.537
+     ],
+     "max": [
+      1.397,
+      0.94,
+      0.505
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_crate_stack_LOD2": {
+     "tris": 48,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      2.57,
+      0.92,
+      1.0
+     ],
+     "min": [
+      -1.22,
+      0,
+      -0.5
+     ],
+     "max": [
+      1.35,
+      0.92,
+      0.5
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_crate_stack_LOD0": {
+     "tris": 5340,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      2.419,
+      1.16,
+      1.064
+     ],
+     "min": [
+      -1.021,
+      -0.22,
+      -0.548
+     ],
+     "max": [
+      1.398,
+      0.94,
+      0.515
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_crate_stack_col": {
+     "tris": 36,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      2.06,
+      0.92,
+      1.0
+     ],
+     "min": [
+      -0.71,
+      0,
+      -0.5
+     ],
+     "max": [
+      1.35,
+      0.92,
+      0.5
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "markers": {
+    "mk_stand": {
+     "translation_m": [
+      0,
+      0,
+      0.9
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_loot": {
+     "translation_m": [
+      -0.3,
+      0.9,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.235,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 4,
+   "materials": [
+    "SS_Plank",
+    "SS_Timber",
+    "SS_Burlap",
+    "SS_Rope"
+   ],
+   "draw_calls_per_LOD": 4,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/sp_wicker_base.jpg",
+    "textures/sp_wicker_normal.jpg",
+    "textures/sp_wicker_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 33.6,
+    "vram_compressed_est": 8.4
+   },
+   "bytes_gltf": 16316,
+   "bytes_bin": 301064,
+   "sha256": {
+    "settlement_inn_undercroft_crate_stack.gltf": "ee29855304f1c4d75690524ddf3b5f3eb1c85799d0cd499b03c9c2b8624151fd",
+    "settlement_inn_undercroft_crate_stack.bin": "4963e36580e080e6a40676c9430e3bf568387d344f580e300f526c28c9ebeeb2"
+   },
+   "tris_all_nodes": {
+    "LOD0": 5340,
+    "LOD1": 1256,
+    "LOD2": 48
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 4,
+    "LOD1": 4,
+    "LOD2": 3
+   },
+   "gameplay_markers": [
+    "mk_loot",
+    "mk_stand"
+   ],
+   "col_bodies": [
+    {
+     "node": "settlement_inn_undercroft_crate_stack",
+     "tris": 36,
+     "child_of_leaf_node": false
+    }
+   ]
+  },
+  "settlement_inn_undercroft_ladder_dock": {
+   "nodes": {
+    "settlement_inn_undercroft_ladder_dock_LOD1": {
+     "tris": 192,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      0.51,
+      1.78,
+      0.33
+     ],
+     "min": [
+      -0.255,
+      -1,
+      -0.3
+     ],
+     "max": [
+      0.255,
+      0.78,
+      0.03
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_ladder_dock_LOD2": {
+     "tris": 36,
+     "primitives": 1,
+     "materials": 1,
+     "size_xyz_m": [
+      0.5,
+      1.78,
+      0.06
+     ],
+     "min": [
+      -0.25,
+      -1,
+      -0.03
+     ],
+     "max": [
+      0.25,
+      0.78,
+      0.03
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_ladder_dock_LOD0": {
+     "tris": 888,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      0.51,
+      1.81,
+      0.335
+     ],
+     "min": [
+      -0.255,
+      -1,
+      -0.3
+     ],
+     "max": [
+      0.255,
+      0.81,
+      0.035
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_ladder_dock_col": {
+     "tris": 12,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      0.5,
+      1.78,
+      0.1
+     ],
+     "min": [
+      -0.25,
+      -1,
+      -0.05
+     ],
+     "max": [
+      0.25,
+      0.78,
+      0.05
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "markers": {
+    "mk_climb_top": {
+     "translation_m": [
+      0,
+      0,
+      0.25
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_climb_bottom": {
+     "translation_m": [
+      0,
+      -1.5,
+      0.3
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_swim_exit": {
+     "translation_m": [
+      0,
+      -0.55,
+      0.35
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.216,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 2,
+   "materials": [
+    "SS_Timber",
+    "SS_Iron"
+   ],
+   "draw_calls_per_LOD": 2,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 33.6,
+    "vram_compressed_est": 8.4
+   },
+   "bytes_gltf": 9074,
+   "bytes_bin": 62640,
+   "sha256": {
+    "settlement_inn_undercroft_ladder_dock.gltf": "bf214fefa1e789418195f4878150f5785029974ed6423eb764d44f0fafeb6c55",
+    "settlement_inn_undercroft_ladder_dock.bin": "ea18f3c266451f72366297eb3d8466984ee55904b388fbfad0032a0dc4703f02"
+   },
+   "tris_all_nodes": {
+    "LOD0": 888,
+    "LOD1": 192,
+    "LOD2": 36
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 2,
+    "LOD1": 2,
+    "LOD2": 1
+   },
+   "gameplay_markers": [
+    "mk_climb_bottom",
+    "mk_climb_top",
+    "mk_swim_exit"
+   ],
+   "col_bodies": [
+    {
+     "node": "settlement_inn_undercroft_ladder_dock",
+     "tris": 12,
+     "child_of_leaf_node": false
+    }
+   ]
+  },
+  "settlement_inn_undercroft_lantern_hung": {
+   "nodes": {
+    "settlement_inn_undercroft_lantern_hung_LOD1": {
+     "tris": 548,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      0.25,
+      0.86,
+      0.25
+     ],
+     "min": [
+      -0.125,
+      -0.86,
+      -0.125
+     ],
+     "max": [
+      0.125,
+      0,
+      0.125
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_lantern_hung_LOD2": {
+     "tris": 36,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      0.24,
+      0.84,
+      0.24
+     ],
+     "min": [
+      -0.12,
+      -0.84,
+      -0.12
+     ],
+     "max": [
+      0.12,
+      0,
+      0.12
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_lantern_hung_LOD0": {
+     "tris": 1236,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      0.25,
+      0.913,
+      0.244
+     ],
+     "min": [
+      -0.125,
+      -0.913,
+      -0.122
+     ],
+     "max": [
+      0.125,
+      0,
+      0.122
+     ],
+     "hidden_KHR_node_visibility": false
+    }
+   },
+   "markers": {
+    "mk_light": {
+     "translation_m": [
+      0,
+      -0.69,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_lamp_lit": {
+     "translation_m": [
+      0,
+      -0.69,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.443,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 3,
+   "materials": [
+    "SS_Iron",
+    "SS_Bronze",
+    "SS_LampGlass"
+   ],
+   "draw_calls_per_LOD": 3,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/tds_metal_base.jpg",
+    "textures/tds_metal_normal.jpg",
+    "textures/tds_metal_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 33.6,
+    "vram_compressed_est": 8.4
+   },
+   "bytes_gltf": 11771,
+   "bytes_bin": 76904,
+   "sha256": {
+    "settlement_inn_undercroft_lantern_hung.gltf": "2fe052634ce4dd49be9939702964a128f89404b5787022c11118016b521a61e0",
+    "settlement_inn_undercroft_lantern_hung.bin": "4ac497c82f8ed3a7983d622a5b2553da923173bd0ee9c055a4b894063ae20993"
+   },
+   "tris_all_nodes": {
+    "LOD0": 1236,
+    "LOD1": 548,
+    "LOD2": 36
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 3,
+    "LOD1": 3,
+    "LOD2": 3
+   },
+   "gameplay_markers": [
+    "mk_lamp_lit",
+    "mk_light"
+   ],
+   "col_bodies": []
+  },
+  "settlement_inn_undercroft_net_rack": {
+   "nodes": {
+    "settlement_inn_undercroft_net_rack_LOD1": {
+     "tris": 1096,
+     "primitives": 5,
+     "materials": 5,
+     "size_xyz_m": [
+      2.2,
+      1.786,
+      0.8
+     ],
+     "min": [
+      -1.1,
+      -0.006,
+      -0.4
+     ],
+     "max": [
+      1.1,
+      1.78,
+      0.4
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_net_rack_LOD2": {
+     "tris": 48,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      2.2,
+      1.78,
+      0.6
+     ],
+     "min": [
+      -1.1,
+      0,
+      -0.3
+     ],
+     "max": [
+      1.1,
+      1.78,
+      0.3
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_net_rack_LOD0": {
+     "tris": 5720,
+     "primitives": 5,
+     "materials": 5,
+     "size_xyz_m": [
+      2.2,
+      1.785,
+      0.8
+     ],
+     "min": [
+      -1.1,
+      -0.005,
+      -0.4
+     ],
+     "max": [
+      1.1,
+      1.78,
+      0.4
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_net_rack_col": {
+     "tris": 24,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      2.2,
+      1.78,
+      0.8
+     ],
+     "min": [
+      -1.1,
+      0,
+      -0.4
+     ],
+     "max": [
+      1.1,
+      1.78,
+      0.4
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "markers": {
+    "mk_stand": {
+     "translation_m": [
+      0,
+      0,
+      0.9
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_loot": {
+     "translation_m": [
+      0,
+      1.2,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.192,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 5,
+   "materials": [
+    "SS_Pile",
+    "SS_Timber",
+    "SS_Rope",
+    "SS_Wicker",
+    "SS_Iron"
+   ],
+   "draw_calls_per_LOD": 5,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/sp_wicker_base.jpg",
+    "textures/sp_wicker_normal.jpg",
+    "textures/sp_wicker_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 50.3,
+    "vram_compressed_est": 12.6
+   },
+   "bytes_gltf": 18730,
+   "bytes_bin": 416848,
+   "sha256": {
+    "settlement_inn_undercroft_net_rack.gltf": "1502661b40fb64f9fc77a71becce291de12ee5a2bf33e17ac6229077a42224c6",
+    "settlement_inn_undercroft_net_rack.bin": "d0e4f91645abfcc956ad5303cca3887779bc59dd6666654e64f32469cd4c987c"
+   },
+   "tris_all_nodes": {
+    "LOD0": 5720,
+    "LOD1": 1096,
+    "LOD2": 48
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 5,
+    "LOD1": 5,
+    "LOD2": 3
+   },
+   "gameplay_markers": [
+    "mk_loot",
+    "mk_stand"
+   ],
+   "col_bodies": [
+    {
+     "node": "settlement_inn_undercroft_net_rack",
+     "tris": 24,
+     "child_of_leaf_node": false
+    }
+   ]
+  },
+  "settlement_inn_undercroft_pile_dressing_28": {
+   "nodes": {
+    "settlement_inn_undercroft_pile_dressing_28_LOD1": {
+     "tris": 760,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      0.73,
+      2.9,
+      0.694
+     ],
+     "min": [
+      -0.365,
+      -3.02,
+      -0.347
+     ],
+     "max": [
+      0.365,
+      -0.12,
+      0.347
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_pile_dressing_28_LOD2": {
+     "tris": 128,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      0.68,
+      2.93,
+      0.68
+     ],
+     "min": [
+      -0.34,
+      -3.02,
+      -0.34
+     ],
+     "max": [
+      0.34,
+      -0.09,
+      0.34
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_pile_dressing_28_LOD0": {
+     "tris": 2916,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      0.73,
+      2.9,
+      1.095
+     ],
+     "min": [
+      -0.365,
+      -3.02,
+      -0.365
+     ],
+     "max": [
+      0.365,
+      -0.12,
+      0.73
+     ],
+     "hidden_KHR_node_visibility": false
+    }
+   },
+   "markers": {
+    "mk_pile_axis": {
+     "translation_m": [
+      0,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_brace_x_pos": {
+     "translation_m": [
+      0.28,
+      -1,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0.7071,
+      0,
+      0.7071
+     ]
+    },
+    "mk_brace_x_neg": {
+     "translation_m": [
+      -0.28,
+      -1,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      -0.7071,
+      0,
+      0.7071
+     ]
+    },
+    "mk_lantern_hook": {
+     "translation_m": [
+      0,
+      -0.5,
+      0.4
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.261,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 3,
+   "materials": [
+    "SS_Iron",
+    "SS_Rope",
+    "SS_Pile"
+   ],
+   "draw_calls_per_LOD": 3,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/sp_wicker_base.jpg",
+    "textures/sp_wicker_normal.jpg",
+    "textures/sp_wicker_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 50.3,
+    "vram_compressed_est": 12.6
+   },
+   "bytes_gltf": 12298,
+   "bytes_bin": 174888,
+   "sha256": {
+    "settlement_inn_undercroft_pile_dressing_28.gltf": "769aa81d1bb1ae9825cda7dcca4383e33e77d0dcfca9cc291960f63d6e70abdc",
+    "settlement_inn_undercroft_pile_dressing_28.bin": "fc94dbfa7e5b33f423f04e1196d7736f00ccdf915bd984bf77e8fd95ada0c10a"
+   },
+   "tris_all_nodes": {
+    "LOD0": 2916,
+    "LOD1": 760,
+    "LOD2": 128
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 3,
+    "LOD1": 3,
+    "LOD2": 2
+   },
+   "gameplay_markers": [
+    "mk_brace_x_neg",
+    "mk_brace_x_pos",
+    "mk_lantern_hook",
+    "mk_pile_axis"
+   ],
+   "col_bodies": []
+  },
+  "settlement_inn_undercroft_pile_dressing_35": {
+   "nodes": {
+    "settlement_inn_undercroft_pile_dressing_35_LOD1": {
+     "tris": 760,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      0.87,
+      2.9,
+      0.827
+     ],
+     "min": [
+      -0.435,
+      -3.02,
+      -0.414
+     ],
+     "max": [
+      0.435,
+      -0.12,
+      0.414
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_pile_dressing_35_LOD2": {
+     "tris": 128,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      0.82,
+      2.93,
+      0.82
+     ],
+     "min": [
+      -0.41,
+      -3.02,
+      -0.41
+     ],
+     "max": [
+      0.41,
+      -0.09,
+      0.41
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_pile_dressing_35_LOD0": {
+     "tris": 2916,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      0.87,
+      2.9,
+      1.235
+     ],
+     "min": [
+      -0.435,
+      -3.02,
+      -0.435
+     ],
+     "max": [
+      0.435,
+      -0.12,
+      0.8
+     ],
+     "hidden_KHR_node_visibility": false
+    }
+   },
+   "markers": {
+    "mk_pile_axis": {
+     "translation_m": [
+      0,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_brace_x_pos": {
+     "translation_m": [
+      0.35,
+      -1,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0.7071,
+      0,
+      0.7071
+     ]
+    },
+    "mk_brace_x_neg": {
+     "translation_m": [
+      -0.35,
+      -1,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      -0.7071,
+      0,
+      0.7071
+     ]
+    },
+    "mk_lantern_hook": {
+     "translation_m": [
+      0,
+      -0.5,
+      0.47
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.261,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 3,
+   "materials": [
+    "SS_Iron",
+    "SS_Rope",
+    "SS_Pile"
+   ],
+   "draw_calls_per_LOD": 3,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/sp_wicker_base.jpg",
+    "textures/sp_wicker_normal.jpg",
+    "textures/sp_wicker_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 50.3,
+    "vram_compressed_est": 12.6
+   },
+   "bytes_gltf": 12478,
+   "bytes_bin": 175272,
+   "sha256": {
+    "settlement_inn_undercroft_pile_dressing_35.gltf": "323b0ebfa723ad6aba06eca8543cd649f4d3b7d5abe19394c942dc5e0073e30c",
+    "settlement_inn_undercroft_pile_dressing_35.bin": "7110bb0f6d372b6beb0e3d3e61344f796c54eec24c834f01e5d2c5b0101eb003"
+   },
+   "tris_all_nodes": {
+    "LOD0": 2916,
+    "LOD1": 760,
+    "LOD2": 128
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 3,
+    "LOD1": 3,
+    "LOD2": 2
+   },
+   "gameplay_markers": [
+    "mk_brace_x_neg",
+    "mk_brace_x_pos",
+    "mk_lantern_hook",
+    "mk_pile_axis"
+   ],
+   "col_bodies": []
+  },
+  "settlement_inn_undercroft_shelf_unit": {
+   "nodes": {
+    "settlement_inn_undercroft_shelf_unit_LOD1": {
+     "tris": 1876,
+     "primitives": 7,
+     "materials": 7,
+     "size_xyz_m": [
+      1.6,
+      2.036,
+      0.44
+     ],
+     "min": [
+      -0.8,
+      0,
+      -0.23
+     ],
+     "max": [
+      0.8,
+      2.036,
+      0.21
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_shelf_unit_LOD2": {
+     "tris": 108,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      1.6,
+      1.9,
+      0.42
+     ],
+     "min": [
+      -0.8,
+      0,
+      -0.21
+     ],
+     "max": [
+      0.8,
+      1.9,
+      0.21
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_shelf_unit_LOD0": {
+     "tris": 8596,
+     "primitives": 8,
+     "materials": 8,
+     "size_xyz_m": [
+      1.6,
+      2.036,
+      0.44
+     ],
+     "min": [
+      -0.8,
+      0,
+      -0.23
+     ],
+     "max": [
+      0.8,
+      2.036,
+      0.21
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_undercroft_shelf_unit_col": {
+     "tris": 12,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      1.6,
+      1.9,
+      0.42
+     ],
+     "min": [
+      -0.8,
+      0,
+      -0.21
+     ],
+     "max": [
+      0.8,
+      1.9,
+      0.21
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "markers": {
+    "mk_stand": {
+     "translation_m": [
+      0,
+      0,
+      0.7
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_loot": {
+     "translation_m": [
+      0,
+      1,
+      0.1
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.218,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 8,
+   "materials": [
+    "SS_Pile",
+    "SS_Plank",
+    "SS_Stone",
+    "SS_Wicker",
+    "SS_Iron",
+    "SS_Rope",
+    "SS_Bronze",
+    "SS_Timber"
+   ],
+   "draw_calls_per_LOD": 8,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/sp_wicker_base.jpg",
+    "textures/sp_wicker_normal.jpg",
+    "textures/sp_wicker_orm.jpg",
+    "textures/tds_metal_base.jpg",
+    "textures/tds_metal_normal.jpg",
+    "textures/tds_metal_orm.jpg",
+    "textures/tds_stone_base.jpg",
+    "textures/tds_stone_normal.jpg",
+    "textures/tds_stone_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 83.9,
+    "vram_compressed_est": 21.0
+   },
+   "bytes_gltf": 27178,
+   "bytes_bin": 430896,
+   "sha256": {
+    "settlement_inn_undercroft_shelf_unit.gltf": "c961b0385ec7905ba5905524f9e5ef6be7643a4d34ff82e5e5287b442f65d994",
+    "settlement_inn_undercroft_shelf_unit.bin": "7a4780110da0d7fb50688d4d01971d3f4a574d8fce247b73a03b2b865d3276d0"
+   },
+   "tris_all_nodes": {
+    "LOD0": 8596,
+    "LOD1": 1876,
+    "LOD2": 108
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 8,
+    "LOD1": 7,
+    "LOD2": 4
+   },
+   "gameplay_markers": [
+    "mk_loot",
+    "mk_stand"
+   ],
+   "col_bodies": [
+    {
+     "node": "settlement_inn_undercroft_shelf_unit",
+     "tris": 12,
+     "child_of_leaf_node": false
+    }
+   ]
+  }
+ },
+ "textures": {
+  "ct_dark_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 42633,
+   "sha256": "20f81742d8c68b2a6872ee41314feaa551ed5111bcf830251df2dbe3eed28dad",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "ct_dark_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 182556,
+   "sha256": "cdb343a8ce115157f3d6a1613491e634e312adc4a32a41608547b32e4cd9e072",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "ct_dark_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 149638,
+   "sha256": "3325554fd10da8018216d8448a144e6ac082df6c57b67de4f4705edff756e341",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_timber_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 91033,
+   "sha256": "ce1cc9c06cb6584215a4376b919ab0a28b4e0ee88d03af833c37bc8c8a43ee05",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_timber_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 189649,
+   "sha256": "5f987298a825ba9ddbe755495d0b4b898c3a46c19d50b902747cc2ff85e96825",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_timber_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 86063,
+   "sha256": "763a02f6566b4ce066be2861b36d27d110344154e09b5a983b1be674bc67f10c",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_wicker_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 83276,
+   "sha256": "0339b23cd5c07b25d10b953d4052e548b28846f07a8f527f00faff7e1acb2414",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_wicker_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 140560,
+   "sha256": "df1126f267bb5cd4386712f8503718cda64cad30e793197250e3caddd2de6d89",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_wicker_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 78496,
+   "sha256": "a5904728c694ab58289d8d1ad80bbfcfc9dc4048c7936c12c3499e06ae5202ae",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_metal_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 51540,
+   "sha256": "f9f24a3f0b78cbcef7e74f6784b06b689dde29c3b336a7c221d2ca8f55124121",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_metal_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 46763,
+   "sha256": "588688dd7d1f07981ec063613a8b4452032d5bad0b8fa4eb302f3741aa6a0bf8",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_metal_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 52432,
+   "sha256": "498291d83cd19dab17996d4e9000a69e221169e6c0ee621248fc942cea5893f0",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_stone_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 142074,
+   "sha256": "6485048f07160a6f42172f67105927542a7a437221e464bc6b99be88ce613964",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_stone_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 268002,
+   "sha256": "7f3ebf0d866c64609a8f6e5bf8c672e2fc8b314391b0736b777ba4953e798fc8",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_stone_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 121960,
+   "sha256": "9974239fc9b2baeb1ece278cb7696c371019eb218d36d2a1b640e693e4028bea",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  }
+ },
+ "folder_texture_vram_MB": {
+  "uncompressed_with_mips": 83.9,
+  "vram_compressed_est": 21.0,
+  "share_of_Low_1500MB_uncompressed_pct": 5.6,
+  "share_of_Low_1500MB_compressed_pct": 1.4
+ },
+ "total_MB_runtime": 4.947,
+ "total_MB_folder": 7.083,
+ "godot": {
+  "settlement_inn_undercroft_barrel_stack": {
+   "col": {
+    "bodies": [
+     {
+      "parent": "settlement_inn_undercroft_barrel_stack",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=36)"
+      ],
+      "tris": 36,
+      "under_leaf_node": false,
+      "visible": false
+     }
+    ],
+    "col_mesh_tris": 36,
+    "col_mesh_visible": false,
+    "shapes": [
+     "ConcavePolygonShape3D (faces=36)"
+    ],
+    "static_bodies": 1
+   },
+   "markers": {
+    "mk_loot": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 1.0, 0.0)"
+    },
+    "mk_stand": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 0.9)"
+    }
+   },
+   "materials": {
+    "": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Pile": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Timber": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_barrel_stack": {
+     "aabb_pos": "(-0.85, 0.0, -0.4)",
+     "aabb_size": "(1.7, 1.52, 0.8)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 36,
+     "visible": false
+    },
+    "settlement_inn_undercroft_barrel_stack_LOD0": {
+     "aabb_pos": "(-0.98, 0.0, -0.4)",
+     "aabb_size": "(1.96, 1.540329, 0.8)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Iron",
+      "SS_Pile"
+     ],
+     "tris": 8024,
+     "visible": true
+    },
+    "settlement_inn_undercroft_barrel_stack_LOD1": {
+     "aabb_pos": "(-0.98, 0.0, -0.4)",
+     "aabb_size": "(1.96, 1.526867, 0.8)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Iron",
+      "SS_Pile"
+     ],
+     "tris": 2576,
+     "visible": true
+    },
+    "settlement_inn_undercroft_barrel_stack_LOD2": {
+     "aabb_pos": "(-0.9, 0.0, -0.4)",
+     "aabb_size": "(1.8, 1.52, 0.8)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Pile"
+     ],
+     "tris": 48,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_undercroft_bay_3p25": {
+   "col": {
+    "bodies": [
+     {
+      "parent": "settlement_inn_undercroft_bay_3p25",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=60)"
+      ],
+      "tris": 60,
+      "under_leaf_node": false,
+      "visible": false
+     }
+    ],
+    "col_mesh_tris": 60,
+    "col_mesh_visible": false,
+    "shapes": [
+     "ConcavePolygonShape3D (faces=60)"
+    ],
+    "static_bodies": 1
+   },
+   "markers": {
+    "mk_deck_underside": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 2.05)"
+    },
+    "mk_landing_walk": {
+     "out(+Z)": "(1.0, 0.0, 0.0)",
+     "pos": "(0.0, -1.97, 2.425)"
+    },
+    "mk_pile_a": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-1.625, 0.0, 3.7)"
+    },
+    "mk_pile_b": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(1.625, 0.0, 3.7)"
+    },
+    "mk_prop_boat_hung_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -0.18, 0.8)"
+    },
+    "mk_prop_crate_stack_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-0.2, -1.97, 2.0)"
+    },
+    "mk_prop_ladder_dock_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.675, -1.97, 3.35)"
+    },
+    "mk_prop_lantern_hung_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-1.0, -0.48, 3.7)"
+    },
+    "mk_prop_lantern_hung_2": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(1.0, -0.48, 3.7)"
+    },
+    "mk_prop_net_rack_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.1, -1.97, 2.95)"
+    },
+    "mk_stand_landing": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -1.97, 2.425)"
+    },
+    "mk_swim_exit": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.675, -2.47, 3.7)"
+    },
+    "mk_waterline": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -2.47, 2.05)"
+    },
+    "snap_end": {
+     "out(+Z)": "(1.0, 0.0, 0.0)",
+     "pos": "(1.625, 0.0, 0.0)"
+    },
+    "snap_start": {
+     "out(+Z)": "(-1.0, 0.0, 0.0)",
+     "pos": "(-1.625, 0.0, 0.0)"
+    }
+   },
+   "materials": {
+    "": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Pile": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Plank": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Timber": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_bay_3p25": {
+     "aabb_pos": "(-1.625, -2.18, 0.0)",
+     "aabb_size": "(3.25, 2.18, 4.1)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 60,
+     "visible": false
+    },
+    "settlement_inn_undercroft_bay_3p25_LOD0": {
+     "aabb_pos": "(-1.625, -2.380322, 0.0)",
+     "aabb_size": "(3.25, 2.380322, 4.1)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Iron",
+      "SS_Plank",
+      "SS_Timber"
+     ],
+     "tris": 5280,
+     "visible": true
+    },
+    "settlement_inn_undercroft_bay_3p25_LOD1": {
+     "aabb_pos": "(-1.625, -2.382091, 0.0)",
+     "aabb_size": "(3.25, 2.382091, 4.1)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Iron",
+      "SS_Plank",
+      "SS_Timber"
+     ],
+     "tris": 536,
+     "visible": true
+    },
+    "settlement_inn_undercroft_bay_3p25_LOD2": {
+     "aabb_pos": "(-1.625, -2.18, 0.0)",
+     "aabb_size": "(3.25, 2.18, 4.1)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Plank"
+     ],
+     "tris": 36,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_undercroft_bay_4m": {
+   "col": {
+    "bodies": [
+     {
+      "parent": "settlement_inn_undercroft_bay_4m",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=60)"
+      ],
+      "tris": 60,
+      "under_leaf_node": false,
+      "visible": false
+     }
+    ],
+    "col_mesh_tris": 60,
+    "col_mesh_visible": false,
+    "shapes": [
+     "ConcavePolygonShape3D (faces=60)"
+    ],
+    "static_bodies": 1
+   },
+   "markers": {
+    "mk_deck_underside": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 2.15)"
+    },
+    "mk_landing_walk": {
+     "out(+Z)": "(1.0, 0.0, 0.0)",
+     "pos": "(0.0, -1.97, 2.65)"
+    },
+    "mk_pile_a": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-2.0, 0.0, 3.9)"
+    },
+    "mk_pile_b": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(2.0, 0.0, 3.9)"
+    },
+    "mk_prop_barrel_stack_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(1.1, -1.97, 2.27)"
+    },
+    "mk_prop_boat_hung_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -0.18, 0.925)"
+    },
+    "mk_prop_crab_pots_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-0.95, -1.97, 3.23)"
+    },
+    "mk_prop_ladder_dock_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(1.05, -1.97, 3.55)"
+    },
+    "mk_prop_lantern_hung_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-1.0, -0.48, 3.9)"
+    },
+    "mk_prop_lantern_hung_2": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(1.0, -0.48, 3.9)"
+    },
+    "mk_prop_shelf_unit_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-1.15, -1.97, 2.05)"
+    },
+    "mk_stand_landing": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -1.97, 2.65)"
+    },
+    "mk_swim_exit": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(1.05, -2.47, 3.9)"
+    },
+    "mk_waterline": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -2.47, 2.15)"
+    },
+    "snap_end": {
+     "out(+Z)": "(1.0, 0.0, 0.0)",
+     "pos": "(2.0, 0.0, 0.0)"
+    },
+    "snap_start": {
+     "out(+Z)": "(-1.0, 0.0, 0.0)",
+     "pos": "(-2.0, 0.0, 0.0)"
+    }
+   },
+   "materials": {
+    "": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Pile": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Plank": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Timber": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_bay_4m": {
+     "aabb_pos": "(-2.0, -2.18, 0.0)",
+     "aabb_size": "(4.0, 2.18, 4.3)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 60,
+     "visible": false
+    },
+    "settlement_inn_undercroft_bay_4m_LOD0": {
+     "aabb_pos": "(-2.0, -2.381711, 0.0)",
+     "aabb_size": "(4.0, 2.381711, 4.3)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Iron",
+      "SS_Plank",
+      "SS_Timber"
+     ],
+     "tris": 5716,
+     "visible": true
+    },
+    "settlement_inn_undercroft_bay_4m_LOD1": {
+     "aabb_pos": "(-2.0, -2.383136, 0.0)",
+     "aabb_size": "(4.0, 2.383136, 4.3)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Iron",
+      "SS_Plank",
+      "SS_Timber"
+     ],
+     "tris": 560,
+     "visible": true
+    },
+    "settlement_inn_undercroft_bay_4m_LOD2": {
+     "aabb_pos": "(-2.0, -2.18, 0.0)",
+     "aabb_size": "(4.0, 2.18, 4.3)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Plank"
+     ],
+     "tris": 36,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_undercroft_boat_hung": {
+   "col": {
+    "bodies": [
+     {
+      "parent": "settlement_inn_undercroft_boat_hung",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=12)"
+      ],
+      "tris": 12,
+      "under_leaf_node": false,
+      "visible": false
+     }
+    ],
+    "col_mesh_tris": 12,
+    "col_mesh_visible": false,
+    "shapes": [
+     "ConcavePolygonShape3D (faces=12)"
+    ],
+    "static_bodies": 1
+   },
+   "markers": {
+    "mk_hook_a": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-0.8, 0.0, 0.0)"
+    },
+    "mk_hook_b": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.8, 0.0, 0.0)"
+    },
+    "mk_loot": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -0.9, 0.0)"
+    }
+   },
+   "materials": {
+    "": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Plank": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Rope": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Timber": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_boat_hung": {
+     "aabb_pos": "(-1.5, -1.0, -0.6)",
+     "aabb_size": "(3.0, 0.7, 1.2)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 12,
+     "visible": false
+    },
+    "settlement_inn_undercroft_boat_hung_LOD0": {
+     "aabb_pos": "(-1.54, -1.03, -0.596601)",
+     "aabb_size": "(3.08, 1.03588, 1.193201)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Plank",
+      "SS_Iron",
+      "SS_Rope"
+     ],
+     "tris": 4888,
+     "visible": true
+    },
+    "settlement_inn_undercroft_boat_hung_LOD1": {
+     "aabb_pos": "(-1.54, -1.03, -0.59)",
+     "aabb_size": "(3.08, 1.03588, 1.18)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Plank",
+      "SS_Rope",
+      "SS_Iron"
+     ],
+     "tris": 884,
+     "visible": true
+    },
+    "settlement_inn_undercroft_boat_hung_LOD2": {
+     "aabb_pos": "(-1.45, -0.8, -0.58)",
+     "aabb_size": "(2.9, 0.8, 1.16)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Rope"
+     ],
+     "tris": 24,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_undercroft_crab_pots": {
+   "col": {
+    "bodies": [
+     {
+      "parent": "settlement_inn_undercroft_crab_pots",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=36)"
+      ],
+      "tris": 36,
+      "under_leaf_node": false,
+      "visible": false
+     }
+    ],
+    "col_mesh_tris": 36,
+    "col_mesh_visible": false,
+    "shapes": [
+     "ConcavePolygonShape3D (faces=36)"
+    ],
+    "static_bodies": 1
+   },
+   "markers": {
+    "mk_loot": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.5, 0.1)"
+    },
+    "mk_stand": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 1.0)"
+    }
+   },
+   "materials": {
+    "": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Rope": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Timber": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Wicker": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_crab_pots": {
+     "aabb_pos": "(-0.63, 0.0, -0.3)",
+     "aabb_size": "(1.73, 0.92, 0.7)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 36,
+     "visible": false
+    },
+    "settlement_inn_undercroft_crab_pots_LOD0": {
+     "aabb_pos": "(-0.642, -0.2, -0.312)",
+     "aabb_size": "(1.732, 1.12, 0.638)",
+     "surfaces": [
+      "SS_Wicker",
+      "SS_Timber",
+      "SS_Iron",
+      "SS_Rope"
+     ],
+     "tris": 4688,
+     "visible": true
+    },
+    "settlement_inn_undercroft_crab_pots_LOD1": {
+     "aabb_pos": "(-0.63, -0.2, -0.3)",
+     "aabb_size": "(1.72, 1.12, 0.61)",
+     "surfaces": [
+      "SS_Wicker",
+      "SS_Rope"
+     ],
+     "tris": 756,
+     "visible": true
+    },
+    "settlement_inn_undercroft_crab_pots_LOD2": {
+     "aabb_pos": "(-0.63, 0.0, -0.3)",
+     "aabb_size": "(1.73, 0.92, 0.7)",
+     "surfaces": [
+      "SS_Wicker"
+     ],
+     "tris": 36,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_undercroft_crate_stack": {
+   "col": {
+    "bodies": [
+     {
+      "parent": "settlement_inn_undercroft_crate_stack",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=36)"
+      ],
+      "tris": 36,
+      "under_leaf_node": false,
+      "visible": false
+     }
+    ],
+    "col_mesh_tris": 36,
+    "col_mesh_visible": false,
+    "shapes": [
+     "ConcavePolygonShape3D (faces=36)"
+    ],
+    "static_bodies": 1
+   },
+   "markers": {
+    "mk_loot": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-0.3, 0.9, 0.0)"
+    },
+    "mk_stand": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 0.9)"
+    }
+   },
+   "materials": {
+    "": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Burlap": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Plank": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Rope": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Timber": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_crate_stack": {
+     "aabb_pos": "(-0.71, 0.0, -0.5)",
+     "aabb_size": "(2.06, 0.92, 1.0)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 36,
+     "visible": false
+    },
+    "settlement_inn_undercroft_crate_stack_LOD0": {
+     "aabb_pos": "(-1.021448, -0.22, -0.548371)",
+     "aabb_size": "(2.419036, 1.16, 1.063821)",
+     "surfaces": [
+      "SS_Plank",
+      "SS_Timber",
+      "SS_Burlap",
+      "SS_Rope"
+     ],
+     "tris": 5340,
+     "visible": true
+    },
+    "settlement_inn_undercroft_crate_stack_LOD1": {
+     "aabb_pos": "(-1.020923, -0.22, -0.537113)",
+     "aabb_size": "(2.418036, 1.16, 1.042165)",
+     "surfaces": [
+      "SS_Plank",
+      "SS_Timber",
+      "SS_Burlap",
+      "SS_Rope"
+     ],
+     "tris": 1256,
+     "visible": true
+    },
+    "settlement_inn_undercroft_crate_stack_LOD2": {
+     "aabb_pos": "(-1.22, 0.0, -0.5)",
+     "aabb_size": "(2.57, 0.92, 1.0)",
+     "surfaces": [
+      "SS_Plank",
+      "SS_Burlap",
+      "SS_Rope"
+     ],
+     "tris": 48,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_undercroft_ladder_dock": {
+   "col": {
+    "bodies": [
+     {
+      "parent": "settlement_inn_undercroft_ladder_dock",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=12)"
+      ],
+      "tris": 12,
+      "under_leaf_node": false,
+      "visible": false
+     }
+    ],
+    "col_mesh_tris": 12,
+    "col_mesh_visible": false,
+    "shapes": [
+     "ConcavePolygonShape3D (faces=12)"
+    ],
+    "static_bodies": 1
+   },
+   "markers": {
+    "mk_climb_bottom": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -1.5, 0.3)"
+    },
+    "mk_climb_top": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 0.25)"
+    },
+    "mk_swim_exit": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -0.55, 0.35)"
+    }
+   },
+   "materials": {
+    "": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Timber": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_ladder_dock": {
+     "aabb_pos": "(-0.25, -1.0, -0.05)",
+     "aabb_size": "(0.5, 1.78, 0.1)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 12,
+     "visible": false
+    },
+    "settlement_inn_undercroft_ladder_dock_LOD0": {
+     "aabb_pos": "(-0.255, -1.0, -0.3)",
+     "aabb_size": "(0.51, 1.81, 0.335)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Iron"
+     ],
+     "tris": 888,
+     "visible": true
+    },
+    "settlement_inn_undercroft_ladder_dock_LOD1": {
+     "aabb_pos": "(-0.255, -1.0, -0.3)",
+     "aabb_size": "(0.51, 1.78, 0.33)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Iron"
+     ],
+     "tris": 192,
+     "visible": true
+    },
+    "settlement_inn_undercroft_ladder_dock_LOD2": {
+     "aabb_pos": "(-0.25, -1.0, -0.03)",
+     "aabb_size": "(0.5, 1.78, 0.06)",
+     "surfaces": [
+      "SS_Timber"
+     ],
+     "tris": 36,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_undercroft_lantern_hung": {
+   "col": {
+    "bodies": [],
+    "col_mesh_tris": 0,
+    "col_mesh_visible": true,
+    "shapes": [],
+    "static_bodies": 0
+   },
+   "markers": {
+    "mk_lamp_lit": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -0.69, 0.0)"
+    },
+    "mk_light": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -0.69, 0.0)"
+    }
+   },
+   "materials": {
+    "SS_Bronze": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_LampGlass": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": true,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 0.349999994039536,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_lantern_hung_LOD0": {
+     "aabb_pos": "(-0.125, -0.913, -0.121866)",
+     "aabb_size": "(0.25, 0.913, 0.243732)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Bronze",
+      "SS_LampGlass"
+     ],
+     "tris": 1236,
+     "visible": true
+    },
+    "settlement_inn_undercroft_lantern_hung_LOD1": {
+     "aabb_pos": "(-0.125, -0.86, -0.125)",
+     "aabb_size": "(0.25, 0.86, 0.25)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Bronze",
+      "SS_LampGlass"
+     ],
+     "tris": 548,
+     "visible": true
+    },
+    "settlement_inn_undercroft_lantern_hung_LOD2": {
+     "aabb_pos": "(-0.12, -0.84, -0.12)",
+     "aabb_size": "(0.24, 0.84, 0.24)",
+     "surfaces": [
+      "SS_LampGlass",
+      "SS_Bronze",
+      "SS_Iron"
+     ],
+     "tris": 36,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_undercroft_net_rack": {
+   "col": {
+    "bodies": [
+     {
+      "parent": "settlement_inn_undercroft_net_rack",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=24)"
+      ],
+      "tris": 24,
+      "under_leaf_node": false,
+      "visible": false
+     }
+    ],
+    "col_mesh_tris": 24,
+    "col_mesh_visible": false,
+    "shapes": [
+     "ConcavePolygonShape3D (faces=24)"
+    ],
+    "static_bodies": 1
+   },
+   "markers": {
+    "mk_loot": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 1.2, 0.0)"
+    },
+    "mk_stand": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 0.9)"
+    }
+   },
+   "materials": {
+    "": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Pile": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Rope": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Timber": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Wicker": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_net_rack": {
+     "aabb_pos": "(-1.1, 0.0, -0.4)",
+     "aabb_size": "(2.2, 1.78, 0.8)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 24,
+     "visible": false
+    },
+    "settlement_inn_undercroft_net_rack_LOD0": {
+     "aabb_pos": "(-1.1, -0.005221, -0.4)",
+     "aabb_size": "(2.2, 1.785221, 0.8)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Iron",
+      "SS_Timber",
+      "SS_Rope",
+      "SS_Wicker"
+     ],
+     "tris": 5720,
+     "visible": true
+    },
+    "settlement_inn_undercroft_net_rack_LOD1": {
+     "aabb_pos": "(-1.1, -0.005967, -0.4)",
+     "aabb_size": "(2.2, 1.785967, 0.8)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Timber",
+      "SS_Rope",
+      "SS_Wicker",
+      "SS_Iron"
+     ],
+     "tris": 1096,
+     "visible": true
+    },
+    "settlement_inn_undercroft_net_rack_LOD2": {
+     "aabb_pos": "(-1.1, 0.0, -0.3)",
+     "aabb_size": "(2.2, 1.78, 0.6)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Timber",
+      "SS_Rope"
+     ],
+     "tris": 48,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_undercroft_pile_dressing_28": {
+   "col": {
+    "bodies": [],
+    "col_mesh_tris": 0,
+    "col_mesh_visible": true,
+    "shapes": [],
+    "static_bodies": 0
+   },
+   "markers": {
+    "mk_brace_x_neg": {
+     "out(+Z)": "(-1.0, 0.0, 0.0)",
+     "pos": "(-0.28, -1.0, 0.0)"
+    },
+    "mk_brace_x_pos": {
+     "out(+Z)": "(1.0, 0.0, 0.0)",
+     "pos": "(0.28, -1.0, 0.0)"
+    },
+    "mk_lantern_hook": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -0.5, 0.4)"
+    },
+    "mk_pile_axis": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 0.0)"
+    }
+   },
+   "materials": {
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Pile": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Rope": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_pile_dressing_28_LOD0": {
+     "aabb_pos": "(-0.365, -3.02, -0.365)",
+     "aabb_size": "(0.73, 2.9, 1.095)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Rope",
+      "SS_Pile"
+     ],
+     "tris": 2916,
+     "visible": true
+    },
+    "settlement_inn_undercroft_pile_dressing_28_LOD1": {
+     "aabb_pos": "(-0.365, -3.02, -0.347136)",
+     "aabb_size": "(0.73, 2.9, 0.694271)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Rope",
+      "SS_Pile"
+     ],
+     "tris": 760,
+     "visible": true
+    },
+    "settlement_inn_undercroft_pile_dressing_28_LOD2": {
+     "aabb_pos": "(-0.34, -3.02, -0.34)",
+     "aabb_size": "(0.68, 2.93, 0.68)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Pile"
+     ],
+     "tris": 128,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_undercroft_pile_dressing_35": {
+   "col": {
+    "bodies": [],
+    "col_mesh_tris": 0,
+    "col_mesh_visible": true,
+    "shapes": [],
+    "static_bodies": 0
+   },
+   "markers": {
+    "mk_brace_x_neg": {
+     "out(+Z)": "(-1.0, 0.0, 0.0)",
+     "pos": "(-0.35, -1.0, 0.0)"
+    },
+    "mk_brace_x_pos": {
+     "out(+Z)": "(1.0, 0.0, 0.0)",
+     "pos": "(0.35, -1.0, 0.0)"
+    },
+    "mk_lantern_hook": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -0.5, 0.47)"
+    },
+    "mk_pile_axis": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 0.0)"
+    }
+   },
+   "materials": {
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Pile": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Rope": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_pile_dressing_35_LOD0": {
+     "aabb_pos": "(-0.435, -3.02, -0.435)",
+     "aabb_size": "(0.87, 2.9, 1.235)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Rope",
+      "SS_Pile"
+     ],
+     "tris": 2916,
+     "visible": true
+    },
+    "settlement_inn_undercroft_pile_dressing_35_LOD1": {
+     "aabb_pos": "(-0.435, -3.02, -0.41371)",
+     "aabb_size": "(0.87, 2.9, 0.827419)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Rope",
+      "SS_Pile"
+     ],
+     "tris": 760,
+     "visible": true
+    },
+    "settlement_inn_undercroft_pile_dressing_35_LOD2": {
+     "aabb_pos": "(-0.41, -3.02, -0.41)",
+     "aabb_size": "(0.82, 2.93, 0.82)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Pile"
+     ],
+     "tris": 128,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_undercroft_shelf_unit": {
+   "col": {
+    "bodies": [
+     {
+      "parent": "settlement_inn_undercroft_shelf_unit",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=12)"
+      ],
+      "tris": 12,
+      "under_leaf_node": false,
+      "visible": false
+     }
+    ],
+    "col_mesh_tris": 12,
+    "col_mesh_visible": false,
+    "shapes": [
+     "ConcavePolygonShape3D (faces=12)"
+    ],
+    "static_bodies": 1
+   },
+   "markers": {
+    "mk_loot": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 1.0, 0.1)"
+    },
+    "mk_stand": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 0.7)"
+    }
+   },
+   "materials": {
+    "": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Bronze": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Pile": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Plank": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Rope": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Stone": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Timber": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Wicker": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_undercroft_shelf_unit": {
+     "aabb_pos": "(-0.8, 0.0, -0.21)",
+     "aabb_size": "(1.6, 1.9, 0.42)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 12,
+     "visible": false
+    },
+    "settlement_inn_undercroft_shelf_unit_LOD0": {
+     "aabb_pos": "(-0.8, 0.0, -0.23)",
+     "aabb_size": "(1.6, 2.0358, 0.44)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Plank",
+      "SS_Stone",
+      "SS_Timber",
+      "SS_Iron",
+      "SS_Wicker",
+      "SS_Rope",
+      "SS_Bronze"
+     ],
+     "tris": 8596,
+     "visible": true
+    },
+    "settlement_inn_undercroft_shelf_unit_LOD1": {
+     "aabb_pos": "(-0.8, 0.0, -0.23)",
+     "aabb_size": "(1.6, 2.0358, 0.44)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Plank",
+      "SS_Stone",
+      "SS_Wicker",
+      "SS_Iron",
+      "SS_Rope",
+      "SS_Bronze"
+     ],
+     "tris": 1876,
+     "visible": true
+    },
+    "settlement_inn_undercroft_shelf_unit_LOD2": {
+     "aabb_pos": "(-0.8, 0.0, -0.21)",
+     "aabb_size": "(1.6, 1.9, 0.42)",
+     "surfaces": [
+      "SS_Pile",
+      "SS_Plank",
+      "SS_Stone",
+      "SS_Wicker"
+     ],
+     "tris": 108,
+     "visible": true
+    }
+   }
+  }
+ },
+ "winding": {
+  "settlement_inn_undercroft_barrel_stack.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_barrel_stack_LOD1": {
+     "kind": "LOD1",
+     "tris": 2576,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 33,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_barrel_stack_LOD2": {
+     "kind": "LOD0",
+     "tris": 48,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 4,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_barrel_stack_LOD0": {
+     "kind": "LOD0",
+     "tris": 8024,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 33,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_barrel_stack_col": {
+     "kind": "col",
+     "tris": 36,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 3,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_inn_undercroft_bay_3p25.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_bay_3p25_LOD1": {
+     "kind": "LOD1",
+     "tris": 536,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 40,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_bay_3p25_LOD2": {
+     "kind": "LOD0",
+     "tris": 36,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 3,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_bay_3p25_LOD0": {
+     "kind": "LOD0",
+     "tris": 5280,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 84,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_bay_3p25_col": {
+     "kind": "col",
+     "tris": 60,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 5,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_inn_undercroft_bay_4m.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_bay_4m_LOD1": {
+     "kind": "LOD1",
+     "tris": 560,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 42,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_bay_4m_LOD2": {
+     "kind": "LOD0",
+     "tris": 36,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 3,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_bay_4m_LOD0": {
+     "kind": "LOD0",
+     "tris": 5716,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 91,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_bay_4m_col": {
+     "kind": "col",
+     "tris": 60,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 5,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_inn_undercroft_boat_hung.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_boat_hung_LOD1": {
+     "kind": "LOD1",
+     "tris": 884,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 24,
+     "open_components": 1
+    },
+    "settlement_inn_undercroft_boat_hung_LOD2": {
+     "kind": "LOD0",
+     "tris": 24,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 2,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_boat_hung_LOD0": {
+     "kind": "LOD0",
+     "tris": 4888,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 37,
+     "open_components": 1
+    },
+    "settlement_inn_undercroft_boat_hung_col": {
+     "kind": "col",
+     "tris": 12,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 1,
+     "open_components": 0
+    }
+   },
+   "open_components": [
+    [
+     "settlement_inn_undercroft_boat_hung_LOD0",
+     2804,
+     9.43908,
+     [
+      0.0,
+      -0.618,
+      0.0
+     ],
+     0.07747303
+    ]
+   ]
+  },
+  "settlement_inn_undercroft_crab_pots.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_crab_pots_LOD1": {
+     "kind": "LOD1",
+     "tris": 756,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 5,
+     "open_components": 3
+    },
+    "settlement_inn_undercroft_crab_pots_LOD2": {
+     "kind": "LOD0",
+     "tris": 36,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 3,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_crab_pots_LOD0": {
+     "kind": "LOD0",
+     "tris": 4688,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 40,
+     "open_components": 3
+    },
+    "settlement_inn_undercroft_crab_pots_col": {
+     "kind": "col",
+     "tris": 36,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 3,
+     "open_components": 0
+    }
+   },
+   "open_components": [
+    [
+     "settlement_inn_undercroft_crab_pots_LOD0",
+     300,
+     1.44743,
+     [
+      -0.33,
+      0.294,
+      -0.0
+     ],
+     0.1074547
+    ],
+    [
+     "settlement_inn_undercroft_crab_pots_LOD0",
+     300,
+     1.44743,
+     [
+      0.33,
+      0.294,
+      0.0
+     ],
+     0.1074547
+    ],
+    [
+     "settlement_inn_undercroft_crab_pots_LOD0",
+     300,
+     1.44743,
+     [
+      0.0,
+      0.754,
+      0.0
+     ],
+     0.09944704
+    ]
+   ]
+  },
+  "settlement_inn_undercroft_crate_stack.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_crate_stack_LOD1": {
+     "kind": "LOD1",
+     "tris": 1256,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 15,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_crate_stack_LOD2": {
+     "kind": "LOD0",
+     "tris": 48,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 4,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_crate_stack_LOD0": {
+     "kind": "LOD0",
+     "tris": 5340,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 69,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_crate_stack_col": {
+     "kind": "col",
+     "tris": 36,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 3,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_inn_undercroft_ladder_dock.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_ladder_dock_LOD1": {
+     "kind": "LOD1",
+     "tris": 192,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 12,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_ladder_dock_LOD2": {
+     "kind": "LOD0",
+     "tris": 36,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 3,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_ladder_dock_LOD0": {
+     "kind": "LOD0",
+     "tris": 888,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 26,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_ladder_dock_col": {
+     "kind": "col",
+     "tris": 12,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 1,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_inn_undercroft_lantern_hung.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_lantern_hung_LOD1": {
+     "kind": "LOD1",
+     "tris": 548,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 12,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_lantern_hung_LOD2": {
+     "kind": "LOD0",
+     "tris": 36,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 3,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_lantern_hung_LOD0": {
+     "kind": "LOD0",
+     "tris": 1236,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 17,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_inn_undercroft_net_rack.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_net_rack_LOD1": {
+     "kind": "LOD1",
+     "tris": 1096,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 62,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_net_rack_LOD2": {
+     "kind": "LOD0",
+     "tris": 48,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 4,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_net_rack_LOD0": {
+     "kind": "LOD0",
+     "tris": 5720,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 72,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_net_rack_col": {
+     "kind": "col",
+     "tris": 24,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 2,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_inn_undercroft_pile_dressing_28.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_pile_dressing_28_LOD1": {
+     "kind": "LOD1",
+     "tris": 760,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 19,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_pile_dressing_28_LOD2": {
+     "kind": "LOD0",
+     "tris": 128,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 2,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_pile_dressing_28_LOD0": {
+     "kind": "LOD0",
+     "tris": 2916,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 35,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_inn_undercroft_pile_dressing_35.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_pile_dressing_35_LOD1": {
+     "kind": "LOD1",
+     "tris": 760,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 19,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_pile_dressing_35_LOD2": {
+     "kind": "LOD0",
+     "tris": 128,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 2,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_pile_dressing_35_LOD0": {
+     "kind": "LOD0",
+     "tris": 2916,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 35,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_inn_undercroft_shelf_unit.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_undercroft_shelf_unit_LOD1": {
+     "kind": "LOD1",
+     "tris": 1876,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 38,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_shelf_unit_LOD2": {
+     "kind": "LOD0",
+     "tris": 108,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 7,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_shelf_unit_LOD0": {
+     "kind": "LOD0",
+     "tris": 8596,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 57,
+     "open_components": 0
+    },
+    "settlement_inn_undercroft_shelf_unit_col": {
+     "kind": "col",
+     "tris": 12,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 1,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  }
+ },
+ "rebuild": {
+  "fresh_build_1": {
+   "files": 39,
+   "identical_to_handoff": true,
+   "mismatches": []
+  },
+  "fresh_build_2": {
+   "files": 39,
+   "identical_to_handoff": true,
+   "mismatches": []
+  },
+  "build_from_shipped_tools": {
+   "files": 39,
+   "identical_to_handoff": true,
+   "mismatches": []
+  },
+  "textures_collected_from_source_handoffs": {
+   "files": 15,
+   "identical_to_handoff": true,
+   "note": "tools/collect_textures.sh re-copies every texture from city_road_kit / city_atm / city_bank into a scratch dir; compared byte for byte with textures/ (no texture is generated in this folder)"
+  },
+  "files_compared_per_build": 39
+ },
+ "store_totals": {
+  "shell_plus_interior": {
+   "pieces": [
+    "settlement_inn_undercroft_bay_4m",
+    "settlement_inn_undercroft_bay_3p25",
+    "settlement_inn_undercroft_pile_dressing_28",
+    "settlement_inn_undercroft_pile_dressing_35"
+   ],
+   "tris": {
+    "LOD0": 16828,
+    "LOD1": 2616,
+    "LOD2": 36
+   },
+   "draws_est": {
+    "LOD0": 14,
+    "LOD1": 14
+   }
+  },
+  "fully_dressed_as_in_previews": {
+   "pieces": [
+    "settlement_inn_undercroft_bay_4m",
+    "settlement_inn_undercroft_bay_4m",
+    "settlement_inn_undercroft_bay_4m",
+    "settlement_inn_undercroft_bay_4m",
+    "settlement_inn_undercroft_pile_dressing_28",
+    "settlement_inn_undercroft_pile_dressing_28",
+    "settlement_inn_undercroft_pile_dressing_28",
+    "settlement_inn_undercroft_pile_dressing_28",
+    "settlement_inn_undercroft_pile_dressing_28",
+    "settlement_inn_undercroft_pile_dressing_35",
+    "settlement_inn_undercroft_shelf_unit",
+    "settlement_inn_undercroft_shelf_unit",
+    "settlement_inn_undercroft_barrel_stack",
+    "settlement_inn_undercroft_barrel_stack",
+    "settlement_inn_undercroft_crab_pots",
+    "settlement_inn_undercroft_crab_pots",
+    "settlement_inn_undercroft_lantern_hung",
+    "settlement_inn_undercroft_lantern_hung",
+    "settlement_inn_undercroft_lantern_hung",
+    "settlement_inn_undercroft_lantern_hung",
+    "settlement_inn_undercroft_lantern_hung",
+    "settlement_inn_undercroft_lantern_hung",
+    "settlement_inn_undercroft_lantern_hung",
+    "settlement_inn_undercroft_lantern_hung",
+    "settlement_inn_undercroft_boat_hung",
+    "settlement_inn_undercroft_boat_hung",
+    "settlement_inn_undercroft_ladder_dock",
+    "settlement_inn_undercroft_ladder_dock",
+    "settlement_inn_undercroft_ladder_dock"
+   ],
+   "tris": {
+    "LOD0": 105304,
+    "LOD1": 23944
+   },
+   "draws_est": {
+    "LOD0": 102,
+    "LOD1": 96
+   },
+   "note": "the 16 m rear run as in the previews: 4 x bay_4m (x -8..8), 5 x pile_dressing_28 + 1 x pile_dressing_35, 2 shelf units, 2 barrel stacks, 2 crab-pot sets, 8 hung lanterns, 2 hung rowboats, 3 dock ladders (the east run of 2 x bay_3p25 is not counted)"
+  },
+  "doc_budget": {
+   "LOD0": [
+    20000,
+    120000
+   ],
+   "LOD1": 30000,
+   "source": "no per-prop budget in the docs for the undercroft; own ceiling for the dressed 16 m run: 120k LOD0 / 30k LOD1 (mid-high poly, mostly instanced repeats)"
+  },
+  "dressed_LOD0_in_range": true,
+  "dressed_LOD1_ok": true,
+  "note": "Draw estimate = (mesh node x material) pairs per LOD, shadows excluded, no instancing. Repeated props are MultiMesh-able."
+ },
+ "texture_vram_city_wide": {
+  "unique_textures_over_all_handoffs": 152,
+  "uncompressed_with_mips_MB": 734.0,
+  "compressed_est_MB": 183.5,
+  "new_in_this_folder_uncompressed_MB": 0,
+  "new_in_this_folder_compressed_est_MB": 0.0,
+  "plan_target_MB": {
+   "uncompressed": 200,
+   "compressed": 60
+  },
+  "note": "same model as the other hand-offs; shared sets counted once; the held cuts (pavers / brick / asphalt) are NOT applied; Gamer imports with VRAM compression"
+ },
+ "day_night": {
+  "rule": "Every material reads in full daylight. The only emissive surface is the lamp glass of `lantern_hung` (SS_LampGlass: flat warm `#ffc174`, the repo's lantern glow colour, emission energy 0.65): it ships lit; scale `emission_energy_multiplier` down by day (the previews use 0.2 by day, 1.6 at dusk). The assets contain no light nodes: put a warm OmniLight3D (previews: 2.6 energy, 7.5 m, `#ffb366`) at every `mk_light` marker of each lantern at dusk.",
+  "night_renders": "previews/*dusk* use preview-only lights; the assets contain no lights, only mk_light_* markers."
+ }
+}

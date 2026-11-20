@@ -1,0 +1,526 @@
+{
+ "asset_group": "retaining_walls",
+ "snap": {
+  "origin": "snap point = bottom of the mortar plane (front face) at the module's start, deck-grid level 0",
+  "run_axis": "+X",
+  "front": "+Z (glTF/Godot)",
+  "body": "-Z, 0.45 m",
+  "coping": "overhang +0.09 m, top = deck level + 0.04",
+  "footing_below_origin_m": 0.25,
+  "horizontal_grid_m": 1.0,
+  "vertical_course_period_m": 1.5
+ },
+ "units": "meters",
+ "up": "+Y (glTF)",
+ "front": "+Z (glTF) = Blender -Y",
+ "assets": {
+  "retaining_wall_straight": {
+   "replaces": "RaisedHideoutTerrace 'Retaining stone courses' + coping (hideout_terrace.gd), 2.0 m bay",
+   "nodes": {
+    "retaining_wall_straight_LOD0": {
+     "tris": 7330,
+     "size_xyz_m": [
+      2,
+      3.287,
+      0.54
+     ],
+     "min": [
+      0,
+      -0.246,
+      -0.45
+     ],
+     "max": [
+      2,
+      3.041,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_straight_LOD1": {
+     "tris": 2930,
+     "size_xyz_m": [
+      2,
+      3.287,
+      0.54
+     ],
+     "min": [
+      0,
+      -0.246,
+      -0.45
+     ],
+     "max": [
+      2,
+      3.041,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_straight_col": {
+     "tris": 12,
+     "size_xyz_m": [
+      2,
+      3.04,
+      0.54
+     ],
+     "min": [
+      0,
+      0,
+      -0.45
+     ],
+     "max": [
+      2,
+      3.04,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "lod1_ratio": 0.4,
+   "materials": [
+    "RW_Stone",
+    "RW_Cap",
+    "RW_Mortar"
+   ],
+   "textures": [
+    "textures/rw_cap_base.jpg",
+    "textures/rw_cap_normal.jpg",
+    "textures/rw_cap_orm.jpg",
+    "textures/rw_stone_base.jpg",
+    "textures/rw_stone_normal.jpg",
+    "textures/rw_stone_orm.jpg"
+   ],
+   "bytes_gltf_bin": 310194
+  },
+  "retaining_wall_corner": {
+   "replaces": "RaisedHideoutTerrace outer corners (4) and stash-porch corners",
+   "nodes": {
+    "retaining_wall_corner_LOD0": {
+     "tris": 7144,
+     "size_xyz_m": [
+      1.09,
+      3.287,
+      1.09
+     ],
+     "min": [
+      0,
+      -0.246,
+      -1
+     ],
+     "max": [
+      1.09,
+      3.041,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_corner_LOD1": {
+     "tris": 2816,
+     "size_xyz_m": [
+      1.09,
+      3.287,
+      1.09
+     ],
+     "min": [
+      0,
+      -0.246,
+      -1
+     ],
+     "max": [
+      1.09,
+      3.041,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_corner_col": {
+     "tris": 24,
+     "size_xyz_m": [
+      1.09,
+      3.04,
+      1.09
+     ],
+     "min": [
+      0,
+      0,
+      -1
+     ],
+     "max": [
+      1.09,
+      3.04,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "lod1_ratio": 0.394,
+   "materials": [
+    "RW_Stone",
+    "RW_Cap",
+    "RW_Mortar"
+   ],
+   "textures": [
+    "textures/rw_cap_base.jpg",
+    "textures/rw_cap_normal.jpg",
+    "textures/rw_cap_orm.jpg",
+    "textures/rw_stone_base.jpg",
+    "textures/rw_stone_normal.jpg",
+    "textures/rw_stone_orm.jpg"
+   ],
+   "bytes_gltf_bin": 301401
+  },
+  "retaining_wall_end": {
+   "replaces": "free wall ends (stair opening x=-16, z 13.4/16.6)",
+   "nodes": {
+    "retaining_wall_end_LOD0": {
+     "tris": 4728,
+     "size_xyz_m": [
+      1.087,
+      3.287,
+      0.54
+     ],
+     "min": [
+      0,
+      -0.245,
+      -0.45
+     ],
+     "max": [
+      1.087,
+      3.041,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_end_LOD1": {
+     "tris": 1898,
+     "size_xyz_m": [
+      1.087,
+      3.287,
+      0.54
+     ],
+     "min": [
+      0,
+      -0.245,
+      -0.45
+     ],
+     "max": [
+      1.087,
+      3.042,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_end_col": {
+     "tris": 12,
+     "size_xyz_m": [
+      1.09,
+      3.04,
+      0.54
+     ],
+     "min": [
+      0,
+      0,
+      -0.45
+     ],
+     "max": [
+      1.09,
+      3.04,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "lod1_ratio": 0.401,
+   "materials": [
+    "RW_Stone",
+    "RW_Cap",
+    "RW_Mortar"
+   ],
+   "textures": [
+    "textures/rw_cap_base.jpg",
+    "textures/rw_cap_normal.jpg",
+    "textures/rw_cap_orm.jpg",
+    "textures/rw_stone_base.jpg",
+    "textures/rw_stone_normal.jpg",
+    "textures/rw_stone_orm.jpg"
+   ],
+   "bytes_gltf_bin": 202828
+  },
+  "retaining_wall_stair_side": {
+   "replaces": "stair cheeks beside the two 9-riser flights (1.5 m rise / 3.06 m run)",
+   "nodes": {
+    "retaining_wall_stair_side_LOD0": {
+     "tris": 8168,
+     "size_xyz_m": [
+      3,
+      3.277,
+      0.54
+     ],
+     "min": [
+      0,
+      -0.246,
+      -0.45
+     ],
+     "max": [
+      3,
+      3.031,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_stair_side_LOD1": {
+     "tris": 3248,
+     "size_xyz_m": [
+      3,
+      3.285,
+      0.54
+     ],
+     "min": [
+      0,
+      -0.246,
+      -0.45
+     ],
+     "max": [
+      3,
+      3.039,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_stair_side_col": {
+     "tris": 72,
+     "size_xyz_m": [
+      3,
+      3.04,
+      0.54
+     ],
+     "min": [
+      0,
+      0,
+      -0.45
+     ],
+     "max": [
+      3,
+      3.04,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "lod1_ratio": 0.398,
+   "materials": [
+    "RW_Stone",
+    "RW_Cap",
+    "RW_Mortar"
+   ],
+   "textures": [
+    "textures/rw_cap_base.jpg",
+    "textures/rw_cap_normal.jpg",
+    "textures/rw_cap_orm.jpg",
+    "textures/rw_stone_base.jpg",
+    "textures/rw_stone_normal.jpg",
+    "textures/rw_stone_orm.jpg"
+   ],
+   "bytes_gltf_bin": 351434
+  },
+  "retaining_wall_pad_curve": {
+   "replaces": "LaunchpadShip pad perimeter wall (launchpad_ship.glb surface 0, r 8.0, top 1.28)",
+   "nodes": {
+    "retaining_wall_pad_curve_LOD0": {
+     "tris": 2694,
+     "size_xyz_m": [
+      1.576,
+      1.576,
+      0.685
+     ],
+     "min": [
+      0,
+      -0.245,
+      -0.595
+     ],
+     "max": [
+      1.576,
+      1.331,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_pad_curve_LOD1": {
+     "tris": 1122,
+     "size_xyz_m": [
+      1.579,
+      1.576,
+      0.685
+     ],
+     "min": [
+      0,
+      -0.245,
+      -0.595
+     ],
+     "max": [
+      1.579,
+      1.331,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_pad_curve_col": {
+     "tris": 12,
+     "size_xyz_m": [
+      1.639,
+      1.33,
+      0.732
+     ],
+     "min": [
+      -0.053,
+      0,
+      -0.603
+     ],
+     "max": [
+      1.586,
+      1.33,
+      0.129
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "lod1_ratio": 0.416,
+   "materials": [
+    "RW_Stone",
+    "RW_Cap",
+    "RW_Mortar"
+   ],
+   "textures": [
+    "textures/rw_cap_base.jpg",
+    "textures/rw_cap_normal.jpg",
+    "textures/rw_cap_orm.jpg",
+    "textures/rw_stone_base.jpg",
+    "textures/rw_stone_normal.jpg",
+    "textures/rw_stone_orm.jpg"
+   ],
+   "bytes_gltf_bin": 126752
+  },
+  "retaining_wall_pad_end": {
+   "replaces": "LaunchpadShip pad wall ends at the ramp opening (EdgeRail sectors 23/24)",
+   "nodes": {
+    "retaining_wall_pad_end_LOD0": {
+     "tris": 3232,
+     "size_xyz_m": [
+      1.665,
+      1.578,
+      0.702
+     ],
+     "min": [
+      0,
+      -0.246,
+      -0.612
+     ],
+     "max": [
+      1.665,
+      1.332,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_pad_end_LOD1": {
+     "tris": 1316,
+     "size_xyz_m": [
+      1.668,
+      1.577,
+      0.702
+     ],
+     "min": [
+      0,
+      -0.246,
+      -0.612
+     ],
+     "max": [
+      1.668,
+      1.331,
+      0.09
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "retaining_wall_pad_end_col": {
+     "tris": 12,
+     "size_xyz_m": [
+      1.639,
+      1.33,
+      0.732
+     ],
+     "min": [
+      -0.053,
+      0,
+      -0.603
+     ],
+     "max": [
+      1.586,
+      1.33,
+      0.129
+     ],
+     "hidden_KHR_node_visibility": true
+    }
+   },
+   "lod1_ratio": 0.407,
+   "materials": [
+    "RW_Stone",
+    "RW_Cap",
+    "RW_Mortar"
+   ],
+   "textures": [
+    "textures/rw_cap_base.jpg",
+    "textures/rw_cap_normal.jpg",
+    "textures/rw_cap_orm.jpg",
+    "textures/rw_stone_base.jpg",
+    "textures/rw_stone_normal.jpg",
+    "textures/rw_stone_orm.jpg"
+   ],
+   "bytes_gltf_bin": 146777
+  }
+ },
+ "textures": {
+  "rw_cap_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 135739
+  },
+  "rw_cap_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 228202
+  },
+  "rw_cap_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 165650
+  },
+  "rw_stone_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 134475
+  },
+  "rw_stone_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 266510
+  },
+  "rw_stone_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 162955
+  }
+ },
+ "total_MB_runtime": 2.533,
+ "total_MB_folder": 3.717
+}

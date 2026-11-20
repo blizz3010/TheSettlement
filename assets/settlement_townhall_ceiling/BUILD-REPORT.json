@@ -1,0 +1,1949 @@
+{
+ "asset_group": "settlement_townhall_ceiling",
+ "units": "meters",
+ "up": "+Y (glTF)",
+ "front": "+Z (glTF) = Blender -Y",
+ "budget_source": "docs/raid_city/05_tech_and_budgets.md + city_asset_plan.md section 3",
+ "vram_model": "RGBA8 with full mip chain = w*h*4*4/3 bytes (uncompressed); VRAM-compressed (BC7/DXT) estimated at 1/4. Textures shared between assets are counted once in the folder total and in full for each asset that uses them.",
+ "low_budget_vram_MB": 1500,
+ "assets": {
+  "settlement_townhall_ceiling_bay_4p2": {
+   "nodes": {
+    "settlement_townhall_ceiling_bay_4p2_LOD1": {
+     "tris": 1068,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      17.21,
+      2.903,
+      3.932
+     ],
+     "min": [
+      -8.605,
+      6.08,
+      -1.966
+     ],
+     "max": [
+      8.605,
+      8.983,
+      1.966
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_townhall_ceiling_bay_4p2_LOD2": {
+     "tris": 60,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      17.207,
+      2.721,
+      3.94
+     ],
+     "min": [
+      -8.603,
+      6.26,
+      -1.97
+     ],
+     "max": [
+      8.603,
+      8.981,
+      1.97
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_townhall_ceiling_bay_4p2_LOD0": {
+     "tris": 6000,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      17.21,
+      2.903,
+      3.932
+     ],
+     "min": [
+      -8.605,
+      6.08,
+      -1.966
+     ],
+     "max": [
+      8.605,
+      8.983,
+      1.966
+     ],
+     "hidden_KHR_node_visibility": false
+    }
+   },
+   "markers": {
+    "mk_prop_lamp_aisle_1": {
+     "translation_m": [
+      -5,
+      6.6881,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_lamp_aisle_2": {
+     "translation_m": [
+      5,
+      6.6881,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {
+    "snap_start": {
+     "translation_m": [
+      0,
+      6,
+      -2.1
+     ],
+     "rotation_quat": [
+      0,
+      -1,
+      0,
+      0.0
+     ]
+    },
+    "snap_end": {
+     "translation_m": [
+      0,
+      6,
+      2.1
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "lod1_ratio": 0.178,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 4,
+   "materials": [
+    "SS_Plank",
+    "SS_Oak",
+    "SS_Bronze",
+    "SS_Iron"
+   ],
+   "draw_calls_per_LOD": 4,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/tds_metal_base.jpg",
+    "textures/tds_metal_normal.jpg",
+    "textures/tds_metal_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 50.3,
+    "vram_compressed_est": 12.6
+   },
+   "bytes_gltf": 12654,
+   "bytes_bin": 395248,
+   "sha256": {
+    "settlement_townhall_ceiling_bay_4p2.gltf": "b1f417399df5fb485d799893e38c6c3861284212d276b91e690a26babf2d2536",
+    "settlement_townhall_ceiling_bay_4p2.bin": "0900f640e2320024ba5d41d6e773249d1f9be3cb909a4a9b37048e71851e3300"
+   },
+   "tris_all_nodes": {
+    "LOD0": 6000,
+    "LOD1": 1068,
+    "LOD2": 60
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 4,
+    "LOD1": 2,
+    "LOD2": 2
+   },
+   "gameplay_markers": [
+    "mk_prop_lamp_aisle_1",
+    "mk_prop_lamp_aisle_2"
+   ],
+   "col_bodies": []
+  },
+  "settlement_townhall_ceiling_bay_4p3": {
+   "nodes": {
+    "settlement_townhall_ceiling_bay_4p3_LOD1": {
+     "tris": 1068,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      17.21,
+      2.903,
+      4.032
+     ],
+     "min": [
+      -8.605,
+      6.08,
+      -2.016
+     ],
+     "max": [
+      8.605,
+      8.983,
+      2.016
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_townhall_ceiling_bay_4p3_LOD2": {
+     "tris": 60,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      17.207,
+      2.721,
+      4.04
+     ],
+     "min": [
+      -8.603,
+      6.26,
+      -2.02
+     ],
+     "max": [
+      8.603,
+      8.981,
+      2.02
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_townhall_ceiling_bay_4p3_LOD0": {
+     "tris": 6000,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      17.21,
+      2.903,
+      4.032
+     ],
+     "min": [
+      -8.605,
+      6.08,
+      -2.016
+     ],
+     "max": [
+      8.605,
+      8.983,
+      2.016
+     ],
+     "hidden_KHR_node_visibility": false
+    }
+   },
+   "markers": {
+    "mk_prop_lamp_aisle_1": {
+     "translation_m": [
+      -5,
+      6.6881,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_lamp_aisle_2": {
+     "translation_m": [
+      5,
+      6.6881,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_prop_lamp_chandelier_1": {
+     "translation_m": [
+      0,
+      8.72,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {
+    "snap_start": {
+     "translation_m": [
+      0,
+      6,
+      -2.15
+     ],
+     "rotation_quat": [
+      0,
+      -1,
+      0,
+      0.0
+     ]
+    },
+    "snap_end": {
+     "translation_m": [
+      0,
+      6,
+      2.15
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "lod1_ratio": 0.178,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 4,
+   "materials": [
+    "SS_Plank",
+    "SS_Oak",
+    "SS_Bronze",
+    "SS_Iron"
+   ],
+   "draw_calls_per_LOD": 4,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/tds_metal_base.jpg",
+    "textures/tds_metal_normal.jpg",
+    "textures/tds_metal_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 50.3,
+    "vram_compressed_est": 12.6
+   },
+   "bytes_gltf": 12773,
+   "bytes_bin": 395248,
+   "sha256": {
+    "settlement_townhall_ceiling_bay_4p3.gltf": "e38e629fa4c9ad86fae525d4e5c17b9ddee0e0313dc121fb640c270c820e4241",
+    "settlement_townhall_ceiling_bay_4p3.bin": "12fb8370782129955c15f4a833515028ecf1b6a155601da6605ec19d7e70cb39"
+   },
+   "tris_all_nodes": {
+    "LOD0": 6000,
+    "LOD1": 1068,
+    "LOD2": 60
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 4,
+    "LOD1": 2,
+    "LOD2": 2
+   },
+   "gameplay_markers": [
+    "mk_prop_lamp_aisle_1",
+    "mk_prop_lamp_aisle_2",
+    "mk_prop_lamp_chandelier_1"
+   ],
+   "col_bodies": []
+  },
+  "settlement_townhall_ceiling_lamp_chandelier": {
+   "nodes": {
+    "settlement_townhall_ceiling_lamp_chandelier_LOD1": {
+     "tris": 3240,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      1.49,
+      4.192,
+      1.49
+     ],
+     "min": [
+      -0.745,
+      -4.192,
+      -0.745
+     ],
+     "max": [
+      0.745,
+      0,
+      0.745
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_townhall_ceiling_lamp_chandelier_LOD2": {
+     "tris": 48,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      1.4,
+      3.53,
+      1.4
+     ],
+     "min": [
+      -0.7,
+      -3.53,
+      -0.7
+     ],
+     "max": [
+      0.7,
+      0,
+      0.7
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_townhall_ceiling_lamp_chandelier_LOD0": {
+     "tris": 8864,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      1.49,
+      4.192,
+      1.486
+     ],
+     "min": [
+      -0.745,
+      -4.192,
+      -0.743
+     ],
+     "max": [
+      0.745,
+      0,
+      0.743
+     ],
+     "hidden_KHR_node_visibility": false
+    }
+   },
+   "markers": {
+    "mk_lamp_lit_1": {
+     "translation_m": [
+      0.66,
+      -3.37,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_lamp_lit_2": {
+     "translation_m": [
+      0.4667,
+      -3.37,
+      0.4667
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_lamp_lit_3": {
+     "translation_m": [
+      0,
+      -3.37,
+      0.66
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_lamp_lit_4": {
+     "translation_m": [
+      -0.4667,
+      -3.37,
+      0.4667
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_lamp_lit_5": {
+     "translation_m": [
+      -0.66,
+      -3.37,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_lamp_lit_6": {
+     "translation_m": [
+      -0.4667,
+      -3.37,
+      -0.4667
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_lamp_lit_7": {
+     "translation_m": [
+      0,
+      -3.37,
+      -0.66
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_lamp_lit_8": {
+     "translation_m": [
+      0.4667,
+      -3.37,
+      -0.4667
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_light": {
+     "translation_m": [
+      0,
+      -3.35,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_attach": {
+     "translation_m": [
+      0,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.366,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": false
+   },
+   "material_count": 3,
+   "materials": [
+    "SS_Iron",
+    "SS_Bronze",
+    "SS_LampGlass"
+   ],
+   "draw_calls_per_LOD": 3,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/tds_metal_base.jpg",
+    "textures/tds_metal_normal.jpg",
+    "textures/tds_metal_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 33.6,
+    "vram_compressed_est": 8.4
+   },
+   "bytes_gltf": 13292,
+   "bytes_bin": 567752,
+   "sha256": {
+    "settlement_townhall_ceiling_lamp_chandelier.gltf": "b3c46e681ed9f8d85a056191e36faa25a89e66d7e8158ed90ef4e70cf932fb6e",
+    "settlement_townhall_ceiling_lamp_chandelier.bin": "c2b090ded736288106ad73baec5b79cbe501d543f7f4bac39c0177ca49d8b410"
+   },
+   "tris_all_nodes": {
+    "LOD0": 8864,
+    "LOD1": 3240,
+    "LOD2": 48
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 3,
+    "LOD1": 3,
+    "LOD2": 3
+   },
+   "gameplay_markers": [
+    "mk_attach",
+    "mk_lamp_lit_1",
+    "mk_lamp_lit_2",
+    "mk_lamp_lit_3",
+    "mk_lamp_lit_4",
+    "mk_lamp_lit_5",
+    "mk_lamp_lit_6",
+    "mk_lamp_lit_7",
+    "mk_lamp_lit_8",
+    "mk_light"
+   ],
+   "col_bodies": []
+  },
+  "settlement_townhall_ceiling_lamp_pendant": {
+   "nodes": {
+    "settlement_townhall_ceiling_lamp_pendant_LOD1": {
+     "tris": 680,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      0.32,
+      1.29,
+      0.32
+     ],
+     "min": [
+      -0.16,
+      -1.29,
+      -0.16
+     ],
+     "max": [
+      0.16,
+      0,
+      0.16
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_townhall_ceiling_lamp_pendant_LOD2": {
+     "tris": 36,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      0.32,
+      1.12,
+      0.32
+     ],
+     "min": [
+      -0.16,
+      -1.12,
+      -0.16
+     ],
+     "max": [
+      0.16,
+      0,
+      0.16
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_townhall_ceiling_lamp_pendant_LOD0": {
+     "tris": 1128,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      0.32,
+      1.29,
+      0.32
+     ],
+     "min": [
+      -0.16,
+      -1.29,
+      -0.16
+     ],
+     "max": [
+      0.16,
+      0,
+      0.16
+     ],
+     "hidden_KHR_node_visibility": false
+    }
+   },
+   "markers": {
+    "mk_light": {
+     "translation_m": [
+      0,
+      -0.94,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_lamp_lit": {
+     "translation_m": [
+      0,
+      -0.94,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_attach": {
+     "translation_m": [
+      0,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.603,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 3,
+   "materials": [
+    "SS_Iron",
+    "SS_Bronze",
+    "SS_LampGlass"
+   ],
+   "draw_calls_per_LOD": 3,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/tds_metal_base.jpg",
+    "textures/tds_metal_normal.jpg",
+    "textures/tds_metal_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 33.6,
+    "vram_compressed_est": 8.4
+   },
+   "bytes_gltf": 11866,
+   "bytes_bin": 83448,
+   "sha256": {
+    "settlement_townhall_ceiling_lamp_pendant.gltf": "5086bdf9d119e3ef78bd222e0101bdf4a24baee71aec632156cc4b795bdb525f",
+    "settlement_townhall_ceiling_lamp_pendant.bin": "4827673dc55bc19d7d8e2d38d2758fb16ed61d77280ede64034ac712b27c10eb"
+   },
+   "tris_all_nodes": {
+    "LOD0": 1128,
+    "LOD1": 680,
+    "LOD2": 36
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 3,
+    "LOD1": 3,
+    "LOD2": 3
+   },
+   "gameplay_markers": [
+    "mk_attach",
+    "mk_lamp_lit",
+    "mk_light"
+   ],
+   "col_bodies": []
+  },
+  "settlement_townhall_ceiling_truss": {
+   "nodes": {
+    "settlement_townhall_ceiling_truss_LOD1": {
+     "tris": 204,
+     "primitives": 1,
+     "materials": 1,
+     "size_xyz_m": [
+      17.121,
+      2.923,
+      0.34
+     ],
+     "min": [
+      -8.56,
+      5.98,
+      -0.17
+     ],
+     "max": [
+      8.56,
+      8.903,
+      0.17
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_townhall_ceiling_truss_LOD2": {
+     "tris": 96,
+     "primitives": 1,
+     "materials": 1,
+     "size_xyz_m": [
+      17.121,
+      2.92,
+      0.22
+     ],
+     "min": [
+      -8.56,
+      5.98,
+      -0.11
+     ],
+     "max": [
+      8.56,
+      8.9,
+      0.11
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_townhall_ceiling_truss_LOD0": {
+     "tris": 2196,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      17.12,
+      3.0,
+      0.34
+     ],
+     "min": [
+      -8.56,
+      5.9,
+      -0.17
+     ],
+     "max": [
+      8.56,
+      8.9,
+      0.17
+     ],
+     "hidden_KHR_node_visibility": false
+    }
+   },
+   "markers": {
+    "mk_column_a": {
+     "translation_m": [
+      -3,
+      7.05,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_column_b": {
+     "translation_m": [
+      3,
+      7.05,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_ridge": {
+     "translation_m": [
+      0,
+      9,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_wall_a": {
+     "translation_m": [
+      -8.6,
+      6,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0.7071,
+      0,
+      0.7071
+     ]
+    },
+    "mk_wall_b": {
+     "translation_m": [
+      8.6,
+      6,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      -0.7071,
+      0,
+      0.7071
+     ]
+    }
+   },
+   "snaps": {
+    "snap_start": {
+     "translation_m": [
+      0,
+      6,
+      -0.13
+     ],
+     "rotation_quat": [
+      0,
+      -1,
+      0,
+      0.0
+     ]
+    },
+    "snap_end": {
+     "translation_m": [
+      0,
+      6,
+      0.13
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "lod1_ratio": 0.093,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 3,
+   "materials": [
+    "SS_Oak",
+    "SS_Iron",
+    "SS_Bronze"
+   ],
+   "draw_calls_per_LOD": 3,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/tds_metal_base.jpg",
+    "textures/tds_metal_normal.jpg",
+    "textures/tds_metal_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 50.3,
+    "vram_compressed_est": 12.6
+   },
+   "bytes_gltf": 9602,
+   "bytes_bin": 127360,
+   "sha256": {
+    "settlement_townhall_ceiling_truss.gltf": "8aa6c2e4f259e50ebcc18dfe715010f7daaf1df942c1e896f40e1b496e6cf3dc",
+    "settlement_townhall_ceiling_truss.bin": "a5c371715b757af8f7cc838802e51cc6449f9f1189f1ca7dfb69c27bdc19f1aa"
+   },
+   "tris_all_nodes": {
+    "LOD0": 2196,
+    "LOD1": 204,
+    "LOD2": 96
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 3,
+    "LOD1": 1,
+    "LOD2": 1
+   },
+   "gameplay_markers": [
+    "mk_column_a",
+    "mk_column_b",
+    "mk_ridge",
+    "mk_wall_a",
+    "mk_wall_b"
+   ],
+   "col_bodies": []
+  }
+ },
+ "textures": {
+  "ct_dark_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 42633,
+   "sha256": "20f81742d8c68b2a6872ee41314feaa551ed5111bcf830251df2dbe3eed28dad",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "ct_dark_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 182556,
+   "sha256": "cdb343a8ce115157f3d6a1613491e634e312adc4a32a41608547b32e4cd9e072",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "ct_dark_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 149638,
+   "sha256": "3325554fd10da8018216d8448a144e6ac082df6c57b67de4f4705edff756e341",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_timber_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 91033,
+   "sha256": "ce1cc9c06cb6584215a4376b919ab0a28b4e0ee88d03af833c37bc8c8a43ee05",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_timber_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 189649,
+   "sha256": "5f987298a825ba9ddbe755495d0b4b898c3a46c19d50b902747cc2ff85e96825",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_timber_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 86063,
+   "sha256": "763a02f6566b4ce066be2861b36d27d110344154e09b5a983b1be674bc67f10c",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_metal_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 51540,
+   "sha256": "f9f24a3f0b78cbcef7e74f6784b06b689dde29c3b336a7c221d2ca8f55124121",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_metal_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 46763,
+   "sha256": "588688dd7d1f07981ec063613a8b4452032d5bad0b8fa4eb302f3741aa6a0bf8",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_metal_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 52432,
+   "sha256": "498291d83cd19dab17996d4e9000a69e221169e6c0ee621248fc942cea5893f0",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  }
+ },
+ "folder_texture_vram_MB": {
+  "uncompressed_with_mips": 50.3,
+  "vram_compressed_est": 12.6,
+  "share_of_Low_1500MB_uncompressed_pct": 3.4,
+  "share_of_Low_1500MB_compressed_pct": 0.8
+ },
+ "total_MB_runtime": 2.522,
+ "total_MB_folder": 4.612,
+ "godot": {
+  "settlement_townhall_ceiling_bay_4p2": {
+   "col": {
+    "bodies": [],
+    "col_mesh_tris": 0,
+    "col_mesh_visible": true,
+    "shapes": [],
+    "static_bodies": 0
+   },
+   "markers": {
+    "mk_prop_lamp_aisle_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-5.0, 6.688077, 0.0)"
+    },
+    "mk_prop_lamp_aisle_2": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(5.0, 6.688077, 0.0)"
+    },
+    "snap_end": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 6.0, 2.1)"
+    },
+    "snap_start": {
+     "out(+Z)": "(-0.0, 0.0, -1.0)",
+     "pos": "(0.0, 6.0, -2.1)"
+    }
+   },
+   "materials": {
+    "SS_Bronze": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Oak": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Plank": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_townhall_ceiling_bay_4p2_LOD0": {
+     "aabb_pos": "(-8.605, 6.08, -1.966)",
+     "aabb_size": "(17.21, 2.902672, 3.932)",
+     "surfaces": [
+      "SS_Plank",
+      "SS_Oak",
+      "SS_Bronze",
+      "SS_Iron"
+     ],
+     "tris": 6000,
+     "visible": true
+    },
+    "settlement_townhall_ceiling_bay_4p2_LOD1": {
+     "aabb_pos": "(-8.605, 6.08, -1.966)",
+     "aabb_size": "(17.21, 2.902672, 3.932)",
+     "surfaces": [
+      "SS_Plank",
+      "SS_Oak"
+     ],
+     "tris": 1068,
+     "visible": true
+    },
+    "settlement_townhall_ceiling_bay_4p2_LOD2": {
+     "aabb_pos": "(-8.60343, 6.259852, -1.97)",
+     "aabb_size": "(17.20686, 2.721268, 3.940001)",
+     "surfaces": [
+      "SS_Plank",
+      "SS_Oak"
+     ],
+     "tris": 60,
+     "visible": true
+    }
+   }
+  },
+  "settlement_townhall_ceiling_bay_4p3": {
+   "col": {
+    "bodies": [],
+    "col_mesh_tris": 0,
+    "col_mesh_visible": true,
+    "shapes": [],
+    "static_bodies": 0
+   },
+   "markers": {
+    "mk_prop_lamp_aisle_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-5.0, 6.688077, 0.0)"
+    },
+    "mk_prop_lamp_aisle_2": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(5.0, 6.688077, 0.0)"
+    },
+    "mk_prop_lamp_chandelier_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 8.72, 0.0)"
+    },
+    "snap_end": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 6.0, 2.15)"
+    },
+    "snap_start": {
+     "out(+Z)": "(-0.0, 0.0, -1.0)",
+     "pos": "(0.0, 6.0, -2.15)"
+    }
+   },
+   "materials": {
+    "SS_Bronze": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Oak": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Plank": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_townhall_ceiling_bay_4p3_LOD0": {
+     "aabb_pos": "(-8.605, 6.08, -2.016)",
+     "aabb_size": "(17.21, 2.902672, 4.032001)",
+     "surfaces": [
+      "SS_Plank",
+      "SS_Oak",
+      "SS_Bronze",
+      "SS_Iron"
+     ],
+     "tris": 6000,
+     "visible": true
+    },
+    "settlement_townhall_ceiling_bay_4p3_LOD1": {
+     "aabb_pos": "(-8.605, 6.08, -2.016)",
+     "aabb_size": "(17.21, 2.902672, 4.032001)",
+     "surfaces": [
+      "SS_Plank",
+      "SS_Oak"
+     ],
+     "tris": 1068,
+     "visible": true
+    },
+    "settlement_townhall_ceiling_bay_4p3_LOD2": {
+     "aabb_pos": "(-8.60343, 6.259852, -2.02)",
+     "aabb_size": "(17.20686, 2.721268, 4.04)",
+     "surfaces": [
+      "SS_Plank",
+      "SS_Oak"
+     ],
+     "tris": 60,
+     "visible": true
+    }
+   }
+  },
+  "settlement_townhall_ceiling_lamp_chandelier": {
+   "col": {
+    "bodies": [],
+    "col_mesh_tris": 0,
+    "col_mesh_visible": true,
+    "shapes": [],
+    "static_bodies": 0
+   },
+   "markers": {
+    "mk_attach": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 0.0)"
+    },
+    "mk_lamp_lit_1": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.66, -3.37, 0.0)"
+    },
+    "mk_lamp_lit_2": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.46669, -3.37, 0.46669)"
+    },
+    "mk_lamp_lit_3": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -3.37, 0.66)"
+    },
+    "mk_lamp_lit_4": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-0.46669, -3.37, 0.46669)"
+    },
+    "mk_lamp_lit_5": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-0.66, -3.37, 0.0)"
+    },
+    "mk_lamp_lit_6": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-0.46669, -3.37, -0.46669)"
+    },
+    "mk_lamp_lit_7": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -3.37, -0.66)"
+    },
+    "mk_lamp_lit_8": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.46669, -3.37, -0.46669)"
+    },
+    "mk_light": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -3.35, 0.0)"
+    }
+   },
+   "materials": {
+    "SS_Bronze": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_LampGlass": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": true,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 0.349999994039536,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_townhall_ceiling_lamp_chandelier_LOD0": {
+     "aabb_pos": "(-0.745, -4.192, -0.742869)",
+     "aabb_size": "(1.49, 4.192, 1.485738)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Bronze",
+      "SS_LampGlass"
+     ],
+     "tris": 8864,
+     "visible": true
+    },
+    "settlement_townhall_ceiling_lamp_chandelier_LOD1": {
+     "aabb_pos": "(-0.745, -4.192, -0.745)",
+     "aabb_size": "(1.49, 4.192, 1.49)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Bronze",
+      "SS_LampGlass"
+     ],
+     "tris": 3240,
+     "visible": true
+    },
+    "settlement_townhall_ceiling_lamp_chandelier_LOD2": {
+     "aabb_pos": "(-0.7, -3.53, -0.7)",
+     "aabb_size": "(1.4, 3.53, 1.4)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Bronze",
+      "SS_LampGlass"
+     ],
+     "tris": 48,
+     "visible": true
+    }
+   }
+  },
+  "settlement_townhall_ceiling_lamp_pendant": {
+   "col": {
+    "bodies": [],
+    "col_mesh_tris": 0,
+    "col_mesh_visible": true,
+    "shapes": [],
+    "static_bodies": 0
+   },
+   "markers": {
+    "mk_attach": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 0.0)"
+    },
+    "mk_lamp_lit": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -0.94, 0.0)"
+    },
+    "mk_light": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, -0.94, 0.0)"
+    }
+   },
+   "materials": {
+    "SS_Bronze": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_LampGlass": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": true,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 0.349999994039536,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_townhall_ceiling_lamp_pendant_LOD0": {
+     "aabb_pos": "(-0.16, -1.29, -0.16)",
+     "aabb_size": "(0.32, 1.29, 0.32)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Bronze",
+      "SS_LampGlass"
+     ],
+     "tris": 1128,
+     "visible": true
+    },
+    "settlement_townhall_ceiling_lamp_pendant_LOD1": {
+     "aabb_pos": "(-0.16, -1.29, -0.16)",
+     "aabb_size": "(0.32, 1.29, 0.32)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Bronze",
+      "SS_LampGlass"
+     ],
+     "tris": 680,
+     "visible": true
+    },
+    "settlement_townhall_ceiling_lamp_pendant_LOD2": {
+     "aabb_pos": "(-0.16, -1.12, -0.16)",
+     "aabb_size": "(0.32, 1.12, 0.32)",
+     "surfaces": [
+      "SS_Iron",
+      "SS_Bronze",
+      "SS_LampGlass"
+     ],
+     "tris": 36,
+     "visible": true
+    }
+   }
+  },
+  "settlement_townhall_ceiling_truss": {
+   "col": {
+    "bodies": [],
+    "col_mesh_tris": 0,
+    "col_mesh_visible": true,
+    "shapes": [],
+    "static_bodies": 0
+   },
+   "markers": {
+    "mk_column_a": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-3.0, 7.05, 0.0)"
+    },
+    "mk_column_b": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(3.0, 7.05, 0.0)"
+    },
+    "mk_ridge": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 9.0, 0.0)"
+    },
+    "mk_wall_a": {
+     "out(+Z)": "(1.0, 0.0, 0.0)",
+     "pos": "(-8.6, 6.0, 0.0)"
+    },
+    "mk_wall_b": {
+     "out(+Z)": "(-1.0, 0.0, 0.0)",
+     "pos": "(8.6, 6.0, 0.0)"
+    },
+    "snap_end": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 6.0, 0.13)"
+    },
+    "snap_start": {
+     "out(+Z)": "(-0.0, 0.0, -1.0)",
+     "pos": "(0.0, 6.0, -0.13)"
+    }
+   },
+   "materials": {
+    "SS_Bronze": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Oak": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_townhall_ceiling_truss_LOD0": {
+     "aabb_pos": "(-8.56, 5.9, -0.17)",
+     "aabb_size": "(17.12, 3.0, 0.34)",
+     "surfaces": [
+      "SS_Oak",
+      "SS_Iron",
+      "SS_Bronze"
+     ],
+     "tris": 2196,
+     "visible": true
+    },
+    "settlement_townhall_ceiling_truss_LOD1": {
+     "aabb_pos": "(-8.560287, 5.98, -0.17)",
+     "aabb_size": "(17.12057, 2.922922, 0.34)",
+     "surfaces": [
+      "SS_Oak"
+     ],
+     "tris": 204,
+     "visible": true
+    },
+    "settlement_townhall_ceiling_truss_LOD2": {
+     "aabb_pos": "(-8.560287, 5.98, -0.11)",
+     "aabb_size": "(17.12057, 2.92, 0.22)",
+     "surfaces": [
+      "SS_Oak"
+     ],
+     "tris": 96,
+     "visible": true
+    }
+   }
+  }
+ },
+ "winding": {
+  "settlement_townhall_ceiling_bay_4p2.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_townhall_ceiling_bay_4p2_LOD1": {
+     "kind": "LOD1",
+     "tris": 1068,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 89,
+     "open_components": 0
+    },
+    "settlement_townhall_ceiling_bay_4p2_LOD2": {
+     "kind": "LOD0",
+     "tris": 60,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 5,
+     "open_components": 0
+    },
+    "settlement_townhall_ceiling_bay_4p2_LOD0": {
+     "kind": "LOD0",
+     "tris": 6000,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 132,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_townhall_ceiling_bay_4p3.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_townhall_ceiling_bay_4p3_LOD1": {
+     "kind": "LOD1",
+     "tris": 1068,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 89,
+     "open_components": 0
+    },
+    "settlement_townhall_ceiling_bay_4p3_LOD2": {
+     "kind": "LOD0",
+     "tris": 60,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 5,
+     "open_components": 0
+    },
+    "settlement_townhall_ceiling_bay_4p3_LOD0": {
+     "kind": "LOD0",
+     "tris": 6000,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 132,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_townhall_ceiling_lamp_chandelier.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_townhall_ceiling_lamp_chandelier_LOD1": {
+     "kind": "LOD1",
+     "tris": 3240,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 69,
+     "open_components": 0
+    },
+    "settlement_townhall_ceiling_lamp_chandelier_LOD2": {
+     "kind": "LOD0",
+     "tris": 48,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 4,
+     "open_components": 0
+    },
+    "settlement_townhall_ceiling_lamp_chandelier_LOD0": {
+     "kind": "LOD0",
+     "tris": 8864,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 133,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_townhall_ceiling_lamp_pendant.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_townhall_ceiling_lamp_pendant_LOD1": {
+     "kind": "LOD1",
+     "tris": 680,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 18,
+     "open_components": 0
+    },
+    "settlement_townhall_ceiling_lamp_pendant_LOD2": {
+     "kind": "LOD0",
+     "tris": 36,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 3,
+     "open_components": 0
+    },
+    "settlement_townhall_ceiling_lamp_pendant_LOD0": {
+     "kind": "LOD0",
+     "tris": 1128,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 19,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_townhall_ceiling_truss.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_townhall_ceiling_truss_LOD1": {
+     "kind": "LOD1",
+     "tris": 204,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 17,
+     "open_components": 0
+    },
+    "settlement_townhall_ceiling_truss_LOD2": {
+     "kind": "LOD0",
+     "tris": 96,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 8,
+     "open_components": 0
+    },
+    "settlement_townhall_ceiling_truss_LOD0": {
+     "kind": "LOD0",
+     "tris": 2196,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 51,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  }
+ },
+ "rebuild": {
+  "fresh_build_1": {
+   "files": 19,
+   "identical_to_handoff": true,
+   "mismatches": []
+  },
+  "fresh_build_2": {
+   "files": 19,
+   "identical_to_handoff": true,
+   "mismatches": []
+  },
+  "build_from_shipped_tools": {
+   "files": 19,
+   "identical_to_handoff": true,
+   "mismatches": []
+  },
+  "textures_collected_from_source_handoffs": {
+   "files": 9,
+   "identical_to_handoff": true,
+   "note": "tools/collect_textures.sh re-copies every texture from city_road_kit / city_atm / city_bank into a scratch dir; compared byte for byte with textures/ (no texture is generated in this folder)"
+  },
+  "files_compared_per_build": 19
+ },
+ "store_totals": {
+  "shell_plus_interior": {
+   "pieces": [
+    "settlement_townhall_ceiling_truss",
+    "settlement_townhall_ceiling_bay_4p2",
+    "settlement_townhall_ceiling_bay_4p3",
+    "settlement_townhall_ceiling_lamp_chandelier",
+    "settlement_townhall_ceiling_lamp_pendant"
+   ],
+   "tris": {
+    "LOD0": 24188,
+    "LOD1": 6260,
+    "LOD2": 96
+   },
+   "draws_est": {
+    "LOD0": 17,
+    "LOD1": 11
+   }
+  },
+  "fully_dressed_as_in_previews": {
+   "pieces": [
+    "settlement_townhall_ceiling_truss",
+    "settlement_townhall_ceiling_truss",
+    "settlement_townhall_ceiling_truss",
+    "settlement_townhall_ceiling_truss",
+    "settlement_townhall_ceiling_truss",
+    "settlement_townhall_ceiling_bay_4p2",
+    "settlement_townhall_ceiling_bay_4p2",
+    "settlement_townhall_ceiling_bay_4p3",
+    "settlement_townhall_ceiling_bay_4p3",
+    "settlement_townhall_ceiling_lamp_chandelier",
+    "settlement_townhall_ceiling_lamp_chandelier",
+    "settlement_townhall_ceiling_lamp_pendant",
+    "settlement_townhall_ceiling_lamp_pendant",
+    "settlement_townhall_ceiling_lamp_pendant",
+    "settlement_townhall_ceiling_lamp_pendant",
+    "settlement_townhall_ceiling_lamp_pendant",
+    "settlement_townhall_ceiling_lamp_pendant",
+    "settlement_townhall_ceiling_lamp_pendant",
+    "settlement_townhall_ceiling_lamp_pendant"
+   ],
+   "tris": {
+    "LOD0": 61732,
+    "LOD1": 17212
+   },
+   "draws_est": {
+    "LOD0": 61,
+    "LOD1": 43
+   },
+   "note": "the whole nave ceiling as in the previews: 5 trusses (at the nave column lines), 2 x bay_4p2 + 2 x bay_4p3, 2 chandeliers and 8 aisle pendants"
+  },
+  "doc_budget": {
+   "LOD0": [
+    10000,
+    75000
+   ],
+   "LOD1": 20000,
+   "source": "no per-prop budget in the docs for the Town Hall ceiling; own ceiling 75k LOD0 / 20k LOD1 for the whole hall"
+  },
+  "dressed_LOD0_in_range": true,
+  "dressed_LOD1_ok": true,
+  "note": "Draw estimate = (mesh node x material) pairs per LOD, shadows excluded, no instancing. Repeated props are MultiMesh-able."
+ },
+ "texture_vram_city_wide": {
+  "unique_textures_over_all_handoffs": 152,
+  "uncompressed_with_mips_MB": 734.0,
+  "compressed_est_MB": 183.5,
+  "new_in_this_folder_uncompressed_MB": 0,
+  "new_in_this_folder_compressed_est_MB": 0.0,
+  "plan_target_MB": {
+   "uncompressed": 200,
+   "compressed": 60
+  },
+  "note": "same model as the other hand-offs; shared sets counted once; the held cuts (pavers / brick / asphalt) are NOT applied; Gamer imports with VRAM compression"
+ },
+ "day_night": {
+  "rule": "Every material reads in full daylight (timber, plank, bronze, iron carry the look). The only emissive surface is the lamp glass (SS_LampGlass: flat warm `#ffc174`, the repo's lantern glow, emission energy 0.65): it ships lit; scale `emission_energy_multiplier` down by day (previews: 0.25 by day, 1.6 at dusk). No light nodes are inside the assets: put a warm OmniLight3D at every `mk_light` marker at dusk (previews: chandelier 3.4 energy / 11 m, pendant 2.0 / 6.5 m, colour `#ffb366`, no shadows, like the repo's existing `TownHallLanternLights`). `mk_lamp_lit_N` mark the individual lit lamp cages of the chandelier (use them for per-lamp glows or flicker).",
+  "night_renders": "previews/*dusk* use preview-only lights; the assets contain no lights, only mk_light_* markers."
+ }
+}

@@ -1,0 +1,1581 @@
+{
+ "asset_group": "settlement_inn_door",
+ "units": "meters",
+ "up": "+Y (glTF)",
+ "front": "+Z (glTF) = Blender -Y",
+ "budget_source": "docs/raid_city/05_tech_and_budgets.md + city_asset_plan.md section 3",
+ "vram_model": "RGBA8 with full mip chain = w*h*4*4/3 bytes (uncompressed); VRAM-compressed (BC7/DXT) estimated at 1/4. Textures shared between assets are counted once in the folder total and in full for each asset that uses them.",
+ "low_budget_vram_MB": 1500,
+ "assets": {
+  "settlement_inn_door_main": {
+   "nodes": {
+    "settlement_inn_door_main_LOD1": {
+     "tris": 132,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      2.92,
+      2.74,
+      0.29
+     ],
+     "min": [
+      -1.46,
+      0,
+      -0.145
+     ],
+     "max": [
+      1.46,
+      2.74,
+      0.145
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_main_leaf_l_LOD1": {
+     "tris": 260,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      1.19,
+      2.57,
+      0.074
+     ],
+     "min": [
+      0.005,
+      0.015,
+      -0.03
+     ],
+     "max": [
+      1.195,
+      2.585,
+      0.044
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_main_leaf_r_LOD1": {
+     "tris": 460,
+     "primitives": 5,
+     "materials": 5,
+     "size_xyz_m": [
+      1.19,
+      2.57,
+      0.104
+     ],
+     "min": [
+      -1.195,
+      0.015,
+      -0.03
+     ],
+     "max": [
+      -0.005,
+      2.585,
+      0.074
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_main_LOD2": {
+     "tris": 36,
+     "primitives": 1,
+     "materials": 1,
+     "size_xyz_m": [
+      2.92,
+      2.74,
+      0.29
+     ],
+     "min": [
+      -1.46,
+      0,
+      -0.145
+     ],
+     "max": [
+      1.46,
+      2.74,
+      0.145
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_main_leaf_l_LOD2": {
+     "tris": 12,
+     "primitives": 1,
+     "materials": 1,
+     "size_xyz_m": [
+      1.19,
+      2.57,
+      0.06
+     ],
+     "min": [
+      0.005,
+      0.015,
+      -0.03
+     ],
+     "max": [
+      1.195,
+      2.585,
+      0.03
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_main_leaf_r_LOD2": {
+     "tris": 12,
+     "primitives": 1,
+     "materials": 1,
+     "size_xyz_m": [
+      1.19,
+      2.57,
+      0.06
+     ],
+     "min": [
+      -1.195,
+      0.015,
+      -0.03
+     ],
+     "max": [
+      -0.005,
+      2.585,
+      0.03
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_main_LOD0": {
+     "tris": 1548,
+     "primitives": 3,
+     "materials": 3,
+     "size_xyz_m": [
+      3.04,
+      2.79,
+      0.297
+     ],
+     "min": [
+      -1.52,
+      0,
+      -0.145
+     ],
+     "max": [
+      1.52,
+      2.79,
+      0.152
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_main_leaf_l_col": {
+     "tris": 12,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      1.19,
+      2.57,
+      0.06
+     ],
+     "min": [
+      -1.195,
+      0.015,
+      -0.03
+     ],
+     "max": [
+      -0.005,
+      2.585,
+      0.03
+     ],
+     "hidden_KHR_node_visibility": true
+    },
+    "settlement_inn_door_main_leaf_l_LOD0": {
+     "tris": 3020,
+     "primitives": 5,
+     "materials": 5,
+     "size_xyz_m": [
+      1.213,
+      2.57,
+      0.167
+     ],
+     "min": [
+      -0.018,
+      0.015,
+      -0.05
+     ],
+     "max": [
+      1.195,
+      2.585,
+      0.117
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_main_leaf_r_col": {
+     "tris": 12,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      1.19,
+      2.57,
+      0.06
+     ],
+     "min": [
+      0.005,
+      0.015,
+      -0.03
+     ],
+     "max": [
+      1.195,
+      2.585,
+      0.03
+     ],
+     "hidden_KHR_node_visibility": true
+    },
+    "settlement_inn_door_main_leaf_r_LOD0": {
+     "tris": 3528,
+     "primitives": 5,
+     "materials": 5,
+     "size_xyz_m": [
+      1.213,
+      2.57,
+      0.167
+     ],
+     "min": [
+      -1.195,
+      0.015,
+      -0.05
+     ],
+     "max": [
+      0.018,
+      2.585,
+      0.117
+     ],
+     "hidden_KHR_node_visibility": false
+    }
+   },
+   "markers": {
+    "mk_door_hinge_l": {
+     "translation_m": [
+      -1.2,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_door_hinge_r": {
+     "translation_m": [
+      1.2,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_door_handle": {
+     "translation_m": [
+      0.1,
+      1.05,
+      0.08
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_door_interact_out": {
+     "translation_m": [
+      0,
+      1,
+      0.35
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_door_interact_in": {
+     "translation_m": [
+      0,
+      1,
+      -0.35
+     ],
+     "rotation_quat": [
+      0,
+      -1,
+      0,
+      0.0
+     ]
+    },
+    "mk_door_stand_out": {
+     "translation_m": [
+      0,
+      0,
+      1.1
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_door_stand_in": {
+     "translation_m": [
+      0,
+      0,
+      -1.1
+     ],
+     "rotation_quat": [
+      0,
+      -1,
+      0,
+      0.0
+     ]
+    },
+    "mk_light_l": {
+     "translation_m": [
+      -1.55,
+      2.35,
+      0.25
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_light_r": {
+     "translation_m": [
+      1.55,
+      2.35,
+      0.25
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_pane_glow_l": {
+     "translation_m": [
+      -0.6,
+      2.05,
+      0.02
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_pane_glow_r": {
+     "translation_m": [
+      0.6,
+      2.05,
+      0.02
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.105,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 5,
+   "materials": [
+    "SS_Timber",
+    "SS_Bronze",
+    "SS_Plank",
+    "SS_LampGlass",
+    "SS_Iron"
+   ],
+   "draw_calls_per_LOD": 5,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/tds_metal_base.jpg",
+    "textures/tds_metal_normal.jpg",
+    "textures/tds_metal_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 50.3,
+    "vram_compressed_est": 12.6
+   },
+   "bytes_gltf": 35776,
+   "bytes_bin": 435352,
+   "sha256": {
+    "settlement_inn_door_main.gltf": "0b238c1965caf70f0e65d6303521675c6165711f2ba7a26aa1ac1039f72fbc15",
+    "settlement_inn_door_main.bin": "a073a7d48f52ad101d111e6a24d5f422b2d8a286a10fdf88da932a70593d2cd7"
+   },
+   "tris_all_nodes": {
+    "LOD0": 8096,
+    "LOD1": 852,
+    "LOD2": 60
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 13,
+    "LOD1": 11,
+    "LOD2": 3
+   },
+   "gameplay_markers": [
+    "mk_door_handle",
+    "mk_door_hinge_l",
+    "mk_door_hinge_r",
+    "mk_door_interact_in",
+    "mk_door_interact_out",
+    "mk_door_stand_in",
+    "mk_door_stand_out",
+    "mk_light_l",
+    "mk_light_r",
+    "mk_pane_glow_l",
+    "mk_pane_glow_r"
+   ],
+   "col_bodies": [
+    {
+     "node": "settlement_inn_door_main_leaf_l",
+     "tris": 12,
+     "child_of_leaf_node": true
+    },
+    {
+     "node": "settlement_inn_door_main_leaf_r",
+     "tris": 12,
+     "child_of_leaf_node": true
+    }
+   ]
+  },
+  "settlement_inn_door_side": {
+   "nodes": {
+    "settlement_inn_door_side_LOD1": {
+     "tris": 48,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      1.77,
+      2.74,
+      0.265
+     ],
+     "min": [
+      -0.885,
+      0,
+      -0.145
+     ],
+     "max": [
+      0.885,
+      2.74,
+      0.12
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_side_leaf_LOD1": {
+     "tris": 460,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      1.24,
+      2.57,
+      0.104
+     ],
+     "min": [
+      0.005,
+      0.015,
+      -0.03
+     ],
+     "max": [
+      1.245,
+      2.585,
+      0.074
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_side_LOD2": {
+     "tris": 12,
+     "primitives": 1,
+     "materials": 1,
+     "size_xyz_m": [
+      1.57,
+      0.14,
+      0.045
+     ],
+     "min": [
+      -0.785,
+      2.6,
+      -0.145
+     ],
+     "max": [
+      0.785,
+      2.74,
+      -0.1
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_side_leaf_LOD2": {
+     "tris": 12,
+     "primitives": 1,
+     "materials": 1,
+     "size_xyz_m": [
+      1.24,
+      2.57,
+      0.06
+     ],
+     "min": [
+      0.005,
+      0.015,
+      -0.03
+     ],
+     "max": [
+      1.245,
+      2.585,
+      0.03
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_side_LOD0": {
+     "tris": 368,
+     "primitives": 2,
+     "materials": 2,
+     "size_xyz_m": [
+      1.77,
+      2.74,
+      0.265
+     ],
+     "min": [
+      -0.885,
+      0,
+      -0.145
+     ],
+     "max": [
+      0.885,
+      2.74,
+      0.12
+     ],
+     "hidden_KHR_node_visibility": false
+    },
+    "settlement_inn_door_side_leaf_col": {
+     "tris": 12,
+     "primitives": 1,
+     "materials": 0,
+     "size_xyz_m": [
+      1.24,
+      2.57,
+      0.06
+     ],
+     "min": [
+      -0.62,
+      0.015,
+      -0.03
+     ],
+     "max": [
+      0.62,
+      2.585,
+      0.03
+     ],
+     "hidden_KHR_node_visibility": true
+    },
+    "settlement_inn_door_side_leaf_LOD0": {
+     "tris": 3824,
+     "primitives": 4,
+     "materials": 4,
+     "size_xyz_m": [
+      1.263,
+      2.57,
+      0.167
+     ],
+     "min": [
+      -0.018,
+      0.015,
+      -0.05
+     ],
+     "max": [
+      1.245,
+      2.585,
+      0.117
+     ],
+     "hidden_KHR_node_visibility": false
+    }
+   },
+   "markers": {
+    "mk_door_hinge": {
+     "translation_m": [
+      -0.625,
+      0,
+      0
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_door_handle": {
+     "translation_m": [
+      0.525,
+      1.05,
+      0.08
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_door_interact_out": {
+     "translation_m": [
+      0,
+      1,
+      0.35
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_door_interact_in": {
+     "translation_m": [
+      0,
+      1,
+      -0.35
+     ],
+     "rotation_quat": [
+      0,
+      -1,
+      0,
+      0.0
+     ]
+    },
+    "mk_door_stand_out": {
+     "translation_m": [
+      0,
+      0,
+      1.1
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "mk_door_stand_in": {
+     "translation_m": [
+      0,
+      0,
+      -1.1
+     ],
+     "rotation_quat": [
+      0,
+      -1,
+      0,
+      0.0
+     ]
+    },
+    "mk_light": {
+     "translation_m": [
+      0.98,
+      2.1,
+      0.13
+     ],
+     "rotation_quat": [
+      0,
+      0,
+      0,
+      1
+     ]
+    }
+   },
+   "snaps": {},
+   "lod1_ratio": 0.121,
+   "budget": {
+    "LOD0_range": [
+     200,
+     12000
+    ],
+    "LOD1_max": 3000,
+    "LOD0_ok": true,
+    "LOD0_below_range": false,
+    "LOD1_ok": true
+   },
+   "material_count": 4,
+   "materials": [
+    "SS_Timber",
+    "SS_Bronze",
+    "SS_Plank",
+    "SS_Iron"
+   ],
+   "draw_calls_per_LOD": 4,
+   "double_sided_materials": [],
+   "emissive_materials": [],
+   "alpha_mask_materials": [],
+   "textures": [
+    "textures/ct_dark_base.jpg",
+    "textures/ct_dark_normal.jpg",
+    "textures/ct_dark_orm.jpg",
+    "textures/sp_timber_base.jpg",
+    "textures/sp_timber_normal.jpg",
+    "textures/sp_timber_orm.jpg",
+    "textures/tds_metal_base.jpg",
+    "textures/tds_metal_normal.jpg",
+    "textures/tds_metal_orm.jpg"
+   ],
+   "vram_MB": {
+    "uncompressed_with_mips": 50.3,
+    "vram_compressed_est": 12.6
+   },
+   "bytes_gltf": 20710,
+   "bytes_bin": 213352,
+   "sha256": {
+    "settlement_inn_door_side.gltf": "04035f08bf9f60e0371947fe0bb74dd9b907b3eec031a272864e3026c2d278ef",
+    "settlement_inn_door_side.bin": "87084e769ce201ea69bc2a6e299d36fdf6ac10c6acb89c845d9385fcb341ae9a"
+   },
+   "tris_all_nodes": {
+    "LOD0": 4192,
+    "LOD1": 508,
+    "LOD2": 24
+   },
+   "draws_all_nodes_est": {
+    "LOD0": 6,
+    "LOD1": 6,
+    "LOD2": 2
+   },
+   "gameplay_markers": [
+    "mk_door_handle",
+    "mk_door_hinge",
+    "mk_door_interact_in",
+    "mk_door_interact_out",
+    "mk_door_stand_in",
+    "mk_door_stand_out",
+    "mk_light"
+   ],
+   "col_bodies": [
+    {
+     "node": "settlement_inn_door_side_leaf",
+     "tris": 12,
+     "child_of_leaf_node": true
+    }
+   ]
+  }
+ },
+ "textures": {
+  "ct_dark_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 42633,
+   "sha256": "20f81742d8c68b2a6872ee41314feaa551ed5111bcf830251df2dbe3eed28dad",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "ct_dark_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 182556,
+   "sha256": "cdb343a8ce115157f3d6a1613491e634e312adc4a32a41608547b32e4cd9e072",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "ct_dark_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 149638,
+   "sha256": "3325554fd10da8018216d8448a144e6ac082df6c57b67de4f4705edff756e341",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_timber_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 91033,
+   "sha256": "ce1cc9c06cb6584215a4376b919ab0a28b4e0ee88d03af833c37bc8c8a43ee05",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_timber_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 189649,
+   "sha256": "5f987298a825ba9ddbe755495d0b4b898c3a46c19d50b902747cc2ff85e96825",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "sp_timber_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 86063,
+   "sha256": "763a02f6566b4ce066be2861b36d27d110344154e09b5a983b1be674bc67f10c",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_metal_base.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 51540,
+   "sha256": "f9f24a3f0b78cbcef7e74f6784b06b689dde29c3b336a7c221d2ca8f55124121",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_metal_normal.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 46763,
+   "sha256": "588688dd7d1f07981ec063613a8b4452032d5bad0b8fa4eb302f3741aa6a0bf8",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  },
+  "tds_metal_orm.jpg": {
+   "size": [
+    1024,
+    1024
+   ],
+   "bytes": 52432,
+   "sha256": "498291d83cd19dab17996d4e9000a69e221169e6c0ee621248fc942cea5893f0",
+   "vram_MB_uncompressed": 5.59,
+   "vram_MB_compressed_est": 1.4,
+   "used_by_this_folder": true
+  }
+ },
+ "folder_texture_vram_MB": {
+  "uncompressed_with_mips": 50.3,
+  "vram_compressed_est": 12.6,
+  "share_of_Low_1500MB_uncompressed_pct": 3.4,
+  "share_of_Low_1500MB_compressed_pct": 0.8
+ },
+ "total_MB_runtime": 1.597,
+ "total_MB_folder": 3.141,
+ "godot": {
+  "settlement_inn_door_main": {
+   "col": {
+    "bodies": [
+     {
+      "leaf_parent": "settlement_inn_door_main_leaf_l_LOD0",
+      "parent": "settlement_inn_door_main_leaf_l",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=12)"
+      ],
+      "tris": 12,
+      "under_leaf_node": true,
+      "visible": false
+     },
+     {
+      "leaf_parent": "settlement_inn_door_main_leaf_r_LOD0",
+      "parent": "settlement_inn_door_main_leaf_r",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=12)"
+      ],
+      "tris": 12,
+      "under_leaf_node": true,
+      "visible": false
+     }
+    ],
+    "col_mesh_tris": 24,
+    "col_mesh_visible": false,
+    "shapes": [
+     "ConcavePolygonShape3D (faces=12)",
+     "ConcavePolygonShape3D (faces=12)"
+    ],
+    "static_bodies": 2
+   },
+   "markers": {
+    "mk_door_handle": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.1, 1.05, 0.08)"
+    },
+    "mk_door_hinge_l": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-1.2, 0.0, 0.0)"
+    },
+    "mk_door_hinge_r": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(1.2, 0.0, 0.0)"
+    },
+    "mk_door_interact_in": {
+     "out(+Z)": "(-0.0, 0.0, -1.0)",
+     "pos": "(0.0, 1.0, -0.35)"
+    },
+    "mk_door_interact_out": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 1.0, 0.35)"
+    },
+    "mk_door_stand_in": {
+     "out(+Z)": "(-0.0, 0.0, -1.0)",
+     "pos": "(0.0, 0.0, -1.1)"
+    },
+    "mk_door_stand_out": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 1.1)"
+    },
+    "mk_light_l": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-1.55, 2.35, 0.25)"
+    },
+    "mk_light_r": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(1.55, 2.35, 0.25)"
+    },
+    "mk_pane_glow_l": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-0.6, 2.05, 0.02)"
+    },
+    "mk_pane_glow_r": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.6, 2.05, 0.02)"
+    }
+   },
+   "materials": {
+    "": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Bronze": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_LampGlass": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": true,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 0.349999994039536,
+     "transparency": 0
+    },
+    "SS_Plank": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Timber": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_door_main_LOD0": {
+     "aabb_pos": "(-1.52, 0.0, -0.145)",
+     "aabb_size": "(3.04, 2.79, 0.297)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Iron",
+      "SS_Bronze"
+     ],
+     "tris": 1548,
+     "visible": true
+    },
+    "settlement_inn_door_main_LOD1": {
+     "aabb_pos": "(-1.46, 0.0, -0.145)",
+     "aabb_size": "(2.92, 2.74, 0.29)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Bronze"
+     ],
+     "tris": 132,
+     "visible": true
+    },
+    "settlement_inn_door_main_LOD2": {
+     "aabb_pos": "(-1.46, 0.0, -0.145)",
+     "aabb_size": "(2.92, 2.74, 0.29)",
+     "surfaces": [
+      "SS_Timber"
+     ],
+     "tris": 36,
+     "visible": true
+    },
+    "settlement_inn_door_main_leaf_l": {
+     "aabb_pos": "(-1.195, 0.015, -0.03)",
+     "aabb_size": "(1.19, 2.57, 0.06)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 12,
+     "visible": false
+    },
+    "settlement_inn_door_main_leaf_l_LOD0": {
+     "aabb_pos": "(-0.017825, 0.015, -0.05)",
+     "aabb_size": "(1.212825, 2.57, 0.167)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Plank",
+      "SS_Iron",
+      "SS_LampGlass",
+      "SS_Bronze"
+     ],
+     "tris": 3020,
+     "visible": true
+    },
+    "settlement_inn_door_main_leaf_l_LOD1": {
+     "aabb_pos": "(0.005, 0.015, -0.03)",
+     "aabb_size": "(1.19, 2.57, 0.074)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Plank",
+      "SS_LampGlass",
+      "SS_Iron"
+     ],
+     "tris": 260,
+     "visible": true
+    },
+    "settlement_inn_door_main_leaf_l_LOD2": {
+     "aabb_pos": "(0.005, 0.015, -0.03)",
+     "aabb_size": "(1.19, 2.57, 0.06)",
+     "surfaces": [
+      "SS_Plank"
+     ],
+     "tris": 12,
+     "visible": true
+    },
+    "settlement_inn_door_main_leaf_r": {
+     "aabb_pos": "(0.005, 0.015, -0.03)",
+     "aabb_size": "(1.19, 2.57, 0.06)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 12,
+     "visible": false
+    },
+    "settlement_inn_door_main_leaf_r_LOD0": {
+     "aabb_pos": "(-1.195, 0.015, -0.05)",
+     "aabb_size": "(1.212825, 2.57, 0.167)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Plank",
+      "SS_Iron",
+      "SS_LampGlass",
+      "SS_Bronze"
+     ],
+     "tris": 3528,
+     "visible": true
+    },
+    "settlement_inn_door_main_leaf_r_LOD1": {
+     "aabb_pos": "(-1.195, 0.015, -0.03)",
+     "aabb_size": "(1.19, 2.57, 0.103841)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Plank",
+      "SS_LampGlass",
+      "SS_Iron",
+      "SS_Bronze"
+     ],
+     "tris": 460,
+     "visible": true
+    },
+    "settlement_inn_door_main_leaf_r_LOD2": {
+     "aabb_pos": "(-1.195, 0.015, -0.03)",
+     "aabb_size": "(1.19, 2.57, 0.06)",
+     "surfaces": [
+      "SS_Plank"
+     ],
+     "tris": 12,
+     "visible": true
+    }
+   }
+  },
+  "settlement_inn_door_side": {
+   "col": {
+    "bodies": [
+     {
+      "leaf_parent": "settlement_inn_door_side_leaf_LOD0",
+      "parent": "settlement_inn_door_side_leaf",
+      "shapes": [
+       "ConcavePolygonShape3D (faces=12)"
+      ],
+      "tris": 12,
+      "under_leaf_node": true,
+      "visible": false
+     }
+    ],
+    "col_mesh_tris": 12,
+    "col_mesh_visible": false,
+    "shapes": [
+     "ConcavePolygonShape3D (faces=12)"
+    ],
+    "static_bodies": 1
+   },
+   "markers": {
+    "mk_door_handle": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.525, 1.05, 0.08)"
+    },
+    "mk_door_hinge": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(-0.625, 0.0, 0.0)"
+    },
+    "mk_door_interact_in": {
+     "out(+Z)": "(-0.0, 0.0, -1.0)",
+     "pos": "(0.0, 1.0, -0.35)"
+    },
+    "mk_door_interact_out": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 1.0, 0.35)"
+    },
+    "mk_door_stand_in": {
+     "out(+Z)": "(-0.0, 0.0, -1.0)",
+     "pos": "(0.0, 0.0, -1.1)"
+    },
+    "mk_door_stand_out": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.0, 0.0, 1.1)"
+    },
+    "mk_light": {
+     "out(+Z)": "(0.0, 0.0, 1.0)",
+     "pos": "(0.98, 2.1, 0.13)"
+    }
+   },
+   "materials": {
+    "": {
+     "albedo_tex": false,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 0.0,
+     "normal_tex": false,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Bronze": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Iron": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Plank": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    },
+    "SS_Timber": {
+     "albedo_tex": true,
+     "alpha_scissor_threshold": 0.5,
+     "cull": 0,
+     "emission": false,
+     "emission_tex": false,
+     "metallic": 1.0,
+     "normal_tex": true,
+     "orm": false,
+     "roughness": 1.0,
+     "transparency": 0
+    }
+   },
+   "nodes": {
+    "settlement_inn_door_side_LOD0": {
+     "aabb_pos": "(-0.885, 0.0, -0.145)",
+     "aabb_size": "(1.77, 2.74, 0.265)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Bronze"
+     ],
+     "tris": 368,
+     "visible": true
+    },
+    "settlement_inn_door_side_LOD1": {
+     "aabb_pos": "(-0.885, 0.0, -0.145)",
+     "aabb_size": "(1.77, 2.74, 0.265)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Bronze"
+     ],
+     "tris": 48,
+     "visible": true
+    },
+    "settlement_inn_door_side_LOD2": {
+     "aabb_pos": "(-0.785, 2.6, -0.145)",
+     "aabb_size": "(1.57, 0.14, 0.045)",
+     "surfaces": [
+      "SS_Timber"
+     ],
+     "tris": 12,
+     "visible": true
+    },
+    "settlement_inn_door_side_leaf": {
+     "aabb_pos": "(-0.62, 0.015, -0.03)",
+     "aabb_size": "(1.24, 2.57, 0.06)",
+     "surfaces": [
+      ""
+     ],
+     "tris": 12,
+     "visible": false
+    },
+    "settlement_inn_door_side_leaf_LOD0": {
+     "aabb_pos": "(-0.017825, 0.015, -0.05)",
+     "aabb_size": "(1.262825, 2.57, 0.167)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Plank",
+      "SS_Iron",
+      "SS_Bronze"
+     ],
+     "tris": 3824,
+     "visible": true
+    },
+    "settlement_inn_door_side_leaf_LOD1": {
+     "aabb_pos": "(0.005, 0.015, -0.03)",
+     "aabb_size": "(1.24, 2.57, 0.103841)",
+     "surfaces": [
+      "SS_Timber",
+      "SS_Plank",
+      "SS_Iron",
+      "SS_Bronze"
+     ],
+     "tris": 460,
+     "visible": true
+    },
+    "settlement_inn_door_side_leaf_LOD2": {
+     "aabb_pos": "(0.005, 0.015, -0.03)",
+     "aabb_size": "(1.24, 2.57, 0.06)",
+     "surfaces": [
+      "SS_Plank"
+     ],
+     "tris": 12,
+     "visible": true
+    }
+   }
+  }
+ },
+ "winding": {
+  "settlement_inn_door_main.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_door_main_LOD1": {
+     "kind": "LOD1",
+     "tris": 132,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 7,
+     "open_components": 0
+    },
+    "settlement_inn_door_main_leaf_l_LOD1": {
+     "kind": "LOD1",
+     "tris": 260,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 16,
+     "open_components": 0
+    },
+    "settlement_inn_door_main_leaf_r_LOD1": {
+     "kind": "LOD1",
+     "tris": 460,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 22,
+     "open_components": 0
+    },
+    "settlement_inn_door_main_LOD2": {
+     "kind": "LOD0",
+     "tris": 36,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 3,
+     "open_components": 0
+    },
+    "settlement_inn_door_main_leaf_l_LOD2": {
+     "kind": "LOD0",
+     "tris": 12,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 1,
+     "open_components": 0
+    },
+    "settlement_inn_door_main_leaf_r_LOD2": {
+     "kind": "LOD0",
+     "tris": 12,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 1,
+     "open_components": 0
+    },
+    "settlement_inn_door_main_LOD0": {
+     "kind": "LOD0",
+     "tris": 1548,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 21,
+     "open_components": 0
+    },
+    "settlement_inn_door_main_leaf_l_col": {
+     "kind": "col",
+     "tris": 12,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 1,
+     "open_components": 0
+    },
+    "settlement_inn_door_main_leaf_l_LOD0": {
+     "kind": "LOD0",
+     "tris": 3020,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 85,
+     "open_components": 0
+    },
+    "settlement_inn_door_main_leaf_r_col": {
+     "kind": "col",
+     "tris": 12,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 1,
+     "open_components": 0
+    },
+    "settlement_inn_door_main_leaf_r_LOD0": {
+     "kind": "LOD0",
+     "tris": 3528,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 91,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  },
+  "settlement_inn_door_side.gltf": {
+   "pass": true,
+   "bad_normals": [],
+   "inside_out_closed": [],
+   "meshes": {
+    "settlement_inn_door_side_LOD1": {
+     "kind": "LOD1",
+     "tris": 48,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 4,
+     "open_components": 0
+    },
+    "settlement_inn_door_side_leaf_LOD1": {
+     "kind": "LOD1",
+     "tris": 460,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 24,
+     "open_components": 0
+    },
+    "settlement_inn_door_side_LOD2": {
+     "kind": "LOD0",
+     "tris": 12,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 1,
+     "open_components": 0
+    },
+    "settlement_inn_door_side_leaf_LOD2": {
+     "kind": "LOD0",
+     "tris": 12,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 1,
+     "open_components": 0
+    },
+    "settlement_inn_door_side_LOD0": {
+     "kind": "LOD0",
+     "tris": 368,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 4,
+     "open_components": 0
+    },
+    "settlement_inn_door_side_leaf_col": {
+     "kind": "col",
+     "tris": 12,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 1,
+     "open_components": 0
+    },
+    "settlement_inn_door_side_leaf_LOD0": {
+     "kind": "LOD0",
+     "tris": 3824,
+     "normal_winding_agree_pct": 100.0,
+     "closed_components": 69,
+     "open_components": 0
+    }
+   },
+   "open_components": []
+  }
+ },
+ "rebuild": {
+  "fresh_build_1": {
+   "files": 13,
+   "identical_to_handoff": true,
+   "mismatches": []
+  },
+  "fresh_build_2": {
+   "files": 13,
+   "identical_to_handoff": true,
+   "mismatches": []
+  },
+  "build_from_shipped_tools": {
+   "files": 13,
+   "identical_to_handoff": true,
+   "mismatches": []
+  },
+  "textures_collected_from_source_handoffs": {
+   "files": 9,
+   "identical_to_handoff": true,
+   "note": "tools/collect_textures.sh re-copies every texture from city_road_kit / city_atm / city_bank into a scratch dir; compared byte for byte with textures/ (no texture is generated in this folder)"
+  },
+  "files_compared_per_build": 13
+ },
+ "store_totals": {
+  "shell_plus_interior": {
+   "pieces": [
+    "settlement_inn_door_main",
+    "settlement_inn_door_side"
+   ],
+   "tris": {
+    "LOD0": 12288,
+    "LOD1": 1360,
+    "LOD2": 60
+   },
+   "draws_est": {
+    "LOD0": 19,
+    "LOD1": 17
+   }
+  },
+  "fully_dressed_as_in_previews": {
+   "pieces": [
+    "settlement_inn_door_main",
+    "settlement_inn_door_side"
+   ],
+   "tris": {
+    "LOD0": 12288,
+    "LOD1": 1360
+   },
+   "draws_est": {
+    "LOD0": 19,
+    "LOD1": 17
+   },
+   "note": "both doors of the Inn: the 2-leaf front door and the east side door"
+  },
+  "doc_budget": {
+   "LOD0": [
+    500,
+    30000
+   ],
+   "LOD1": 6000,
+   "source": "no per-prop budget in the docs for settlement doors; own ceiling 30k LOD0 / 6k LOD1 for the pair (mid-high poly)"
+  },
+  "dressed_LOD0_in_range": true,
+  "dressed_LOD1_ok": true,
+  "note": "Draw estimate = (mesh node x material) pairs per LOD, shadows excluded, no instancing. Repeated props are MultiMesh-able."
+ },
+ "texture_vram_city_wide": {
+  "unique_textures_over_all_handoffs": 152,
+  "uncompressed_with_mips_MB": 734.0,
+  "compressed_est_MB": 183.5,
+  "new_in_this_folder_uncompressed_MB": 0,
+  "new_in_this_folder_compressed_est_MB": 0.0,
+  "plan_target_MB": {
+   "uncompressed": 200,
+   "compressed": 60
+  },
+  "note": "same model as the other hand-offs; shared sets counted once; the held cuts (pavers / brick / asphalt) are NOT applied; Gamer imports with VRAM compression"
+ },
+ "day_night": {
+  "rule": "Every material reads in full daylight. The only emissive surface is the lamp glass (SS_LampGlass: flat warm `#ffc174`, the same warm amber as the repo's lantern glow, emission energy 0.65) in the lattice panes of the front door: it ships lit; by day the game scales `emission_energy_multiplier` down (to about 0.15-0.2) and at dusk back up. The assets contain no light nodes: put a warm OmniLight3D at `mk_light_l` / `mk_light_r` / `mk_light` at dusk, and (optionally) a small one behind `mk_pane_glow_l/r` on the inside.",
+  "night_renders": "previews/*dusk* use preview-only lights; the assets contain no lights, only mk_light_* markers."
+ }
+}
