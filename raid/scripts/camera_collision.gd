@@ -130,8 +130,10 @@ func mirrorable(m: MeshInstance3D, w3d: World3D) -> bool:
 	if span < MIN_MESH_SPAN or a.size.x > MAX_MESH_SPAN or a.size.z > MAX_MESH_SPAN: return false
 	return region_hit(a)
 
-func mirror(m: MeshInstance3D) -> void:
-	if not is_instance_valid(m) or m.mesh == null: return
+func mirror(m) -> void:
+	# Untyped on purpose: a mesh freed after it was queued (P2 art drops imported _col holders in the
+	# frame they are added) would fail the typed-argument check before the validity test ran.
+	if not is_instance_valid(m) or not (m is MeshInstance3D) or m.mesh == null: return
 	var sh = shapes.get(m.mesh)
 	if sh == null:
 		sh = m.mesh.create_trimesh_shape()
