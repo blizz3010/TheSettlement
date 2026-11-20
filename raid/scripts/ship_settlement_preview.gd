@@ -27,6 +27,7 @@ const HudTitleFade = preload("res://raid/scripts/hud_title_fade.gd")
 const FirstRunGuide = preload("res://raid/scripts/first_run_guide.gd")
 const JumpTuning = preload("res://raid/scripts/jump_tuning.gd")
 const P2Art = preload("res://raid/scripts/p2_art.gd")
+const P2Walls = preload("res://raid/scripts/p2_walls_fixes.gd")
 const P1VisualFixes = preload("res://raid/scripts/p1_visual_fixes.gd")
 const CameraCollision = preload("res://raid/scripts/camera_collision.gd")
 const SolidProps = preload("res://raid/scripts/solid_props.gd")
@@ -86,6 +87,9 @@ func _initialize_world():
 		FirstRunGuide.install(self)
 		# TASKS item 5: Artie's P2 art swaps, applied once every startup controller has settled.
 		P2Art.install(self)
+		# PR B: retaining walls, inn hillside, plaza tree tone, planet, inn doors / undercroft, hall ceiling.
+		# Waits for P2Art. P2B=off (or P2_ART=off) skips; P2B_<ITEM>=off skips one item.
+		P2Walls.install(self)
 		# Queue item 4: P1 visual fixes (stairwell, grass edge lips, threshold). Same frame as
 		# GrassViewCulling.install, before it splits the grass it trims. SETTLEMENT_P1_VISUAL=off skips.
 		if OS.get_environment("SETTLEMENT_P1_VISUAL") != "off": P1VisualFixes.install(self)
@@ -307,6 +311,7 @@ func activate_loaded_world():
 		FirstRunGuide.install(self)
 		# TASKS item 5: Artie's P2 art swaps, applied once every startup controller has settled.
 		P2Art.install(self)
+		P2Walls.install(self)   # PR B (idempotent; see first pass)
 		# Queue item 4, second pass for the staged start (idempotent: trims only new grass batches).
 		if OS.get_environment("SETTLEMENT_P1_VISUAL") != "off": P1VisualFixes.install(self)
 		# Queue item 3: third-person camera spring arm + camera-only mirror of visible meshes.

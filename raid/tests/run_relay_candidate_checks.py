@@ -72,6 +72,7 @@ TESTS = [
     ("test_p2_art", "P2_ART_TESTS ", "rendered"),
     ("test_p1_visual", "P1_VISUAL_TESTS ", "rendered"),
     ("test_camera_collision", "CAMERA_COLLISION_TESTS ", "rendered"),
+    ("test_p2_walls_fixes", "P2_WALLS_FIXES_TESTS ", "rendered"),
 ]
 RENDERED_TIMEOUT = 1800
 
