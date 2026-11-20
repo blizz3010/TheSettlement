@@ -239,7 +239,7 @@ func test_hillside(h: Dictionary) -> void:
 # ------------------------------------------------------------------ trees / planet
 func test_tone(r: Dictionary) -> void:
 	var t: Dictionary = r.get("trees", {})
-	check(int(t.get("toned", 0)) >= 12, "Lime plaza crowns toned (%s)" % str(t.get("toned")))
+	check(int(t.get("toned", 0)) >= 13 and (t.get("nodes", []) as Array).has("PlazaIslandComposition/ShipRampGarden/RampTrees"), "Lime plaza crowns toned incl. RampTrees (%s)" % str(t.get("toned")))
 	var cyc = world.get_node_or_null("DayNightCycle")
 	var sm = cyc.sky_material if cyc else null
 	check(sm is ShaderMaterial and (sm as ShaderMaterial).shader.resource_path == "res://raid/assets/materials/p2b_day_night_sky.gdshader", "Sky on the P2B shader")

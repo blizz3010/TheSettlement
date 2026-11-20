@@ -4,7 +4,7 @@ extends RefCounted
 ##    averaging RGB 88/123/0) clash with Artie's plaza trees and the darker garden trees. Their leaf surface
 ##    gets a per-instance override (raid/assets/materials/p2b_leaf_tone.gdshader, same texture, alpha
 ##    scissor and UVs) that remaps it to a natural mid green. Only crowns taller than 2 m in
-##    PlazaIslandComposition (13 crowns) change; bushes and the shared material resource are untouched.
+##    PlazaIslandComposition (13 crowns + the 6-tree ShipRampGarden/RampTrees MultiMesh) change; bushes and the shared material resource are untouched.
 ##  planet: the valley body in the day/night sky is ~31 % smaller and washes out by day
 ##    (raid/assets/materials/p2b_day_night_sky.gdshader, an unpinned copy; DayNightCycle keeps driving it).
 const LEAF_SHADER := preload("res://raid/assets/materials/p2b_leaf_tone.gdshader")
@@ -18,13 +18,17 @@ static func plaza_trees(world: Node3D) -> Dictionary:
 		return {"ok": false, "reason": "PlazaIslandComposition missing"}
 	var toned := []
 	var cache := {}
-	for mi in comp.find_children("*", "MeshInstance3D", true, false):
-		var m := mi as MeshInstance3D
-		if m.mesh == null or not m.is_visible_in_tree(): continue
-		var bb: AABB = m.global_transform * m.get_aabb()
+	for gi in comp.find_children("*", "GeometryInstance3D", true, false):
+		var g := gi as GeometryInstance3D
+		var mesh: Mesh = null
+		if g is MeshInstance3D: mesh = (g as MeshInstance3D).mesh
+		elif g is MultiMeshInstance3D and (g as MultiMeshInstance3D).multimesh: mesh = (g as MultiMeshInstance3D).multimesh.mesh
+		if mesh == null or not g.is_visible_in_tree(): continue
+		var bb: AABB = g.global_transform * g.get_aabb()
 		if bb.size.y < MIN_HEIGHT: continue
-		for s in m.mesh.get_surface_count():
-			var src := m.get_active_material(s) as BaseMaterial3D
+		var dup: Mesh = null   # MultiMesh batches (ShipRampGarden/RampTrees): per-surface swap on a mesh copy
+		for s in mesh.get_surface_count():
+			var src := (g.get_active_material(s) if g is MeshInstance3D else mesh.surface_get_material(s)) as BaseMaterial3D
 			if src == null or src.albedo_texture == null or not src.albedo_texture.resource_path.ends_with(LIME_TEX): continue
 			if not cache.has(src):
 				var sm := ShaderMaterial.new()
@@ -34,9 +38,25 @@ static func plaza_trees(world: Node3D) -> Dictionary:
 				sm.set_shader_parameter("albedo_tint", src.albedo_color)
 				sm.set_shader_parameter("alpha_scissor", src.alpha_scissor_threshold if src.transparency == BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR else 0.5)
 				cache[src] = sm
-			m.set_surface_override_material(s, cache[src])
-			toned.append(str(world.get_path_to(m)))
+			if g is MeshInstance3D:
+				(g as MeshInstance3D).set_surface_override_material(s, cache[src])
+			else:
+				if dup == null: dup = mesh.duplicate()
+				dup.surface_set_material(s, cache[src])
+		if dup != null:
+			var mm := (g as MultiMeshInstance3D).multimesh.duplicate() as MultiMesh
+			mm.mesh = dup
+			(g as MultiMeshInstance3D).multimesh = mm
+		if g.has_meta("p2b_toned") or (dup == null and not (g is MeshInstance3D and _has_tone(g as MeshInstance3D))): continue
+		g.set_meta("p2b_toned", true)
+		toned.append(str(world.get_path_to(g)))
 	return {"ok": toned.size() > 0, "toned": toned.size(), "nodes": toned}
+
+static func _has_tone(m: MeshInstance3D) -> bool:
+	for s in m.mesh.get_surface_count():
+		var o := m.get_surface_override_material(s)
+		if o and o.resource_name == "P2BLeafTone": return true
+	return false
 
 static func planet(world: Node3D) -> Dictionary:
 	var cyc = world.get_node_or_null("DayNightCycle")
