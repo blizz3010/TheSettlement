@@ -27,6 +27,9 @@ const HudTitleFade = preload("res://raid/scripts/hud_title_fade.gd")
 const FirstRunGuide = preload("res://raid/scripts/first_run_guide.gd")
 const JumpTuning = preload("res://raid/scripts/jump_tuning.gd")
 const P2Art = preload("res://raid/scripts/p2_art.gd")
+const P1VisualFixes = preload("res://raid/scripts/p1_visual_fixes.gd")
+const CameraCollision = preload("res://raid/scripts/camera_collision.gd")
+const SolidProps = preload("res://raid/scripts/solid_props.gd")
 var player_health: Node
 
 func _initialize_world():
@@ -83,6 +86,12 @@ func _initialize_world():
 		FirstRunGuide.install(self)
 		# TASKS item 5: Artie's P2 art swaps, applied once every startup controller has settled.
 		P2Art.install(self)
+		# Queue item 4: P1 visual fixes (stairwell, grass edge lips, threshold). Same frame as
+		# GrassViewCulling.install, before it splits the grass it trims. SETTLEMENT_P1_VISUAL=off skips.
+		if OS.get_environment("SETTLEMENT_P1_VISUAL") != "off": P1VisualFixes.install(self)
+		# Queue item 3: third-person camera spring arm + camera-only mirror of visible meshes.
+		SolidProps.install(self)
+		if is_instance_valid(player): CameraCollision.attach(player, self)
 
 func modal_open(include_cooking:bool=true,include_fishing_trader:bool=true,include_preview_traders:bool=true) -> bool:
 	# Hide gameplay HUD (minimap, vitals, hotbar) for the duration of takeoff.
@@ -298,6 +307,11 @@ func activate_loaded_world():
 		FirstRunGuide.install(self)
 		# TASKS item 5: Artie's P2 art swaps, applied once every startup controller has settled.
 		P2Art.install(self)
+		# Queue item 4, second pass for the staged start (idempotent: trims only new grass batches).
+		if OS.get_environment("SETTLEMENT_P1_VISUAL") != "off": P1VisualFixes.install(self)
+		# Queue item 3: third-person camera spring arm + camera-only mirror of visible meshes.
+		SolidProps.install(self)
+		if is_instance_valid(player): CameraCollision.attach(player, self)
 
 func save_payload(payload: Dictionary, show_notice := true, writer_override = null) -> bool:
 	var ok := super.save_payload(payload, show_notice, writer_override)

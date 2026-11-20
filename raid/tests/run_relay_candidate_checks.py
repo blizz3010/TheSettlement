@@ -70,6 +70,8 @@ TESTS = [
     ("test_jump_tuning", "JUMP_TUNING_TESTS "),
     ("test_playtest_bundle", "PLAYTEST_BUNDLE_TESTS ", "rendered"),
     ("test_p2_art", "P2_ART_TESTS ", "rendered"),
+    ("test_p1_visual", "P1_VISUAL_TESTS ", "rendered"),
+    ("test_camera_collision", "CAMERA_COLLISION_TESTS ", "rendered"),
 ]
 RENDERED_TIMEOUT = 1800
 
